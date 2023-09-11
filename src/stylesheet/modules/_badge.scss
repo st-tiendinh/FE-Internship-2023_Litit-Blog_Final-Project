@@ -1,0 +1,21 @@
+.badge {
+  display: inline-block;
+  padding: 4px 8px;
+
+  text-align: center;
+  vertical-align: middle;
+
+  font-size: map-get($font-sizes, 'xs');
+  font-weight: map-get($font-weights, 'medium');
+  line-height: 16px;
+
+  &.badge-primary {
+    color: map-get($colors, 'white');
+    background-color: map-get($colors, 'primary');
+  }
+
+  &.badge-secondary {
+    color: map-get($colors, 'primary');
+    background-color: map-get($colors, 'tag-bg');
+  }
+}

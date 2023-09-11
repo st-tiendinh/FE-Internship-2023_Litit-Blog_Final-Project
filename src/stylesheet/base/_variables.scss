@@ -1,0 +1,29 @@
+$colors: (
+  'primary': #4b6bfb,
+  'secondary-50': #f6f6f7,
+  'secondary-100': #e8e8ea,
+  'secondary-200': #dcdddf,
+  'secondary-400': #97989f,
+  'secondary-500': #696a75,
+  'secondary-600': #97989f,
+  'secondary-800': #181a2a,
+  'secondary-900': #141624,
+  'white': #ffffff,
+  'tag-bg': rgba(75, 107, 251, 0.05),
+);
+
+$font-sizes: (
+  'xs': 12px,
+  'sm': 14px,
+  'md': 16px,
+  'lg': 18px,
+  'xl': 20px,
+  '2xl': 24px,
+  '3xl': 36px,
+);
+
+$font-weights: (
+  'normal': 400,
+  'medium': 500,
+  'bold': 600,
+);

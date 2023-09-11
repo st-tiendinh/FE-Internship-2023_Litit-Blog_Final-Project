@@ -1,0 +1,26 @@
+* {
+  margin: 0;
+  padding: 0;
+
+  box-sizing: border-box;
+  border: none;
+  outline: none;
+  transition: 0.3s;
+}
+
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+
+  box-sizing: border-box;
+}
+
+ul {
+  list-style: none;
+}
+
+img {
+  width: 100%;
+  display: block;
+}
