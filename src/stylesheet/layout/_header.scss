@@ -1,0 +1,48 @@
+header {
+  border-bottom: 0.5px solid map-get($colors, "secondary-600");
+}
+
+.header {
+  padding: 10px 0px;
+  justify-content: space-between;
+  align-items: center;
+
+  .logo {
+    width: 155px;
+    height: 42px;
+
+    padding-top: 3px;
+    object-fit: cover;
+  }
+}
+
+.nav {
+  &-list {
+    height: 100%;
+    align-items: center;
+    gap: 22px;
+  }
+
+  &-item {
+    &:hover {
+      transform: scale(1.1);
+    }
+
+    &:last-child {
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+  }
+
+  &-link {
+    color: map-get($colors, "secondary-800");
+    padding: 10px;
+  }
+
+  .btn-login {
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-size: 16px;
+  }
+}
