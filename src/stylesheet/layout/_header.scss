@@ -1,26 +1,26 @@
-header {
-  border-bottom: 0.5px solid map-get($colors, "secondary-600");
-}
-
 .header {
-  padding: 10px 0px;
-  justify-content: space-between;
-  align-items: center;
+  border-bottom: 0.5px solid map-get($colors, "secondary-600");
 
-  .logo {
-    width: 155px;
-    height: 42px;
+  &-inner {
+    padding: 10px 0px;
+    justify-content: space-between;
+    align-items: center;
 
-    padding-top: 3px;
-    object-fit: cover;
+    .logo {
+      width: 155px;
+      height: 42px;
+
+      padding-top: 3px;
+      object-fit: cover;
+    }
   }
 }
 
 .nav {
   &-list {
     height: 100%;
-    align-items: center;
     gap: 22px;
+    align-items: center;
   }
 
   &-item {
@@ -43,6 +43,6 @@ header {
   .btn-login {
     padding: 8px 20px;
     border-radius: 20px;
-    font-size: 16px;
+    font-size: map-get($font-sizes, "md");
   }
 }

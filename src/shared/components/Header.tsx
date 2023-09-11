@@ -2,9 +2,9 @@ import Logo from '../../assets/images/logo.png';
 
 export const Header = () => {
   return (
-    <header>
+    <header className="header">
       <div className="container">
-        <div className="header d-flex">
+        <div className="header-inner d-flex">
           <a href="" className="logo-link">
             <h1 className="logo">
               <img className="img" src={Logo} alt="Tilth Blog" />
