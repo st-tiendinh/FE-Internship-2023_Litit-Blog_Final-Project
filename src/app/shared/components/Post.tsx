@@ -15,7 +15,7 @@ const Post = () => {
         </h4>
         <div className="post-desc">
           <div className="post-author">
-            <img className="post-author-avatar" src={PostImg} alt="" />
+            <img className="post-author-avatar" src={PostImg} alt="author image" />
             <span className="post-author-name">John Doe Doe Doe Doe</span>
           </div>
 
