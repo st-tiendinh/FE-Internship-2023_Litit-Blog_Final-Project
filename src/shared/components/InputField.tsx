@@ -14,16 +14,16 @@ export const InputField: React.FC<InputFieldProps> = ({
   const hasError = !!error;
 
   return (
-    <div className={`input-field ${hasError ? 'error' : ''}`}>
+    <div className={`input-field ${hasError ? 'error' : null}`}>
       <div className="input-wrap">
         <input
           id={name}
           name={name}
           placeholder={label}
-          className={hasError ? 'error' : undefined}
+          className={`input ${hasError ? 'error' : null}`}
           {...rest}
         />
-        <label className={hasError ? 'error' : undefined} htmlFor={name}>
+        <label className={`label ${hasError ? 'error' : null}`} htmlFor={name}>
           {label}
         </label>
       </div>

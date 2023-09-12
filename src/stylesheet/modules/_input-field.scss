@@ -4,7 +4,7 @@
   .input-wrap {
     position: relative;
 
-    input {
+    .input {
       padding: 10px;
       font-size: map-get($font-sizes, "md");
       border-radius: 5px;
@@ -40,7 +40,7 @@
       }
     }
 
-    label {
+    .label {
       position: absolute;
       left: 10px;
       top: 50%;
@@ -51,8 +51,8 @@
       pointer-events: none;
     }
 
-    input:focus + label,
-    input:not(:placeholder-shown) + label {
+    .input:focus + label,
+    .input:not(:placeholder-shown) + label {
       padding: 0 5px;
       line-height: 100%;
       top: 0;
@@ -66,7 +66,7 @@
       }
     }
 
-    input:not(:focus) + label {
+    .input:not(:focus) + label {
       color: map-get($colors, "secondary-600");
 
       &.error {
