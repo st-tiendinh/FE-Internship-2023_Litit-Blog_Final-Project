@@ -5,7 +5,7 @@
   box-sizing: border-box;
   border: none;
   outline: none;
-  transition: all 0.3s ease;
+  transition: 0.3s;
 }
 
 *::after,
@@ -23,8 +23,4 @@ ul {
 img {
   width: 100%;
   display: block;
-}
-
-a {
-  text-decoration: none;
 }
