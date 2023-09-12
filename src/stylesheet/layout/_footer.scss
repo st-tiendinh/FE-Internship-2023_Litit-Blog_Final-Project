@@ -1,0 +1,31 @@
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: map-get($colors, secondary-600);
+
+  padding: 32px 0;
+  border-top: 1px solid map-get($colors, secondary-600);
+
+  &-logo {
+    width: 120px;
+    line-height: 1.5;
+  }
+
+  &-content {
+    display: flex;
+    align-items: center;
+  }
+  &-info-list {
+    display: flex;
+    align-items: center;
+  }
+  &-info-item {
+    padding-inline: 16px;
+    border-right: 1px solid map-get($colors, secondary-200);
+
+    &:last-child {
+      border-right: none;
+    }
+  }
+}
