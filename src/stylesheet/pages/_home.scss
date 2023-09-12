@@ -1,6 +1,10 @@
 .post {
   &-list {
     padding: 22px 0;
+    &-title {
+      font-size: map-get($font-sizes, '2xl');
+      font-weight: map-get($font-sizes, bold );
+    }
   }
   &-item {
     padding-block: 10px;
