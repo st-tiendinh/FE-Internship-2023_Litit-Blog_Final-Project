@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+function App() {
+  return <div className="app"></div>;
+=======
 import { BrowserRouter } from 'react-router-dom';
 
 import { RouterOutlet } from './app/core/modules/custom-router-dom';
@@ -14,6 +18,7 @@ function App() {
       </div>
     </BrowserRouter>
   );
+>>>>>>> b37dd3da10dd25b8c57a76f4d358a643461a732d
 }
 
 export default App;
