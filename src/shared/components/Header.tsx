@@ -7,7 +7,7 @@ export const Header = () => {
         <div className="header-inner d-flex">
           <a href="" className="logo-link">
             <h1 className="logo">
-              <img className="img" src={Logo} alt="Tilth Blog" />
+              <img src={Logo} alt="Tilth Blog" />
             </h1>
           </a>
           <nav className="nav">
