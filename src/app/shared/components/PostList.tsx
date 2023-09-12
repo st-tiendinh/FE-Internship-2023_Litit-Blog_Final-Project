@@ -5,8 +5,10 @@ const PostList = () => {
     <div className="container ">
       <h3 className="post-list-title">Latest Post</h3>
       <ul className="post-list row">
-        <li className="post-item col col-4">
-          <Post />
+        <li className="col col-4">
+          <div className="post-item">
+            <Post />
+          </div>
         </li>
       </ul>
     </div>
