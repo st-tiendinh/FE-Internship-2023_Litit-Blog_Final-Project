@@ -1,4 +1,3 @@
-
 import { BrowserRouter } from 'react-router-dom';
 
 import { RouterOutlet } from './app/core/modules/custom-router-dom';
