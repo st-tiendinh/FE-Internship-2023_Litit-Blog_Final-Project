@@ -71,9 +71,11 @@ const Register = () => {
               </div>
             </div>
           </form>
-          <div className="redirect-wrap">
-            <span className="redirect-message">Already have an account? </span>
-            <a className="redirect-link" href="#">
+          <div className="register-redirect">
+            <span className="register-redirect-message">
+              Already have an account?{' '}
+            </span>
+            <a className="register-redirect-link" href="#">
               Login
             </a>
           </div>

@@ -11,12 +11,11 @@ export const InputField: React.FC<InputFieldProps> = ({
   name,
   error,
   className,
-  type = 'text',
+  type,
   ...rest
 }) => {
   const hasError = !!error;
   const [isShowPassword, setIsShowPassword] = useState(false);
-  console.log(type);
 
   return (
     <div className={`input-field ${hasError ? 'error' : null}`}>
@@ -24,7 +23,9 @@ export const InputField: React.FC<InputFieldProps> = ({
         <input
           id={id}
           name={name}
-          type={isShowPassword ? 'text' : 'password'}
+          type={
+            type === 'password' ? (isShowPassword ? 'text' : 'password') : type
+          }
           placeholder={label}
           className={`input ${hasError ? 'error' : null} ${className}`}
           {...rest}
