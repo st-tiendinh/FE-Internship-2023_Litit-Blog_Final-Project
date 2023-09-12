@@ -1,5 +1,6 @@
 import { BrowserRouter } from 'react-router-dom';
 
+import './stylesheet/style.scss';
 import { RouterOutlet } from './app/core/modules/custom-router-dom';
 import appRoutes from './app/app.route';
 import AppSuspense from './AppSuspense';
