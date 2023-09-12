@@ -11,7 +11,7 @@
 
   &-wrap {
     width: 70vw;
-    padding: 30px 20px;
+    padding: 30px;
     background-color: map-get($colors, "white");
     border-radius: 20px;
     align-items: center;
@@ -33,6 +33,12 @@
   &-btn {
     padding: 10px 30px;
   }
+
+  &-cover-wrap {
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 .register-page {
@@ -45,9 +51,9 @@
 
     .radio {
       &-item {
+        margin-right: 20px;
         align-items: center;
         justify-content: center;
-        margin-right: 20px;
       }
       &-input {
         width: 20px;
