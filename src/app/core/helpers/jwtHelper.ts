@@ -53,7 +53,7 @@ export default class JwtHelper extends AuthStorageService implements AuthHelperI
   }
 
   private _verifyJWTToken() {
-    const token: string | boolean = this.getToken();
+    const token: any = this.getToken();
     const isTokenValid: boolean = JwtDecode(token);
     if (!isTokenValid) {
       this.removeToken();

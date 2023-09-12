@@ -22,7 +22,7 @@ export class ApiService {
   }
 
   createURL(uri: (string | object)[]) {
-    let paramsUrl;
+    let paramsUrl: any;
     if (typeof uri[uri.length - 1] !== 'string') {
       paramsUrl = uri.pop();
       let url = uri.join('/');
@@ -68,14 +68,14 @@ export class ApiService {
     return new Promise((resolve, reject) => {
       axios
         .all(apiReqs)
-        .then((resp: AxiosResponse[]) => {
+        .then((resp: any[]) => {
           resolve(resp.map((v: any) => v.data));
         })
         .catch((err: any) => reject(err));
     });
   }
 
-  private _handleRespond(request: any, resolve, reject) {
+  private _handleRespond(request: any, resolve: any, reject: any) {
     return request
       .then((resp: AxiosResponse) => {
         resolve(resp.data);
@@ -102,7 +102,7 @@ export class ApiService {
   private async _handleError(error: AxiosError) {
     // Detect refresh Token
     if (error.isAxiosError && error.response?.status === 401) {
-      const originalRequest = error.config;
+      const originalRequest: any = error.config;
       const req = await this.authHelper.handleRefreshToken(originalRequest);
       return this.axiosInstance(req);
     }

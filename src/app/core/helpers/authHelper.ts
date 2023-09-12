@@ -11,7 +11,7 @@ export interface AuthHelperInterface {
   getUserInfo: () => {};
 }
 
-const strategies = {
+const strategies: any = {
   JWT: JwtHelper,
   __default__: JwtHelper,
 };
@@ -25,7 +25,6 @@ class DynamicAuth {
   }
 }
 
-// tslint:disable-next-line: max-classes-per-file
 export default class AuthHelper extends DynamicAuth {
   constructor(type: string = 'JWT') {
     super(type);
@@ -61,6 +60,7 @@ export default class AuthHelper extends DynamicAuth {
       return super.isValidToken();
     }
     // default code here
+    return false;
   }
 
   setAuthHeader(request: AxiosRequestConfig): Promise<AxiosRequestConfig> | AxiosRequestConfig {
@@ -72,7 +72,7 @@ export default class AuthHelper extends DynamicAuth {
       }
 
       // Normal case: Request with authorization
-      Object.assign(request.headers, this.getAuthHeader());
+      Object.assign(request.headers as object, this.getAuthHeader());
     }
     return request;
   }
@@ -83,7 +83,7 @@ export default class AuthHelper extends DynamicAuth {
    * @param   [request] - current API request that have expired access_token or get 401 Unauthorized
    * @returns Promise<AxiosRequestConfig>
    */
-  handleRefreshToken(request: AxiosRequestConfig): Promise<AxiosRequestConfig> {
+  handleRefreshToken(request: AxiosRequestConfig): any {
     // TODO: handle refresh token
     return null;
   }
