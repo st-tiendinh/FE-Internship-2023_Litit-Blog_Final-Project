@@ -3,6 +3,8 @@ import { useForm } from 'react-hook-form';
 
 import signinImg from '../../../../assets/images/signin-img.jpg';
 import { InputGroup } from '../../../shared/components/InputGroup';
+import { useDispatch } from 'react-redux';
+import { signIn } from '../auth.actions';
 
 interface FormData {
   email: string;
@@ -10,6 +12,7 @@ interface FormData {
 }
 
 const Login = () => {
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -19,6 +22,7 @@ const Login = () => {
 
   const onSubmit = (data: FormData) => {
     console.log(data);
+    dispatch(signIn(data));
   };
 
   const handleTrimInput = (fieldName: keyof FormData, value: string) => {
@@ -32,11 +36,7 @@ const Login = () => {
           <div className="row">
             <div className="col col-6">
               <div className="signin-image-wrapper">
-                <img
-                  className="signin-image"
-                  src={signinImg}
-                  alt="Sign in image"
-                />
+                <img className="signin-image" src={signinImg} alt="Sign in image" />
               </div>
             </div>
             <div className="col col-6">
@@ -49,8 +49,7 @@ const Login = () => {
                     {...register('email', {
                       required: 'Email is required!',
                       pattern: {
-                        value:
-                          /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/,
+                        value: /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/,
                         message: 'Email is not valid',
                       },
                     })}
