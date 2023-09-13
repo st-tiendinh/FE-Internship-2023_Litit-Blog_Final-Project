@@ -7,8 +7,8 @@
 }
 
 .text-truncate {
-  overflow: hidden; /* Hide any overflow */
-  text-overflow: ellipsis; /* Add an ellipsis to indicate truncated text */
+  overflow: hidden;
+  text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-box-orient: vertical;
 }

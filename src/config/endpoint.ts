@@ -14,7 +14,7 @@ export const ENDPOINT = {
   users: {
     index: `${RESOURCES.users}`,
   },
-  posts:{
+  posts: {
     public: `${RESOURCES.posts}/public`,
   },
 };
