@@ -17,6 +17,10 @@
   &.btn-primary {
     background-color: map-get($colors, "primary");
     color: map-get($colors, "white");
+
+    &:hover {
+      background-color: #3350d3;
+    }
   }
 
   &.btn-outline {

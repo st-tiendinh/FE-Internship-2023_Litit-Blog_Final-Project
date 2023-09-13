@@ -26,11 +26,11 @@
     }
 
     &-action {
-      justify-content: flex-end;
-    }
-
-    &-btn {
-      padding: 10px 30px;
+      justify-content: center;
+      > button {
+        width: calc(50% - 10px);
+        padding: 10px 30px;
+      }
     }
 
     &-cover-wrap {
