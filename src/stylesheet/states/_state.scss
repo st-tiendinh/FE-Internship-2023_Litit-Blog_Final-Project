@@ -5,3 +5,10 @@
 .fd-column {
   flex-direction: column;
 }
+
+.text-truncate {
+  overflow: hidden; /* Hide any overflow */
+  text-overflow: ellipsis; /* Add an ellipsis to indicate truncated text */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}

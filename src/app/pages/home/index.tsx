@@ -1,9 +1,10 @@
-import { useState,useEffect } from 'react';
+import { useState, useEffect } from "react";
 
-import { Header } from '../../shared/components';
-import PostList from '../../shared/components/PostList';
-import Footer from '../../shared/components/Footer';
-import { ApiService } from '../../core/services/api.service';
+import { Header } from "../../shared/components";
+import PostList from "../../shared/components/PostList";
+import Footer from "../../shared/components/Footer";
+import { ApiService } from "../../core/services/api.service";
+import { ENDPOINT } from "../../../config/endpoint";
 
 const Home = () => {
   const apiService = new ApiService();
@@ -12,12 +13,10 @@ const Home = () => {
   useEffect(() => {
     apiService
       .get(
-        [
-          'http://ec2-18-143-176-131.ap-southeast-1.compute.amazonaws.com:3000/api/v1/posts/public',
-        ],
+        [ENDPOINT.posts.public],
         { page: 1, size: 12 }
       )
-      .then((response:any) => {
+      .then((response: any) => {
         setLatestPosts(response.data);
         console.log(response.data);
       })
@@ -25,10 +24,11 @@ const Home = () => {
         console.error(error);
       });
   }, []);
+
   return (
     <div>
       <Header />
-      <PostList posts={latestPosts}/>
+      <PostList posts={latestPosts} />
       <Footer />
     </div>
   );

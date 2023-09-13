@@ -1,51 +1,104 @@
-import React from 'react';
-import PostImg from '../../assets/post-img.jpg';
-import '../../../../src/stylesheet/style.scss';
-import { formatDate } from '../utils/formatDate';
+import { useEffect, useState } from "react";
+
+import "../../../../src/stylesheet/style.scss";
+import { formatDate } from "../utils/formatDate";
+import { isImageUrlValid } from "../utils/checkValidImage";
+import BlankPostImg from "../../../assets/images/blank-post.png";
+import BlankUserImg from "../../../assets/images/blank-user.webp";
 
 interface PostProps {
   title: string;
+  desc: string;
   tags: string[];
   cover: string;
   authorImg: string; // Add a type to the authorImg prop
   authorName: string;
   postedDate: string;
+  likes: number;
+  comments: number;
 }
 
 const Post = ({
   title,
+  desc,
   tags,
   cover,
   authorImg,
   authorName,
   postedDate,
+  likes,
+  comments,
 }: PostProps) => {
-
+  const [isValidCover, setIsValidCover] = useState(false);
+  const [isValidUserImg, setIsValidUserImg] = useState(false);
   const formattedDate = formatDate(postedDate);
-  
+
+  useEffect(() => {
+    isImageUrlValid(cover).then((isValid) => {
+      isValid ? setIsValidCover(true) : setIsValidCover(false);
+    });
+  }, [isValidCover, cover]);
+
+  useEffect(() => {
+    isImageUrlValid(authorImg).then((isValid) => {
+      isValid ? setIsValidUserImg(true) : setIsValidUserImg(false);
+    });
+  }, [isValidCover, cover]);
+
   return (
     <div className="post">
       <div className="post-image-wrapper">
-        <img className="post-image" src={cover} alt="beautiful beach" />
+        {isValidCover ? (
+          <img className="post-image" src={cover} alt={title} />
+        ) : (
+          <img className="post-image" src={BlankPostImg} alt={title} />
+        )}
       </div>
       <div className="post-content">
-        {tags.map((tag: any) => (
-          <span key={tag} className="badge badge-secondary">
-            {tag}
-          </span>
-        ))}
-        <h4 className="post-title">{title}</h4>
-        <div className="post-desc">
-          <div className="post-author">
-            <img
-              className="post-author-avatar"
-              src={authorImg}
-              alt="author image"
-            />
-            <span className="post-author-name">{authorName}</span>
+        <div className="post-header">
+          <div className="post-action">
+            <span className="post-action-group">
+              <i className="icon icon-unlike"></i>
+              {likes}
+            </span>
+            <span className="post-action-group">
+              <i className="icon icon-comment"></i>
+              {comments}
+            </span>
           </div>
+          <div className="post-tags">
+            {tags.map((tag: any) => (
+              <span key={tag} className="badge badge-secondary">
+                {tag}
+              </span>
+            ))}
+          </div>
+        </div>
+        <div className="post-body">
+          <h4 className="post-title text-truncate">{title}</h4>
+          <p className="post-desc text-truncate">{desc}</p>
+          <div className="post-info">
+            <div className="post-author">
+              {isValidUserImg ? (
+                <img
+                  className="post-author-avatar"
+                  src={authorImg}
+                  alt="author image"
+                />
+              ) : (
+                <img
+                  className="post-author-avatar"
+                  src={BlankUserImg}
+                  alt={title}
+                />
+              )}
 
-          <span className="post-date">{formattedDate}</span>
+              <div className="post-about">
+                <span className="post-author-name">{authorName}</span>
+                <span className="post-date">{formattedDate}</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
