@@ -3,6 +3,8 @@ import { useForm } from 'react-hook-form';
 
 import RegisterCover from '../../../../assets/images/register-cover.png';
 import { InputGroup } from '../../../shared/components';
+import { ENDPOINT } from '../../../../config/endpoint';
+import { ApiService } from '../../services/api.service';
 
 interface FormData {
   firstName: string;
@@ -16,6 +18,8 @@ interface FormData {
   confirmPassword: string;
 }
 
+const apiService = new ApiService();
+
 const Register = () => {
   const {
     register,
@@ -26,14 +30,20 @@ const Register = () => {
     watch,
   } = useForm<FormData>();
 
-  const onSubmit = (data: FormData) => {
+  const onSubmit = async (data: FormData) => {
     const { confirmPassword, ...other } = data;
-    const newData = {
+    const userData = {
       ...other,
       dob: other.dob.split('-').reverse().join('/'),
       picture: 'null',
     };
-    return newData;
+
+    try {
+      const res = await apiService.post([ENDPOINT.auth.register], userData);
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleTrimInput = (fieldName: keyof FormData, value: string) => {
