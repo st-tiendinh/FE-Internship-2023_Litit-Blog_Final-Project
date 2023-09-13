@@ -1,5 +1,5 @@
 import RegisterCover from '../../../../assets/images/register-cover.png';
-import { InputField } from '../../../shared/components/InputField';
+import { InputGroup } from '../../../shared/components/InputGroup';
 
 const Register = () => {
   return (
@@ -12,38 +12,38 @@ const Register = () => {
                 <h2 className="register-title">Register</h2>
                 <div className="row">
                   <div className="col col-6">
-                    <InputField label="First Name" id="first-name" />
+                    <InputGroup label="First Name" id="first-name" />
                   </div>
                   <div className="col col-6">
-                    <InputField label="Last Name" id="last-name" />
+                    <InputGroup label="Last Name" id="last-name" />
                   </div>
                   <div className="col col-12">
-                    <InputField label="Email" id="email" />
+                    <InputGroup label="Email" id="email" />
                   </div>
                   <div className="col col-6">
-                    <InputField label="Display name" id="display-name" />
+                    <InputGroup label="Display name" id="display-name" />
                   </div>
                   <div className="col col-6">
-                    <div className="gender-wrap">
-                      <p className="gender-label">Gender</p>
-                      <ul className="radio-list d-flex">
-                        <li className="d-flex radio-item">
+                    <div className="form-check-wrap">
+                      <p className="form-check-title">Gender</p>
+                      <ul className="form-check-list d-flex">
+                        <li className="d-flex form-check-item">
                           <input
                             id="male"
                             type="radio"
-                            className="radio-input"
+                            className="form-check-input"
                           />
-                          <label className="radio-label" htmlFor="male">
+                          <label className="form-check-label" htmlFor="male">
                             Male
                           </label>
                         </li>
-                        <li className="d-flex radio-item">
+                        <li className="d-flex form-check-item">
                           <input
                             id="female"
                             type="radio"
-                            className="radio-input"
+                            className="form-check-input"
                           />
-                          <label className="radio-label" htmlFor="female">
+                          <label className="form-check-label" htmlFor="female">
                             Female
                           </label>
                         </li>
@@ -51,20 +51,20 @@ const Register = () => {
                     </div>
                   </div>
                   <div className="col col-6">
-                    <InputField label="Birthday" type="date" id="birthday" />
+                    <InputGroup label="Birthday" type="date" id="birthday" />
                   </div>
                   <div className="col col-6">
-                    <InputField label="Phone" type="number" id="phone" />
+                    <InputGroup label="Phone" type="number" id="phone" />
                   </div>
                   <div className="col col-6">
-                    <InputField
+                    <InputGroup
                       label="Password"
                       type="password"
                       id="password"
                     />
                   </div>
                   <div className="col col-6">
-                    <InputField
+                    <InputGroup
                       label="Confirm Password"
                       type="password"
                       id="confirm-password"
