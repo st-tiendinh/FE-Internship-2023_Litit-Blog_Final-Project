@@ -11,8 +11,7 @@ import AppSuspense from './AppSuspense';
 import appReducer from './app/app.reducers';
 import appMiddleware from './app/app.middleware';
 
-import { Header } from './app/shared/components';
-import Footer from './app/shared/components/Footer';
+import { Header, Footer } from './app/shared/components';
 
 const middleware = createSagaMiddleware();
 const store = createStore(appReducer, applyMiddleware(middleware, logger));
