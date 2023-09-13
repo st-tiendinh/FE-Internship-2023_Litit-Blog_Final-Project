@@ -5,17 +5,16 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-image: url('https://images.pexels.com/photos/3690052/pexels-photo-3690052.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+      url("https://images.pexels.com/photos/3690052/pexels-photo-3690052.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1")
+        no-repeat center center/cover;
   }
   &-wrapper {
     width: 600px;
     padding: 32px;
     border-radius: 12px;
     border: 1px solid map-get($colors, secondary-200);
-    background: map-get($colors, 'white');
+    background: map-get($colors, "white");
     z-index: 10;
   }
   &-form-wrapper {
@@ -39,7 +38,7 @@
   }
 
   &-title {
-    font-size: map-get($font-sizes, '3xl');
+    font-size: map-get($font-sizes, "3xl");
     font-weight: map-get($font-weights, bold);
     padding-block: 30px;
   }

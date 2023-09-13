@@ -17,7 +17,6 @@ const Login = () => {
                   alt="Sign in image"
                 />
               </div>
-              
             </div>
             <div className="col col-6">
               <div className="signin-form-wrapper">
@@ -28,12 +27,12 @@ const Login = () => {
                     <InputGroup label="Password" />
                   </div>
                   <button className="btn btn-primary" type="submit">
-                    Log in
+                    Login
                   </button>
                 </form>
                 <span className="signin-redirect">
-                <Link to={'/auth/register'}>Create an account</Link>
-              </span>
+                  <Link to={'/auth/register'}>Create an account</Link>
+                </span>
               </div>
             </div>
           </div>
