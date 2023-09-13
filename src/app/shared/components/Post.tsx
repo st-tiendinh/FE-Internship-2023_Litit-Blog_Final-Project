@@ -1,5 +1,5 @@
 import React from 'react';
-import PostImg from '../../assets/post-img.jpg';
+import PostImg from '../../../assets/images/post-img.jpg';
 import '../../../../src/stylesheet/style.scss';
 
 const Post = () => {
