@@ -1,0 +1,94 @@
+.input-group {
+  width: 100%;
+
+  .form-floating {
+    position: relative;
+
+    .form-control {
+      width: 100%;
+      padding: 10px;
+      font-size: map-get($font-sizes, "md");
+      border-radius: 5px;
+      border: 1px solid map-get($colors, "secondary-600");
+      color: map-get($colors, "secondary-800");
+
+      &::placeholder {
+        opacity: 0;
+        transform: translateY(50%);
+      }
+
+      &:not(:placeholder-shown) {
+        &::placeholder {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      &:hover {
+        border-color: map-get($colors, "secondary-800");
+      }
+
+      &:focus {
+        border: 1px solid map-get($colors, "primary");
+        transition: 0.1s;
+
+        &.error {
+          border-color: map-get($colors, "red");
+        }
+      }
+
+      &.error {
+        border-color: map-get($colors, "red");
+      }
+    }
+
+    .form-control-label {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+
+      transform: translateY(-50%);
+      font-size: map-get($font-sizes, "md");
+      color: map-get($colors, "secondary-600");
+      pointer-events: none;
+    }
+
+    .form-control:focus + label,
+    .form-control:not(:placeholder-shown) + label {
+      padding: 0 5px;
+      line-height: 100%;
+      top: 0;
+
+      font-size: map-get($font-sizes, "xs");
+      color: map-get($colors, "primary");
+      background: map-get($colors, "white");
+
+      &.error {
+        color: map-get($colors, "red");
+      }
+    }
+
+    .form-control:not(:focus) + label {
+      color: map-get($colors, "secondary-600");
+
+      &.error {
+        color: map-get($colors, "red");
+      }
+    }
+  }
+
+  .form-control-icon {
+    position: absolute;
+    right: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+
+  .input-group-error {
+    height: 20px;
+    margin: 3px;
+    font-size: map-get($font-sizes, "xs");
+    color: map-get($colors, "red");
+  }
+}
