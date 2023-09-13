@@ -1,4 +1,4 @@
-import PublicPost from "../components/PublicPost";
+import PublicPost from './components/PublicPost';
 
 const Home = () => {
   return (
