@@ -12,14 +12,14 @@ const initialState = {
 const signInSuccess = (state: any, payload: any) => ({
   ...state,
   isLoading: false,
-  data: payload.data,
+  data: payload,
 });
 
 const signInError = (state: any, payload: any) => ({
   ...state,
   isLoading: false,
   hasError: true,
-  error: payload.error,
+  error: payload,
 });
 
 const signIn = (state: any, payload: any) => ({
