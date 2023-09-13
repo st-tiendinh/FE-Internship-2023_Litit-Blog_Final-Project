@@ -1,7 +1,6 @@
-import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import { environment } from '../../../config/environment';
 import AuthHelper from '../helpers/authHelper';
-import { getLS, KEYS } from '../helpers/storageHelper';
 
 export class ApiService {
   axiosInstance: AxiosInstance;
@@ -18,7 +17,6 @@ export class ApiService {
         ...this.authHelper.defaultHeader(),
       },
     });
-    this._setInterceptors();
   }
 
   createURL(uri: (string | object)[]) {
@@ -83,37 +81,5 @@ export class ApiService {
       .catch((err: any) => {
         reject(err);
       });
-  }
-
-  private _setInterceptors() {
-    this.axiosInstance.interceptors.request.use((request: any) => {
-      const token = getLS(KEYS.ACCESS_TOKEN);
-      if (token) {
-        request.headers['Authorization'] = `Bearer ${token}`;
-      }
-      return request;
-    });
-    this.axiosInstance.interceptors.response.use(
-      (response: AxiosResponse) => response,
-      (error: AxiosError) => this._handleError(error)
-    );
-  }
-
-  private async _handleError(error: AxiosError) {
-    // Detect refresh Token
-    if (error.isAxiosError && error.response?.status === 401) {
-      const originalRequest: any = error.config;
-      const req = await this.authHelper.handleRefreshToken(originalRequest);
-      return this.axiosInstance(req);
-    }
-
-    // Make error model before promise
-    if (error.isAxiosError && error.response) {
-      // Axios error
-      return Promise.reject(error);
-    } else {
-      // Default | Network errors | CORS | ...
-      return Promise.reject({});
-    }
   }
 }

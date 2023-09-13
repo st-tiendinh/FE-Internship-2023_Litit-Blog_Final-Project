@@ -1,7 +1,7 @@
 import { environment } from './environment';
 
 const RESOURCES = {
-  auth: 'auth',
+  auth: 'users',
   users: environment.apiUserUrl,
 };
 
