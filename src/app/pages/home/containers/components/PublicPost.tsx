@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 
-import { ApiService } from "../../../core/services/api.service";
-import { ENDPOINT } from "../../../../config/endpoint";
-import PostList from "../../../shared/components/PostList";
+import { ApiService } from '../../../../core/services/api.service';
+import { ENDPOINT } from '../../../../../config/endpoint';
+import PostList from '../../../../shared/components/PostList';
 
 const PublicPost = () => {
   const apiService = new ApiService();
