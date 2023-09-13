@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
 import RegisterCover from '../../../../assets/images/register-cover.png';
@@ -8,8 +9,8 @@ interface FormData {
   lastName: string;
   email: string;
   displayName: string;
-  gender: 'male' | 'female';
-  birthday: string;
+  gender: 'male' | 'female' | 'other';
+  dob: string;
   phone: string;
   password: string;
   confirmPassword: string;
@@ -20,16 +21,41 @@ const Register = () => {
     register,
     handleSubmit,
     setValue,
+    setError,
     formState: { errors },
     watch,
   } = useForm<FormData>();
 
   const onSubmit = (data: FormData) => {
-    console.log(data);
+    const { confirmPassword, ...other } = data;
+    const newData = {
+      ...other,
+      dob: other.dob.split('-').reverse().join('/'),
+      picture: 'null',
+    };
+    return newData;
   };
 
   const handleTrimInput = (fieldName: keyof FormData, value: string) => {
     setValue(fieldName, value.trim());
+  };
+
+  const handleValidateDob = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    const selectedDate = new Date(value);
+    const currentDate = new Date();
+
+    if (selectedDate > currentDate) {
+      setError('dob', {
+        type: 'manual',
+        message: 'Date of Birth cannot be in the future!',
+      });
+    } else {
+      setError('dob', {
+        type: 'manual',
+        message: '',
+      });
+    }
   };
 
   return (
@@ -104,7 +130,7 @@ const Register = () => {
                   </div>
                   <div className="col col-6">
                     <div className="form-check-wrap">
-                      <p className="form-check-title">Gender</p>
+                      <p className="form-check-title">Gender*</p>
                       <ul className="form-check-list d-flex">
                         <li className="d-flex form-check-item">
                           <input
@@ -131,30 +157,47 @@ const Register = () => {
                             Female
                           </label>
                         </li>
+                        <li className="d-flex form-check-item">
+                          <input
+                            id="other"
+                            type="radio"
+                            value="other"
+                            className="form-check-input"
+                            {...register('gender', { required: true })}
+                          />
+                          <label className="form-check-label" htmlFor="other">
+                            Other
+                          </label>
+                        </li>
                       </ul>
                     </div>
                   </div>
                   <div className="col col-6">
                     <InputGroup
-                      label="Birthday*"
+                      label="Date of Birth*"
                       type="date"
-                      id="birthday"
-                      {...register('birthday', {
-                        required: 'Birthday is required!',
+                      id="dob"
+                      {...register('dob', {
+                        required: 'Date of Birth is required!',
                       })}
-                      error={errors.birthday?.message}
-                      onBlur={(e) =>
-                        handleTrimInput('birthday', e.target.value)
-                      }
+                      error={errors.dob?.message}
+                      onChange={(e) => handleValidateDob(e)}
+                      onBlur={(e) => {
+                        handleTrimInput('dob', e.target.value);
+                      }}
                     />
                   </div>
                   <div className="col col-6">
                     <InputGroup
                       label="Phone*"
-                      type="tel"
+                      type="text"
                       id="phone"
                       {...register('phone', {
                         required: 'Phone is required!',
+                        pattern: {
+                          value: /^[0-9]\d*$/,
+                          message: 'Phone must be number!',
+                        },
                       })}
                       error={errors.phone?.message}
                       onBlur={(e) => handleTrimInput('phone', e.target.value)}
@@ -167,6 +210,10 @@ const Register = () => {
                       id="password"
                       {...register('password', {
                         required: 'Password is required!',
+                        minLength: {
+                          value: 6,
+                          message: 'Password must be at least 6 characters!',
+                        },
                       })}
                       error={errors.password?.message}
                       onBlur={(e) =>
@@ -207,9 +254,9 @@ const Register = () => {
               <span className="register-redirect-message">
                 Already have an account?{' '}
               </span>
-              <a className="register-redirect-link" href="#">
+              <Link className="register-redirect-link" to={'/auth/login'}>
                 Login
-              </a>
+              </Link>
             </div>
           </div>
           <div className="col col-5">
