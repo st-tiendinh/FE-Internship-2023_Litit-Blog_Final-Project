@@ -1,7 +1,6 @@
 .post {
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
   gap: 16px;
 
@@ -10,14 +9,45 @@
   border-radius: 12px;
   border: 1px solid map-get($colors, secondary-100);
   background: map-get($colors, white);
+  transition: all 0.2s ease-in-out;
 
   &-image-wrapper {
     max-width: 240px;
     max-width: 360px;
   }
 
+  &-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 100%;
+  }
+
+  &-action {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  &-action-group {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: map-get($font-weights, bold);
+  }
+
+  &-body {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
   &-image {
     border-radius: 6px;
+    height: 240px;
+    object-fit: cover;
+    border: 1px solid map-get($colors, secondary-100);
   }
 
   &-content {
@@ -29,13 +59,23 @@
   }
 
   &-title {
-    font-size: map-get($font-sizes, xxl);
+    font-size: map-get($font-sizes, "2xl");
     font-weight: map-get($font-weights, bold);
     color: map-get($colors, secondary-800);
     line-height: 28px; /* 116.667% */
+
+    -webkit-line-clamp: 1; /* Set the number of lines to display */
   }
 
   &-desc {
+    font-size: map-get($font-sizes, "sm");
+    font-weight: map-get($font-weights, normal);
+    color: map-get($colors, secondary-700);
+    -webkit-line-clamp: 2; /* Set the number of lines to display */
+    min-height: 39px;
+  }
+
+  &-info {
     display: flex;
     align-items: center;
     gap: 20px;
@@ -45,10 +85,17 @@
     line-height: 1.5;
   }
 
+  &-about {
+    display: flex;
+    flex-direction: column;
+  }
+
   &-author {
     display: flex;
     align-items: center;
     gap: 12px;
+
+    min-height: 48px;
   }
 
   &-author-avatar {
@@ -58,11 +105,18 @@
   }
 
   &-author-name {
-    font-weight: map-get($font-weights, medium);
+    font-weight: map-get($font-weights, bold);
+    max-width: 270px;
+    word-wrap: break-word;
   }
 
   &-date {
+    font-size: map-get($font-sizes, sm);
     font-weight: map-get($font-weights, normal);
-    text-wrap: nowrap;
+  }
+
+  &:hover {
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    transform: scale(1.05);
   }
 }

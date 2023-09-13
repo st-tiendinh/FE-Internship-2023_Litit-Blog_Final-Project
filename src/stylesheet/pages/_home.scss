@@ -1,12 +1,19 @@
 .post {
   &-list {
-    padding: 22px 0;
+    padding-bottom: 20px;
     &-title {
-      font-size: map-get($font-sizes, '2xl');
-      font-weight: map-get($font-sizes, bold );
+      font-size: map-get($font-sizes, "2xl");
+      font-weight: map-get($font-sizes, bold);
     }
   }
   &-item {
     padding-block: 10px;
+  }
+}
+.section {
+  &-title {
+    font-size: map-get($font-sizes, "2xl");
+    font-weight: map-get($font-sizes, bold);
+    padding-block: 20px;
   }
 }
