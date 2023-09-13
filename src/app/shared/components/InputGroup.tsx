@@ -14,11 +14,10 @@ export const InputGroup: React.FC<InputGroupProps> = ({
   type,
   ...rest
 }) => {
-  const hasError = !!error;
   const [isShowPassword, setIsShowPassword] = useState(false);
 
   return (
-    <div className={`input-group ${hasError ? 'error' : null}`}>
+    <div className={`input-group ${!!error ? 'error' : null}`}>
       <div className="form-floating">
         <input
           id={id}
@@ -27,11 +26,11 @@ export const InputGroup: React.FC<InputGroupProps> = ({
             type === 'password' ? (isShowPassword ? 'text' : 'password') : type
           }
           placeholder={label}
-          className={`form-control ${hasError ? 'error' : null} ${className}`}
+          className={`form-control ${!!error ? 'error' : null} ${className}`}
           {...rest}
         />
         <label
-          className={`form-control-label ${hasError ? 'error' : null}`}
+          className={`form-control-label ${!!error ? 'error' : null}`}
           htmlFor={id}
         >
           {label}

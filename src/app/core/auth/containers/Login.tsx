@@ -21,17 +21,15 @@ const Login = () => {
             <div className="col col-6">
               <div className="signin-form-wrapper">
                 <p className="signin-title">Sign in</p>
-                <form action="">
-                  <div className="form-group">
-                    <InputGroup label="Email" />
-                    <InputGroup label="Password" />
-                  </div>
+                <form className="form-group">
+                  <InputGroup label="Email" />
+                  <InputGroup label="Password" />
                   <button className="btn btn-primary" type="submit">
                     Login
                   </button>
                 </form>
                 <span className="signin-redirect">
-                  <Link to={'/auth/register'}>Create an account</Link>
+                  <Link to={'auth/register'}>Create an account</Link>
                 </span>
               </div>
             </div>
