@@ -1,8 +1,7 @@
-import React from 'react';
 import PostImg from '../../assets/post-img.jpg';
 import '../../../../src/stylesheet/style.scss';
 
-const Post = () => {
+export const Post = () => {
   return (
     <div className="post">
       <div className="post-image-wrapper">
@@ -25,5 +24,3 @@ const Post = () => {
     </div>
   );
 };
-
-export default Post;
