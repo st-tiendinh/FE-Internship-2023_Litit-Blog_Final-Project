@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 
 import RegisterCover from '../../../../assets/images/register-cover.png';
-import { InputGroup } from '../../../shared/components/InputGroup';
+import { InputGroup } from '../../../shared/components';
 
 interface FormData {
   firstName: string;
