@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 
 import RegisterCover from '../../../../assets/images/register-cover.png';
-import { InputField } from '../../../shared/components';
+import { InputGroup } from '../../../shared/components/InputGroup';
 
 interface FormData {
   firstName: string;
@@ -19,12 +19,17 @@ const Register = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
     watch,
   } = useForm<FormData>();
 
   const onSubmit = (data: FormData) => {
     console.log(data);
+  };
+
+  const handleTrimInput = (fieldName: keyof FormData, value: string) => {
+    setValue(fieldName, value.trim());
   };
 
   return (
@@ -37,27 +42,33 @@ const Register = () => {
                 <h2 className="register-title">Register</h2>
                 <div className="row">
                   <div className="col col-6">
-                    <InputField
+                    <InputGroup
                       label="First Name*"
                       id="first-name"
                       {...register('firstName', {
                         required: 'First name is required!',
                       })}
                       error={errors.firstName?.message}
+                      onBlur={(e) =>
+                        handleTrimInput('firstName', e.target.value)
+                      }
                     />
                   </div>
                   <div className="col col-6">
-                    <InputField
+                    <InputGroup
                       label="Last Name*"
                       id="last-name"
                       {...register('lastName', {
                         required: 'Last name is required!',
                       })}
                       error={errors.lastName?.message}
+                      onBlur={(e) =>
+                        handleTrimInput('lastName', e.target.value)
+                      }
                     />
                   </div>
                   <div className="col col-12">
-                    <InputField
+                    <InputGroup
                       label="Email*"
                       id="email"
                       type="text"
@@ -70,10 +81,11 @@ const Register = () => {
                         },
                       })}
                       error={errors.email?.message}
+                      onBlur={(e) => handleTrimInput('email', e.target.value)}
                     />
                   </div>
                   <div className="col col-6">
-                    <InputField
+                    <InputGroup
                       label="Display Name*"
                       id="display-name"
                       {...register('displayName', {
@@ -85,34 +97,37 @@ const Register = () => {
                         },
                       })}
                       error={errors.displayName?.message}
+                      onBlur={(e) =>
+                        handleTrimInput('displayName', e.target.value)
+                      }
                     />
                   </div>
                   <div className="col col-6">
-                    <div className="gender-wrap">
-                      <p className="gender-label">Gender*</p>
-                      <ul className="radio-list d-flex">
-                        <li className="d-flex radio-item">
+                    <div className="form-check-wrap">
+                      <p className="form-check-title">Gender</p>
+                      <ul className="form-check-list d-flex">
+                        <li className="d-flex form-check-item">
                           <input
                             id="male"
                             type="radio"
                             value="male"
-                            className="radio-input"
+                            className="form-check-input"
                             defaultChecked
                             {...register('gender', { required: true })}
                           />
-                          <label className="radio-label" htmlFor="male">
+                          <label className="form-check-label" htmlFor="male">
                             Male
                           </label>
                         </li>
-                        <li className="d-flex radio-item">
+                        <li className="d-flex form-check-item">
                           <input
                             id="female"
                             type="radio"
                             value="female"
-                            className="radio-input"
+                            className="form-check-input"
                             {...register('gender', { required: true })}
                           />
-                          <label className="radio-label" htmlFor="female">
+                          <label className="form-check-label" htmlFor="female">
                             Female
                           </label>
                         </li>
@@ -120,7 +135,7 @@ const Register = () => {
                     </div>
                   </div>
                   <div className="col col-6">
-                    <InputField
+                    <InputGroup
                       label="Birthday*"
                       type="date"
                       id="birthday"
@@ -128,10 +143,13 @@ const Register = () => {
                         required: 'Birthday is required!',
                       })}
                       error={errors.birthday?.message}
+                      onBlur={(e) =>
+                        handleTrimInput('birthday', e.target.value)
+                      }
                     />
                   </div>
                   <div className="col col-6">
-                    <InputField
+                    <InputGroup
                       label="Phone*"
                       type="tel"
                       id="phone"
@@ -139,10 +157,11 @@ const Register = () => {
                         required: 'Phone is required!',
                       })}
                       error={errors.phone?.message}
+                      onBlur={(e) => handleTrimInput('phone', e.target.value)}
                     />
                   </div>
                   <div className="col col-6">
-                    <InputField
+                    <InputGroup
                       label="Password*"
                       type="password"
                       id="password"
@@ -150,10 +169,13 @@ const Register = () => {
                         required: 'Password is required!',
                       })}
                       error={errors.password?.message}
+                      onBlur={(e) =>
+                        handleTrimInput('password', e.target.value)
+                      }
                     />
                   </div>
                   <div className="col col-6">
-                    <InputField
+                    <InputGroup
                       label="Confirm Password*"
                       type="password"
                       id="confirm-password"
@@ -166,6 +188,9 @@ const Register = () => {
                         },
                       })}
                       error={errors.confirmPassword?.message}
+                      onBlur={(e) =>
+                        handleTrimInput('confirmPassword', e.target.value)
+                      }
                     />
                   </div>
                   <div className="col col-12">

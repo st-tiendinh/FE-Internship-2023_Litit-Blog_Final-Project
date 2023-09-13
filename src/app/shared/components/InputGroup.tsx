@@ -1,18 +1,18 @@
 import React, { InputHTMLAttributes, useState, forwardRef } from 'react';
 
-interface InputFieldProps extends InputHTMLAttributes<HTMLInputElement> {
+interface InputGroupProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
   error?: string;
 }
 
-export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
+export const InputGroup = forwardRef<HTMLInputElement, InputGroupProps>(
   ({ label, id, name, error, className, type, ...rest }, ref) => {
     const hasError = !!error;
     const [isShowPassword, setIsShowPassword] = useState(false);
 
     return (
-      <div className={`input-field ${hasError ? 'error' : null}`}>
-        <div className="input-wrap">
+      <div className={`input-group ${hasError ? 'error' : null}`}>
+        <div className="form-floating">
           <input
             ref={ref}
             id={id}
@@ -25,22 +25,25 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
                 : type
             }
             placeholder={label}
-            className={`input ${hasError ? 'error' : null} ${className}`}
+            className={`form-control ${hasError ? 'error' : null} ${className}`}
             {...rest}
           />
-          <label className={`label ${hasError ? 'error' : null}`} htmlFor={id}>
+          <label
+            className={`form-control-label ${hasError ? 'error' : null}`}
+            htmlFor={id}
+          >
             {label}
           </label>
           {type === 'password' && (
             <i
-              className={`input-icon icon ${
+              className={`form-control-icon icon ${
                 isShowPassword ? 'icon-show' : 'icon-hide'
               }`}
               onClick={() => setIsShowPassword(!isShowPassword)}
             ></i>
           )}
         </div>
-        <p className="error-message">{error}</p>
+        <p className="input-group-error">{error}</p>
       </div>
     );
   }

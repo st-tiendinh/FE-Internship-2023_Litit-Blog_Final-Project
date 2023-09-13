@@ -40,15 +40,14 @@
     }
   }
 
-  .gender-wrap {
-    margin-top: -5px;
-    .gender-label {
+  .form-check {
+    &-wrap {
+      margin-top: -5px;
+    }
+    &-title {
       font-weight: map-get($font-weights, "regular");
       margin-bottom: 10px;
     }
-  }
-
-  .radio {
     &-item {
       margin-right: 20px;
       align-items: center;
