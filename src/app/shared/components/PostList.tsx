@@ -40,28 +40,25 @@ interface PostListProps {
 
 const PostList = ({ posts }: PostListProps) => {
   return (
-    <div className="container ">
-      <h3 className="post-list-title">Latest Post</h3>
-      <ul className="post-list row">
-        {posts?.map((post) => (
-          <li key={post.id} className="col col-4">
-            <div className="post-item">
-              <Post
-                title={post.title}
-                desc={post.description}
-                cover={post.cover}
-                tags={post.tags}
-                authorImg={post.user.picture}
-                authorName={post.user.displayName}
-                postedDate={post.createdAt}
-                comments={post.comments}
-                likes={post.likes}
-              />
-            </div>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <ul className="post-list row">
+      {posts?.map((post) => (
+        <li key={post.id} className="col col-4">
+          <div className="post-item">
+            <Post
+              title={post.title}
+              desc={post.description}
+              cover={post.cover}
+              tags={post.tags}
+              authorImg={post.user.picture}
+              authorName={post.user.displayName}
+              postedDate={post.createdAt}
+              comments={post.comments}
+              likes={post.likes}
+            />
+          </div>
+        </li>
+      ))}
+    </ul>
   );
 };
 
