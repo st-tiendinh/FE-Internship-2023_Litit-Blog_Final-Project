@@ -9,7 +9,7 @@
 
   .register {
     &-wrap {
-      width: 70vw;
+      width: 75vw;
       padding: 30px;
       background-color: map-get($colors, "white");
       border-radius: 20px;
@@ -26,11 +26,10 @@
     }
 
     &-action {
-      justify-content: flex-end;
-    }
-
-    &-btn {
-      padding: 10px 30px;
+      justify-content: center;
+      > button {
+        padding: 10px 40px;
+      }
     }
 
     &-cover-wrap {
@@ -45,18 +44,18 @@
       margin-top: -5px;
     }
     &-title {
-      font-weight: map-get($font-weights, "regular");
+      font-weight: map-get($font-weights, "medium");
       margin-bottom: 10px;
     }
     &-item {
-      margin-right: 20px;
+      margin-right: 12px;
       align-items: center;
       justify-content: center;
     }
     &-input {
       width: 20px;
       height: 20px;
-      margin-right: 10px;
+      margin-right: 4px;
       cursor: pointer;
     }
   }
