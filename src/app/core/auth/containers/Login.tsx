@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
-import { InputField } from '../../../shared/components/InputField';
+
 import signinImg from '../../../../assets/images/signin-img.jpg';
+import { InputGroup } from '../../../shared/components/InputGroup';
 
 const Login = () => {
   return (
@@ -23,15 +24,15 @@ const Login = () => {
                 <p className="signin-title">Sign in</p>
                 <form action="">
                   <div className="form-group">
-                    <InputField label="Email" />
-                    <InputField label="Password" />
+                    <InputGroup label="Email" />
+                    <InputGroup label="Password" />
                   </div>
                   <button className="btn btn-primary" type="submit">
                     Log in
                   </button>
                 </form>
                 <span className="signin-redirect">
-                <Link to={'auth/register'}>Create an account</Link>
+                <Link to={'/auth/register'}>Create an account</Link>
               </span>
               </div>
             </div>

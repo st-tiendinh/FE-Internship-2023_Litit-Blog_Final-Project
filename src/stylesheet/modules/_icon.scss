@@ -1,3 +1,15 @@
 .icon {
   display: inline-block;
+  width: 24px;
+  height: 24px;
+  background-size: contain;
+  background-repeat: no-repeat;
+
+  &-show {
+    background-image: url("../assets/icons/ic-show.svg");
+  }
+
+  &-hide {
+    background-image: url("../assets/icons/ic-hide.svg");
+  }
 }
