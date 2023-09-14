@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { signIn } from '../auth.actions';
 import { RootState } from '../../../app.reducers';
 import { Spinner } from '../../../shared/components';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { setLS } from '../../helpers/storageHelper';
 import JwtHelper from '../../helpers/jwtHelper';
 import { ApiService } from '../../services/api.service';
@@ -102,9 +102,9 @@ const Login = () => {
                   {isLoading && <Spinner />}
                 </form>
                 <span className="signin-redirect">
-                  <a href="register" className="signin-redirect-link">
+                  <Link to={'/auth/register'} className="signin-redirect-link">
                     Create an account
-                  </a>
+                  </Link>
                 </span>
                 <p className="signin-error text-center text-danger">
                   {hasError && !isLoading && error?.response?.data?.errors}

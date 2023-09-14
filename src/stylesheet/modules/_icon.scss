@@ -11,5 +11,24 @@
 
   &-hide {
     background-image: url("../assets/icons/ic-hide.svg");
+
+    &-success {
+      width: 35px;
+      height: 35px;
+      background-image: url("../assets/icons/ic-success.svg");
+    }
+
+    &-error {
+      width: 35px;
+      height: 35px;
+      background-image: url("../assets/icons/ic-error.svg");
+    }
+
+    &-warning {
+      width: 35px;
+      height: 35px;
+      background-image: url("../assets/icons/ic-waring.svg");
+
+    }
   }
 }
