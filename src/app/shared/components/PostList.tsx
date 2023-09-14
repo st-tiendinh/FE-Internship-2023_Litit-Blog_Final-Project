@@ -1,4 +1,4 @@
-import Post from "./Post";
+import { Post } from './Post';
 
 interface IPost {
   id: number;
@@ -10,7 +10,7 @@ interface IPost {
   likes: number;
   comments: number;
   recommend: boolean;
-  status: "public" | "private";
+  status: 'public' | 'private';
   createdAt: string;
   updatedAt: string;
   deletedAt: string | null;
@@ -21,7 +21,7 @@ interface IPost {
     displayName: string;
     email: string;
     phone: string;
-    gender: "male" | "female" | "other";
+    gender: 'male' | 'female' | 'other';
     dob: string;
     picture: string;
     isActive: boolean;

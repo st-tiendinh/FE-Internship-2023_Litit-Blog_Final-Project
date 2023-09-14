@@ -1,9 +1,27 @@
 .icon {
   display: inline-block;
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   background-size: contain;
   background-repeat: no-repeat;
+
+  &-success {
+    width: 35px;
+    height: 35px;
+    background-image: url("../assets/icons/ic-success.svg");
+  }
+
+  &-error {
+    width: 35px;
+    height: 35px;
+    background-image: url("../assets/icons/ic-error.svg");
+  }
+
+  &-warning {
+    width: 35px;
+    height: 35px;
+    background-image: url("../assets/icons/ic-waring.svg");
+  }
 
   &-show {
     background-image: url("../assets/icons/ic-show.svg");
@@ -14,14 +32,18 @@
   }
 
   &-comment {
+    width: 20px;
+    height: 20px;
     background-image: url("../assets/icons/ic-comment.svg");
   }
 
   &-unlike {
+    width: 20px;
+    height: 20px;
     background-image: url("../assets/icons/ic-unlike.svg");
   }
 
-  & {
+  &-arrow-up {
     width: 28px;
     height: 28px;
     background-image: url("../assets/icons/ic-arrow-up.svg");

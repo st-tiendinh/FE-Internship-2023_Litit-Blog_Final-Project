@@ -4,8 +4,7 @@ import './stylesheet/style.scss';
 import { RouterOutlet } from './app/core/modules/custom-router-dom';
 import appRoutes from './app/app.route';
 import AppSuspense from './AppSuspense';
-import { Header } from './app/shared/components';
-import Footer from './app/shared/components/Footer';
+import { Header, Footer } from './app/shared/components';
 
 function App() {
   return (
