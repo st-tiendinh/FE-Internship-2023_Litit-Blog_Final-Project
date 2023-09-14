@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 
-import '../../../../src/stylesheet/style.scss';
 import { formatDate } from '../utils/formatDate';
 import { isImageUrlValid } from '../utils/checkValidImage';
 import BlankPostImg from '../../../assets/images/blank-post.png';
