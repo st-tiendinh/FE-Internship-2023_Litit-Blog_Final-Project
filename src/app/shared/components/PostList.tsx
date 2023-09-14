@@ -1,3 +1,4 @@
+import { EmptyData } from './EmptyData';
 import { Post } from './post/Post';
 import { PostSkeleton } from './post/PostSkeleton';
 
@@ -44,25 +45,29 @@ const PostList = ({ posts, loading }: PostListProps) => {
   const skeletonArray = Array.from({ length: 6 }, (_, index) => index + 1);
   return (
     <ul className="post-list row">
-      {loading
-        ? skeletonArray.map((item) => <PostSkeleton key={item} />)
-        : posts.map((post) => (
-            <li key={post.id} className="col col-4">
-              <div className="post-item">
-                <Post
-                  title={post.title}
-                  desc={post.description}
-                  cover={post.cover}
-                  tags={post.tags}
-                  authorImg={post.user.picture}
-                  authorName={post.user.displayName}
-                  postedDate={post.createdAt}
-                  comments={post.comments}
-                  likes={post.likes}
-                />
-              </div>
-            </li>
-          ))}
+      {loading ? (
+        skeletonArray.map((item) => <PostSkeleton key={item} />)
+      ) : !posts.length ? (
+        <EmptyData />
+      ) : (
+        posts.map((post) => (
+          <li key={post.id} className="col col-4">
+            <div className="post-item">
+              <Post
+                title={post.title}
+                desc={post.description}
+                cover={post.cover}
+                tags={post.tags}
+                authorImg={post.user.picture}
+                authorName={post.user.displayName}
+                postedDate={post.createdAt}
+                comments={post.comments}
+                likes={post.likes}
+              />
+            </div>
+          </li>
+        ))
+      )}
     </ul>
   );
 };

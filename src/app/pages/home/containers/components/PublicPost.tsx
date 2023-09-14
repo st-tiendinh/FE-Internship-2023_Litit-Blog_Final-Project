@@ -11,21 +11,21 @@ const PublicPost = () => {
   const [latestPosts, setLatestPosts] = useState<any[]>([]);
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(0);
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    setLoading(true);
+    setIsLoading(true);
     setTimeout(() => {
       apiService
         .get([ENDPOINT.posts.public], { page: page, size: 12 })
         .then((response: any) => {
           setLatestPosts((pre) => [...pre, ...response.data]);
           setTotalPage(response.totalPage);
-          setLoading(false);
+          setIsLoading(false);
         })
         .catch((error) => {
-          console.error(error);
-          setLoading(false);
+          console.log(error);
+          setIsLoading(false);
         });
     }, 1000);
   }, [page]);
@@ -34,7 +34,7 @@ const PublicPost = () => {
     <section className="section section-public-post">
       <div className="container">
         <h3 className="section-title">Latest Post</h3>
-        <PostList loading={loading} posts={latestPosts} />
+        <PostList loading={isLoading} posts={latestPosts} />
         {page < totalPage && (
           <div className="d-flex load-more-btn-wrap">
             <button
