@@ -1,11 +1,12 @@
 import { createReducer } from '../helpers/reducer-factory';
+import { KEYS, getLS } from '../helpers/storageHelper';
 import ACTION_TYPES from './constants/types';
 
 const initialState = {
   isLoading: false,
   isProcessing: false,
   hasError: false,
-  data: null,
+  data: getLS(KEYS.ACCESS_TOKEN),
   error: null,
 };
 
@@ -13,6 +14,7 @@ const signInSuccess = (state: any, payload: any) => ({
   ...state,
   isLoading: false,
   data: payload,
+  error: null
 });
 
 const signInError = (state: any, payload: any) => ({

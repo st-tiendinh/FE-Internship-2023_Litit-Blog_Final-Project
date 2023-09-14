@@ -1,10 +1,13 @@
-import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { useEffect } from 'react';
 
 import signinImg from '../../../../assets/images/signin-img.jpg';
 import { InputGroup } from '../../../shared/components/InputGroup';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { signIn } from '../auth.actions';
+import { RootState } from '../../../app.reducers';
+import { Spinner } from '../../../shared/components';
+import { useNavigate } from 'react-router-dom';
 
 interface FormData {
   email: string;
@@ -12,13 +15,25 @@ interface FormData {
 }
 
 const Login = () => {
+  const isLoading = useSelector((state: RootState) => state.authReducer.isLoading);
+  const hasError = useSelector((state: RootState) => state.authReducer.hasError);
+  const error = useSelector((state: RootState) => state.authReducer.error);
+  const data = useSelector((state: RootState) => state.authReducer.data);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     setValue,
     formState: { errors },
   } = useForm<FormData>();
+
+  useEffect(() => {
+    console.log(data);
+    if (data) {
+      navigate('/');
+    }
+  }, [data, navigate]);
 
   const onSubmit = (data: FormData) => {
     console.log(data);
@@ -73,10 +88,16 @@ const Login = () => {
                   <button className="btn btn-primary" type="submit">
                     Login
                   </button>
+                  {isLoading && <Spinner />}
                 </form>
                 <span className="signin-redirect">
-                  <Link to={'auth/register'}>Create an account</Link>
+                  <a href="register" className="signin-redirect-link">
+                    Create an account
+                  </a>
                 </span>
+                <p className="signin-error text-center text-danger">
+                  {hasError && !isLoading && error?.response?.data?.errors}
+                </p>
               </div>
             </div>
           </div>
