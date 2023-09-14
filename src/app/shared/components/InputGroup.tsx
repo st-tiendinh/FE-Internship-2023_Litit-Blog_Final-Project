@@ -1,4 +1,4 @@
-import React, { InputHTMLAttributes, useState, forwardRef } from 'react';
+import { InputHTMLAttributes, useState, forwardRef } from 'react';
 
 interface InputGroupProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
@@ -11,6 +11,7 @@ export const InputGroup = forwardRef<HTMLInputElement, InputGroupProps>(
 
     return (
       <div className={`input-group ${!!error ? 'error' : null}`}>
+
         <div className="form-floating">
           <input
             ref={ref}
