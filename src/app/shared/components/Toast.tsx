@@ -24,8 +24,6 @@ export const Toast = ({ type, title, desc, isShow, onClose }: ToastProps) => {
     return () => clearTimeout(timer);
   }, [onClose]);
 
-  console.log(isShow);
-
   return (
     <div className={`toast ${isShow ? 'active' : ''} toast-${type}`}>
       <div className="d-flex toast-content">
