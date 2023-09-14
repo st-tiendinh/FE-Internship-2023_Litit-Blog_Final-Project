@@ -4,7 +4,7 @@ export const KEYS = {
   TOKEN_TYPE: 'token_type',
   ID_TOKEN: 'id_token',
   EXPIRES_IN: 'expires_in',
-  I18_NEXT_LNG: 'lang',
+  USER_INFO: 'user_info',
 };
 
 export const getLS = (key: string) => {
