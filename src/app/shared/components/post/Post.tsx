@@ -17,7 +17,7 @@ interface PostProps {
   comments: number;
 }
 
-const Post = ({
+export const Post = ({
   title,
   desc,
   tags,
@@ -103,5 +103,3 @@ const Post = ({
     </div>
   );
 };
-
-export default Post;

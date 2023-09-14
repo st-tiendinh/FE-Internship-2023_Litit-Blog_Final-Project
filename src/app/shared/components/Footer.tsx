@@ -1,6 +1,5 @@
-import React from 'react';
 import logo from '../../../assets/images/logo.png';
-const Footer = () => {
+export const Footer = () => {
   return (
     <footer>
       <div className="container">
@@ -9,9 +8,7 @@ const Footer = () => {
             <h1 className="logo">
               <img className="footer-logo" src={logo} alt="logo" />
             </h1>
-            <p className="copyright">
-              © JS Template 2023. All Rights Reserved.
-            </p>
+            <p className="copyright">© JS Template 2023. All Rights Reserved.</p>
           </div>
 
           <div className="footer-content">
@@ -26,5 +23,3 @@ const Footer = () => {
     </footer>
   );
 };
-
-export default Footer;

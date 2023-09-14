@@ -1,4 +1,4 @@
-import Post from './post/Post';
+import { Post } from './post/Post';
 import { PostSkeleton } from './post/PostSkeleton';
 
 interface IPost {
