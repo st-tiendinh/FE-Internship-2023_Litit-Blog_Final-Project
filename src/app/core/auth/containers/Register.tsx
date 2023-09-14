@@ -1,10 +1,12 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { useState } from 'react';
 
 import RegisterCover from '../../../../assets/images/register-cover.png';
 import { InputGroup } from '../../../shared/components';
 import { ENDPOINT } from '../../../../config/endpoint';
 import { ApiService } from '../../services/api.service';
+import { Spinner } from '../../../shared/components';
 
 interface FormData {
   firstName: string;
@@ -30,7 +32,14 @@ const Register = () => {
     watch,
   } = useForm<FormData>();
 
+  //update to redux later
+  const [isLoading, setIsLoading] = useState(false);
+  const [resError, setResError] = useState();
+  
+  const navigate = useNavigate();
   const onSubmit = async (data: FormData) => {
+    setIsLoading(true);
+    
     const { confirmPassword, ...other } = data;
     const userData = {
       ...other,
@@ -39,10 +48,15 @@ const Register = () => {
     };
 
     try {
-      const res = await apiService.post([ENDPOINT.auth.register], userData);
+      const res:any = await apiService.post([ENDPOINT.auth.register], userData);
       console.log(res);
-    } catch (error) {
-      console.log(error);
+      setIsLoading(false);
+      navigate('/auth/login');
+
+    } catch (error:any) {
+      console.log(error.response.data.errors);
+      setIsLoading(false);
+      setResError(error.response.data.errors[0]);
     }
   };
 
@@ -68,9 +82,10 @@ const Register = () => {
     }
   };
 
-  return (
+  return (   
     <div className="d-flex register-page">
       <div className="register-wrap">
+      {isLoading && <Spinner />}
         <div className="row">
           <div className="col col-7">
             <div className="register-form-wrap">
@@ -253,8 +268,9 @@ const Register = () => {
                   <div className="col col-12">
                     <div className="d-flex register-action">
                       <button className="btn btn-primary" type="submit">
-                        Register
+                        {isLoading ? 'Loading...' : 'Register'}
                       </button>
+                      {resError && <p className="register-error">{resError}</p>}
                     </div>
                   </div>
                 </div>
