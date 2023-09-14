@@ -1,4 +1,4 @@
-import { environment } from "./environment";
+import { environment } from './environment';
 
 const RESOURCES = {
   auth: {
@@ -13,6 +13,7 @@ export const ENDPOINT = {
   auth: {
     index: `${RESOURCES.auth.users}`,
     login: `${RESOURCES.auth.users}/login`,
+    logout: `${RESOURCES.auth.users}/logout`,
     register: `${RESOURCES.auth.users}/register`,
   },
   users: {

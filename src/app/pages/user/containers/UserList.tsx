@@ -1,7 +1,7 @@
 const UserList = () => {
   return (
     <>
-      <h1>This is user list</h1>
+      <h1 className="text-center">This feature is in progress...</h1>
     </>
   );
 };

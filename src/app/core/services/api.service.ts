@@ -19,6 +19,13 @@ export class ApiService {
     });
   }
 
+  setHeaders(headers: any) {
+    this.axiosInstance.defaults.headers = {
+      ...this.axiosInstance.defaults.headers,
+      ...headers,
+    };
+  }
+
   createURL(uri: (string | object)[]) {
     let paramsUrl: any;
     if (typeof uri[uri.length - 1] !== 'string') {
