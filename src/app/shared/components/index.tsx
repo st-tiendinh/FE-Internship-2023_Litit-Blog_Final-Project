@@ -1,4 +1,4 @@
 export { Header } from './Header';
 export { Footer } from './Footer';
-export { Post } from './post/Post';
-export { PostSkeleton } from './post/PostSkeleton';
+export { Post } from './Post';
+export { PostSkeleton } from './PostSkeleton';
