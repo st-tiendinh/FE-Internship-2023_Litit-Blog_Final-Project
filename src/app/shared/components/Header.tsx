@@ -1,7 +1,12 @@
 import Logo from '../../../assets/images/logo.png';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import { KEYS, getLS } from '../../core/helpers/storageHelper';
+import { useMemo } from 'react';
 
 export const Header = () => {
+  const userInfo = useMemo(() => JSON.parse(getLS(KEYS.USER_INFO) as string) || null, []);
+  const location = useLocation();
+
   return (
     <header className="header">
       <div className="container">
@@ -23,11 +28,27 @@ export const Header = () => {
                   Register
                 </Link>
               </li>
-              <li className="nav-item">
-                <Link to={'auth/login'} className="nav-link btn btn-primary btn-login">
-                  Login
-                </Link>
-              </li>
+              {location.pathname === '/auth/login' ||
+              location.pathname === '/auth/register' ? null : userInfo ? (
+                <>
+                  <li className="nav-item">
+                    <Link to={'users'} className="nav-link">
+                      {userInfo.displayName}
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link to={'auth/login'} className="nav-link btn btn-primary btn-login">
+                      Signout
+                    </Link>
+                  </li>
+                </>
+              ) : (
+                <li className="nav-item">
+                  <Link to={'auth/login'} className="nav-link btn btn-primary btn-login">
+                    Login
+                  </Link>
+                </li>
+              )}
             </ul>
           </nav>
         </div>
