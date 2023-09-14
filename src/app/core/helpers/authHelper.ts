@@ -83,9 +83,9 @@ export default class AuthHelper extends DynamicAuth {
    * @param   [request] - current API request that have expired access_token or get 401 Unauthorized
    * @returns Promise<AxiosRequestConfig>
    */
-  handleRefreshToken(request: AxiosRequestConfig): Promise<AxiosRequestConfig> {
+  /*   handleRefreshToken(request: AxiosRequestConfig): Promise<AxiosRequestConfig> {
     // TODO: handle refresh token
 
     return null;
-  }
+  } */
 }
