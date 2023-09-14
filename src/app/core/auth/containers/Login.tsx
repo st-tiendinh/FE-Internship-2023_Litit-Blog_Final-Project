@@ -82,10 +82,7 @@ const Login = () => {
                         message: 'Password must be at least 6 characters!',
                       },
                     })}
-                    error={
-                      errors.password?.message ||
-                      (hasError && !isLoading && error?.response?.data?.errors)
-                    }
+                    error={errors.password?.message}
                     onBlur={(e) => handleTrimInput('password', e.target.value)}
                   />
                   <button className="btn btn-primary" type="submit">
@@ -98,6 +95,9 @@ const Login = () => {
                     Create an account
                   </a>
                 </span>
+                <p className="signin-error text-center text-danger">
+                  {hasError && !isLoading && error?.response?.data?.errors}
+                </p>
               </div>
             </div>
           </div>

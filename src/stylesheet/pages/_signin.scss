@@ -6,9 +6,9 @@
     justify-content: center;
     align-items: center;
     background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
-      url("https://images.pexels.com/photos/3690052/pexels-photo-3690052.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1")
-        no-repeat center center/cover;
+      url("https://images.pexels.com/photos/3690052/pexels-photo-3690052.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1") no-repeat center center/cover;
   }
+
   &-wrapper {
     width: 600px;
     padding: 30px;
@@ -17,13 +17,16 @@
     background: map-get($colors, "white");
     z-index: 10;
   }
+
   &-form-wrapper {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    & > form > button {
+
+    &>form>button {
       width: 100%;
       margin-bottom: 10px;
+
       &:hover {
         box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
       }
@@ -51,5 +54,9 @@
     padding-block: 5px;
     text-decoration: underline;
     text-align: center;
+  }
+
+  &-error {
+    font-size: 14px;
   }
 }
