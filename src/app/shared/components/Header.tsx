@@ -1,15 +1,16 @@
 import Logo from '../../../assets/images/logo.png';
+import { Link } from 'react-router-dom';
 
 export const Header = () => {
   return (
     <header className="header">
       <div className="container">
         <div className="header-inner d-flex">
-          <a href="" className="logo-link">
+          <Link to={'/'} className="logo-link">
             <h1 className="logo">
               <img className="logo-image" src={Logo} alt="Tilth Blog" />
             </h1>
-          </a>
+          </Link>
           <nav className="nav">
             <ul className="nav-list d-flex">
               <li className="nav-item">
@@ -18,14 +19,14 @@ export const Header = () => {
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#">
+                <Link to={'auth/register'} className="nav-link">
                   Register
-                </a>
+                </Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link btn btn-primary btn-login" href="#">
+                <Link to={'auth/login'} className="nav-link btn btn-primary btn-login">
                   Login
-                </a>
+                </Link>
               </li>
             </ul>
           </nav>
