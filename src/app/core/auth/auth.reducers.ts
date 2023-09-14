@@ -14,7 +14,7 @@ const signInSuccess = (state: any, payload: any) => ({
   ...state,
   isLoading: false,
   data: payload,
-  error: null
+  error: null,
 });
 
 const signInError = (state: any, payload: any) => ({
@@ -27,6 +27,7 @@ const signInError = (state: any, payload: any) => ({
 const signIn = (state: any, payload: any) => ({
   ...state,
   isLoading: true,
+  payload,
 });
 
 const strategies = {

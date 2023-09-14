@@ -1,5 +1,3 @@
-import React from 'react';
-
 export const PostSkeleton = () => {
   return (
     <li className="col col-4">
