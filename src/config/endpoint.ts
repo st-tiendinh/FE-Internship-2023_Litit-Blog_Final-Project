@@ -1,14 +1,15 @@
-import { environment } from './environment';
-
 const RESOURCES = {
-  auth: 'auth',
-  users: environment.apiUserUrl,
+  auth: {
+    index: 'auth',
+    users: 'users',
+  },
+  users: 'users',
 };
 
 export const ENDPOINT = {
   auth: {
-    index: `${RESOURCES.auth}`,
-    login: `${RESOURCES.auth}/login`,
+    index: `${RESOURCES.auth.users}`,
+    login: `${RESOURCES.auth.users}/login`,
   },
   users: {
     index: `${RESOURCES.users}`,

@@ -1,4 +1,4 @@
-import PostImg from '../../assets/post-img.jpg';
+import PostImg from '../../../assets/images/post-img.jpg';
 import '../../../../src/stylesheet/style.scss';
 
 export const Post = () => {
