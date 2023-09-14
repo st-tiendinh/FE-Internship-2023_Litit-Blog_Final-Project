@@ -1,9 +1,12 @@
+import { environment } from './environment';
+
 const RESOURCES = {
   auth: {
     index: 'auth',
     users: 'users',
   },
   users: 'users',
+  posts: environment.apiBaseUrl + 'posts',
 };
 
 export const ENDPOINT = {
@@ -13,5 +16,8 @@ export const ENDPOINT = {
   },
   users: {
     index: `${RESOURCES.users}`,
+  },
+  posts: {
+    public: `${RESOURCES.posts}/public`,
   },
 };

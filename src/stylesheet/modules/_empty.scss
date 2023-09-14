@@ -1,0 +1,12 @@
+.empty {
+  &-wrap {
+    width: 100%;
+    min-height: calc(100vh - 250px);
+    align-items: center;
+    justify-content: center;
+  }
+  &-message {
+    margin: 20px;
+    font-size: map-get($font-sizes, "xl");
+  }
+}
