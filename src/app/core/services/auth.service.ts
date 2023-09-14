@@ -15,4 +15,8 @@ export class AuthService extends AuthHelper {
     */
     return this.http.post([ENDPOINT.auth.login], body);
   }
+
+  signOut() {
+    this.removeToken();
+  }
 }
