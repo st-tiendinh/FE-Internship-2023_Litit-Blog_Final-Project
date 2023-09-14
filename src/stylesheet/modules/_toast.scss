@@ -2,7 +2,8 @@
   min-width: 250px;
   padding: 20px;
 
-  position: absolute;
+  position: fixed;
+  z-index: 999;
   top: 60px;
   right: 30px;
 

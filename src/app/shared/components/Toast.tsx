@@ -22,7 +22,7 @@ export const Toast = ({ type, title, desc, isShow, onClose }: ToastProps) => {
     }, 2000);
 
     return () => clearTimeout(timer);
-  }, [onClose]);
+  }, [isShow]);
 
   return (
     <div className={`toast ${isShow ? 'active' : ''} toast-${type}`}>
