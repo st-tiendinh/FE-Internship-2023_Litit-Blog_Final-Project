@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
-import "../../../../src/stylesheet/style.scss";
-import { formatDate } from "../utils/formatDate";
-import { isImageUrlValid } from "../utils/checkValidImage";
-import BlankPostImg from "../../../assets/images/blank-post.png";
-import BlankUserImg from "../../../assets/images/blank-user.webp";
+import { formatDate } from '../../utils/formatDate';
+import { isImageUrlValid } from '../../utils/checkValidImage';
+import BlankPostImg from '../../../../assets/images/blank-post.png';
+import BlankUserImg from '../../../../assets/images/blank-user.webp';
 
 interface PostProps {
   title: string;

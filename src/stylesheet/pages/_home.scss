@@ -1,7 +1,7 @@
 .section-public-post {
   .post {
     &-list {
-      padding-bottom: 20px;
+      padding-bottom: 10px;
       &-title {
         font-size: map-get($font-sizes, "2xl");
         font-weight: map-get($font-sizes, bold);
@@ -22,7 +22,6 @@
 
   .load-more-btn-wrap {
     justify-content: center;
-    margin-top: -10px;
     margin-bottom: 20px;
   }
 

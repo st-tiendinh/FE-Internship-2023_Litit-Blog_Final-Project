@@ -120,3 +120,41 @@
     transform: scale(1.05);
   }
 }
+
+.post-skeleton {
+  &:hover {
+    box-shadow: none;
+    transform: none;
+  }
+
+  .post {
+    &-content {
+      padding: 0;
+    }
+
+    &-body {
+      width: 100%;
+    }
+
+    &-header,
+    &-title {
+      height: 28px;
+      border-radius: 4px;
+    }
+
+    &-title {
+      width: 80%;
+    }
+
+    &-desc {
+      border-radius: 4px;
+      height: 39px;
+    }
+
+    &-author {
+      border-radius: 4px;
+      height: 48px;
+      width: 55%;
+    }
+  }
+}
