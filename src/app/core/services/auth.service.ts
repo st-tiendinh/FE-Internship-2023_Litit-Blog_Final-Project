@@ -1,13 +1,15 @@
-import Cookies from "js-cookie";
-import jwt from "jwt-decode";
+import Cookies from 'js-cookie';
+import jwt from 'jwt-decode';
 
-import AuthHelper from "../helpers/authHelper";
-import { ENDPOINT } from "../../../config/endpoint";
-import { ApiService } from "./api.service";
-import { KEYS } from "../helpers/storageHelper";
+import AuthHelper from '../helpers/authHelper';
+import { ENDPOINT } from '../../../config/endpoint';
+import { ApiService } from './api.service';
+import { KEYS } from '../helpers/storageHelper';
+import JwtHelper from '../helpers/jwtHelper';
 
 export class AuthService extends AuthHelper {
   http = new ApiService();
+  jwt = new JwtHelper();
 
   constructor() {
     super();
