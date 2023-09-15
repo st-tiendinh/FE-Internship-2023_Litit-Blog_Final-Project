@@ -9,6 +9,7 @@ import { ENDPOINT } from '../../../../config/endpoint';
 import { ApiService } from '../../services/api.service';
 import { Spinner } from '../../../shared/components';
 import { RootState } from '../../../app.reducers';
+import { formatDateToString } from '../../../shared/utils/formatDate';
 
 interface FormData {
   firstName: string;
@@ -29,7 +30,6 @@ const Register = () => {
     register,
     handleSubmit,
     setValue,
-    setError,
     formState: { errors },
     watch,
   } = useForm<FormData>();
@@ -63,24 +63,6 @@ const Register = () => {
 
   const handleTrimInput = (fieldName: keyof FormData, value: string) => {
     setValue(fieldName, value.trim());
-  };
-
-  const handleValidateDob = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    const selectedDate = new Date(value);
-    const currentDate = new Date();
-
-    if (selectedDate > currentDate) {
-      setError('dob', {
-        type: 'manual',
-        message: 'Date of Birth cannot be in the future!',
-      });
-    } else {
-      setError('dob', {
-        type: 'manual',
-        message: '',
-      });
-    }
   };
 
   useEffect(() => {
@@ -200,12 +182,12 @@ const Register = () => {
                     <InputGroup
                       label="Date of Birth*"
                       type="date"
+                      max={formatDateToString(new Date())}
                       id="dob"
                       {...register('dob', {
                         required: 'Date of Birth is required!',
                       })}
                       error={errors.dob?.message}
-                      onChange={(e) => handleValidateDob(e)}
                       onBlur={(e) => {
                         handleTrimInput('dob', e.target.value);
                       }}
