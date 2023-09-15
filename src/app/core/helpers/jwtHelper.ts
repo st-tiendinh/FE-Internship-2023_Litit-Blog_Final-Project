@@ -2,7 +2,10 @@ import { AuthHelperInterface } from './authHelper';
 import JwtDecode from 'jwt-decode';
 import { AuthStorageService } from '../services/authStorage.service';
 
-export default class JwtHelper extends AuthStorageService implements AuthHelperInterface {
+export default class JwtHelper
+  extends AuthStorageService
+  implements AuthHelperInterface
+{
   defaultHeader = () => ({
     // TODO: make default jwt header
   });
