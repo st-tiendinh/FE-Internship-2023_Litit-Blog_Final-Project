@@ -37,19 +37,13 @@ interface IPost {
 }
 
 interface PostListProps {
-  posts: Array<IPost>; // Assign a type to the posts prop
-  loading: boolean;
+  posts: Array<IPost>;
 }
 
-const PostList = ({ posts, loading }: PostListProps) => {
-  const skeletonArray = Array.from({ length: 6 }, (_, index) => index + 1);
+const PostList = ({ posts }: PostListProps) => {
   return (
     <ul className="post-list row">
-      {loading ? (
-        skeletonArray.map((item) => <PostSkeleton key={item} />)
-      ) : !posts.length ? (
-        <EmptyData />
-      ) : (
+      {posts.length ? (
         posts.map((post) => (
           <li key={post.id} className="col col-4">
             <div className="post-item">
@@ -67,6 +61,8 @@ const PostList = ({ posts, loading }: PostListProps) => {
             </div>
           </li>
         ))
+      ) : (
+        <EmptyData />
       )}
     </ul>
   );
