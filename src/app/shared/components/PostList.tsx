@@ -1,6 +1,5 @@
 import { EmptyData } from './EmptyData';
 import { Post } from './Post';
-import { PostSkeleton } from './PostSkeleton';
 
 interface IPost {
   id: number;
