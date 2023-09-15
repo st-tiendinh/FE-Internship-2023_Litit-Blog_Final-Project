@@ -14,9 +14,21 @@ export const Footer = () => {
           </div>
           <div className="footer-content">
             <ul className="footer-info-list">
-              <li className="footer-info-item">Terms of Use</li>
-              <li className="footer-info-item">Privacy Policy</li>
-              <li className="footer-info-item">Cookie Us</li>
+              <li className="footer-info-item">
+                <a className="footer-info-link" href="">
+                  Terms of Use
+                </a>
+              </li>
+              <li className="footer-info-item">
+                <a className="footer-info-link" href="">
+                  Privacy Policy
+                </a>
+              </li>
+              <li className="footer-info-item">
+                <a className="footer-info-link" href="">
+                  Cookie Us
+                </a>
+              </li>
             </ul>
           </div>
         </div>
