@@ -47,7 +47,6 @@ const Login = () => {
   }, [isLogged, http, jwtHelper, navigate]);
 
   const onSubmit = (data: FormData) => {
-    console.log(data);
     dispatch(signIn(data));
   };
 
