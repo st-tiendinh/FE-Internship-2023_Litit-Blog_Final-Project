@@ -79,9 +79,17 @@ export const Post = ({
           <div className="post-info">
             <div className="post-author">
               {isValidUserImg ? (
-                <img className="post-author-avatar" src={authorImg} alt="author image" />
+                <img
+                  className="post-author-avatar"
+                  src={authorImg}
+                  alt="author image"
+                />
               ) : (
-                <img className="post-author-avatar" src={BlankUserImg} alt={title} />
+                <img
+                  className="post-author-avatar"
+                  src={BlankUserImg}
+                  alt={title}
+                />
               )}
 
               <div className="post-about">

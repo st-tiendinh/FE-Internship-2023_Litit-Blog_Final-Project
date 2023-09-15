@@ -1,11 +1,14 @@
 .footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  color: map-get($colors, secondary-600);
+  padding: 20px 0;
 
-  padding: 32px 0;
+  color: map-get($colors, secondary-600);
   border-top: 1px solid map-get($colors, secondary-600);
+
+  &-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 
   &-logo {
     width: 120px;
