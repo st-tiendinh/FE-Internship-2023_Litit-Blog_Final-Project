@@ -8,13 +8,12 @@ import { RootState } from '../app.reducers';
 import { KEYS } from '../core/helpers/storageHelper';
 
 const Page = () => {
-  const isLogged = useSelector(
-    (state: RootState) => state.authReducer.isLogged
-  );
+  const isLogged = useSelector((state: RootState) => state.authReducer.isLogged);
   const dispatch = useDispatch();
 
   useEffect(() => {
     const cookie = Cookies.get(KEYS.ACCESS_TOKEN);
+    if (!cookie && !isLogged) return;
     if (!cookie) {
       dispatch(signOut());
     }
