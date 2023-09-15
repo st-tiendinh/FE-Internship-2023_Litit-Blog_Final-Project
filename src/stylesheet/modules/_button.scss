@@ -2,29 +2,30 @@
   display: inline-block;
   padding: 10px 16px;
 
-  font-size: map-get($font-sizes, "sm");
-  font-weight: map-get($font-weights, "medium");
-
   text-align: center;
   vertical-align: middle;
   white-space: nowrap;
 
+  font-size: map-get($font-sizes, "sm");
+  font-weight: map-get($font-weights, "regular");
+  text-transform: uppercase;
+
+  border-radius: 4px;
   border: 1px solid transparent;
-  border-radius: 6px;
+
   user-select: none;
   cursor: pointer;
 
-  &.btn-primary {
-    background-color: map-get($colors, "primary");
-    color: map-get($colors, "white");
-
-    &:hover {
-      background-color: #3350d3;
-    }
+  &.btn-outline {
+    background-color: map-get($colors, "white");
+    border-color: map-get($colors, "primary-900");
+    color: map-get($colors, "primary-900");
   }
 
-  &.btn-outline {
-    color: map-get($colors, "secondary-500");
-    border-color: map-get($colors, "secondary-500");
+  &.btn-outline:hover,
+  &.btn-primary {
+    border-color: map-get($colors, "primary-900");
+    background-color: map-get($colors, "primary-900");
+    color: map-get($colors, "white");
   }
 }

@@ -1,15 +1,21 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import Logo from '../../../assets/images/logo.png';
+import LogoImage from '../../../assets/images/logo-img.png';
+
 import { signOut } from '../../core/auth/auth.actions';
 import { RootState } from '../../app.reducers';
 
 export const Header = () => {
   const location = useLocation();
   const dispatch = useDispatch();
-  const isLogged = useSelector((state: RootState) => state.authReducer.isLogged);
-  const userInfo = useSelector((state: RootState) => state.authReducer.userInfo);
+
+  const isLogged = useSelector(
+    (state: RootState) => state.authReducer.isLogged
+  );
+  const userInfo = useSelector(
+    (state: RootState) => state.authReducer.userInfo
+  );
 
   const handleSignOut = () => {
     dispatch(signOut());
@@ -18,58 +24,98 @@ export const Header = () => {
   return (
     <header className="header position-sticky">
       <div className="container">
-        <div className="header-inner d-flex">
-          <Link to={'/'} className="logo-link">
-            <h1 className="logo">
-              <img className="logo-image" src={Logo} alt="Tilth Blog" />
-            </h1>
-          </Link>
-          <nav className="nav">
-            <ul className="nav-list d-flex">
-              <li className="nav-item">
-                <a className="nav-link" href="#">
-                  Write
-                </a>
-              </li>
-              {location.pathname !== '/auth/login' &&
-                location.pathname !== '/auth/register' &&
-                isLogged && (
-                  <>
-                    <li className="nav-item">
-                      <Link to={'/users'} className="nav-link">
-                        {userInfo.displayName}
+        <div className="header-inner">
+          <div className="row">
+            <div className="col col-4">
+              <Link to={'/'} className="logo-link">
+                <h1 className="logo">
+                  <img
+                    className="logo-image"
+                    src={LogoImage}
+                    alt="Lit.it Blog"
+                  />
+                </h1>
+              </Link>
+            </div>
+            <div className="col col-4">
+              <nav className="nav">
+                <ul className="d-flex nav-list">
+                  <li className="nav-item">
+                    <Link to={'/'} className="nav-link">
+                      Home
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <a className="nav-link" href="#">
+                      Blog
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a className="nav-link" href="#">
+                      Write
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a className="nav-link" href="#">
+                      About Us
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+            <div className="col col-4">
+              <div className="header-action">
+                <ul className="d-flex action-list">
+                  {location.pathname !== '/auth/login' &&
+                    location.pathname !== '/auth/register' &&
+                    isLogged && (
+                      <>
+                        <li className="action-item">
+                          <Link
+                            to={'/users'}
+                            className="action-link display-name"
+                          >
+                            {userInfo.displayName}
+                          </Link>
+                        </li>
+                        <li className="action-item">
+                          <Link
+                            to={'auth/login'}
+                            className="btn btn-outline action-link"
+                            onClick={handleSignOut}
+                          >
+                            Logout
+                          </Link>
+                        </li>
+                      </>
+                    )}
+
+                  {location.pathname === '/auth/login' && !isLogged && (
+                    <li className="action-item">
+                      <Link
+                        to={'auth/register'}
+                        className="btn btn-outline action-link"
+                      >
+                        Sign up
                       </Link>
                     </li>
-                    <li className="nav-item">
+                  )}
+
+                  {(location.pathname === '/' && !isLogged) ||
+                  location.pathname === '/auth/register' ? (
+                    <li className="action-item">
                       <Link
                         to={'auth/login'}
-                        className="nav-link btn btn-primary btn-login"
-                        onClick={handleSignOut}
+                        className="btn btn-outline action-link"
                       >
-                        Logout
+                        Sign in
                       </Link>
                     </li>
-                  </>
-                )}
-
-              {location.pathname === '/auth/login' && !isLogged && (
-                <li className="nav-item">
-                  <Link to={'auth/register'} className="nav-link btn btn-primary btn-login">
-                    Register
-                  </Link>
-                </li>
-              )}
-
-              {(location.pathname === '/' && !isLogged) ||
-              location.pathname === '/auth/register' ? (
-                <li className="nav-item">
-                  <Link to={'auth/login'} className="nav-link btn btn-primary btn-login">
-                    Login
-                  </Link>
-                </li>
-              ) : null}
-            </ul>
-          </nav>
+                  ) : null}
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </header>
