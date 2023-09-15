@@ -9,7 +9,8 @@
 
   .register {
     &-wrap {
-      width: 850px;
+      width: 100%;
+      max-width: 850px;
       padding: 30px;
       padding-bottom: 10px;
       background-color: map-get($colors, "white");
@@ -29,7 +30,7 @@
     &-action {
       justify-content: center;
 
-      > button {
+      .btn {
         padding: 10px 40px;
       }
     }
