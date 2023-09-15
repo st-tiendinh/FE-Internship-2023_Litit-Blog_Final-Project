@@ -25,7 +25,7 @@ const Login = () => {
   const isLoading = useSelector((state: RootState) => state.authReducer.isLoading);
   const hasError = useSelector((state: RootState) => state.authReducer.hasError);
   const error = useSelector((state: RootState) => state.authReducer.error);
-  const data = useSelector((state: RootState) => state.authReducer.data);
+  const isLogged = useSelector((state: RootState) => state.authReducer.isLogged);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {
@@ -36,7 +36,7 @@ const Login = () => {
   } = useForm<FormData>();
 
   useEffect(() => {
-    if (data) {
+    if (isLogged) {
       http
         .get([ENDPOINT.users.index, jwtHelper.getUserInfo().userId.toString()])
         .then((res: any) => {
@@ -44,7 +44,7 @@ const Login = () => {
         });
       navigate('/');
     }
-  }, [data, http, jwtHelper, navigate]);
+  }, [isLogged, http, jwtHelper, navigate]);
 
   const onSubmit = (data: FormData) => {
     console.log(data);

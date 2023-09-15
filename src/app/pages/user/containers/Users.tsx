@@ -2,7 +2,7 @@ import { Outlet } from 'react-router-dom';
 
 const Users = () => {
   return (
-    <div className="users-page">
+    <div className="users-page" style={{ minHeight: '100vh' }}>
       <Outlet />
     </div>
   );

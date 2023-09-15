@@ -3,9 +3,11 @@ import { ENDPOINT } from '../../../config/endpoint';
 import { ApiService } from './api.service';
 import Cookies from 'js-cookie';
 import { KEYS } from '../helpers/storageHelper';
+import JwtHelper from '../helpers/jwtHelper';
 
 export class AuthService extends AuthHelper {
   http = new ApiService();
+  jwt = new JwtHelper();
 
   constructor() {
     super();
@@ -19,7 +21,10 @@ export class AuthService extends AuthHelper {
     return response;
   }
 
-  signOut() {
-    this.removeToken();
+  async signOut() {
+    this.http.setHeaders(this.jwt.getAuthHeader());
+    const response: any = await this.http.post([ENDPOINT.auth.logout]);
+    Cookies.remove(KEYS.ACCESS_TOKEN);
+    return response;
   }
 }

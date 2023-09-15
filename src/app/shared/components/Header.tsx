@@ -1,11 +1,19 @@
-import Logo from '../../../assets/images/logo.png';
 import { Link, useLocation } from 'react-router-dom';
-import { KEYS, getLS } from '../../core/helpers/storageHelper';
-import { useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import Logo from '../../../assets/images/logo.png';
+import { signOut } from '../../core/auth/auth.actions';
+import { RootState } from '../../app.reducers';
 
 export const Header = () => {
-  const userInfo = useMemo(() => JSON.parse(getLS(KEYS.USER_INFO) as string) || null, []);
   const location = useLocation();
+  const dispatch = useDispatch();
+  const isLogged = useSelector((state: RootState) => state.authReducer.isLogged);
+  const userInfo = useSelector((state: RootState) => state.authReducer.userInfo);
+
+  const handleSignout = () => {
+    dispatch(signOut());
+  };
 
   return (
     <header className="header">
@@ -23,32 +31,43 @@ export const Header = () => {
                   Write
                 </a>
               </li>
-              <li className="nav-item">
-                <Link to={'auth/register'} className="nav-link">
-                  Register
-                </Link>
-              </li>
-              {location.pathname === '/auth/login' ||
-              location.pathname === '/auth/register' ? null : userInfo ? (
-                <>
-                  <li className="nav-item">
-                    <Link to={'users'} className="nav-link">
-                      {userInfo.displayName}
-                    </Link>
-                  </li>
-                  <li className="nav-item">
-                    <Link to={'auth/login'} className="nav-link btn btn-primary btn-login">
-                      Signout
-                    </Link>
-                  </li>
-                </>
-              ) : (
+              {location.pathname !== '/auth/login' &&
+                location.pathname !== '/auth/register' &&
+                isLogged && (
+                  <>
+                    <li className="nav-item">
+                      <Link to={'/users'} className="nav-link">
+                        {userInfo.displayName}
+                      </Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link
+                        to={'auth/login'}
+                        className="nav-link btn btn-primary btn-login"
+                        onClick={handleSignout}
+                      >
+                        Logout
+                      </Link>
+                    </li>
+                  </>
+                )}
+
+              {location.pathname === '/auth/login' && !isLogged && (
+                <li className="nav-item">
+                  <Link to={'auth/register'} className="nav-link btn btn-primary btn-login">
+                    Register
+                  </Link>
+                </li>
+              )}
+
+              {(location.pathname === '/' && !isLogged) ||
+              location.pathname === '/auth/register' ? (
                 <li className="nav-item">
                   <Link to={'auth/login'} className="nav-link btn btn-primary btn-login">
                     Login
                   </Link>
                 </li>
-              )}
+              ) : null}
             </ul>
           </nav>
         </div>
