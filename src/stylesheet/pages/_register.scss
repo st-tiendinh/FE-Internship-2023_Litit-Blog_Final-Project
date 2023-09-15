@@ -4,12 +4,15 @@
   width: 100vw;
   height: 100vh;
   background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
-    url("https://images.pexels.com/photos/247929/pexels-photo-247929.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1") no-repeat center center/cover;
+    url("https://images.pexels.com/photos/247929/pexels-photo-247929.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1")
+      no-repeat center center/cover;
 
   .register {
     &-wrap {
-      width: 75vw;
+      width: 100%;
+      max-width: 850px;
       padding: 30px;
+      padding-bottom: 10px;
       background-color: map-get($colors, "white");
       border-radius: 20px;
       align-items: center;
@@ -27,7 +30,7 @@
     &-action {
       justify-content: center;
 
-      >button {
+      .btn {
         padding: 10px 40px;
       }
     }
@@ -41,6 +44,19 @@
     &-error {
       margin-top: 6px;
       height: 16px;
+    }
+
+    &-image {
+      border-radius: 20px;
+    }
+
+    &-redirect {
+      text-align: center;
+      margin-top: 16px;
+
+      &-link {
+        color: map-get($colors, "primary");
+      }
     }
   }
 
@@ -61,19 +77,10 @@
     }
 
     &-input {
-      width: 20px;
-      height: 20px;
+      width: 18px;
+      height: 18px;
       margin-right: 4px;
       cursor: pointer;
-    }
-  }
-
-  .register-redirect {
-    text-align: center;
-    margin-top: 16px;
-
-    &-link {
-      color: map-get($colors, "primary");
     }
   }
 }

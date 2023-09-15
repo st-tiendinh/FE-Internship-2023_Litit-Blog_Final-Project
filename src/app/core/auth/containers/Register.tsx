@@ -3,11 +3,12 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 
-import RegisterCover from '../../../../assets/images/register-cover.png';
 import { InputGroup } from '../../../shared/components';
+import { Spinner } from '../../../shared/components';
+
+import registerImg from '../../../../assets/images/signin-img.jpg';
 import { ENDPOINT } from '../../../../config/endpoint';
 import { ApiService } from '../../services/api.service';
-import { Spinner } from '../../../shared/components';
 import { RootState } from '../../../app.reducers';
 import { formatDateToString } from '../../../shared/utils/formatDate';
 
@@ -267,10 +268,12 @@ const Register = () => {
             </p>
           </div>
           <div className="col col-5">
-            <div className="d-flex register-cover-wrap">
-              <div className="register-cover">
-                <img src={RegisterCover} alt="Register Cover" />
-              </div>
+            <div className="register-image-wrapper">
+              <img
+                className="register-image"
+                src={registerImg}
+                alt="Register Cover"
+              />
             </div>
           </div>
         </div>
