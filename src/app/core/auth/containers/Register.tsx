@@ -1,13 +1,15 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
-import { useState } from 'react';
+
+import { InputGroup } from '../../../shared/components';
+import { Spinner } from '../../../shared/components';
 
 import registerImg from '../../../../assets/images/signin-img.jpg';
-import { Spinner } from '../../../shared/components';
-import { InputGroup } from '../../../shared/components';
-
 import { ENDPOINT } from '../../../../config/endpoint';
 import { ApiService } from '../../services/api.service';
+import { RootState } from '../../../app.reducers';
 import { formatDateToString } from '../../../shared/utils/formatDate';
 
 interface FormData {
@@ -33,11 +35,13 @@ const Register = () => {
     watch,
   } = useForm<FormData>();
 
-  //update to redux later
   const [isLoading, setIsLoading] = useState(false);
   const [resError, setResError] = useState();
 
+  const isLogged = useSelector((state: RootState) => state.authReducer.isLogged);
+  const location = useLocation();
   const navigate = useNavigate();
+
   const onSubmit = async (data: FormData) => {
     setIsLoading(true);
 
@@ -62,6 +66,12 @@ const Register = () => {
     setValue(fieldName, value.trim());
   };
 
+  useEffect(() => {
+    if (isLogged && location.pathname === '/auth/register') {
+      navigate('/');
+    }
+  }, [isLogged, location.pathname, navigate]);
+
   return (
     <div className="d-flex register-page">
       <div className="register-wrap">
@@ -80,9 +90,7 @@ const Register = () => {
                         required: 'First name is required!',
                       })}
                       error={errors.firstName?.message}
-                      onBlur={(e) =>
-                        handleTrimInput('firstName', e.target.value)
-                      }
+                      onBlur={(e) => handleTrimInput('firstName', e.target.value)}
                     />
                   </div>
                   <div className="col col-6">
@@ -93,9 +101,7 @@ const Register = () => {
                         required: 'Last name is required!',
                       })}
                       error={errors.lastName?.message}
-                      onBlur={(e) =>
-                        handleTrimInput('lastName', e.target.value)
-                      }
+                      onBlur={(e) => handleTrimInput('lastName', e.target.value)}
                     />
                   </div>
                   <div className="col col-12">
@@ -106,8 +112,7 @@ const Register = () => {
                       {...register('email', {
                         required: 'Email is required!',
                         pattern: {
-                          value:
-                            /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/,
+                          value: /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/,
                           message: 'Email is not valid',
                         },
                       })}
@@ -123,14 +128,11 @@ const Register = () => {
                         required: 'Display name is required!',
                         minLength: {
                           value: 6,
-                          message:
-                            'Display name must be at least 6 characters!',
+                          message: 'Display name must be at least 6 characters!',
                         },
                       })}
                       error={errors.displayName?.message}
-                      onBlur={(e) =>
-                        handleTrimInput('displayName', e.target.value)
-                      }
+                      onBlur={(e) => handleTrimInput('displayName', e.target.value)}
                     />
                   </div>
                   <div className="col col-6">
@@ -221,9 +223,7 @@ const Register = () => {
                         },
                       })}
                       error={errors.password?.message}
-                      onBlur={(e) =>
-                        handleTrimInput('password', e.target.value)
-                      }
+                      onBlur={(e) => handleTrimInput('password', e.target.value)}
                     />
                   </div>
                   <div className="col col-6">
@@ -240,9 +240,7 @@ const Register = () => {
                         },
                       })}
                       error={errors.confirmPassword?.message}
-                      onBlur={(e) =>
-                        handleTrimInput('confirmPassword', e.target.value)
-                      }
+                      onBlur={(e) => handleTrimInput('confirmPassword', e.target.value)}
                     />
                   </div>
                   <div className="col col-12">
@@ -256,9 +254,7 @@ const Register = () => {
               </form>
             </div>
             <div className="register-redirect">
-              <span className="register-redirect-message">
-                Already have an account?{' '}
-              </span>
+              <span className="register-redirect-message">Already have an account? </span>
               <Link className="register-redirect-link" to={'/auth/login'}>
                 Login
               </Link>
