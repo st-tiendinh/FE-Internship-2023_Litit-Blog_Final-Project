@@ -14,3 +14,17 @@ export const signInError = (payload: any) => ({
   type: ACTION_TYPES.SIGN_IN_ERROR,
   payload,
 });
+
+export const signOut = () => ({
+  type: ACTION_TYPES.SIGN_OUT,
+});
+
+export const signOutSuccess = (payload: any) => ({
+  type: ACTION_TYPES.SIGN_OUT_SUCCESS,
+  payload,
+});
+
+export const signOutError = (payload: any) => ({
+  type: ACTION_TYPES.SIGN_OUT_ERROR,
+  payload,
+});

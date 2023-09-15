@@ -269,7 +269,13 @@ const Register = () => {
                 Login
               </Link>
             </div>
-            <p className={`register-error ${resError ? "visible" : null} text-danger text-center`}>{resError}</p>
+            <p
+              className={`register-error ${
+                resError ? 'visible' : 'invisible'
+              } text-danger text-center`}
+            >
+              {resError}
+            </p>
           </div>
           <div className="col col-5">
             <div className="d-flex register-cover-wrap">
