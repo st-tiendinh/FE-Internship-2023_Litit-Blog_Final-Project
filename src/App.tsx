@@ -25,11 +25,7 @@ function App() {
         <div className="app">
           <AppSuspense fallback={<></>}>
             <Header />
-          </AppSuspense>
-          <AppSuspense fallback={<></>}>
             <RouterOutlet routes={appRoutes} />
-          </AppSuspense>
-          <AppSuspense fallback={<></>}>
             <Footer />
           </AppSuspense>
         </div>
