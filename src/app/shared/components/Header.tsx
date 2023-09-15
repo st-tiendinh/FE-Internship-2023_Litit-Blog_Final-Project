@@ -8,19 +8,15 @@ import { RootState } from '../../app.reducers';
 export const Header = () => {
   const location = useLocation();
   const dispatch = useDispatch();
-  const isLogged = useSelector(
-    (state: RootState) => state.authReducer.isLogged
-  );
-  const userInfo = useSelector(
-    (state: RootState) => state.authReducer.userInfo
-  );
+  const isLogged = useSelector((state: RootState) => state.authReducer.isLogged);
+  const userInfo = useSelector((state: RootState) => state.authReducer.userInfo);
 
   const handleSignOut = () => {
     dispatch(signOut());
   };
 
   return (
-    <header className="header">
+    <header className="header position-sticky">
       <div className="container">
         <div className="header-inner d-flex">
           <Link to={'/'} className="logo-link">
@@ -58,10 +54,7 @@ export const Header = () => {
 
               {location.pathname === '/auth/login' && !isLogged && (
                 <li className="nav-item">
-                  <Link
-                    to={'auth/register'}
-                    className="nav-link btn btn-primary btn-login"
-                  >
+                  <Link to={'auth/register'} className="nav-link btn btn-primary btn-login">
                     Register
                   </Link>
                 </li>
@@ -70,10 +63,7 @@ export const Header = () => {
               {(location.pathname === '/' && !isLogged) ||
               location.pathname === '/auth/register' ? (
                 <li className="nav-item">
-                  <Link
-                    to={'auth/login'}
-                    className="nav-link btn btn-primary btn-login"
-                  >
+                  <Link to={'auth/login'} className="nav-link btn btn-primary btn-login">
                     Login
                   </Link>
                 </li>

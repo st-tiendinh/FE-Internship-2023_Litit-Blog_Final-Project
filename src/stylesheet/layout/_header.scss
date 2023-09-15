@@ -1,5 +1,9 @@
 .header {
   border-bottom: 0.5px solid map-get($colors, "secondary-600");
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: map-get($colors, "white");
 
   &-inner {
     padding: 10px 0px;
