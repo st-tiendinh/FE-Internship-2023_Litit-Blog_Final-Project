@@ -27,15 +27,17 @@ export const Header = () => {
         <div className="header-inner">
           <div className="row">
             <div className="col col-4">
-              <Link to={'/'} className="logo-link">
-                <h1 className="logo">
-                  <img
-                    className="logo-image"
-                    src={LogoImage}
-                    alt="Lit.it Blog"
-                  />
-                </h1>
-              </Link>
+              <div className="header-logo">
+                <Link to={'/'} className="logo-link">
+                  <h1 className="logo">
+                    <img
+                      className="logo-image"
+                      src={LogoImage}
+                      alt="Lit.it Blog"
+                    />
+                  </h1>
+                </Link>
+              </div>
             </div>
             <div className="col col-4">
               <nav className="nav">
