@@ -24,7 +24,12 @@ $font-sizes: (
 );
 
 $font-weights: (
+  "extra-light": 200,
+  "light": 300,
   "normal": 400,
   "medium": 500,
   "bold": 600,
 );
+
+$mobile-width: 768px;
+$tablet-width: 1024px;

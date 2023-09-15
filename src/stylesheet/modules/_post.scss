@@ -2,98 +2,97 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 16px;
 
-  max-width: 392px;
-  padding: 16px;
   border-radius: 12px;
   border: 1px solid map-get($colors, secondary-100);
   background: map-get($colors, white);
-  transition: all 0.2s ease-in-out;
+  box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.12);
+  transition: all ease 0.4s;
 
   &-image-wrapper {
-    max-width: 240px;
-    max-width: 360px;
+    width: 100%;
   }
 
   &-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-
     width: 100%;
+    padding-bottom: 12px;
   }
 
   &-action {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 12px;
   }
 
   &-action-group {
     display: flex;
     align-items: center;
     gap: 5px;
-    font-weight: map-get($font-weights, bold);
+    font-weight: map-get($font-weights, medium);
+    font-size: map-get($font-sizes, sm);
+    cursor: pointer;
   }
 
   &-body {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    justify-content: space-between;
+    min-height: 138px;
   }
 
   &-image {
-    border-radius: 6px;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
     height: 240px;
     object-fit: cover;
     border: 1px solid map-get($colors, secondary-100);
   }
 
   &-content {
-    padding: 8px;
     display: flex;
     flex-direction: column;
-    align-items: start;
-    gap: 16px;
+    padding: 20px;
   }
 
   &-title {
-    font-size: map-get($font-sizes, "2xl");
-    font-weight: map-get($font-weights, bold);
+    font-size: map-get($font-sizes, lg);
+    font-weight: map-get($font-weights, medium);
     color: map-get($colors, secondary-800);
-    line-height: 28px; /* 116.667% */
-
-    -webkit-line-clamp: 1; /* Set the number of lines to display */
+    line-height: 1.4;
+    padding-bottom: 10px;
+    cursor: pointer;
   }
 
   &-desc {
-    font-size: map-get($font-sizes, "sm");
+    font-size: map-get($font-sizes, sm);
     font-weight: map-get($font-weights, normal);
-    color: map-get($colors, secondary-700);
-    -webkit-line-clamp: 2; /* Set the number of lines to display */
-    min-height: 39px;
+    color: map-get($colors, secondary-600);
+    line-height: 1.4;
   }
 
-  &-info {
+  &-footer {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 20px;
 
     font-size: map-get($font-sizes, md);
     color: map-get($colors, secondary-600);
-    line-height: 1.5;
   }
 
   &-about {
     display: flex;
     flex-direction: column;
+    gap: 4px;
   }
 
   &-author {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 18px;
 
     min-height: 48px;
   }
@@ -102,22 +101,22 @@
     width: 36px;
     height: 36px;
     border-radius: 50%;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.12);
   }
 
   &-author-name {
-    font-weight: map-get($font-weights, bold);
-    max-width: 270px;
-    word-wrap: break-word;
+    font-weight: map-get($font-weights, medium);
+    cursor: pointer;
   }
 
   &-date {
     font-size: map-get($font-sizes, sm);
-    font-weight: map-get($font-weights, normal);
+    font-weight: map-get($font-weights, light);
   }
 
   &:hover {
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    transform: scale(1.05);
+    transform: translateY(-4px);
+    box-shadow: 0 0 40px 0 rgba(0, 0, 0, .2);
   }
 }
 
