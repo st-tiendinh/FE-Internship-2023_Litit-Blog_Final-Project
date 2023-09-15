@@ -1,3 +1,5 @@
+import { KEYS } from '../helpers/storageHelper';
+
 export interface AuthStorage {
   setToken(data?: any): void;
   getToken(): void;
@@ -5,7 +7,7 @@ export interface AuthStorage {
 }
 
 export class AuthStorageService implements AuthStorage {
-  ACCESS_TOKEN = 'token';
+  ACCESS_TOKEN = KEYS.ACCESS_TOKEN;
 
   setToken(token?: any) {
     if (token) {
