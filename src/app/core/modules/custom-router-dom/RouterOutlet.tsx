@@ -2,6 +2,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 
 import { privateRoute } from './PrivateRoute';
 import { PageRoute } from './router.interface';
+import Home from '../../../pages/home/containers/Home';
 
 const renderRoute = (routes: PageRoute[]) => {
   return routes.map((route: any, index: number) => {
@@ -25,5 +26,10 @@ const renderRoute = (routes: PageRoute[]) => {
 };
 
 export const RouterOutlet = ({ routes }: any) => {
-  return <Routes>{renderRoute(routes)}</Routes>;
+  return (
+    <Routes>
+      {renderRoute(routes)}
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
+  );
 };
