@@ -2,11 +2,13 @@
   .post {
     &-list {
       padding-bottom: 10px;
+
       &-title {
         font-size: map-get($font-sizes, "2xl");
-        font-weight: map-get($font-sizes, bold);
+        font-weight: map-get($font-weights, medium);
       }
     }
+
     &-item {
       padding-block: 10px;
     }
@@ -15,7 +17,7 @@
   .section {
     &-title {
       font-size: map-get($font-sizes, "2xl");
-      font-weight: map-get($font-sizes, bold);
+      font-weight: map-get($font-weights, medium);
       padding-block: 20px;
     }
   }
@@ -40,6 +42,7 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
+
     &:hover {
       background-color: map-get($colors, "primary");
     }
