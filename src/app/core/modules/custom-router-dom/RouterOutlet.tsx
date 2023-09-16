@@ -2,7 +2,6 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 
 import { privateRoute } from './PrivateRoute';
 import { PageRoute } from './router.interface';
-import Home from '../../../pages/home/containers/Home';
 
 const renderRoute = (routes: PageRoute[]) => {
   return routes.map((route: any, index: number) => {
