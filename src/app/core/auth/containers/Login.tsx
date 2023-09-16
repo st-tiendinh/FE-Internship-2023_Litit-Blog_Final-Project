@@ -93,10 +93,13 @@ const Login = () => {
                 error={errors.password?.message}
                 onBlur={(e) => handleTrimInput('password', e.target.value)}
               />
-              <button className="btn btn-outline" type="submit">
-                Sign in
+              <button
+                className={`btn btn-primary ${isLoading ? 'loading' : null}`}
+                disabled={isLoading}
+                type="submit"
+              >
+                <span className="btn-text">Sign in</span>
               </button>
-              {isLoading && <Spinner />}
             </form>
             <p className="signin-error text-center text-danger">
               {hasError && !isLoading && error?.response?.data?.errors}
