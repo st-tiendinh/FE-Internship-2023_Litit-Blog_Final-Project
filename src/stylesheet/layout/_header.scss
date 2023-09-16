@@ -1,53 +1,72 @@
 .header {
-  border-bottom: 0.5px solid map-get($colors, "secondary-600");
   position: sticky;
   top: 0;
   z-index: 100;
   background-color: map-get($colors, "white");
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
+    rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
 
   &-inner {
-    padding: 10px 0px;
+    padding: 16px 0px;
     justify-content: space-between;
     align-items: center;
 
     .logo {
-      width: 155px;
-      height: 42px;
-
-      padding-top: 3px;
+      width: 150px;
       object-fit: cover;
     }
   }
-}
 
-.nav {
-  &-list {
+  &-logo {
     height: 100%;
-    gap: 22px;
+    display: flex;
     align-items: center;
   }
 
-  &-item {
-    &:hover {
-      transform: scale(1.1);
+  .nav {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    &-list {
+      height: 100%;
+      gap: 48px;
+      align-items: center;
     }
 
-    &:last-child {
+    &-link {
+      color: map-get($colors, "primary");
+      text-transform: uppercase;
+      transition: text-decoration 0.2s ease;
+      position: relative;
+      font-weight: map-get($font-weights, "medium");
+
       &:hover {
-        transform: scale(1.05);
+        &::after {
+          content: "";
+          position: absolute;
+          left: 50%;
+          bottom: -5px;
+          width: 70%;
+          height: 1.5px;
+          background-color: map-get($colors, "primary");
+          transform: translateX(-50%);
+        }
       }
     }
   }
 
-  &-link {
-    color: map-get($colors, "secondary-800");
-    padding: 10px;
+  &-action {
+    display: flex;
+    justify-content: flex-end;
   }
 
-  .btn-login {
-    padding: 8px 20px;
-    border-radius: 20px;
-    font-size: map-get($font-sizes, "md");
+  .action-list {
+    align-items: center;
+    gap: 32px;
+
+    .display-name {
+      color: map-get($colors, "primary");
+      font-size: map-get($font-sizes, "lg");
+    }
   }
 }
-

@@ -52,7 +52,10 @@ const PublicPost = () => {
         )}
         {page < totalPage && (
           <div className="d-flex load-more-btn-wrap">
-            <button className="btn btn-primary" onClick={() => setPage(page + 1)}>
+            <button
+              className="btn btn-outline"
+              onClick={() => setPage(page + 1)}
+            >
               LOAD MORE
             </button>
           </div>

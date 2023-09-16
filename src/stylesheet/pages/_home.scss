@@ -23,8 +23,8 @@
   }
 
   .load-more-btn-wrap {
-    justify-content: center;
     margin-bottom: 20px;
+    justify-content: center;
   }
 
   .scroll-button-wrap {
@@ -34,7 +34,7 @@
   }
 
   .scroll-button {
-    background-color: #007bff;
+    background-color: RGBA(75, 107, 251, 0.5);
     color: #fff;
     border: none;
     border-radius: 50%;
@@ -44,7 +44,7 @@
     cursor: pointer;
 
     &:hover {
-      background-color: #0056b3;
+      background-color: map-get($colors, "primary");
     }
   }
 }
