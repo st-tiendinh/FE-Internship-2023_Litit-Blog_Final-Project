@@ -32,7 +32,7 @@
   }
 
   .scroll-button {
-    background-color: RGBA(74, 104, 118, 0.5);
+    background-color: RGBA(75, 107, 251, 0.5);
     color: #fff;
     border: none;
     border-radius: 50%;
@@ -41,7 +41,7 @@
     align-items: center;
     cursor: pointer;
     &:hover {
-      background-color: #4a6876;
+      background-color: map-get($colors, "primary");
     }
   }
 }

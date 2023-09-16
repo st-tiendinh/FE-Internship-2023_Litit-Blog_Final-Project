@@ -1,7 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import LogoImage from '../../../assets/images/logo-img.png';
+import LogoImage from '../../../assets/images/logo.png';
 
 import { signOut } from '../../core/auth/auth.actions';
 import { RootState } from '../../app.reducers';

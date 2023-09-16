@@ -18,14 +18,14 @@
 
   &.btn-outline {
     background-color: map-get($colors, "white");
-    border-color: map-get($colors, "primary-900");
-    color: map-get($colors, "primary-900");
+    border-color: map-get($colors, "primary");
+    color: map-get($colors, "primary");
   }
 
   &.btn-outline:hover,
   &.btn-primary {
-    border-color: map-get($colors, "primary-900");
-    background-color: map-get($colors, "primary-900");
+    border-color: map-get($colors, "primary");
+    background-color: map-get($colors, "primary");
     color: map-get($colors, "white");
   }
 }

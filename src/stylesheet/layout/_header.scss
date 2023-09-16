@@ -34,7 +34,7 @@
     }
 
     &-link {
-      color: map-get($colors, "primary-900");
+      color: map-get($colors, "primary");
       text-transform: uppercase;
       transition: text-decoration 0.2s ease;
       position: relative;
@@ -48,7 +48,7 @@
           bottom: -5px;
           width: 70%;
           height: 1.5px;
-          background-color: map-get($colors, "primary-900");
+          background-color: map-get($colors, "primary");
           transform: translateX(-50%);
         }
       }
@@ -65,7 +65,7 @@
     gap: 32px;
 
     .display-name {
-      color: map-get($colors, "primary-900");
+      color: map-get($colors, "primary");
       font-size: map-get($font-sizes, "lg");
     }
   }
