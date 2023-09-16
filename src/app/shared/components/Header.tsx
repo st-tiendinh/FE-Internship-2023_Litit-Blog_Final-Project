@@ -1,4 +1,4 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import LogoImage from '../../../assets/images/logo.png';
@@ -10,15 +10,15 @@ export const Header = () => {
   const location = useLocation();
   const dispatch = useDispatch();
 
-  const isLogged = useSelector(
-    (state: RootState) => state.authReducer.isLogged
-  );
-  const userInfo = useSelector(
-    (state: RootState) => state.authReducer.userInfo
-  );
+  const navigate = useNavigate();
+
+  const isLogged = useSelector((state: RootState) => state.authReducer.isLogged);
+  const userInfo = useSelector((state: RootState) => state.authReducer.userInfo);
 
   const handleSignOut = () => {
     dispatch(signOut());
+
+    navigate('/');
   };
 
   return (
@@ -81,13 +81,12 @@ export const Header = () => {
                           </Link>
                         </li>
                         <li className="action-item">
-                          <Link
-                            to={'auth/login'}
+                          <button
                             className="btn btn-outline action-link"
                             onClick={handleSignOut}
                           >
                             Logout
-                          </Link>
+                          </button>
                         </li>
                       </>
                     )}
