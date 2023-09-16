@@ -1,0 +1,65 @@
+.signup-page {
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+    url("../assets/images/auth-image.jpeg") no-repeat center center/cover;
+
+  .signup {
+    &-wrap {
+      width: 100%;
+      max-width: 650px;
+      padding: 36px;
+      background-color: map-get($colors, "white");
+      border: 1px solid map-get($colors, secondary-200);
+      border-radius: 20px;
+    }
+
+    &-title {
+      font-size: 28px;
+      text-align: center;
+      text-transform: uppercase;
+      font-weight: map-get($font-weights, "medium");
+      margin-bottom: 36px;
+    }
+
+    &-action {
+      justify-content: center;
+
+      .btn {
+        padding: 13px;
+        width: 100%;
+      }
+    }
+
+    &-error {
+      margin-top: 6px;
+      height: 16px;
+    }
+
+    &-image {
+      border-radius: 20px;
+    }
+
+    &-redirect {
+      text-align: center;
+
+      &-link {
+        color: map-get($colors, "primary");
+      }
+    }
+
+    &-error {
+      height: 16px;
+      margin: 10px 0px;
+      font-size: map-get($font-sizes, "sm");
+    }
+    &-form {
+      .input-group,
+      .select-group {
+        margin-bottom: 6px;
+      }
+    }
+  }
+}
