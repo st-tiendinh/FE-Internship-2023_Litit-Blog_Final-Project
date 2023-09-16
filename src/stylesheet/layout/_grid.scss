@@ -1,5 +1,5 @@
 .container {
-  max-width: 1200px;
+  max-width: 1152px;
   width: 100%;
   margin: 0 auto;
   padding: 0 20px;
@@ -8,8 +8,8 @@
 .row {
   display: flex;
   flex-wrap: wrap;
-
-  margin: 0 -10px;
+  margin-left: -10px;
+  margin-right: -10px;
 }
 
 .col {
@@ -19,5 +19,37 @@
 @for $i from 1 through 12 {
   .col-#{$i} {
     width: percentage(calc($i/12));
+  }
+}
+
+@include tablet {
+  .container {
+    padding: 24px;
+  }
+
+  @for $i from 1 through 12 {
+    .col-md-#{$i} {
+      width: percentage(calc($i/12));
+    }
+  }
+}
+
+@include mobile {
+  .container {
+    padding: 24px;
+  }
+
+  .row {
+    margin: 0 -4px !important;
+  }
+
+  .col {
+    padding: 0 4px !important;
+  }
+
+  @for $i from 1 through 12 {
+    .col-sm-#{$i} {
+      width: percentage(calc($i/12));
+    }
   }
 }

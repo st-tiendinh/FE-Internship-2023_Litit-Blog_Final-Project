@@ -1,0 +1,73 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: map-get($colors, "white");
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
+    rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+
+  &-inner {
+    padding: 16px 0px;
+    justify-content: space-between;
+    align-items: center;
+
+    .logo {
+      width: 170px;
+      object-fit: cover;
+    }
+  }
+
+  &-logo {
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  .nav {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    &-list {
+      height: 100%;
+      gap: 48px;
+      align-items: center;
+    }
+
+    &-link {
+      color: map-get($colors, "primary");
+      text-transform: uppercase;
+      transition: text-decoration 0.2s ease;
+      position: relative;
+      white-space: nowrap;
+      font-weight: map-get($font-weights, "medium");
+
+      &:hover {
+        &::after {
+          content: "";
+          position: absolute;
+          left: 50%;
+          bottom: -5px;
+          width: 70%;
+          height: 1.5px;
+          background-color: map-get($colors, "primary");
+          transform: translateX(-50%);
+        }
+      }
+    }
+  }
+
+  &-action {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .action-list {
+    align-items: center;
+    gap: 32px;
+
+    .display-name {
+      color: map-get($colors, "primary");
+      font-size: map-get($font-sizes, "lg");
+    }
+  }
+}

@@ -1,0 +1,63 @@
+.signin {
+  &-page {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+      url("../assets/images/auth-image.jpeg") no-repeat center center/cover;
+  }
+
+  &-wrapper {
+    width: 400px;
+    padding: 36px;
+    border-radius: 20px;
+    border: 1px solid map-get($colors, secondary-200);
+    background: map-get($colors, "white");
+    z-index: 10;
+  }
+
+  &-form-wrapper {
+    display: flex;
+    flex-direction: column;
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      .btn {
+        padding: 13px;
+        width: 100%;
+      }
+    }
+  }
+
+  &-title {
+    font-size: 28px;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: map-get($font-weights, "medium");
+    margin-bottom: 36px;
+  }
+
+  &-redirect {
+    width: 100%;
+    text-align: center;
+
+    &-link {
+      color: map-get($colors, "primary");
+      transition: none;
+
+      &:hover {
+        font-weight: map-get($font-weights, "medium");
+      }
+    }
+  }
+
+  &-error {
+    height: 16px;
+    margin: 10px 0px;
+    font-size: map-get($font-sizes, "sm");
+  }
+}
