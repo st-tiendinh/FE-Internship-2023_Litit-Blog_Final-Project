@@ -6,7 +6,7 @@
 
     .form-control {
       width: 100%;
-      padding: 10px;
+      padding: 14px;
       font-size: map-get($font-sizes, "md");
       border-radius: 5px;
       border: 1px solid map-get($colors, "secondary-600");
@@ -44,7 +44,7 @@
 
     .form-control-label {
       position: absolute;
-      left: 10px;
+      left: 14px;
       top: 50%;
 
       transform: translateY(-50%);
@@ -79,16 +79,16 @@
 
   .form-control-icon {
     position: absolute;
-    right: 4px;
+    right: 14px;
     top: 50%;
     transform: translateY(-50%);
     cursor: pointer;
   }
 
-  .input-group-error {
+  &-error {
     height: 22px;
     margin: 3px;
-    font-size: map-get($font-sizes, "xs");
+    font-size: 11px;
     color: map-get($colors, "red");
   }
 }

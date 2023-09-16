@@ -5,13 +5,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
-      url("https://images.pexels.com/photos/3690052/pexels-photo-3690052.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1") no-repeat center center/cover;
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+      url("../assets/images/auth-image.jpeg") no-repeat center center/cover;
   }
 
   &-wrapper {
-    width: 600px;
-    padding: 30px;
+    width: 400px;
+    padding: 36px;
     border-radius: 20px;
     border: 1px solid map-get($colors, secondary-200);
     background: map-get($colors, "white");
@@ -23,12 +23,14 @@
     flex-direction: column;
     justify-content: space-around;
 
-    &>form>button {
-      width: 100%;
-      margin-bottom: 10px;
-
-      &:hover {
-        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      gap: 6px;
+      .btn {
+        padding: 13px;
+        width: 100%;
       }
     }
   }
@@ -41,22 +43,30 @@
   }
 
   &-title {
-    font-size: map-get($font-sizes, "3xl");
-    font-weight: map-get($font-weights, bold);
-    padding-block: 30px;
+    font-size: 28px;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: map-get($font-weights, "medium");
+    margin-bottom: 36px;
   }
 
   &-redirect {
-    display: block;
     width: 100%;
-    font-size: map-get($font-sizes, sm);
-    font-weight: map-get($font-weights, normal);
-    padding-block: 5px;
-    text-decoration: underline;
     text-align: center;
+
+    &-link {
+      color: map-get($colors, "primary");
+      transition: none;
+
+      &:hover {
+        font-weight: map-get($font-weights, "medium");
+      }
+    }
   }
 
   &-error {
-    font-size: 14px;
+    height: 16px;
+    margin: 10px 0px;
+    font-size: map-get($font-sizes, "sm");
   }
 }
