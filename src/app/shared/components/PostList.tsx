@@ -44,7 +44,7 @@ const PostList = ({ posts }: PostListProps) => {
     <ul className="post-list row">
       {posts.length ? (
         posts.map((post) => (
-          <li key={post.id} className="col col-4">
+          <li key={post.id} className="col col-4 col-md-6 col-sm-12">
             <div className="post-item">
               <Post
                 title={post.title}
