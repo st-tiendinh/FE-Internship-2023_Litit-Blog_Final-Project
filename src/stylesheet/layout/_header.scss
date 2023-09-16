@@ -12,7 +12,7 @@
     align-items: center;
 
     .logo {
-      width: 150px;
+      width: 170px;
       object-fit: cover;
     }
   }
@@ -38,6 +38,7 @@
       text-transform: uppercase;
       transition: text-decoration 0.2s ease;
       position: relative;
+      white-space: nowrap;
       font-weight: map-get($font-weights, "medium");
 
       &:hover {

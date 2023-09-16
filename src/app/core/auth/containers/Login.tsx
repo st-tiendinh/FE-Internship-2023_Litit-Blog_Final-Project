@@ -1,7 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { useEffect, useMemo } from 'react';
 
-import signinImg from '../../../../assets/images/signin-img.jpg';
 import { InputGroup } from '../../../shared/components/InputGroup';
 import { useDispatch, useSelector } from 'react-redux';
 import { signIn } from '../auth.actions';
@@ -22,10 +21,16 @@ interface FormData {
 const Login = () => {
   const jwtHelper = useMemo(() => new JwtHelper(), []);
   const http = useMemo(() => new ApiService(), []);
-  const isLoading = useSelector((state: RootState) => state.authReducer.isLoading);
-  const hasError = useSelector((state: RootState) => state.authReducer.hasError);
+  const isLoading = useSelector(
+    (state: RootState) => state.authReducer.isLoading
+  );
+  const hasError = useSelector(
+    (state: RootState) => state.authReducer.hasError
+  );
   const error = useSelector((state: RootState) => state.authReducer.error);
-  const isLogged = useSelector((state: RootState) => state.authReducer.isLogged);
+  const isLogged = useSelector(
+    (state: RootState) => state.authReducer.isLogged
+  );
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {
@@ -58,58 +63,50 @@ const Login = () => {
     <>
       <div className="signin-page">
         <div className="signin-wrapper">
-          <div className="row">
-            <div className="col col-6">
-              <div className="signin-image-wrapper">
-                <img className="signin-image" src={signinImg} alt="Sign in image" />
-              </div>
-            </div>
-            <div className="col col-6">
-              <div className="signin-form-wrapper">
-                <p className="signin-title">Sign in</p>
-                <form className="form-group" onSubmit={handleSubmit(onSubmit)}>
-                  <InputGroup
-                    id="email"
-                    label="Email*"
-                    {...register('email', {
-                      required: 'Email is required!',
-                      pattern: {
-                        value: /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/,
-                        message: 'Email is not valid',
-                      },
-                    })}
-                    error={errors.email?.message}
-                    onBlur={(e) => handleTrimInput('email', e.target.value)}
-                  />
-                  <InputGroup
-                    label="Password*"
-                    type="password"
-                    id="password"
-                    {...register('password', {
-                      required: 'Password is required!',
-                      minLength: {
-                        value: 6,
-                        message: 'Password must be at least 6 characters!',
-                      },
-                    })}
-                    error={errors.password?.message}
-                    onBlur={(e) => handleTrimInput('password', e.target.value)}
-                  />
-                  <button className="btn btn-primary" type="submit">
-                    Login
-                  </button>
-                  {isLoading && <Spinner />}
-                </form>
-                <span className="signin-redirect">
-                  <Link to={'/auth/register'} className="signin-redirect-link">
-                    Create an account
-                  </Link>
-                </span>
-                <p className="signin-error text-center text-danger">
-                  {hasError && !isLoading && error?.response?.data?.errors}
-                </p>
-              </div>
-            </div>
+          <div className="signin-form-wrapper">
+            <p className="signin-title">Sign in</p>
+            <form className="form-group" onSubmit={handleSubmit(onSubmit)}>
+              <InputGroup
+                id="email"
+                label="Email*"
+                {...register('email', {
+                  required: 'Email is required!',
+                  pattern: {
+                    value: /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/,
+                    message: 'Email is not valid',
+                  },
+                })}
+                error={errors.email?.message}
+                onBlur={(e) => handleTrimInput('email', e.target.value)}
+              />
+              <InputGroup
+                label="Password*"
+                type="password"
+                id="password"
+                {...register('password', {
+                  required: 'Password is required!',
+                  minLength: {
+                    value: 6,
+                    message: 'Password must be at least 6 characters!',
+                  },
+                })}
+                error={errors.password?.message}
+                onBlur={(e) => handleTrimInput('password', e.target.value)}
+              />
+              <button className="btn btn-outline" type="submit">
+                Sign in
+              </button>
+              {isLoading && <Spinner />}
+            </form>
+            <p className="signin-error text-center text-danger">
+              {hasError && !isLoading && error?.response?.data?.errors}
+            </p>
+            <p className="signin-redirect">
+              Don't have an account yet?{' '}
+              <Link className="signin-redirect-link" to={'/auth/register'}>
+                Sign up
+              </Link>
+            </p>
           </div>
         </div>
       </div>
