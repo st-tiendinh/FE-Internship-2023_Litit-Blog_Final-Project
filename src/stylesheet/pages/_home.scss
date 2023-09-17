@@ -1,3 +1,11 @@
+.section {
+  &-title {
+    font-size: map-get($font-sizes, "2xl");
+    font-weight: map-get($font-weights, medium);
+    padding-block: 20px;
+  }
+}
+
 .section-public-post {
   .post {
     &-list {
@@ -14,13 +22,7 @@
     }
   }
 
-  .section {
-    &-title {
-      font-size: map-get($font-sizes, "2xl");
-      font-weight: map-get($font-weights, medium);
-      padding-block: 20px;
-    }
-  }
+
 
   .load-more-btn-wrap {
     margin-bottom: 20px;
