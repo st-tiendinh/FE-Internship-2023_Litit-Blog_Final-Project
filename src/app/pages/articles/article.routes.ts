@@ -10,7 +10,6 @@ const articleRoutes: PageRoute[] = [
   {
     path: 'articles',
     element: Articles,
-    isProtected: true,
     children: [
       {
         path: '',

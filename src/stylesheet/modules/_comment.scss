@@ -14,7 +14,7 @@
       &-wrapper {
         width: 36px;
         height: 36px;
-        margin-top: 6px;
+        margin-top: 8px;
       }
       border-radius: 50%;
     }
@@ -24,6 +24,21 @@
       font-weight: map-get($font-weights, "medium");
       margin-bottom: 12px;
     }
+  }
+
+  &-about {
+    display: flex;
+    gap: 10px;
+  }
+
+  &-dot-symbol {
+    font-size: 8px;
+  }
+
+  &-date {
+    font-size: map-get($font-sizes, "sm");
+    font-weight: map-get($font-weights, "light");
+    color: map-get($colors, "secondary-600");
   }
 
   &-text {
