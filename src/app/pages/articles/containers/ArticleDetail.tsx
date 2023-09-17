@@ -16,6 +16,7 @@ const ArticleDetail = () => {
   const tags = ['ReactJS', 'VueJS', 'Angular', 'NodeJS'];
   const apiService = new ApiService();
   const [post, setPost] = useState<any>({});
+  const [comments, setComments] = useState<any>([]);
   const [isValidCover, setIsValidCover] = useState(false);
   const [isValidUserImg, setIsValidUserImg] = useState(false);
   const location = useLocation();
@@ -28,6 +29,36 @@ const ArticleDetail = () => {
           location.pathname.slice(10),
         ]);
         setPost(response);
+        return response;
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, [location]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await apiService.get([
+          ENDPOINT.posts.index,
+          location.pathname.slice(10),
+        ]);
+        setPost(response);
+        return response;
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, [location]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await apiService.get([
+          ENDPOINT.posts.index,
+          location.pathname.slice(10) + '/comments',
+        ]);
+        setComments(response);
         return response;
       } catch (error) {
         console.log(error);
@@ -110,7 +141,7 @@ const ArticleDetail = () => {
           </div>
         </div>
 
-        <ListComments />
+        <ListComments comments={comments} />
       </div>
     </section>
   );

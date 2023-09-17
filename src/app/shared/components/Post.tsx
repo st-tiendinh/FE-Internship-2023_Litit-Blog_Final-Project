@@ -51,11 +51,11 @@ export const Post = ({
   return (
     <div className="post">
       <div className="post-image-wrapper">
-        {isValidCover ? (
-          <img className="post-image" src={cover} alt={title} />
-        ) : (
-          <img className="post-image" src={BlankPostImg} alt={title} />
-        )}
+        <img
+          className="post-image"
+          src={isValidCover ? cover : BlankPostImg}
+          alt={title}
+        />
       </div>
 
       <div className="post-content">
@@ -97,20 +97,11 @@ export const Post = ({
 
           <div className="post-footer">
             <div className="post-author">
-              {isValidUserImg ? (
-                <img
-                  className="post-author-avatar"
-                  src={authorImg}
-                  alt="author image"
-                />
-              ) : (
-                <img
-                  className="post-author-avatar"
-                  src={BlankUserImg}
-                  alt={title}
-                />
-              )}
-
+              <img
+                className="post-author-avatar"
+                src={isValidUserImg ? authorImg : BlankUserImg}
+                alt="author image"
+              />
               <div className="post-about">
                 <span className="post-author-name">{authorName}</span>
                 <span className="post-dot-symbol">&#x2022;</span>

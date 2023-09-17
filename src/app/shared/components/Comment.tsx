@@ -2,11 +2,14 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import BlankUserImage from '../../../assets/images/blank-user.webp';
+
 import { isImageUrlValid } from '../utils/checkValidImage';
+import { formatDate } from '../utils/formatDate';
 
 interface CommentProps {
   id: number;
   userId: number;
+  createdAt: string;
   userImage: string;
   userName: string;
   comment: string;
@@ -15,6 +18,7 @@ interface CommentProps {
 export const Comment = ({
   id,
   userId,
+  createdAt,
   userImage,
   userName,
   comment,
@@ -39,9 +43,13 @@ export const Comment = ({
         </div>
       </Link>
       <div className="comment-content">
-        <Link className="user-link" to={''}>
-          <p className="user-name">{userName}</p>
-        </Link>
+        <div className="comment-about">
+          <Link className="user-link" to={''}>
+            <p className="user-name">{userName}</p>
+          </Link>
+          <span className="comment-dot-symbol">&#x2022;</span>
+          <span className="comment-date">{formatDate(createdAt)}</span>
+        </div>
         <p className="comment-text">{comment}</p>
       </div>
     </div>

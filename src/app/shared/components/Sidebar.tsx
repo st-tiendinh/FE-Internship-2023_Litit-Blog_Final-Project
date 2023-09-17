@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+
 import { ApiService } from '../../core/services/api.service';
 import { ENDPOINT } from '../../../config/endpoint';
-import { Link } from 'react-router-dom';
 
 export const Sidebar = () => {
   const [popularPost, setPopularPost] = useState<any>([]);
