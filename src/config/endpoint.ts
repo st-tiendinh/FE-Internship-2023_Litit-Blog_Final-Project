@@ -21,5 +21,6 @@ export const ENDPOINT = {
   },
   posts: {
     public: `${RESOURCES.posts}/public`,
+    id: `${RESOURCES.posts}/2`,
   },
 };

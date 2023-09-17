@@ -5,3 +5,4 @@ export { PostSkeleton } from './PostSkeleton';
 export { SelectGroup } from './SelectGroup';
 export { InputGroup } from './InputGroup';
 export { Spinner } from './Spinner';
+export { Sidebar } from './Sidebar';
