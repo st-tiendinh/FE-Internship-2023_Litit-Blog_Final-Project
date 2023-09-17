@@ -1,0 +1,33 @@
+.comment {
+  gap: 24px;
+  margin-bottom: 32px;
+
+  &-content {
+    width: 100%;
+    padding: 16px;
+    border: 1px solid #e8e8ea;
+    border-radius: 4px;
+  }
+
+  .user {
+    &-avatar {
+      &-wrapper {
+        width: 36px;
+        height: 36px;
+        margin-top: 6px;
+      }
+      border-radius: 50%;
+    }
+
+    &-name {
+      font-size: map-get($font-sizes, "lg");
+      font-weight: map-get($font-weights, "medium");
+      margin-bottom: 12px;
+    }
+  }
+
+  &-text {
+    color: map-get($colors, "secondary-600");
+    line-height: 1.5;
+  }
+}

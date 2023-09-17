@@ -2,12 +2,12 @@ import { Sidebar } from '../../../shared/components';
 
 const ArticleDetail = () => {
   return (
-    <div className="article-detail-page">
+    <div className="page-article-detail">
       <div className="container">
         <section className="section section-article-detail">
           <div className="row">
             <div className="col col-1">
-              <ul className="interaction-list">
+              <ul className="interaction-list position-sticky">
                 <li className="interaction-item">
                   <span className="tooltip tooltip-left">Like</span>
                   <i className="icon icon-like-normal"></i>
