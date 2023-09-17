@@ -79,19 +79,11 @@ const ArticleDetail = () => {
               <div className="article-detail-content">
                 <div className="short-info">
                   <div className="short-info-author">
-                    {isValidUserImg ? (
-                      <img
-                        src={post.user?.picture}
-                        alt="author avatar"
-                        className="short-info-author-avatar"
-                      />
-                    ) : (
-                      <img
-                        src={BlankUserImg}
-                        alt="author avatar"
-                        className="short-info-author-avatar"
-                      />
-                    )}
+                    <img
+                      src={isValidUserImg ? post.user?.picture : BlankUserImg}
+                      alt="author avatar"
+                      className="short-info-author-avatar"
+                    />
                     <span className="short-info-author-name">
                       {post.user?.displayName}
                     </span>
@@ -102,19 +94,11 @@ const ArticleDetail = () => {
                   </span>
                 </div>
 
-                {isValidCover ? (
-                  <img
-                    src={post.cover}
-                    alt="article cover"
-                    className="article-detail-cover"
-                  />
-                ) : (
-                  <img
-                    src={BlankPostImg}
-                    alt="article cover"
-                    className="article-detail-cover"
-                  />
-                )}
+                <img
+                  src={isValidCover ? post.cover : BlankPostImg}
+                  alt="article cover"
+                  className="article-detail-cover"
+                />
 
                 <p className="article-detail-paragraph">{post.content}</p>
               </div>
