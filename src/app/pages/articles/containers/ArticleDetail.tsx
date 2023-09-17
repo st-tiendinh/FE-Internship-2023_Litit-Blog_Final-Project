@@ -7,6 +7,7 @@ import { ArticleTagList } from './components/ArticleTagList';
 
 import BlankPostImg from '../../../../assets/images/blank-post.png';
 import BlankUserImg from '../../../../assets/images/blank-user.webp';
+
 import { isImageUrlValid } from '../../../shared/utils/checkValidImage';
 import { formatDate } from '../../../shared/utils/formatDate';
 import { ApiService } from '../../../core/services/api.service';
@@ -20,21 +21,6 @@ const ArticleDetail = () => {
   const [isValidCover, setIsValidCover] = useState(false);
   const [isValidUserImg, setIsValidUserImg] = useState(false);
   const location = useLocation();
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const response = await apiService.get([
-          ENDPOINT.posts.index,
-          location.pathname.slice(10),
-        ]);
-        setPost(response);
-        return response;
-      } catch (error) {
-        console.log(error);
-      }
-    })();
-  }, [location]);
 
   useEffect(() => {
     (async () => {
@@ -104,9 +90,7 @@ const ArticleDetail = () => {
           <div className="col col-7">
             <article className="article article-detail">
               <ArticleTagList tags={tags} />
-
               <h2 className="article-detail-title">{post.title}</h2>
-
               <div className="article-detail-content">
                 <div className="short-info">
                   <div className="short-info-author">
@@ -124,23 +108,19 @@ const ArticleDetail = () => {
                     {formatDate(post.updatedAt)}
                   </span>
                 </div>
-
                 <img
                   src={isValidCover ? post.cover : BlankPostImg}
                   alt="article cover"
                   className="article-detail-cover"
                 />
-
                 <p className="article-detail-paragraph">{post.content}</p>
               </div>
             </article>
           </div>
-
           <div className="col col-4">
             <Sidebar />
           </div>
         </div>
-
         <ListComments comments={comments} />
       </div>
     </section>
