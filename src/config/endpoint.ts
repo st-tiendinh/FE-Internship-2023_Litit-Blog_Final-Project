@@ -20,7 +20,7 @@ export const ENDPOINT = {
     index: `${RESOURCES.users}`,
   },
   posts: {
+    index: `${RESOURCES.posts}`,
     public: `${RESOURCES.posts}/public`,
-    id: `${RESOURCES.posts}/2`,
   },
 };
