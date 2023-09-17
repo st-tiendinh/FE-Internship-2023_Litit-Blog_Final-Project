@@ -13,9 +13,8 @@ const ArticleByTag = () => {
   const [isLastPage, setIsLastPage] = useState<boolean>(true);
 
   const location = useLocation();
-  const pathname = location.pathname;
 
-  const parts = pathname.split('/');
+  const parts = location.pathname.split('/');
   const lastPart = parts.pop();
 
   useEffect(() => {
@@ -32,23 +31,22 @@ const ArticleByTag = () => {
     if (isLastPage) {
       fetchPostOfPage(currentPage);
     }
-  }, [allPost]);
 
-  if (lastPart !== undefined) {
-    console.log(lastPart);
-    const filteredPosts = allPost.filter((post) =>
-      post.tags.map((tag) => tag.toLowerCase()).includes(lastPart.toLowerCase())
-    );
-    setFilteredPosts(filteredPosts);
-  }
-  console.log(filteredPosts);
+    if (lastPart !== undefined) {
+      const filteredPosts = allPost.filter((post) =>
+        post.tags.map((tag) => tag.toLowerCase()).includes(lastPart.toLowerCase())
+      );
+      setFilteredPosts(filteredPosts);
+    }
+    console.log(allPost)
+  }, [allPost]);
 
   return (
     <section className="section section-article-list">
       <div className="container">
         <div className="article-list-header">
           <i className="icon icon-tag"></i>
-          <h2 className="section-title">Tag: {lastPart}</h2>
+          <h3 className="section-title">Tag: {lastPart}</h3>
         </div>
         <div className="article-list-content"></div>
         <PostList posts={filteredPosts} />
