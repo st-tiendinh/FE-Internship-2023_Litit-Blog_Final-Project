@@ -6,6 +6,12 @@ import { Link } from 'react-router-dom';
 export const Sidebar = () => {
   const [popularPost, setPopularPost] = useState<any>([]);
   const apiService = new ApiService();
+  const tags = [
+    { name: '#ReactJS', quantity: 50 },
+    { name: '#VueJS', quantity: 46 },
+    { name: '#Angular', quantity: 30 },
+    { name: '#NodeJS', quantity: 20 },
+  ];
 
   useEffect(() => {
     (async () => {
@@ -55,42 +61,16 @@ export const Sidebar = () => {
       <section className="section section-category">
         <h3 className="section-title">Tags</h3>
         <ul className="category-list">
-          <li className="category-item">
-            <a href="" className="category-link">
-              <span className="badge badge-primary">#React</span>
-            </a>
-            <span className="badge badge-secondary">50</span>
-          </li>
-          <li className="category-item">
-            <a href="" className="category-link">
-              <span className="badge badge-primary">#React</span>
-            </a>
-            <span className="badge badge-secondary">50</span>
-          </li>
-          <li className="category-item">
-            <a href="" className="category-link">
-              <span className="badge badge-primary">#React</span>
-            </a>
-            <span className="badge badge-secondary">50</span>
-          </li>
-          <li className="category-item">
-            <a href="" className="category-link">
-              <span className="badge badge-primary">#React</span>
-            </a>
-            <span className="badge badge-secondary">50</span>
-          </li>
-          <li className="category-item">
-            <a href="" className="category-link">
-              <span className="badge badge-primary">#React</span>
-            </a>
-            <span className="badge badge-secondary">50</span>
-          </li>
-          <li className="category-item">
-            <a href="" className="category-link">
-              <span className="badge badge-primary">#React</span>
-            </a>
-            <span className="badge badge-secondary">50</span>
-          </li>
+          {tags.map((tag, index) => {
+            return (
+              <li key={index} className="category-item">
+                <a href="" className="category-link">
+                  <span className="badge badge-primary">{tag.name}</span>
+                </a>
+                <span className="badge badge-secondary">{tag.quantity}</span>
+              </li>
+            );
+          })}
         </ul>
       </section>
     </aside>
