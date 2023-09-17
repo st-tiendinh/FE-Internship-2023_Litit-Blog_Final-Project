@@ -1,50 +1,54 @@
-.section-public-post {
-  .post {
-    &-list {
-      padding-bottom: 10px;
+.page-home {
+  margin: 30px 0;
 
-      &-title {
-        font-size: map-get($font-sizes, "2xl");
-        font-weight: map-get($font-weights, medium);
+  .section-public-post {
+    .post {
+      &-list {
+        padding-bottom: 10px;
+
+        &-title {
+          font-size: map-get($font-sizes, "2xl");
+          font-weight: map-get($font-weights, medium);
+        }
+      }
+
+      &-item {
+        padding-block: 10px;
       }
     }
 
-    &-item {
-      padding-block: 10px;
+    .section {
+      &-title {
+        font-size: map-get($font-sizes, "2xl");
+        font-weight: map-get($font-weights, medium);
+        padding-block: 20px;
+      }
     }
-  }
 
-  .section {
-    &-title {
-      font-size: map-get($font-sizes, "2xl");
-      font-weight: map-get($font-weights, medium);
-      padding-block: 20px;
+    .load-more-btn-wrap {
+      margin-bottom: 20px;
+      justify-content: center;
     }
-  }
 
-  .load-more-btn-wrap {
-    margin-bottom: 20px;
-    justify-content: center;
-  }
+    .scroll-button-wrap {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+    }
 
-  .scroll-button-wrap {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-  }
+    .scroll-button {
+      background-color: RGBA(75, 107, 251, 0.5);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      padding: 10px;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
 
-  .scroll-button {
-    background-color: RGBA(75, 107, 251, 0.5);
-    color: #fff;
-    border: none;
-    border-radius: 50%;
-    padding: 10px;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-
-    &:hover {
-      background-color: map-get($colors, "primary");
+      &:hover {
+        background-color: map-get($colors, "primary");
+      }
     }
   }
 }
