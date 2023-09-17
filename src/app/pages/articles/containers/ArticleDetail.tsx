@@ -1,17 +1,23 @@
 import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
 import { Sidebar } from '../../../shared/components';
+import { ListComments } from '../../../shared/components/ListComments';
 import { ArticleTagList } from './components/ArticleTagList';
+
+import BlankPostImg from '../../../../assets/images/blank-post.png';
+import BlankUserImg from '../../../../assets/images/blank-user.webp';
+import { isImageUrlValid } from '../../../shared/utils/checkValidImage';
+import { formatDate } from '../../../shared/utils/formatDate';
 import { ApiService } from '../../../core/services/api.service';
 import { ENDPOINT } from '../../../../config/endpoint';
-import { useLocation } from 'react-router-dom';
-import { formatDate } from '../../../shared/utils/formatDate';
-import { ListComments } from '../../../shared/components/ListComments';
 
 const ArticleDetail = () => {
   const tags = ['ReactJS', 'VueJS', 'Angular', 'NodeJS'];
   const apiService = new ApiService();
   const [post, setPost] = useState<any>({});
+  const [isValidCover, setIsValidCover] = useState(false);
+  const [isValidUserImg, setIsValidUserImg] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -28,6 +34,18 @@ const ArticleDetail = () => {
       }
     })();
   }, [location]);
+
+  useEffect(() => {
+    isImageUrlValid(post.cover).then((isValid) => {
+      isValid ? setIsValidCover(true) : setIsValidCover(false);
+    });
+  }, [isValidCover, post.cover]);
+
+  useEffect(() => {
+    isImageUrlValid(post.user?.picture).then((isValid) => {
+      isValid ? setIsValidUserImg(true) : setIsValidUserImg(false);
+    });
+  }, [isValidCover, post.user?.picture]);
 
   return (
     <section className="section section-article-detail">
@@ -56,20 +74,26 @@ const ArticleDetail = () => {
             <article className="article article-detail">
               <ArticleTagList tags={tags} />
 
-              <h2 className="article-detail-title">
-                The Art of Traveling: Tips and Tricks for a Memorable Journey
-              </h2>
+              <h2 className="article-detail-title">{post.title}</h2>
 
               <div className="article-detail-content">
                 <div className="short-info">
                   <div className="short-info-author">
-                    <img
-                      src={post.user?.picture}
-                      alt="author avatar"
-                      className="short-info-author-avatar"
-                    />
+                    {isValidUserImg ? (
+                      <img
+                        src={post.user?.picture}
+                        alt="author avatar"
+                        className="short-info-author-avatar"
+                      />
+                    ) : (
+                      <img
+                        src={BlankUserImg}
+                        alt="author avatar"
+                        className="short-info-author-avatar"
+                      />
+                    )}
                     <span className="short-info-author-name">
-                      Tracey Wilson
+                      {post.user?.displayName}
                     </span>
                   </div>
                   <span className="short-info-dot-symbol">&#x2022;</span>
@@ -78,11 +102,19 @@ const ArticleDetail = () => {
                   </span>
                 </div>
 
-                <img
-                  src={post.cover}
-                  alt="article cover"
-                  className="article-detail-cover"
-                />
+                {isValidCover ? (
+                  <img
+                    src={post.cover}
+                    alt="article cover"
+                    className="article-detail-cover"
+                  />
+                ) : (
+                  <img
+                    src={BlankPostImg}
+                    alt="article cover"
+                    className="article-detail-cover"
+                  />
+                )}
 
                 <p className="article-detail-paragraph">{post.content}</p>
               </div>
