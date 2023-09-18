@@ -43,7 +43,6 @@
       }
 
       .article {
-        padding-right: 6px;
         margin-bottom: 48px;
 
         &-detail {
@@ -67,6 +66,14 @@
 
           .short-info {
             margin-bottom: 32px;
+          }
+
+          &-cover-wrapper {
+            &.skeleton {
+              height: 500px;
+              border-radius: 12px;
+              margin-bottom: 24px;
+            }
           }
 
           &-cover {
