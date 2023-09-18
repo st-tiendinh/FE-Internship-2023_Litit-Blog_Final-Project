@@ -6,6 +6,7 @@
   .statistic {
     &-item {
       display: flex;
+      align-items: center;
       gap: 12px;
 
       &:not(:last-child) {

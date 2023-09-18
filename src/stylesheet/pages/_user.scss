@@ -1,5 +1,5 @@
 .page-user {
-  height: 100vh;
+  min-height: 100vh;
   padding-top: 64px;
   background: linear-gradient(to bottom,
       black 0%,
@@ -113,21 +113,23 @@
         }
       }
 
-      &-detail {
-        padding-left: 40px;
-      }
-
       &-title {
         font-size: map-get($font-sizes, "2xl");
         font-weight: map-get($font-weights, bold);
+        margin-left: 40px;
       }
 
       &-comment-link {
         display: inline-block;
         border-radius: 6px;
+        margin-left: 24px;
 
         &:hover {
           background: rgba(0, 0, 0, 0.035);
+        }
+
+        .icon {
+          margin-right: 3px;
         }
 
         .btn {
@@ -143,7 +145,8 @@
     .personal {
       &-short-info {
         display: flex;
-        margin-bottom: 8px;
+        align-items: center;
+        margin-bottom: 12px;
       }
 
       &-author-avatar {
@@ -151,6 +154,7 @@
         height: 32px;
         border-radius: 50%;
         margin-right: 8px;
+        border: 1px solid #eee;
       }
 
       &-author-name {
