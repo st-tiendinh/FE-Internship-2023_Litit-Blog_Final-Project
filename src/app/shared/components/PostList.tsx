@@ -55,6 +55,7 @@ const PostList = ({ posts, type }: PostListProps) => {
             <div className="post-item">
               <Post
                 id={post.id}
+                userId={post.user.id}
                 title={post.title}
                 desc={post.description}
                 cover={post.cover}
