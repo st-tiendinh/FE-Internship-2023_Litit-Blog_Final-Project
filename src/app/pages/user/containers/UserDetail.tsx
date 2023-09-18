@@ -1,19 +1,14 @@
 import PublicPost, {
   PostListType,
 } from '../../home/containers/components/PublicPost';
+import { UserProfile } from './components/UserProfile';
 
 const UserDetail = () => {
   return (
-    <>
-      <h1>This is user detail</h1>
-      <div className="container">
-        <div className="row">
-          <div className="col col-12">
-            <PublicPost type={PostListType.LIST} />
-          </div>
-        </div>
-      </div>
-    </>
+    <div className="page-user">
+      <UserProfile />
+      <PublicPost type={PostListType.LIST} />
+    </div>
   );
 };
 

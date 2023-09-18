@@ -78,4 +78,22 @@
       background-image: url("../assets/icons/ic-bookmark-highlight.svg");
     }
   }
+
+  &-dob {
+    width: 20px;
+    height: 20px;
+    background-image: url("../assets/icons/ic-dob.svg");
+  }
+
+  &-person {
+    width: 18px;
+    height: 18px;
+    background-image: url("../assets/icons/ic-person.svg");
+  }
+
+  &-mail {
+    width: 18px;
+    height: 18px;
+    background-image: url("../assets/icons/ic-mail.svg");
+  }
 }
