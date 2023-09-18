@@ -1,8 +1,10 @@
+import { UserProfile } from './components/UserProfile';
+
 const UserDetail = () => {
   return (
-    <>
-      <h1>This is user detail</h1>
-    </>
+    <div className="user-page">
+      <UserProfile />
+    </div>
   );
 };
 
