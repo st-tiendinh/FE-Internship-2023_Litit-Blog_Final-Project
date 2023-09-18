@@ -14,8 +14,7 @@ const ArticleByTag = () => {
 
   const location = useLocation();
 
-  const parts = location.pathname.split('/');
-  const lastPart = parts.pop();
+  const lastPart = location.pathname.split('/').pop();
 
   useEffect(() => {
     const fetchPostOfPage = async (page: number) => {
