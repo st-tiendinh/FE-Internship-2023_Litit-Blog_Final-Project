@@ -80,7 +80,6 @@ const UserDetail = () => {
         setUserPost(response.Posts);
         setPostAuthor(response);
         setIsLoading(false);
-        console.log(response);
       } catch (error) {
         console.log(error);
         setIsLoading(false);
