@@ -1,0 +1,19 @@
+.section-article-list{
+  padding: 25px 0;
+
+  .section {
+    &-title {
+      font-size: map-get($font-sizes, "2xl");
+      font-weight: map-get($font-weights, medium);
+      padding-block: 20px;
+    }
+  }
+}
+
+.article-list {
+  &-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+}

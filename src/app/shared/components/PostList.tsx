@@ -1,7 +1,7 @@
 import { EmptyData } from './EmptyData';
 import { Post } from './Post';
 
-interface IPost {
+export interface IPost {
   id: number;
   title: string;
   description: string;

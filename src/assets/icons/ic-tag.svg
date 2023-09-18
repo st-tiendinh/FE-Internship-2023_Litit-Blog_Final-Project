@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- License: CC Attribution. Made by Jo Szczepanska: https://joszczepanska.com/ -->
+<svg version="1.1" id="Uploaded to svgrepo.com" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+	 width="40px" height="40px" viewBox="0 0 32 32" xml:space="preserve">
+<style type="text/css">
+	.isometric_zeven{fill:#FF7344;}
+	.isometric_acht{fill:#F05A28;}
+	.isometric_negen{fill:#BE1E2D;}
+	.isometric_tien{fill:#7BD6C4;}
+	.isometric_twaalf{fill:#569080;}
+	.st0{fill:#225B49;}
+	.st1{fill:#FFBB33;}
+	.st2{fill:#F29227;}
+	.st3{fill:#F8F7C5;}
+	.st4{fill:#F5DF89;}
+	.st5{fill:#6B9086;}
+	.st6{fill:none;}
+	.st7{fill:#72C0AB;}
+	.st8{fill:#AD9A74;}
+	.st9{fill:#F2D76C;}
+	.st10{fill:#BE1E2D;}
+	.st11{fill:#F28103;}
+	.st12{fill:#7BD6C4;}
+	.st13{fill:#FF7344;}
+	.st14{fill:#F05A28;}
+</style>
+<g>
+	<path class="isometric_zeven" d="M16.068,8.932L4,15.899l1.51,4.186c2.346,1.354,0.012,0.007,2.348,1.356l7.25,0.872l12.068-6.967
+		c1.153-0.666,1.067-1.498-0.079-2.159l-7.29-4.209C18.662,8.316,17.22,8.266,16.068,8.932z M9.943,19.732
+		c-0.003,0.471-0.666,0.854-1.482,0.856c-0.816,0.001-1.475-0.379-1.473-0.85c0.003-0.471,0.666-0.854,1.482-0.856
+		C9.286,18.88,9.945,19.261,9.943,19.732z"/>
+	<path class="isometric_acht" d="M20.589,11.933l-8.384,4.841l-1.258-0.726v-1.312l8.384-4.841l1.258,0.726V11.933z M23.236,12.148
+		l-1.258-0.726l-8.384,4.84v1.312l1.258,0.726l8.384-4.84V12.148z"/>
+	<path class="isometric_negen" d="M20.589,10.62l-8.384,4.84l-1.258-0.726l8.384-4.84L20.589,10.62z M21.978,11.422l-8.384,4.84
+		l1.258,0.726l8.384-4.84L21.978,11.422z"/>
+	<path class="isometric_tien" d="M27.999,14.264c-0.01-0.187-0.093-0.374-0.244-0.555c0.453,0.544,0.286,1.137-0.579,1.636
+		l-12.068,6.967l-7.25-0.872c-1.546-0.893-1.145-0.661-2.348-1.356L4,15.899v2.688l1.51,4.186c1.546,0.893,1.144,0.661,2.348,1.356
+		L15.109,25l12.068-6.967c0.525-0.303,0.793-0.64,0.821-0.98C28.031,16.645,28.02,14.638,27.999,14.264z"/>
+	<path class="isometric_twaalf" d="M9.943,19.732c-0.003,0.471-0.666,0.854-1.482,0.856c-0.816,0.001-1.475-0.379-1.473-0.85
+		c0.003-0.471,0.666-0.854,1.482-0.856C9.286,18.88,9.945,19.261,9.943,19.732z"/>
+</g>
+</svg>
