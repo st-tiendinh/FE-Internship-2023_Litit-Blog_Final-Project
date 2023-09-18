@@ -33,12 +33,11 @@ const ArticleByTag = () => {
     }
 
     if (lastPart !== undefined) {
-      const filteredPosts = allPost.filter((post) =>
+      const postIncludesTag = allPost.filter((post) =>
         post.tags.map((tag) => tag.toLowerCase()).includes(lastPart.toLowerCase())
       );
-      setFilteredPosts(filteredPosts);
+      setFilteredPosts(postIncludesTag);
     }
-    console.log(allPost)
   }, [allPost]);
 
   return (
