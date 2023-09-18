@@ -1,5 +1,7 @@
 import { Sidebar } from '../../../shared/components';
-import PublicPost from '../../home/containers/components/PublicPost';
+import PublicPost, {
+  PostListType,
+} from '../../home/containers/components/PublicPost';
 
 const ArticleList = () => {
   return (
@@ -7,7 +9,7 @@ const ArticleList = () => {
       <div className="container">
         <div className="row">
           <div className="col col-8">
-            <PublicPost />
+            <PublicPost type={PostListType.GRID} />
           </div>
           <div className="col col-4">
             <Sidebar />

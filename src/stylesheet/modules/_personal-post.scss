@@ -1,0 +1,81 @@
+.personal-post {
+  display: flex;
+
+  &-image-wrapper {
+    width: 320px;
+    height: 240px;
+    margin-right: 24px;
+    border-radius: 12px;
+  }
+
+  &-image {
+    width: 100%;
+    object-fit: cover;
+  }
+
+  &-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  &-list {
+    padding: 20px 6px 20px 0;
+  }
+
+  &-item {
+    display: flex;
+    padding: 12px 0;
+
+    &:not(:last-child) {
+      border-bottom: 1px solid #eee;
+    }
+  }
+
+  &-image-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 320px;
+    height: 240px;
+    flex-shrink: 0;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  &-image {
+    width: 120%;
+    object-fit: cover;
+
+    &:hover {
+      width: 115%;
+    }
+  }
+
+  &-tag-list {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 12px;
+  }
+
+  &-title {
+    font-size: map-get($font-sizes, "2xl");
+    font-weight: map-get($font-weights, bold);
+    color: map-get($colors, secondary-800);
+    line-height: 1.2;
+    margin-bottom: 16px;
+    cursor: pointer;
+
+    &:hover {
+      color: map-get($colors, primary);
+    }
+  }
+
+  &-desc {
+    font-size: map-get($font-sizes, md);
+    font-weight: map-get($font-weights, normal);
+    color: map-get($colors, secondary-500);
+    line-height: 1.5;
+    margin-bottom: 24px;
+  }
+}

@@ -4,10 +4,19 @@ import { ScrollToTopButton } from './ScrollToTopButton';
 
 import { ApiService } from '../../../../core/services/api.service';
 import { ENDPOINT } from '../../../../../config/endpoint';
-import PostList, { ListType } from '../../../../shared/components/PostList';
+import PostList from '../../../../shared/components/PostList';
 import { PostSkeleton } from '../../../../shared/components';
 
-const PublicPost = () => {
+export enum PostListType {
+  GRID = 'grid',
+  LIST = 'list',
+}
+
+interface PublicPostProps {
+  type: PostListType;
+}
+
+const PublicPost = ({ type }: PublicPostProps) => {
   const apiService = new ApiService();
   const [latestPosts, setLatestPosts] = useState<any[]>([]);
   const [page, setPage] = useState(1);
@@ -41,7 +50,7 @@ const PublicPost = () => {
             ))}
           </ul>
         ) : (
-          <PostList posts={latestPosts} type={ListType.GRID} />
+          <PostList posts={latestPosts} type={type} />
         )}
         {isLoading && page >= 2 && (
           <ul className="post-list row">

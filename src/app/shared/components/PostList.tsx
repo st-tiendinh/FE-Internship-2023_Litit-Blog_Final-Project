@@ -1,11 +1,6 @@
-import { PersonalPost } from '.';
+import { PostListType } from '../../pages/home/containers/components/PublicPost';
 import { EmptyData } from './EmptyData';
 import { Post } from './Post';
-
-export enum ListType {
-  GRID = 'grid',
-  LIST = 'list',
-}
 
 interface IPost {
   id: number;
@@ -43,40 +38,37 @@ interface IPost {
 
 interface PostListProps {
   posts: Array<IPost>;
-  type: ListType;
+  type: PostListType;
 }
 
 const PostList = ({ posts, type }: PostListProps) => {
   return (
     <ul className="post-list row">
       {posts.length ? (
-        (type === ListType.GRID &&
-          posts.map((post) => (
-            <li key={post.id} className="col col-4 col-md-6 col-sm-12">
-              <div className="post-item">
-                <Post
-                  id={post.id}
-                  title={post.title}
-                  desc={post.description}
-                  cover={post.cover}
-                  tags={post.tags}
-                  authorImg={post.user.picture}
-                  authorName={post.user.displayName}
-                  postedDate={post.createdAt}
-                  comments={post.comments}
-                  likes={post.likes}
-                />
-              </div>
-            </li>
-          ))) ||
-        (type === ListType.GRID &&
-          posts.map((post) => (
-            <li key={post.id} className="col col-4 col-md-6 col-sm-12">
-              <div className="post-item">
-                <PersonalPost />
-              </div>
-            </li>
-          )))
+        posts.map((post) => (
+          <li
+            key={post.id}
+            className={`col col-${
+              type === PostListType.GRID ? '6' : '12'
+            } col-md-6 col-sm-12`}
+          >
+            <div className="post-item">
+              <Post
+                id={post.id}
+                title={post.title}
+                desc={post.description}
+                cover={post.cover}
+                tags={post.tags}
+                authorImg={post.user.picture}
+                authorName={post.user.displayName}
+                postedDate={post.createdAt}
+                comments={post.comments}
+                likes={post.likes}
+                listType={type}
+              />
+            </div>
+          </li>
+        ))
       ) : (
         <EmptyData />
       )}
