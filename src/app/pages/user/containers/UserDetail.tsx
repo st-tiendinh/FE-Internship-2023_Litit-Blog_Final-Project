@@ -2,7 +2,7 @@ import { UserProfile } from './components/UserProfile';
 
 const UserDetail = () => {
   return (
-    <div className="user-page">
+    <div className="page-user">
       <UserProfile />
     </div>
   );
