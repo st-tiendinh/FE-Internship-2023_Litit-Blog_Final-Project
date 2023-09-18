@@ -9,7 +9,7 @@ const ArticleList = () => {
       <div className="container">
         <div className="row">
           <div className="col col-8">
-            <PublicPost type={PostListType.GRID} />
+            <PublicPost type={PostListType.GRID} sectionTitle="Latest post" />
           </div>
           <div className="col col-4">
             <Sidebar />

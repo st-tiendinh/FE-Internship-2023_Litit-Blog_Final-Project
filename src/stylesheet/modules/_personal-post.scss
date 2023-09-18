@@ -1,5 +1,6 @@
 .personal-post {
   display: flex;
+  padding: 12px 0;
 
   &-image-wrapper {
     width: 320px;
@@ -48,7 +49,7 @@
     object-fit: cover;
 
     &:hover {
-      width: 115%;
+      transform: scale(1.1);
     }
   }
 

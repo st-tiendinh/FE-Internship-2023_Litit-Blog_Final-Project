@@ -122,48 +122,39 @@ export const Post = ({
       {listType === PostListType.LIST && (
         <div className="personal-post">
           <div className="personal-post-image-wrapper">
-            <img src={cover} alt={authorName} className="personal-post-image" />
+            <img
+              src={isValidCover ? cover : BlankPostImg}
+              alt={authorName}
+              className="personal-post-image"
+            />
           </div>
 
           <div className="personal-post-content">
             <ul className="personal-post-tag-list">
-              <li className="personal-post-tag-item">
-                <a href="" className="personal-post-tag-link">
-                  <span className="badge badge-secondary">Technology</span>
-                </a>
-              </li>
-              <li className="personal-post-tag-item">
-                <a href="" className="personal-post-tag-link">
-                  <span className="badge badge-secondary">Technology</span>
-                </a>
-              </li>
-              <li className="personal-post-tag-item">
-                <a href="" className="personal-post-tag-link">
-                  <span className="badge badge-secondary">Technology</span>
-                </a>
-              </li>
+              {tags.map((tag: any) => (
+                <li className="personal-post-tag-item">
+                  <a href="" className="personal-post-tag-link">
+                    <span className="badge badge-secondary"> {tag}</span>
+                  </a>
+                </li>
+              ))}
             </ul>
 
-            <h4 className="personal-post-title text-truncate">
-              The Art of Traveling: Tips and Tricks for a Memorable Journey
-            </h4>
+            <h4 className="personal-post-title text-truncate">{title}</h4>
 
-            <p className="personal-post-desc text-truncate">
-              Traveling can be a thrilling and enriching experience, but it also
-              requires careful planning and preparation...
-            </p>
+            <p className="personal-post-desc text-truncate">{desc}</p>
 
             <div className="short-info">
               <div className="short-info-author">
                 <img
-                  src="https://robohash.org/dolorummolestiaslaboriosam.png?size=50x50&set=set1"
+                  src={isValidUserImg ? authorImg : BlankUserImg}
                   alt="author avatar"
                   className="short-info-author-avatar"
                 />
-                <span className="short-info-author-name">Tracey Wilson</span>
+                <span className="short-info-author-name">{authorName}</span>
               </div>
               <span className="short-info-dot-symbol">&#x2022;</span>
-              <span className="short-info-timestamp">August 20, 2022</span>
+              <span className="short-info-timestamp">{postedDate}</span>
             </div>
           </div>
         </div>
