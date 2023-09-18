@@ -137,8 +137,8 @@ export const Post = ({
 
           <div className="personal-post-content">
             <ul className="personal-post-tag-list">
-              {tags.map((tag: any) => (
-                <li className="personal-post-tag-item">
+              {tags.map((tag: any, index: number) => (
+                <li key={index} className="personal-post-tag-item">
                   <a href="" className="personal-post-tag-link">
                     <span className="badge badge-secondary"> {tag}</span>
                   </a>
@@ -160,7 +160,7 @@ export const Post = ({
                 <span className="short-info-author-name">{authorName}</span>
               </div>
               <span className="short-info-dot-symbol">&#x2022;</span>
-              <span className="short-info-timestamp">{postedDate}</span>
+              <span className="short-info-timestamp">{formattedDate}</span>
             </div>
           </div>
         </div>

@@ -1,10 +1,174 @@
 .page-user {
+  min-height: 100vh;
   padding-top: 64px;
-  background: linear-gradient(
-    to bottom,
-    black 0%,
-    black 128px,
-    transparent 128px,
-    #e8e8e8 100%
-  );
+  background: linear-gradient(to bottom,
+      black 0%,
+      black 128px,
+      transparent 128px,
+      #e8e8e8 100%);
+
+  .profile-section {
+    .profile {
+      margin-top: -48px;
+
+      &-header {
+        padding: 0px 32px;
+        position: relative;
+        justify-content: center;
+
+        .user {
+          &-avatar-wrapper {
+            position: relative;
+            width: 128px;
+            height: 128px;
+            border-radius: 50%;
+            padding: 8px;
+            background-color: black;
+            z-index: 2;
+          }
+
+          &-avatar {
+            border-radius: 50%;
+          }
+        }
+
+        &-action {
+          width: 100%;
+          padding: 24px 24px 0px;
+
+          position: absolute;
+          right: 0;
+          bottom: 0;
+
+          border-top-right-radius: 8px;
+          border-top-left-radius: 8px;
+
+          justify-content: flex-end;
+          background-color: #ffffff;
+        }
+      }
+
+      &-content {
+        background-color: #ffffff;
+        padding: 24px;
+        border-bottom-right-radius: 8px;
+        border-bottom-left-radius: 8px;
+        align-items: center;
+
+        .user {
+          &-name {
+            font-size: 32px;
+            font-weight: map-get($font-weights, "medium");
+            line-height: 1.4;
+            margin-bottom: 16px;
+          }
+
+          &-follow-list {
+            font-size: map-get($font-sizes, "lg");
+            margin-bottom: 24px;
+            gap: 48px;
+          }
+
+          &-follow-amount {
+            font-weight: map-get($font-weights, "medium");
+          }
+
+          &-about-list {
+            font-size: map-get($font-sizes, "sm");
+            color: #717171;
+            margin-bottom: 8px;
+            gap: 64px;
+          }
+
+          &-about-item {
+            gap: 10px;
+            align-items: center;
+          }
+        }
+      }
+    }
+  }
+
+  .section {
+    &.section-wrapper {
+      padding: 16px 0;
+    }
+  }
+
+  .section-personal-post {
+    .personal-post {
+      &-list {
+        padding: 0;
+      }
+
+      &-item {
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+        background-color: map-get($colors, "white");
+        border-radius: 8px;
+
+        &:not(:last-child) {
+          margin-bottom: 10px;
+        }
+      }
+
+      &-title {
+        font-size: map-get($font-sizes, "2xl");
+        font-weight: map-get($font-weights, bold);
+        margin-left: 40px;
+      }
+
+      &-comment-link {
+        display: inline-block;
+        border-radius: 6px;
+        margin-left: 24px;
+
+        &:hover {
+          background: rgba(0, 0, 0, 0.035);
+        }
+
+        .icon {
+          margin-right: 3px;
+        }
+
+        .btn {
+          display: flex;
+          align-items: center;
+          font-size: map-get($font-sizes, sm);
+          text-transform: lowercase;
+          padding: 4px 12px 4px 8px;
+        }
+      }
+    }
+
+    .personal {
+      &-short-info {
+        display: flex;
+        align-items: center;
+        margin-bottom: 12px;
+      }
+
+      &-author-avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        margin-right: 8px;
+        border: 1px solid #eee;
+      }
+
+      &-author-name {
+        font-size: map-get($font-sizes, lg);
+        font-weight: map-get($font-weights, medium);
+        line-height: 1.4;
+        cursor: pointer;
+      }
+
+      &-post-timestamp {
+        font-size: map-get($font-sizes, sm);
+        font-weight: map-get($font-weights, normal);
+        color: map-get($colors, secondary-500);
+      }
+    }
+  }
 }
