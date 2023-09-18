@@ -4,7 +4,7 @@ import { ScrollToTopButton } from './ScrollToTopButton';
 
 import { ApiService } from '../../../../core/services/api.service';
 import { ENDPOINT } from '../../../../../config/endpoint';
-import PostList from '../../../../shared/components/PostList';
+import PostList, { ListType } from '../../../../shared/components/PostList';
 import { PostSkeleton } from '../../../../shared/components';
 
 const PublicPost = () => {
@@ -41,7 +41,7 @@ const PublicPost = () => {
             ))}
           </ul>
         ) : (
-          <PostList posts={latestPosts} />
+          <PostList posts={latestPosts} type={ListType.GRID} />
         )}
         {isLoading && page >= 2 && (
           <ul className="post-list row">
