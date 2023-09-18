@@ -6,6 +6,7 @@ import { ApiService } from '../../../../core/services/api.service';
 import { ENDPOINT } from '../../../../../config/endpoint';
 import PostList from '../../../../shared/components/PostList';
 import { PostSkeleton } from '../../../../shared/components';
+import { PostListSkeleton } from '../../../../shared/components/PostListSkeleton';
 
 export enum PostListType {
   GRID = 'grid',
@@ -46,18 +47,24 @@ const PublicPost = ({ type, sectionTitle }: PublicPostProps) => {
         <h3 className="section-title">{sectionTitle}</h3>
         {isLoading && page === 1 ? (
           <ul className="post-list row">
-            {skeletonArray.map((item) => (
-              <PostSkeleton key={item} />
-            ))}
+            {skeletonArray.map((item) => {
+              return (
+                (type === PostListType.GRID && <PostSkeleton key={item} />) ||
+                (type === PostListType.LIST && <PostListSkeleton key={item} />)
+              );
+            })}
           </ul>
         ) : (
           <PostList posts={latestPosts} type={type} />
         )}
         {isLoading && page >= 2 && (
           <ul className="post-list row">
-            {skeletonArray.map((item) => (
-              <PostSkeleton key={item} />
-            ))}
+            {skeletonArray.map((item) => {
+              return (
+                (type === PostListType.GRID && <PostSkeleton key={item} />) ||
+                (type === PostListType.LIST && <PostListSkeleton key={item} />)
+              );
+            })}
           </ul>
         )}
         {page < totalPage && (

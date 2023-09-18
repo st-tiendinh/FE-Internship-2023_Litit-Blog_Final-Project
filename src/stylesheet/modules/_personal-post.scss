@@ -80,3 +80,39 @@
     margin-bottom: 24px;
   }
 }
+
+.personal-post-skeleton {
+  .personal-post {
+    &-image-wrapper {
+      height: 200px;
+    }
+
+    &-content {
+      width: 100%;
+      border-radius: 4px;
+
+      .short-info {
+        height: 30px;
+        border-radius: 4px;
+      }
+    }
+
+    &-tag-list {
+      height: 14px;
+      border-radius: 4px;
+
+    }
+
+    &-title {
+      height: 16px;
+      border-radius: 4px;
+
+    }
+
+    &-desc {
+      height: 16px;
+      border-radius: 4px;
+
+    }
+  }
+}
