@@ -8,6 +8,7 @@ import { Link, useLocation } from 'react-router-dom';
 
 interface PostProps {
   id: number;
+  userId: number;
   title: string;
   desc: string;
   tags: string[];
@@ -21,6 +22,7 @@ interface PostProps {
 
 export const Post = ({
   id,
+  userId,
   title,
   desc,
   tags,
@@ -97,13 +99,17 @@ export const Post = ({
 
           <div className="post-footer">
             <div className="post-author">
-              <img
-                className="post-author-avatar"
-                src={isValidUserImg ? authorImg : BlankUserImg}
-                alt="author image"
-              />
+              <Link className="author-link" to={'/users/' + userId}>
+                <img
+                  className="post-author-avatar"
+                  src={isValidUserImg ? authorImg : BlankUserImg}
+                  alt="author image"
+                />
+              </Link>
               <div className="post-about">
-                <span className="post-author-name">{authorName}</span>
+                <Link className="author-link" to={'/users/' + userId}>
+                  <span className="post-author-name">{authorName}</span>
+                </Link>
                 <span className="post-dot-symbol">&#x2022;</span>
                 <span className="post-date">{formattedDate}</span>
               </div>
