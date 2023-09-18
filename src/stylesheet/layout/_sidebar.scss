@@ -5,9 +5,9 @@
   background-color: map-get($colors, white);
 
   .section {
-    padding: 32px;
-    border: 1px solid map-get($colors, secondary-100);
+    padding: 24px;
     border-radius: 12px;
+    border: 1px solid map-get($colors, secondary-100);
     background-color: map-get($colors, white);
 
     &-title {
@@ -49,6 +49,11 @@
       width: 150%;
       object-fit: cover;
       cursor: pointer;
+      transition: all ease-in .3;
+
+      &:hover {
+        transform: scale(1.1);
+      }
     }
 
     &-title {
@@ -70,6 +75,21 @@
       font-size: map-get($font-sizes, sm);
       font-weight: map-get($font-weights, normal);
       line-height: 1.4;
+    }
+  }
+
+  .popular-post {
+    &-title.skeleton {
+      &.skeleton {
+        height: 16px;
+        margin-bottom: 14px;
+      }
+    }
+
+    &-timestamp {
+      &.skeleton {
+        height: 14px;
+      }
     }
   }
 

@@ -20,19 +20,23 @@ const ArticleDetail = () => {
   const [comments, setComments] = useState<any>([]);
   const [isValidCover, setIsValidCover] = useState(false);
   const [isValidUserImg, setIsValidUserImg] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const location = useLocation();
 
   useEffect(() => {
     (async () => {
       try {
+        setIsLoading(true);
         const response = await apiService.get([
           ENDPOINT.posts.index,
           location.pathname.slice(10),
         ]);
         setPost(response);
+        setIsLoading(false);
         return response;
       } catch (error) {
         console.log(error);
+        setIsLoading(false);
       }
     })();
   }, [location]);
@@ -108,11 +112,17 @@ const ArticleDetail = () => {
                     {formatDate(post.updatedAt)}
                   </span>
                 </div>
-                <img
-                  src={isValidCover ? post.cover : BlankPostImg}
-                  alt="article cover"
-                  className="article-detail-cover"
-                />
+                {isLoading ? (
+                  <div className="article-detail-cover-wrapper skeleton"></div>
+                ) : (
+                  <div className="article-detail-cover-wrapper">
+                    <img
+                      src={isValidCover ? post.cover : BlankPostImg}
+                      alt="article cover"
+                      className="article-detail-cover"
+                    />
+                  </div>
+                )}
                 <p className="article-detail-paragraph">{post.content}</p>
               </div>
             </article>
