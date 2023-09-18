@@ -96,4 +96,28 @@
     height: 18px;
     background-image: url("../assets/icons/ic-mail.svg");
   }
+
+  &-comment-darker {
+    width: 24px;
+    height: 24px;
+    background-image: url("../assets/icons/ic-comment-darker.svg");
+  }
+
+  &-comments-number {
+    width: 24px;
+    height: 24px;
+    background-image: url("../assets/icons/ic-comments-number.svg");
+  }
+
+  &-post-number {
+    width: 24px;
+    height: 24px;
+    background-image: url("../assets/icons/ic-post.svg");
+  }
+
+  &-followed-tag {
+    width: 24px;
+    height: 24px;
+    background-image: url("../assets/icons/ic-followed-tag.svg");
+  }
 }
