@@ -3,6 +3,8 @@ export { Footer } from './Footer';
 export { Post } from './Post';
 export { PersonalPost } from './PersonalPost';
 export { PostSkeleton } from './PostSkeleton';
+export { PopularPostSkeleton } from './PopularPostSkeleton';
 export { SelectGroup } from './SelectGroup';
 export { InputGroup } from './InputGroup';
 export { Spinner } from './Spinner';
+export { Sidebar } from './Sidebar';

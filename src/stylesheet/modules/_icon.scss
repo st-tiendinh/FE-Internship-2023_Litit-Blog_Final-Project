@@ -48,4 +48,34 @@
     height: 28px;
     background-image: url("../assets/icons/ic-arrow-up.svg");
   }
+
+  &-comment-normal {
+    width: 24px;
+    height: 24px;
+    background-image: url("../assets/icons/ic-comment-normal.svg");
+
+    &:hover {
+      background-image: url("../assets/icons/ic-comment-highlight.svg");
+    }
+  }
+
+  &-like-normal {
+    width: 24px;
+    height: 24px;
+    background-image: url("../assets/icons/ic-like-normal.svg");
+
+    &:hover {
+      background-image: url("../assets/icons/ic-like-highlight.svg");
+    }
+  }
+
+  &-bookmark {
+    width: 24px;
+    height: 24px;
+    background-image: url("../assets/icons/ic-bookmark.svg");
+
+    &:hover {
+      background-image: url("../assets/icons/ic-bookmark-highlight.svg");
+    }
+  }
 }

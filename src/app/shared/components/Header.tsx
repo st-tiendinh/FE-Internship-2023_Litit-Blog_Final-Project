@@ -12,8 +12,12 @@ export const Header = () => {
 
   const navigate = useNavigate();
 
-  const isLogged = useSelector((state: RootState) => state.authReducer.isLogged);
-  const userInfo = useSelector((state: RootState) => state.authReducer.userInfo);
+  const isLogged = useSelector(
+    (state: RootState) => state.authReducer.isLogged
+  );
+  const userInfo = useSelector(
+    (state: RootState) => state.authReducer.userInfo
+  );
 
   const handleSignOut = () => {
     dispatch(signOut());
@@ -48,9 +52,9 @@ export const Header = () => {
                     </Link>
                   </li>
                   <li className="nav-item">
-                    <a className="nav-link" href="#">
+                    <Link to={'articles'} className="nav-link">
                       Blog
-                    </a>
+                    </Link>
                   </li>
                   <li className="nav-item">
                     <a className="nav-link" href="#">

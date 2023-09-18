@@ -4,8 +4,10 @@ import { formatDate } from '../utils/formatDate';
 import { isImageUrlValid } from '../utils/checkValidImage';
 import BlankPostImg from '../../../assets/images/blank-post.png';
 import BlankUserImg from '../../../assets/images/blank-user.webp';
+import { Link, useLocation } from 'react-router-dom';
 
 interface PostProps {
+  id: number;
   title: string;
   desc: string;
   tags: string[];
@@ -18,6 +20,7 @@ interface PostProps {
 }
 
 export const Post = ({
+  id,
   title,
   desc,
   tags,
@@ -31,6 +34,7 @@ export const Post = ({
   const [isValidCover, setIsValidCover] = useState(false);
   const [isValidUserImg, setIsValidUserImg] = useState(false);
   const formattedDate = formatDate(postedDate);
+  const location = useLocation();
 
   useEffect(() => {
     isImageUrlValid(cover).then((isValid) => {
@@ -47,11 +51,11 @@ export const Post = ({
   return (
     <div className="post">
       <div className="post-image-wrapper">
-        {isValidCover ? (
-          <img className="post-image" src={cover} alt={title} />
-        ) : (
-          <img className="post-image" src={BlankPostImg} alt={title} />
-        )}
+        <img
+          className="post-image"
+          src={isValidCover ? cover : BlankPostImg}
+          alt={title}
+        />
       </div>
 
       <div className="post-content">
@@ -79,18 +83,25 @@ export const Post = ({
 
         <div className="post-body">
           <div className="post-info">
-            <h4 className="post-title text-truncate">{title}</h4>
+            <Link
+              to={
+                location.pathname === '/'
+                  ? `/articles/${id.toString()}`
+                  : id.toString()
+              }
+            >
+              <h4 className="post-title text-truncate">{title}</h4>
+            </Link>
             <p className="post-desc text-truncate">{desc}</p>
           </div>
 
           <div className="post-footer">
             <div className="post-author">
-              {isValidUserImg ? (
-                <img className="post-author-avatar" src={authorImg} alt="author image" />
-              ) : (
-                <img className="post-author-avatar" src={BlankUserImg} alt={title} />
-              )}
-
+              <img
+                className="post-author-avatar"
+                src={isValidUserImg ? authorImg : BlankUserImg}
+                alt="author image"
+              />
               <div className="post-about">
                 <span className="post-author-name">{authorName}</span>
                 <span className="post-dot-symbol">&#x2022;</span>
