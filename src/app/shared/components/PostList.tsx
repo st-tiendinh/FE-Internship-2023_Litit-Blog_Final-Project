@@ -1,3 +1,4 @@
+import { PostListType } from '../../pages/home/containers/components/PublicPost';
 import { EmptyData } from './EmptyData';
 import { Post } from './Post';
 
@@ -37,14 +38,20 @@ interface IPost {
 
 interface PostListProps {
   posts: Array<IPost>;
+  type: PostListType;
 }
 
-const PostList = ({ posts }: PostListProps) => {
+const PostList = ({ posts, type }: PostListProps) => {
   return (
     <ul className="post-list row">
       {posts.length ? (
         posts.map((post) => (
-          <li key={post.id} className="col col-6 col-md-6 col-sm-12">
+          <li
+            key={post.id}
+            className={`col col-${
+              type === PostListType.GRID ? '6' : '12'
+            } col-md-6 col-sm-12`}
+          >
             <div className="post-item">
               <Post
                 id={post.id}
@@ -58,6 +65,7 @@ const PostList = ({ posts }: PostListProps) => {
                 postedDate={post.createdAt}
                 comments={post.comments}
                 likes={post.likes}
+                listType={type}
               />
             </div>
           </li>
