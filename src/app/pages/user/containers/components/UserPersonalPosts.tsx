@@ -36,7 +36,12 @@ export const UserPersonalPosts = ({ userPost, postAuthor }: any) => {
                 </div>
               </div>
               <div className="personal-post-detail">
-                <h4 className="personal-post-title">{post.title}</h4>
+                <Link
+                  to={`/articles/${post.id}`}
+                  className="personal-post-link"
+                >
+                  <h4 className="personal-post-title">{post.title}</h4>
+                </Link>
                 <Link to="" className="personal-post-comment-link">
                   <span className="btn btn-secondary">
                     <i className="icon icon-comment-darker"></i>

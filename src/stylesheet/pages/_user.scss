@@ -1,11 +1,13 @@
 .page-user {
   min-height: 100vh;
   padding-top: 64px;
-  background: linear-gradient(to bottom,
-      black 0%,
-      black 128px,
-      transparent 128px,
-      #e8e8e8 100%);
+  background: linear-gradient(
+    to bottom,
+    black 0%,
+    black 128px,
+    transparent 128px,
+    #e8e8e8 100%
+  );
 
   .profile-section {
     .profile {
@@ -169,6 +171,33 @@
         font-weight: map-get($font-weights, normal);
         color: map-get($colors, secondary-500);
       }
+    }
+  }
+
+  .skeleton {
+    &-user-profile {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      height: 240px;
+      border-radius: 8px;
+    }
+    &-user-avatar {
+      margin-top: -64px;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 8px solid black;
+    }
+    &-user-sidebar {
+      width: 100%;
+      height: 176px;
+      border-radius: 8px;
+    }
+    &-personal-list {
+      width: 100%;
+      height: 176px;
+      border-radius: 8px;
     }
   }
 }
