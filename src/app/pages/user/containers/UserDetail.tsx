@@ -33,6 +33,10 @@ const UserDetail = () => {
   const isLoggedUser = isLogged ? jwtHelper.isCurrentUser(+userId) : false;
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     setIsUserLoading(true);
     (async () => {
       try {
