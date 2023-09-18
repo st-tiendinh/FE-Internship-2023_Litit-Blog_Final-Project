@@ -58,11 +58,13 @@ export const Post = ({
       {listType === PostListType.GRID && (
         <div className="post">
           <div className="post-image-wrapper">
-            <img
-              className="post-image"
-              src={isValidCover ? cover : BlankPostImg}
-              alt={title}
-            />
+            <Link to={`/articles/${id.toString()}`}>
+              <img
+                className="post-image"
+                src={isValidCover ? cover : BlankPostImg}
+                alt={title}
+              />
+            </Link>
           </div>
 
           <div className="post-content">
@@ -90,13 +92,7 @@ export const Post = ({
 
             <div className="post-body">
               <div className="post-info">
-                <Link
-                  to={
-                    location.pathname === '/'
-                      ? `/articles/${id.toString()}`
-                      : id.toString()
-                  }
-                >
+                <Link to={`/articles/${id.toString()}`}>
                   <h4 className="post-title text-truncate">{title}</h4>
                 </Link>
                 <p className="post-desc text-truncate">{desc}</p>
@@ -128,11 +124,13 @@ export const Post = ({
       {listType === PostListType.LIST && (
         <div className="personal-post">
           <div className="personal-post-image-wrapper">
-            <img
-              src={isValidCover ? cover : BlankPostImg}
-              alt={authorName}
-              className="personal-post-image"
-            />
+            <Link to={`/articles/${id.toString()}`}>
+              <img
+                src={isValidCover ? cover : BlankPostImg}
+                alt={authorName}
+                className="personal-post-image"
+              />
+            </Link>
           </div>
 
           <div className="personal-post-content">
@@ -146,7 +144,9 @@ export const Post = ({
               ))}
             </ul>
 
-            <h4 className="personal-post-title text-truncate">{title}</h4>
+            <Link to={`/articles/${id.toString()}`}>
+              <h4 className="personal-post-title text-truncate">{title}</h4>
+            </Link>
 
             <p className="personal-post-desc text-truncate">{desc}</p>
 

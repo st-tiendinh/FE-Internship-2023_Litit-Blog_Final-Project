@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { formatDate } from '../../../../shared/utils/formatDate';
 import { isImageUrlValid } from '../../../../shared/utils/checkValidImage';
+import BlankUserImage from '../../../../../assets/images/blank-user.webp';
 
 export const UserPersonalPosts = ({ userPost, postAuthor }: any) => {
   const [isValidUserImg, setIsValidUserImg] = useState(false);
@@ -21,7 +22,7 @@ export const UserPersonalPosts = ({ userPost, postAuthor }: any) => {
             <li key={post.id} className="personal-post-item">
               <div className="personal-short-info">
                 <img
-                  src={postAuthor?.picture}
+                  src={isValidUserImg ? postAuthor.picture : BlankUserImage}
                   className="personal-author-avatar"
                   alt=""
                 />
