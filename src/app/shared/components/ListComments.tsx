@@ -1,10 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Comment } from './Comment';
-import { RootState } from '../../app.reducers';
-import { isImageUrlValid } from '../utils/checkValidImage';
 import { Link } from 'react-router-dom';
+
+import { Comment } from './Comment';
 import BlankUserImage from '../../../assets/images/blank-user.webp';
+
+import { isImageUrlValid } from '../utils/checkValidImage';
+import { RootState } from '../../app.reducers';
 import { ApiService } from '../../core/services/api.service';
 import JwtHelper from '../../core/helpers/jwtHelper';
 import { ENDPOINT } from '../../../config/endpoint';
