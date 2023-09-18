@@ -72,6 +72,10 @@
     line-height: 1.4;
     margin-bottom: 10px;
     cursor: pointer;
+
+    &:hover {
+      color: map-get($colors, primary);
+    }
   }
 
   &-desc {

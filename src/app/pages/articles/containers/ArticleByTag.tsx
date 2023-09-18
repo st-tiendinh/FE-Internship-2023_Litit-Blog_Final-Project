@@ -9,35 +9,26 @@ const ArticleByTag = () => {
   const apiService = new ApiService();
   const [allPost, setAllPost] = useState<IPost[]>([]);
   const [filteredPosts, setFilteredPosts] = useState<IPost[]>([]);
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [isLastPage, setIsLastPage] = useState<boolean>(true);
 
   const location = useLocation();
 
   const lastPart = location.pathname.split('/').pop();
 
   useEffect(() => {
-    const fetchPostOfPage = async (page: number) => {
-      const response: any = await apiService.get([ENDPOINT.posts.public], {
-        page: page,
-        size: 12,
-      });
-      setAllPost([...allPost, ...response.data]);
-      setIsLastPage(response.loadMore);
-      setCurrentPage(currentPage + 1);
+    const getPostByTag = async () => {
+      const response: any = await apiService.get([ENDPOINT.posts.public], {tags : lastPart});
+      setAllPost(response.data);
     };
 
-    if (isLastPage) {
-      fetchPostOfPage(currentPage);
-    }
-
-    if (lastPart !== undefined) {
+    getPostByTag();
+    if (lastPart) {
       const postIncludesTag = allPost.filter((post) =>
         post.tags.map((tag) => tag.toLowerCase()).includes(lastPart.toLowerCase())
       );
       setFilteredPosts(postIncludesTag);
     }
-  }, [allPost]);
+  }, []);
+
 
   return (
     <section className="section section-article-list">
