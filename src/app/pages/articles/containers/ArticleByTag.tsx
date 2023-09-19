@@ -14,7 +14,11 @@ const ArticleByTag = () => {
 
   const location = useLocation();
 
+
   const lastPart = location.pathname.split('/').pop();
+
+  const encodedTag = lastPart ? decodeURI(lastPart) : '';
+  console.log(encodedTag)
 
   useEffect(() => {
     const getPostByTag = async (articleTag: any) => {
@@ -34,7 +38,7 @@ const ArticleByTag = () => {
       }
     };
     if (lastPart !== undefined) {
-      getPostByTag(lastPart);
+      getPostByTag(encodedTag);
     }
   }, []);
 
@@ -43,7 +47,7 @@ const ArticleByTag = () => {
       <div className="container">
         <div className="article-list-header">
           <i className="icon icon-tag"></i>
-          <h3 className="section-title">Tag: {lastPart}</h3>
+          <h3 className="section-title">Tag: {encodedTag}</h3>
         </div>
         <div className="article-list-content">
           <div className="row">
