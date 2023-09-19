@@ -56,7 +56,7 @@ const ArticleDetail = () => {
         <div className="row">
           <div className="col col-1">
             <ul className="article-action-list position-sticky">
-              <Like postId={location.pathname.slice(10)}/>
+              <Like postId={location.pathname.slice(10).toString()}/>
               <li className="article-action-item">
                 <span className="tooltip tooltip-left">Comments</span>
                 <i className="icon icon-comment-normal"></i>

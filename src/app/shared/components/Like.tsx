@@ -13,8 +13,8 @@ const Like = ({ postId }: any) => {
   const [isLiked, setIsLiked] = useState<boolean>();
   const [likeNumber, setLikeNumber] = useState<number>(0);
 
-  const userInfo = useSelector(
-    (state: RootState) => state.authReducer.userInfo
+  const isLogged = useSelector(
+    (state: RootState) => state.authReducer.isLogged
   );
 
   const handleLike = async () => {
@@ -39,7 +39,7 @@ const Like = ({ postId }: any) => {
       try {
         const response: any = await apiService.get([
           ENDPOINT.posts.index,
-          location.pathname.slice(10),
+          postId,
         ]);
         setLikeNumber(response.likes);
         return response;
@@ -47,26 +47,29 @@ const Like = ({ postId }: any) => {
         console.log(error);
       }
     })();
-  }, [isLiked]);
+  }, [isLiked, isLogged]);
 
   useEffect(() => {
     (async () => {
       try {
         const response: any = await apiService.get([
           ENDPOINT.posts.index,
-          location.pathname.slice(10).toString() + '/likes',
+          postId + '/likes',
         ]);
         const isHaveUserId = response.filter(
-          (item: any) => item.userId === userInfo.userId
+          (item: any) => item.userId === jwt.getUserInfo().userId
         );
         if (isHaveUserId.length > 0) {
           setIsLiked(true);
+        } else {
+          setIsLiked(false);
         }
       } catch (error) {
         console.log(error);
       }
     })();
-  }, []);
+  }, [isLogged]);
+
 
   return (
     <li onClick={handleLike} className="article-action-item">

@@ -44,10 +44,10 @@ export const ListComments = ({ postId }: { postId: number }) => {
   }, [postId]);
 
   useEffect(() => {
-    isImageUrlValid(userInfo.picture).then((isValid) => {
+    isImageUrlValid(userInfo?.picture).then((isValid) => {
       setIsValidUserImg(isValid);
     });
-  }, [userInfo.picture]);
+  }, [userInfo?.picture]);
 
   const handleComment = async () => {
     const content = textAreaRef.current?.value.trim();
