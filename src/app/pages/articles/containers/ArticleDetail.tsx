@@ -113,7 +113,10 @@ const ArticleDetail = () => {
                     />
                   </div>
                 )}
-                <p className="article-detail-paragraph">{post.content}</p>
+                <div
+                  className="article-detail-paragraph"
+                  dangerouslySetInnerHTML={{ __html: post.content }}
+                ></div>
               </div>
             </article>
             {post.id && <ListComments postId={post.id} />}

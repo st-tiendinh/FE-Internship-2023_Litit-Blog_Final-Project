@@ -55,11 +55,16 @@
     margin: 16px 0px;
   }
 
+  &-tags-search-group {
+    display: flex;
+    align-items: center;
+    width: 20%;
+  }
+
   &-tags-search {
     font-size: map-get($font-sizes, md);
     font-weight: map-get($font-weights, normal);
     padding: 10px 0;
-    width: 100%;
 
     &::placeholder {
       font-size: map-get($font-sizes, md);
@@ -89,7 +94,7 @@
   }
 
   &-status-select {
-    font-size: map-get($font-sizes, xl);
+    font-size: map-get($font-sizes, md);
     font-weight: map-get($font-weights, normal);
     color: map-get($colors, secondary-500);
     padding: 10px;
@@ -98,11 +103,24 @@
     align-self: flex-end;
   }
 
+  &-status-option {
+    font-size: map-get($font-sizes, md);
+    font-weight: map-get($font-weights, normal);
+    color: map-get($colors, secondary-500);
+    padding: 10px 0;
+  }
+
   &-form-group {
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: space-between;
     margin-bottom: 10px;
+  }
+
+  &-form-action {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
   }
 
   .ck {
