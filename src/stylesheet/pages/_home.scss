@@ -23,31 +23,11 @@
         font-weight: map-get($font-weights, medium);
         padding-block: 20px;
       }
-    }
 
-    .load-more-btn-wrap {
-      margin-bottom: 20px;
-      justify-content: center;
-    }
-
-    .scroll-button-wrap {
-      position: fixed;
-      bottom: 30px;
-      right: 30px;
-    }
-
-    .scroll-button {
-      background-color: RGBA(75, 107, 251, 0.5);
-      color: #fff;
-      border: none;
-      border-radius: 50%;
-      padding: 10px;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-
-      &:hover {
-        background-color: map-get($colors, "primary");
+      &-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
       }
     }
   }

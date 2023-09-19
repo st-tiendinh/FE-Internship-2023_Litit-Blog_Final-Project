@@ -7,7 +7,7 @@ const Home = () => {
       <div className="container">
         <div className="row">
           <div className="col col-8">
-            <PublicPost type={PostListType.GRID} sectionTitle="Latest post" />
+            <PublicPost type={PostListType.LIST} sectionTitle="Latest post" />
           </div>
           <div className="col col-4">
             <Sidebar />

@@ -7,6 +7,7 @@ import { ENDPOINT } from '../../../../../config/endpoint';
 import PostList from '../../../../shared/components/PostList';
 import { PostSkeleton } from '../../../../shared/components';
 import { PostListSkeleton } from '../../../../shared/components/PostListSkeleton';
+import { Link } from 'react-router-dom';
 
 export enum PostListType {
   GRID = 'grid',
@@ -43,42 +44,47 @@ const PublicPost = ({ type, sectionTitle }: PublicPostProps) => {
 
   return (
     <section className="section section-public-post">
-      <div className="container">
+      {type === PostListType.LIST ? (
+        <div className="section-header">
+          <h3 className="section-title">{sectionTitle}</h3>
+          <Link to={'/articles'} className="btn btn-outline">
+            Show more
+          </Link>
+        </div>
+      ) : (
         <h3 className="section-title">{sectionTitle}</h3>
-        {isLoading && page === 1 ? (
-          <ul className="post-list row">
-            {skeletonArray.map((item) => {
-              return (
-                (type === PostListType.GRID && <PostSkeleton key={item} />) ||
-                (type === PostListType.LIST && <PostListSkeleton key={item} />)
-              );
-            })}
-          </ul>
-        ) : (
-          <PostList posts={latestPosts} type={type} />
-        )}
-        {isLoading && page >= 2 && (
-          <ul className="post-list row">
-            {skeletonArray.map((item) => {
-              return (
-                (type === PostListType.GRID && <PostSkeleton key={item} />) ||
-                (type === PostListType.LIST && <PostListSkeleton key={item} />)
-              );
-            })}
-          </ul>
-        )}
-        {page < totalPage && (
-          <div className="d-flex load-more-btn-wrap">
-            <button
-              className="btn btn-outline"
-              onClick={() => setPage(page + 1)}
-            >
-              LOAD MORE
-            </button>
-          </div>
-        )}
-        <ScrollToTopButton />
-      </div>
+      )}
+
+      {isLoading && page === 1 ? (
+        <ul className="post-list row">
+          {skeletonArray.map((item) => {
+            return (
+              (type === PostListType.GRID && <PostSkeleton key={item} />) ||
+              (type === PostListType.LIST && <PostListSkeleton key={item} />)
+            );
+          })}
+        </ul>
+      ) : (
+        <PostList posts={latestPosts} type={type} />
+      )}
+      {isLoading && page >= 2 && (
+        <ul className="post-list row">
+          {skeletonArray.map((item) => {
+            return (
+              (type === PostListType.GRID && <PostSkeleton key={item} />) ||
+              (type === PostListType.LIST && <PostListSkeleton key={item} />)
+            );
+          })}
+        </ul>
+      )}
+      {type === PostListType.GRID && page < totalPage && (
+        <div className="d-flex load-more-btn-wrap">
+          <button className="btn btn-outline" onClick={() => setPage(page + 1)}>
+            LOAD MORE
+          </button>
+        </div>
+      )}
+      <ScrollToTopButton />
     </section>
   );
 };
