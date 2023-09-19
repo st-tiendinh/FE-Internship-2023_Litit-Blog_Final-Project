@@ -93,7 +93,11 @@ export const ArticleEditor = () => {
 
   return (
     <div className="article-editor">
-      <form action="" className="article-editor-form">
+      <form
+        action=""
+        className="article-editor-form"
+        onSubmit={(e) => e.preventDefault()}
+      >
         <label
           htmlFor="article-editor-cover-upload"
           className="article-editor-upload-label"

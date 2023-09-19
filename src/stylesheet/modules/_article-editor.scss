@@ -33,7 +33,7 @@
   }
 
   &-title-input {
-    padding: 20px;
+    padding: 20px 0;
     font-size: map-get($font-sizes, "3xl");
     font-weight: map-get($font-weights, bold);
     color: map-get($colors, secondary-800);
@@ -50,7 +50,7 @@
   &-desc-input {
     font-size: map-get($font-sizes, "xl");
     font-weight: map-get($font-weights, normal);
-    padding: 10px 20px;
+    padding: 10px 0;
     resize: none;
     margin: 16px 0px;
   }
@@ -58,7 +58,7 @@
   &-tags-search {
     font-size: map-get($font-sizes, md);
     font-weight: map-get($font-weights, normal);
-    padding: 10px 20px;
+    padding: 10px 0;
     width: 100%;
 
     &::placeholder {
