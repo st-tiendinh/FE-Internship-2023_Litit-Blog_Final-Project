@@ -70,13 +70,15 @@
 
           &-cover-wrapper {
             &.skeleton {
-              height: 500px;
+              height: 400px;
               border-radius: 12px;
               margin-bottom: 24px;
             }
           }
 
           &-cover {
+            height: 400px;
+            object-fit: cover;
             margin-bottom: 32px;
             border-radius: 12px;
           }

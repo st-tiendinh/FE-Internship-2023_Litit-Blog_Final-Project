@@ -6,8 +6,19 @@ import { ApiService } from '../../../../core/services/api.service';
 import { ENDPOINT } from '../../../../../config/endpoint';
 import PostList from '../../../../shared/components/PostList';
 import { PostSkeleton } from '../../../../shared/components';
+import { PostListSkeleton } from '../../../../shared/components/PostListSkeleton';
 
-const PublicPost = () => {
+export enum PostListType {
+  GRID = 'grid',
+  LIST = 'list',
+}
+
+interface PublicPostProps {
+  type: PostListType;
+  sectionTitle: string;
+}
+
+const PublicPost = ({ type, sectionTitle }: PublicPostProps) => {
   const apiService = new ApiService();
   const [latestPosts, setLatestPosts] = useState<any[]>([]);
   const [page, setPage] = useState(1);
@@ -33,21 +44,27 @@ const PublicPost = () => {
   return (
     <section className="section section-public-post">
       <div className="container">
-        <h3 className="section-title">Latest Post</h3>
+        <h3 className="section-title">{sectionTitle}</h3>
         {isLoading && page === 1 ? (
           <ul className="post-list row">
-            {skeletonArray.map((item) => (
-              <PostSkeleton key={item} />
-            ))}
+            {skeletonArray.map((item) => {
+              return (
+                (type === PostListType.GRID && <PostSkeleton key={item} />) ||
+                (type === PostListType.LIST && <PostListSkeleton key={item} />)
+              );
+            })}
           </ul>
         ) : (
-          <PostList posts={latestPosts} />
+          <PostList posts={latestPosts} type={type} />
         )}
         {isLoading && page >= 2 && (
           <ul className="post-list row">
-            {skeletonArray.map((item) => (
-              <PostSkeleton key={item} />
-            ))}
+            {skeletonArray.map((item) => {
+              return (
+                (type === PostListType.GRID && <PostSkeleton key={item} />) ||
+                (type === PostListType.LIST && <PostListSkeleton key={item} />)
+              );
+            })}
           </ul>
         )}
         {page < totalPage && (
