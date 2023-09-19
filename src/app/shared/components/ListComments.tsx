@@ -75,6 +75,12 @@ export const ListComments = ({ postId }: { postId: number }) => {
     }
   };
 
+  const handleBlur = () => {
+    if (textAreaRef.current) {
+      textAreaRef.current.value = textAreaRef.current.value.trim();
+    }
+  };
+
   return (
     <section className="section list-comments-section">
       <div className="list-comments">
@@ -101,6 +107,7 @@ export const ListComments = ({ postId }: { postId: number }) => {
                 name="comment"
                 id="comment"
                 rows={3}
+                onBlur={handleBlur}
                 onKeyUp={(event) => handleKeyPress(event)}
               ></textarea>
               <button
