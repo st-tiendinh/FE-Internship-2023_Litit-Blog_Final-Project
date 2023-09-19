@@ -21,7 +21,7 @@
       &-title {
         font-size: map-get($font-sizes, "2xl");
         font-weight: map-get($font-weights, medium);
-        padding-block: 20px;
+        padding-block: 24px;
       }
     }
 
@@ -49,6 +49,107 @@
       &:hover {
         background-color: map-get($colors, "primary");
       }
+    }
+  }
+
+  .recommend-section {
+    margin-bottom: 20px;
+    .article {
+      position: relative;
+
+      &.vertical {
+        .article-image-wrapper {
+          height: 500px;
+        }
+
+        .article-title {
+          font-size: map-get($font-sizes, "3xl");
+          -webkit-line-clamp: 3;
+        }
+      }
+
+      &.horizontal {
+        .article-image-wrapper {
+          height: 240px;
+        }
+
+        &:first-child {
+          margin-bottom: 20px;
+        }
+
+        .article-content {
+          bottom: 30px;
+          left: 30px;
+        }
+      }
+
+      &-image {
+        height: 100%;
+        border-radius: 12px;
+      }
+
+      &-content {
+        position: absolute;
+        left: 40px;
+        bottom: 40px;
+        color: #ffffff;
+      }
+
+      .tag-list {
+        gap: 12px;
+        margin-bottom: 16px;
+      }
+
+      &-title {
+        font-size: map-get($font-sizes, "2xl");
+        line-height: 1.3;
+        margin-bottom: 24px;
+      }
+
+      &-about {
+        align-items: center;
+        gap: 16px;
+      }
+
+      &-author {
+        align-items: center;
+        gap: 10px;
+      }
+
+      &-date {
+        font-size: map-get($font-sizes, "sm");
+      }
+
+      .author {
+        &-avatar-wrapper {
+          border-radius: 50%;
+          width: 30px;
+          height: 30px;
+          background-color: #ffffff;
+        }
+
+        &-avatar {
+          border-radius: 50%;
+          height: 100%;
+        }
+      }
+
+      .dot-symbol {
+        font-size: 10px;
+        color: white;
+      }
+    }
+
+    .overlay {
+      position: absolute;
+      border-radius: 12px;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      opacity: 0.8;
+      pointer-events: none;
     }
   }
 }
