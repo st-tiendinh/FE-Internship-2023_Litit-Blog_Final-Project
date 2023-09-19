@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import { Sidebar } from '../../../shared/components';
 import { ListComments } from '../../../shared/components/ListComments';
@@ -22,6 +22,10 @@ const ArticleDetail = () => {
   const [isValidUserImg, setIsValidUserImg] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const location = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -98,14 +102,19 @@ const ArticleDetail = () => {
               <div className="article-detail-content">
                 <div className="short-info">
                   <div className="short-info-author">
-                    <img
-                      src={isValidUserImg ? post.user?.picture : BlankUserImg}
-                      alt="author avatar"
-                      className="short-info-author-avatar"
-                    />
-                    <span className="short-info-author-name">
-                      {post.user?.displayName}
-                    </span>
+                    <Link
+                      className="d-flex author-link"
+                      to={'/users/' + post.user?.id}
+                    >
+                      <img
+                        src={isValidUserImg ? post.user?.picture : BlankUserImg}
+                        alt="author avatar"
+                        className="short-info-author-avatar"
+                      />
+                      <span className="short-info-author-name">
+                        {post.user?.displayName}
+                      </span>
+                    </Link>
                   </div>
                   <span className="short-info-dot-symbol">&#x2022;</span>
                   <span className="short-info-timestamp">

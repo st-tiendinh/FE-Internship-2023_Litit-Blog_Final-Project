@@ -1,5 +1,5 @@
 import { Sidebar } from '../../../shared/components';
-import PublicPost from './components/PublicPost';
+import PublicPost, { PostListType } from './components/PublicPost';
 
 const Home = () => {
   return (
@@ -7,7 +7,7 @@ const Home = () => {
       <div className="container">
         <div className="row">
           <div className="col col-8">
-            <PublicPost />
+            <PublicPost type={PostListType.GRID} sectionTitle="Latest post" />
           </div>
           <div className="col col-4">
             <Sidebar />

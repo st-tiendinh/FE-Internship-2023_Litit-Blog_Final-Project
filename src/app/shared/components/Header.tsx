@@ -5,6 +5,9 @@ import LogoImage from '../../../assets/images/logo.png';
 
 import { signOut } from '../../core/auth/auth.actions';
 import { RootState } from '../../app.reducers';
+import JwtHelper from '../../core/helpers/jwtHelper';
+
+const jwtHelper = new JwtHelper();
 
 export const Header = () => {
   const location = useLocation();
@@ -78,7 +81,7 @@ export const Header = () => {
                       <>
                         <li className="action-item">
                           <Link
-                            to={'/users'}
+                            to={`/users/${jwtHelper.getUserInfo().userId}`}
                             className="action-link display-name"
                           >
                             {userInfo.displayName}
