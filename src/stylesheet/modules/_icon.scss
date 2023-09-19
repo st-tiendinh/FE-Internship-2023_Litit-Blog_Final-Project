@@ -65,8 +65,14 @@
     background-image: url("../assets/icons/ic-like-normal.svg");
 
     &:hover {
-      background-image: url("../assets/icons/ic-like-highlight.svg");
+      background-image: url("../assets/icons/ic-like-fulfill.svg");
     }
+  }
+
+  &-like-fulfill {
+    width: 24px;
+    height: 24px;
+    background-image: url("../assets/icons/ic-like-fulfill.svg");
   }
 
   &-bookmark {

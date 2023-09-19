@@ -12,6 +12,7 @@ import { isImageUrlValid } from '../../../shared/utils/checkValidImage';
 import { formatDate } from '../../../shared/utils/formatDate';
 import { ApiService } from '../../../core/services/api.service';
 import { ENDPOINT } from '../../../../config/endpoint';
+import Like from '../../../shared/components/Like';
 
 const ArticleDetail = () => {
   const tags = ['ReactJS', 'VueJS', 'Angular', 'NodeJS'];
@@ -27,10 +28,7 @@ const ArticleDetail = () => {
     (async () => {
       try {
         setIsLoading(true);
-        const response = await apiService.get([
-          ENDPOINT.posts.index,
-          location.pathname.slice(10),
-        ]);
+        const response = await apiService.get([ENDPOINT.posts.index, location.pathname.slice(10)]);
         setPost(response);
         setIsLoading(false);
         return response;
@@ -74,11 +72,7 @@ const ArticleDetail = () => {
         <div className="row">
           <div className="col col-1">
             <ul className="article-action-list position-sticky">
-              <li className="article-action-item">
-                <span className="tooltip tooltip-left">Likes</span>
-                <i className="icon icon-like-normal"></i>
-                {post.likes}
-              </li>
+              <Like postId={location.pathname.slice(10)}/>
               <li className="article-action-item">
                 <span className="tooltip tooltip-left">Comments</span>
                 <i className="icon icon-comment-normal"></i>
@@ -103,14 +97,10 @@ const ArticleDetail = () => {
                       alt="author avatar"
                       className="short-info-author-avatar"
                     />
-                    <span className="short-info-author-name">
-                      {post.user?.displayName}
-                    </span>
+                    <span className="short-info-author-name">{post.user?.displayName}</span>
                   </div>
                   <span className="short-info-dot-symbol">&#x2022;</span>
-                  <span className="short-info-timestamp">
-                    {formatDate(post.updatedAt)}
-                  </span>
+                  <span className="short-info-timestamp">{formatDate(post.updatedAt)}</span>
                 </div>
                 {isLoading ? (
                   <div className="article-detail-cover-wrapper skeleton"></div>
