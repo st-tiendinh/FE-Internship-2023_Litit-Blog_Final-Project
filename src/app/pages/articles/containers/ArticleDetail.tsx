@@ -18,7 +18,6 @@ const ArticleDetail = () => {
   const tags = ['ReactJS', 'VueJS', 'Angular', 'NodeJS'];
   const apiService = new ApiService();
   const [post, setPost] = useState<any>({});
-  const [comments, setComments] = useState<any>([]);
   const [isValidCover, setIsValidCover] = useState(false);
   const [isValidUserImg, setIsValidUserImg] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -35,21 +34,6 @@ const ArticleDetail = () => {
       } catch (error) {
         console.log(error);
         setIsLoading(false);
-      }
-    })();
-  }, [location]);
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const response = await apiService.get([
-          ENDPOINT.posts.index,
-          location.pathname.slice(10) + '/comments',
-        ]);
-        setComments(response);
-        return response;
-      } catch (error) {
-        console.log(error);
       }
     })();
   }, [location]);
@@ -116,12 +100,12 @@ const ArticleDetail = () => {
                 <p className="article-detail-paragraph">{post.content}</p>
               </div>
             </article>
+            {post.id && <ListComments postId={post.id} />}
           </div>
           <div className="col col-4">
             <Sidebar />
           </div>
         </div>
-        <ListComments comments={comments} />
       </div>
     </section>
   );
