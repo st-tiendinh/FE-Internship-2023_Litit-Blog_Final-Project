@@ -1,0 +1,118 @@
+.article-editor {
+  margin: 32px 0;
+  background-color: map-get($colors, "white");
+  padding: 20px;
+  border-radius: 8px;
+
+  &-form {
+    display: flex;
+    flex-direction: column;
+    background: map-get($colors, "white");
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
+    padding: 32px 20px;
+  }
+
+  &-upload-label {
+    display: inline-block;
+    padding: 10px;
+    border: 2px solid #eee;
+    border-radius: 6px;
+    width: 168px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+    cursor: pointer;
+  }
+
+  &-cover-upload {
+    display: none;
+  }
+
+  &-image {
+    height: 100%;
+    object-fit: contain;
+  }
+
+  &-title-input {
+    padding: 20px 0;
+    font-size: map-get($font-sizes, "3xl");
+    font-weight: map-get($font-weights, bold);
+    color: map-get($colors, secondary-800);
+    resize: none;
+    margin: 16px 0px;
+
+    &::placeholder {
+      font-size: map-get($font-sizes, "3xl");
+      font-weight: map-get($font-weights, bold);
+      color: map-get($colors, secondary-400);
+    }
+  }
+
+  &-desc-input {
+    font-size: map-get($font-sizes, "xl");
+    font-weight: map-get($font-weights, normal);
+    padding: 10px 0;
+    resize: none;
+    margin: 16px 0px;
+  }
+
+  &-tags-search {
+    font-size: map-get($font-sizes, md);
+    font-weight: map-get($font-weights, normal);
+    padding: 10px 0;
+    width: 100%;
+
+    &::placeholder {
+      font-size: map-get($font-sizes, md);
+      font-weight: map-get($font-weights, normal);
+    }
+  }
+
+  &-tag-list {
+    display: flex;
+    gap: 4px;
+    margin-left: 20px;
+  }
+
+  &-tag-item {
+    cursor: pointer;
+
+    .badge {
+      display: flex;
+      gap: 4px;
+    }
+  }
+
+  &-preview-cover {
+    padding: 20px 0;
+    height: 400px;
+    overflow: hidden;
+  }
+
+  &-status-select {
+    font-size: map-get($font-sizes, xl);
+    font-weight: map-get($font-weights, normal);
+    color: map-get($colors, secondary-500);
+    padding: 10px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    align-self: flex-end;
+  }
+
+  &-form-group {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+  }
+
+  .ck {
+    &.ck-toolbar__items {
+      justify-content: space-between;
+    }
+
+    &-content {
+      min-height: 250px;
+    }
+  }
+
+}
