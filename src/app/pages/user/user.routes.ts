@@ -10,6 +10,7 @@ const userRoutes: PageRoute[] = [
   {
     path: 'users',
     element: Users,
+    isProtected: true,
     children: [
       {
         path: '',

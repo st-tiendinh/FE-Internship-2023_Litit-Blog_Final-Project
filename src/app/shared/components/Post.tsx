@@ -57,15 +57,9 @@ export const Post = ({
     <>
       {listType === PostListType.GRID && (
         <div className="post">
-          <div className="post-image-wrapper">
-            <Link to={`/articles/${id.toString()}`}>
-              <img
-                className="post-image"
-                src={isValidCover ? cover : BlankPostImg}
-                alt={title}
-              />
-            </Link>
-          </div>
+          <Link to={`/articles/${id.toString()}`} className="post-image-wrapper">
+            <img className="post-image" src={isValidCover ? cover : BlankPostImg} alt={title} />
+          </Link>
 
           <div className="post-content">
             <div className="post-header">
@@ -83,9 +77,9 @@ export const Post = ({
 
               <div className="post-tags">
                 {tags.map((tag: any) => (
-                  <span key={tag} className="badge badge-secondary">
+                  <Link to={`/articles/tag/${tag}`} key={tag} className="badge badge-secondary">
                     {tag}
-                  </span>
+                  </Link>
                 ))}
               </div>
             </div>
@@ -123,23 +117,21 @@ export const Post = ({
 
       {listType === PostListType.LIST && (
         <div className="personal-post">
-          <div className="personal-post-image-wrapper">
-            <Link to={`/articles/${id.toString()}`}>
-              <img
-                src={isValidCover ? cover : BlankPostImg}
-                alt={authorName}
-                className="personal-post-image"
-              />
-            </Link>
-          </div>
+          <Link to={`/articles/${id.toString()}`} className="personal-post-image-wrapper">
+            <img
+              src={isValidCover ? cover : BlankPostImg}
+              alt={authorName}
+              className="personal-post-image"
+            />
+          </Link>
 
           <div className="personal-post-content">
             <ul className="personal-post-tag-list">
               {tags.map((tag: any, index: number) => (
                 <li key={index} className="personal-post-tag-item">
-                  <a href="" className="personal-post-tag-link">
+                  <Link to={`/articles/tag/${tag}`} className="personal-post-tag-link">
                     <span className="badge badge-secondary"> {tag}</span>
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>

@@ -92,7 +92,7 @@ export const Header = () => {
                             className="btn btn-outline action-link"
                             onClick={handleSignOut}
                           >
-                            Logout
+                            LOGOUT
                           </button>
                         </li>
                       </>
@@ -104,7 +104,7 @@ export const Header = () => {
                         to={'auth/register'}
                         className="btn btn-outline action-link"
                       >
-                        Sign up
+                        SIGN UP
                       </Link>
                     </li>
                   )}
@@ -116,7 +116,7 @@ export const Header = () => {
                         to={'auth/login'}
                         className="btn btn-outline action-link"
                       >
-                        Sign in
+                        SIGN IN
                       </Link>
                     </li>
                   ) : null}
