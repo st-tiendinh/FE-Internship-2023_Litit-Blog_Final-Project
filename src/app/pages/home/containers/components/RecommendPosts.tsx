@@ -1,142 +1,98 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
+import { ApiService } from '../../../../core/services/api.service';
+import { ENDPOINT } from '../../../../../config/endpoint';
+import { formatDate } from '../../../../shared/utils/formatDate';
+import { isImageUrlValid } from '../../../../shared/utils/checkValidImage';
+import BlankPostImg from '../../../../../assets/images/blank-post.png';
+import BlankUserImg from '../../../../../assets/images/blank-user.webp';
+
 export const RecommendPosts = () => {
+  const apiService = new ApiService();
+
+  const [recommendPosts, setRecommendPosts] = useState<any[]>([]);
+  const [isValidCovers, setIsValidCovers] = useState<boolean[]>([]);
+  const [isValidAvatars, setIsValidAvatars] = useState<boolean[]>([]);
+
+  useEffect(() => {
+    apiService
+      .get([ENDPOINT.posts.recommend], { page: 2, size: 3 })
+      .then((response: any) => {
+        setRecommendPosts(response.data);
+        console.log(recommendPosts);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
+  useEffect(() => {
+    Promise.all(recommendPosts.map((post) => isImageUrlValid(post.cover)))
+      .then((validities) => {
+        setIsValidCovers(validities);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [recommendPosts]);
+
+  useEffect(() => {
+    Promise.all(recommendPosts.map((post) => isImageUrlValid(post.user.picture)))
+      .then((validities) => {
+        setIsValidAvatars(validities);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [recommendPosts]);
+
   return (
     <section className="section recommend-section">
-      <div className="row">
-        <div className="col col-6">
-          <div className="article vertical">
+      {recommendPosts.map((post, index) => {
+        const isValidCover = isValidCovers[index];
+        const isValidAvatar = isValidAvatars[index];
+        return (
+          <div className="article ">
             <div className="article-image-wrapper">
               <div className="overlay"></div>
               <img
-                src="https://images.unsplash.com/photo-1503518599251-c246ec502dc1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=700&q=80"
-                alt=""
+                src={isValidCover ? post.cover : BlankPostImg}
+                alt={post.description}
                 className="article-image"
               />
             </div>
             <div className="article-content">
               <ul className="d-flex tag-list">
-                <li className="tag-item">
-                  <Link to={`articles/tag/`} className="tag-link">
-                    <div className="badge badge-primary tag">React</div>
-                  </Link>
-                </li>
-                <li className="tag-item">
-                  <Link to={`articles/tag/`} className="tag-link">
-                    <div className="badge badge-primary tag">React</div>
-                  </Link>
-                </li>
+                {post.tags.map((tag: any) => {
+                  return (
+                    <li className="tag-item">
+                      <Link to={`articles/tag/${tag}`} className="tag-link">
+                        <div className="badge badge-primary tag">{tag}</div>
+                      </Link>
+                    </li>
+                  );
+                })}
               </ul>
-              <h3 className="article-title text-truncate">
-                The Impact of Technology on the Workplace: How Technology is
-                Changing
-              </h3>
+              <h3 className={`article-title title-${index} text-truncate`}>{post.title}</h3>
               <div className="d-flex article-about">
-                <div className="d-flex article-author">
+                <Link to={`/users/${post.user.id}`} className="d-flex article-author">
                   <div className="author-avatar-wrapper">
                     <img
-                      src="https://robohash.org/cumomnisdolore.png?size=50x50&set=set1"
-                      alt=""
+                      src={isValidAvatar ? post.user.picture : BlankUserImg}
+                      alt={post.user.displayName + ' avatar'}
                       className="author-avatar"
                     />
                   </div>
-                  <p className="author-name">Tracey Wilson</p>
-                </div>
+                  <p className="author-name">{post?.user?.displayName}</p>
+                </Link>
                 <span className="dot-symbol">&#x2022;</span>
-                <p className="article-date">August 20, 2022</p>
+                <p className="article-date">{formatDate(post.createdAt)}</p>
               </div>
             </div>
           </div>
-        </div>
-        <div className="col col-6">
-          <div className="article horizontal">
-            <div className="article-image-wrapper">
-              <div className="overlay"></div>
-
-              <img
-                src="https://images.unsplash.com/photo-1503518599251-c246ec502dc1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=700&q=80"
-                alt=""
-                className="article-image"
-              />
-            </div>
-            <div className="article-content">
-              <ul className="d-flex tag-list">
-                <li className="tag-item">
-                  <Link to={`articles/tag/`} className="tag-link">
-                    <div className="badge badge-primary tag">React</div>
-                  </Link>
-                </li>
-                <li className="tag-item">
-                  <Link to={`articles/tag/`} className="tag-link">
-                    <div className="badge badge-primary tag">React</div>
-                  </Link>
-                </li>
-              </ul>
-              <h3 className="article-title text-truncate">
-                The Impact of Technology Technology on the Workplace: How
-                Technology is Changing
-              </h3>
-              <div className="d-flex article-about">
-                <div className="d-flex article-author">
-                  <div className="author-avatar-wrapper">
-                    <img
-                      src="https://robohash.org/cumomnisdolore.png?size=50x50&set=set1"
-                      alt=""
-                      className="author-avatar"
-                    />
-                  </div>
-                  <p className="author-name">Tracey Wilson</p>
-                </div>
-                <span className="dot-symbol">&#x2022;</span>
-                <p className="article-date">August 20, 2022</p>
-              </div>
-            </div>
-          </div>
-          <div className="article horizontal">
-            <div className="article-image-wrapper">
-              <div className="overlay"></div>
-              <img
-                src="https://images.unsplash.com/photo-1503518599251-c246ec502dc1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=700&q=80"
-                alt=""
-                className="article-image"
-              />
-            </div>
-            <div className="article-content">
-              <ul className="d-flex tag-list">
-                <li className="tag-item">
-                  <Link to={`articles/tag/`} className="tag-link">
-                    <div className="badge badge-primary tag">React</div>
-                  </Link>
-                </li>
-                <li className="tag-item">
-                  <Link to={`articles/tag/`} className="tag-link">
-                    <div className="badge badge-primary tag">React</div>
-                  </Link>
-                </li>
-              </ul>
-              <h3 className="article-title text-truncate">
-                The Impact of Technology on the Workplace: How Technology is
-                Changing
-              </h3>
-              <div className="d-flex article-about">
-                <div className="d-flex article-author">
-                  <div className="author-avatar-wrapper">
-                    <img
-                      src="https://robohash.org/cumomnisdolore.png?size=50x50&set=set1"
-                      alt=""
-                      className="author-avatar"
-                    />
-                  </div>
-                  <p className="author-name">Tracey Wilson</p>
-                </div>
-                <span className="dot-symbol">&#x2022;</span>
-                <p className="article-date">August 20, 2022</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+        );
+      })}
     </section>
   );
 };
