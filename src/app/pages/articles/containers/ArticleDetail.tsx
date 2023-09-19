@@ -12,12 +12,12 @@ import { isImageUrlValid } from '../../../shared/utils/checkValidImage';
 import { formatDate } from '../../../shared/utils/formatDate';
 import { ApiService } from '../../../core/services/api.service';
 import { ENDPOINT } from '../../../../config/endpoint';
+import Like from '../../../shared/components/Like';
 
 const ArticleDetail = () => {
   const tags = ['ReactJS', 'VueJS', 'Angular', 'NodeJS'];
   const apiService = new ApiService();
   const [post, setPost] = useState<any>({});
-  const [comments, setComments] = useState<any>([]);
   const [isValidCover, setIsValidCover] = useState(false);
   const [isValidUserImg, setIsValidUserImg] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -46,21 +46,6 @@ const ArticleDetail = () => {
   }, [location]);
 
   useEffect(() => {
-    (async () => {
-      try {
-        const response = await apiService.get([
-          ENDPOINT.posts.index,
-          location.pathname.slice(10) + '/comments',
-        ]);
-        setComments(response);
-        return response;
-      } catch (error) {
-        console.log(error);
-      }
-    })();
-  }, [location]);
-
-  useEffect(() => {
     isImageUrlValid(post.cover).then((isValid) => {
       isValid ? setIsValidCover(true) : setIsValidCover(false);
     });
@@ -78,11 +63,7 @@ const ArticleDetail = () => {
         <div className="row">
           <div className="col col-1">
             <ul className="article-action-list position-sticky">
-              <li className="article-action-item">
-                <span className="tooltip tooltip-left">Likes</span>
-                <i className="icon icon-like-normal"></i>
-                {post.likes}
-              </li>
+              <Like postId={location.pathname.slice(10).toString()} />
               <li className="article-action-item">
                 <span className="tooltip tooltip-left">Comments</span>
                 <i className="icon icon-comment-normal"></i>
@@ -135,12 +116,12 @@ const ArticleDetail = () => {
                 <p className="article-detail-paragraph">{post.content}</p>
               </div>
             </article>
+            {post.id && <ListComments postId={post.id} />}
           </div>
           <div className="col col-4">
             <Sidebar />
           </div>
         </div>
-        <ListComments comments={comments} />
       </div>
     </section>
   );
