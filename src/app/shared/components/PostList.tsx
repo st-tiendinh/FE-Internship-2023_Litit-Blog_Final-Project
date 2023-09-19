@@ -49,7 +49,7 @@ const PostList = ({ posts, type }: PostListProps) => {
           <li
             key={post.id}
             className={`col col-${
-              type === PostListType.GRID ? '6' : '12'
+              type === PostListType.GRID ? '4' : '12'
             } col-md-6 col-sm-12`}
           >
             <div className="post-item">

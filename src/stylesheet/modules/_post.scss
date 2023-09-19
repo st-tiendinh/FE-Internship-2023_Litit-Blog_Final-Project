@@ -97,6 +97,7 @@
 
   &-about {
     display: flex;
+    align-items: center;
     gap: 10px;
   }
 
@@ -115,7 +116,13 @@
 
   &-author-name {
     font-weight: map-get($font-weights, medium);
+    -webkit-line-clamp: 1;
+    max-width: 136px;
     cursor: pointer;
+
+    &:hover {
+      color: map-get($colors, primary);
+    }
   }
 
   &-dot-symbol {

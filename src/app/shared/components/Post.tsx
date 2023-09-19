@@ -57,8 +57,15 @@ export const Post = ({
     <>
       {listType === PostListType.GRID && (
         <div className="post">
-          <Link to={`/articles/${id.toString()}`} className="post-image-wrapper">
-            <img className="post-image" src={isValidCover ? cover : BlankPostImg} alt={title} />
+          <Link
+            to={`/articles/${id.toString()}`}
+            className="post-image-wrapper"
+          >
+            <img
+              className="post-image"
+              src={isValidCover ? cover : BlankPostImg}
+              alt={title}
+            />
           </Link>
 
           <div className="post-content">
@@ -77,7 +84,11 @@ export const Post = ({
 
               <div className="post-tags">
                 {tags.map((tag: any) => (
-                  <Link to={`/articles/tag/${tag}`} key={tag} className="badge badge-secondary">
+                  <Link
+                    to={`/articles/tag/${tag}`}
+                    key={tag}
+                    className="badge badge-secondary"
+                  >
                     {tag}
                   </Link>
                 ))}
@@ -103,7 +114,9 @@ export const Post = ({
                   </Link>
                   <div className="post-about">
                     <Link className="author-link" to={'/users/' + userId}>
-                      <span className="post-author-name">{authorName}</span>
+                      <span className="post-author-name text-truncate">
+                        {authorName}
+                      </span>
                     </Link>
                     <span className="post-dot-symbol">&#x2022;</span>
                     <span className="post-date">{formattedDate}</span>
@@ -117,7 +130,10 @@ export const Post = ({
 
       {listType === PostListType.LIST && (
         <div className="personal-post">
-          <Link to={`/articles/${id.toString()}`} className="personal-post-image-wrapper">
+          <Link
+            to={`/articles/${id.toString()}`}
+            className="personal-post-image-wrapper"
+          >
             <img
               src={isValidCover ? cover : BlankPostImg}
               alt={authorName}
@@ -129,7 +145,10 @@ export const Post = ({
             <ul className="personal-post-tag-list">
               {tags.map((tag: any, index: number) => (
                 <li key={index} className="personal-post-tag-item">
-                  <Link to={`/articles/tag/${tag}`} className="personal-post-tag-link">
+                  <Link
+                    to={`/articles/tag/${tag}`}
+                    className="personal-post-tag-link"
+                  >
                     <span className="badge badge-secondary"> {tag}</span>
                   </Link>
                 </li>
@@ -150,7 +169,9 @@ export const Post = ({
                     alt="author avatar"
                     className="short-info-author-avatar"
                   />
-                  <span className="short-info-author-name">{authorName}</span>
+                  <span className="short-info-author-name text-truncate">
+                    {authorName}
+                  </span>
                 </div>
               </Link>
               <span className="short-info-dot-symbol">&#x2022;</span>
