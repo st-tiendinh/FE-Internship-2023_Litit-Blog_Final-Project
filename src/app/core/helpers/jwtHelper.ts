@@ -35,9 +35,9 @@ export default class JwtHelper
     return isTokenValid;
   }
 
-  isCurrentUser(uid: string) {
+  isCurrentUser(uid: string | number) {
     const userInfo = this.getUserInfo();
-    return userInfo ? uid === userInfo.uid : false;
+    return userInfo ? uid === userInfo.userId : false;
   }
 
   userRole() {

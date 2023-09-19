@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import { Sidebar } from '../../../shared/components';
 import { ListComments } from '../../../shared/components/ListComments';
@@ -24,10 +24,17 @@ const ArticleDetail = () => {
   const location = useLocation();
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     (async () => {
       try {
         setIsLoading(true);
-        const response = await apiService.get([ENDPOINT.posts.index, location.pathname.slice(10)]);
+        const response = await apiService.get([
+          ENDPOINT.posts.index,
+          location.pathname.slice(10),
+        ]);
         setPost(response);
         setIsLoading(false);
         return response;
@@ -56,7 +63,7 @@ const ArticleDetail = () => {
         <div className="row">
           <div className="col col-1">
             <ul className="article-action-list position-sticky">
-              <Like postId={location.pathname.slice(10).toString()}/>
+              <Like postId={location.pathname.slice(10).toString()} />
               <li className="article-action-item">
                 <span className="tooltip tooltip-left">Comments</span>
                 <i className="icon icon-comment-normal"></i>
@@ -76,15 +83,24 @@ const ArticleDetail = () => {
               <div className="article-detail-content">
                 <div className="short-info">
                   <div className="short-info-author">
-                    <img
-                      src={isValidUserImg ? post.user?.picture : BlankUserImg}
-                      alt="author avatar"
-                      className="short-info-author-avatar"
-                    />
-                    <span className="short-info-author-name">{post.user?.displayName}</span>
+                    <Link
+                      className="d-flex author-link"
+                      to={'/users/' + post.user?.id}
+                    >
+                      <img
+                        src={isValidUserImg ? post.user?.picture : BlankUserImg}
+                        alt="author avatar"
+                        className="short-info-author-avatar"
+                      />
+                      <span className="short-info-author-name">
+                        {post.user?.displayName}
+                      </span>
+                    </Link>
                   </div>
                   <span className="short-info-dot-symbol">&#x2022;</span>
-                  <span className="short-info-timestamp">{formatDate(post.updatedAt)}</span>
+                  <span className="short-info-timestamp">
+                    {formatDate(post.updatedAt)}
+                  </span>
                 </div>
                 {isLoading ? (
                   <div className="article-detail-cover-wrapper skeleton"></div>

@@ -38,7 +38,7 @@ export const Comment = ({
 
   return (
     <div className="d-flex comment">
-      <Link className="user-link" to={''}>
+      <Link className="user-link" to={`/users/${userId}`}>
         <div className="user-avatar-wrapper">
           <img
             className="user-avatar"
@@ -49,7 +49,7 @@ export const Comment = ({
       </Link>
       <div className="comment-content">
         <div className="comment-about">
-          <Link className="user-link" to={''}>
+          <Link className="user-link" to={`/users/${userId}`}>
             <p className="user-name">{userName}</p>
           </Link>
           <span className="comment-dot-symbol">&#x2022;</span>

@@ -1,0 +1,22 @@
+.user-sidebar {
+  padding: 16px;
+  background: map-get($colors, "white");
+  border-radius: 8px;
+
+  .statistic {
+    &-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      &:not(:last-child) {
+        margin-bottom: 16px;
+      }
+    }
+
+    &-text {
+      font-size: map-get($font-sizes, md);
+      font-weight: map-get($font-weights, normal);
+    }
+  }
+}
