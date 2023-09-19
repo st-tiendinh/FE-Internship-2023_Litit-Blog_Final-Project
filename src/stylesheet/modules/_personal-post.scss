@@ -7,6 +7,7 @@
     height: 240px;
     margin-right: 24px;
     border-radius: 12px;
+    border: 1px solid map-get($colors, secondary-100);
   }
 
   &-image {
@@ -38,7 +39,6 @@
     align-items: center;
     justify-content: center;
     width: 320px;
-    height: 200px;
     flex-shrink: 0;
     overflow: hidden;
     cursor: pointer;

@@ -6,6 +6,7 @@ const Articles = React.lazy(() => import('./containers/Articles'));
 const ArticleDetail = React.lazy(() => import('./containers/ArticleDetail'));
 const ArticleList = React.lazy(() => import('./containers/ArticleList'));
 const ArticleNew = React.lazy(() => import('./containers/ArticleNew'));
+const ArticleByTag = React.lazy(() => import('./containers/ArticleByTag'));
 
 const articleRoutes: PageRoute[] = [
   {
@@ -23,7 +24,11 @@ const articleRoutes: PageRoute[] = [
       {
         path: 'new',
         element: ArticleNew,
-      }
+      },
+      {
+        path: 'tag/:tag',
+        element: ArticleByTag,
+      },
     ],
   },
 ];
