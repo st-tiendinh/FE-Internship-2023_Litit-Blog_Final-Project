@@ -70,13 +70,15 @@
 
           &-cover-wrapper {
             &.skeleton {
-              height: 500px;
+              height: 400px;
               border-radius: 12px;
               margin-bottom: 24px;
             }
           }
 
           &-cover {
+            height: 400px;
+            object-fit: cover;
             margin-bottom: 32px;
             border-radius: 12px;
           }
@@ -94,5 +96,25 @@
         padding-left: 6px;
       }
     }
+  }
+}
+
+.section-article-list{
+  padding: 25px 0;
+
+  .section {
+    &-title {
+      font-size: map-get($font-sizes, "2xl");
+      font-weight: map-get($font-weights, medium);
+      padding-block: 20px;
+    }
+  }
+}
+
+.article-list {
+  &-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
 }
