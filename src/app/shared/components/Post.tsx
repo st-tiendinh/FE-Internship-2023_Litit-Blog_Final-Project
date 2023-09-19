@@ -151,14 +151,16 @@ export const Post = ({
             <p className="personal-post-desc text-truncate">{desc}</p>
 
             <div className="short-info">
-              <div className="short-info-author">
-                <img
-                  src={isValidUserImg ? authorImg : BlankUserImg}
-                  alt="author avatar"
-                  className="short-info-author-avatar"
-                />
-                <span className="short-info-author-name">{authorName}</span>
-              </div>
+              <Link to={`/users/${userId}`} className="author-link">
+                <div className="short-info-author">
+                  <img
+                    src={isValidUserImg ? authorImg : BlankUserImg}
+                    alt="author avatar"
+                    className="short-info-author-avatar"
+                  />
+                  <span className="short-info-author-name">{authorName}</span>
+                </div>
+              </Link>
               <span className="short-info-dot-symbol">&#x2022;</span>
               <span className="short-info-timestamp">{formattedDate}</span>
             </div>

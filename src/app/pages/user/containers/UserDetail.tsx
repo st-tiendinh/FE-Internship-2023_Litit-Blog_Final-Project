@@ -20,10 +20,11 @@ export enum PostStatus {
 
 const UserDetail = () => {
   const [user, setUser] = useState<any>({});
+  const [isUserLoading, setIsUserLoading] = useState<boolean>(false);
   const [userStatistic, setUserStatistic] = useState<any>({});
   const [postAuthor, setPostAuthor] = useState<any>();
   const [userPost, setUserPost] = useState<any>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const isLogged = useSelector(
     (state: RootState) => state.authReducer.isLogged
   );
@@ -32,17 +33,25 @@ const UserDetail = () => {
   const isLoggedUser = isLogged ? jwtHelper.isCurrentUser(+userId) : false;
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
+    setIsUserLoading(true);
     (async () => {
       try {
         const response = await apiService.get([ENDPOINT.users.index, userId]);
         setUser(response);
+        setIsUserLoading(false);
       } catch (error) {
         console.log(error);
+        setIsUserLoading(false);
       }
     })();
   }, [location]);
 
   useEffect(() => {
+    setIsLoading(true);
     (async () => {
       try {
         apiService.setHeaders(jwtHelper.getAuthHeader());
@@ -89,15 +98,27 @@ const UserDetail = () => {
 
   return (
     <div className="page-user">
-      <UserProfile isLoggedUser={isLoggedUser} user={user} />
-      <section className="section section-wrapper">
-        <div className="container">
+      <div className="container">
+        {isUserLoading ? (
+          <div className="skeleton skeleton-user-profile">
+            <div className="skeleton skeleton-user-avatar"></div>
+          </div>
+        ) : (
+          <UserProfile isLoggedUser={isLoggedUser} user={user} />
+        )}
+        <section className="section section-wrapper">
           <div className="row">
             <div className="col col-4">
-              {!isLoading && <UserSideBar userStatistic={userStatistic} />}
+              {isLoading ? (
+                <div className="skeleton skeleton-user-sidebar"></div>
+              ) : (
+                <UserSideBar userStatistic={userStatistic} />
+              )}
             </div>
             <div className="col col-8">
-              {!isLoading && (
+              {isLoading ? (
+                <div className="skeleton skeleton-personal-list"></div>
+              ) : (
                 <UserPersonalPosts
                   userPost={userPost}
                   postAuthor={postAuthor}
@@ -105,8 +126,8 @@ const UserDetail = () => {
               )}
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
     </div>
   );
 };
