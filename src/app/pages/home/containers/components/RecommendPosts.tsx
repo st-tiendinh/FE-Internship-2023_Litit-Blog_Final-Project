@@ -20,7 +20,6 @@ export const RecommendPosts = () => {
       .get([ENDPOINT.posts.recommend], { page: 2, size: 3 })
       .then((response: any) => {
         setRecommendPosts(response.data);
-        console.log(recommendPosts);
       })
       .catch((error) => {
         console.error(error);
