@@ -13,12 +13,17 @@ const Like = ({ postId }: any) => {
   const [isLiked, setIsLiked] = useState<boolean>();
   const [likeNumber, setLikeNumber] = useState<number>(0);
 
-  const userInfo = useSelector((state: RootState) => state.authReducer.userInfo);
+  const userInfo = useSelector(
+    (state: RootState) => state.authReducer.userInfo
+  );
 
   const handleLike = async () => {
     try {
       apiService.setHeaders(jwt.getAuthHeader());
-      const response: any = await apiService.put([ENDPOINT.posts.index, postId + '/likes']);
+      const response: any = await apiService.put([
+        ENDPOINT.posts.index,
+        postId + '/likes',
+      ]);
       if (response.liked) {
         setIsLiked(true);
       } else {
@@ -51,11 +56,11 @@ const Like = ({ postId }: any) => {
           ENDPOINT.posts.index,
           location.pathname.slice(10).toString() + '/likes',
         ]);
-        const isHaveUserId = response.filter((item: any) => item.userId === userInfo.userId);
-        console.log(isHaveUserId);
+        const isHaveUserId = response.filter(
+          (item: any) => item.userId === userInfo.userId
+        );
         if (isHaveUserId.length > 0) {
           setIsLiked(true);
-          console.log('hehe');
         }
       } catch (error) {
         console.log(error);

@@ -21,10 +21,16 @@ interface FormData {
 const Login = () => {
   const jwtHelper = useMemo(() => new JwtHelper(), []);
   const http = useMemo(() => new ApiService(), []);
-  const isLoading = useSelector((state: RootState) => state.authReducer.isLoading);
-  const hasError = useSelector((state: RootState) => state.authReducer.hasError);
+  const isLoading = useSelector(
+    (state: RootState) => state.authReducer.isLoading
+  );
+  const hasError = useSelector(
+    (state: RootState) => state.authReducer.hasError
+  );
   const error = useSelector((state: RootState) => state.authReducer.error);
-  const isLogged = useSelector((state: RootState) => state.authReducer.isLogged);
+  const isLogged = useSelector(
+    (state: RootState) => state.authReducer.isLogged
+  );
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {
@@ -39,8 +45,7 @@ const Login = () => {
       http
         .get([ENDPOINT.users.index, jwtHelper.getUserInfo().userId.toString()])
         .then((res: any) => {
-          console.log(res);
-          const userData = { ...res, userId: jwtHelper.getUserInfo().userId};
+          const userData = { ...res, userId: jwtHelper.getUserInfo().userId };
           setLS(KEYS.USER_INFO, userData);
         });
       navigate('/');
