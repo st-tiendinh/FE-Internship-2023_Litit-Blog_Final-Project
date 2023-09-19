@@ -43,42 +43,37 @@ const PublicPost = ({ type, sectionTitle }: PublicPostProps) => {
 
   return (
     <section className="section section-public-post">
-      <div className="container">
-        <h3 className="section-title">{sectionTitle}</h3>
-        {isLoading && page === 1 ? (
-          <ul className="post-list row">
-            {skeletonArray.map((item) => {
-              return (
-                (type === PostListType.GRID && <PostSkeleton key={item} />) ||
-                (type === PostListType.LIST && <PostListSkeleton key={item} />)
-              );
-            })}
-          </ul>
-        ) : (
-          <PostList posts={latestPosts} type={type} />
-        )}
-        {isLoading && page >= 2 && (
-          <ul className="post-list row">
-            {skeletonArray.map((item) => {
-              return (
-                (type === PostListType.GRID && <PostSkeleton key={item} />) ||
-                (type === PostListType.LIST && <PostListSkeleton key={item} />)
-              );
-            })}
-          </ul>
-        )}
-        {page < totalPage && (
-          <div className="d-flex load-more-btn-wrap">
-            <button
-              className="btn btn-outline"
-              onClick={() => setPage(page + 1)}
-            >
-              LOAD MORE
-            </button>
-          </div>
-        )}
-        <ScrollToTopButton />
-      </div>
+      <h3 className="section-title">{sectionTitle}</h3>
+      {isLoading && page === 1 ? (
+        <ul className="post-list row">
+          {skeletonArray.map((item) => {
+            return (
+              (type === PostListType.GRID && <PostSkeleton key={item} />) ||
+              (type === PostListType.LIST && <PostListSkeleton key={item} />)
+            );
+          })}
+        </ul>
+      ) : (
+        <PostList posts={latestPosts} type={type} />
+      )}
+      {isLoading && page >= 2 && (
+        <ul className="post-list row">
+          {skeletonArray.map((item) => {
+            return (
+              (type === PostListType.GRID && <PostSkeleton key={item} />) ||
+              (type === PostListType.LIST && <PostListSkeleton key={item} />)
+            );
+          })}
+        </ul>
+      )}
+      {page < totalPage && (
+        <div className="d-flex load-more-btn-wrap">
+          <button className="btn btn-outline" onClick={() => setPage(page + 1)}>
+            LOAD MORE
+          </button>
+        </div>
+      )}
+      <ScrollToTopButton />
     </section>
   );
 };
