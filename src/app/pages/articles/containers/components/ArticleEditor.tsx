@@ -5,16 +5,25 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { ApiService } from '../../../../core/services/api.service';
 import JwtHelper from '../../../../core/helpers/jwtHelper';
+import { ENDPOINT } from '../../../../../config/endpoint';
+import { useNavigate } from 'react-router-dom';
 
 const apiService = new ApiService();
 const jwt = new JwtHelper();
 
 export const ArticleEditor = () => {
+  const [titleValue, setTitleValue] = useState<string>('');
+  const [descValue, setDescValue] = useState<string>('');
   const [tagItems, setTagItems] = useState<string[]>([]);
   const [tagItemValue, SetTagItemValue] = useState('');
+  const [contentValue, setContentValue] = useState<string>('');
+  const [statusValue, setStatusValue] = useState<string>('public');
+
+  const navigate = useNavigate();
 
   const tagInputRef = useRef<any>(null);
   const titleInputRef = useRef<any>('');
+  const descInputRef = useRef<any>('');
 
   const [nameImage, setNameImage] = useState<string | 0 | undefined>(undefined);
   const [fileExtension, setFileExtension] = useState<string | 0 | undefined>(
@@ -46,6 +55,64 @@ export const ArticleEditor = () => {
     reader.readAsDataURL(file);
   };
 
+  const handleSubmitTitle = () => {
+    if (titleInputRef.current.value.trim()) {
+      setTitleValue(titleInputRef.current.value.trim());
+    }
+  };
+
+  const handleSubmitDesc = () => {
+    if (descInputRef.current.value.trim()) {
+      setDescValue(descInputRef.current.value.trim());
+    }
+  };
+
+  const handleTagChange = () => {
+    SetTagItemValue(tagInputRef.current.value);
+  };
+
+  const handleTagEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    if (e.key === 'Enter') {
+      if (tagInputRef.current.value.trim()) {
+        setTagItems((prev) => [...prev, tagInputRef.current.value.trim()]);
+        SetTagItemValue('');
+      }
+    }
+  };
+
+  const handleDeleteTagItem = (id: number) => {
+    setTagItems(
+      tagItems.filter((_, index) => {
+        return index !== id;
+      })
+    );
+  };
+
+  const handleSubmitData = () => {
+    (async () => {
+      try {
+        apiService.setHeaders(jwt.getAuthHeader());
+        const postData = {
+          title: titleValue,
+          cover: imageUrl,
+          content: contentValue,
+          status: statusValue,
+          description: descValue,
+          tags: tagItems,
+        };
+        const response = await apiService.post(
+          [ENDPOINT.posts.index],
+          postData
+        );
+        navigate('/');
+        return response;
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  };
+
   useEffect(() => {
     const getImage = async () => {
       if (nameImage && fileExtension) {
@@ -70,34 +137,9 @@ export const ArticleEditor = () => {
     getImage();
   }, [binaryImg]);
 
-  const handleTagChange = () => {
-    SetTagItemValue(tagInputRef.current.value);
-  };
-
-  const handleTagEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      if (tagInputRef.current.value.trim()) {
-        setTagItems((prev) => [...prev, tagInputRef.current.value.trim()]);
-        SetTagItemValue('');
-      }
-    }
-  };
-
-  const handleDelete = (id: number) => {
-    setTagItems(
-      tagItems.filter((_, index) => {
-        return index !== id;
-      })
-    );
-  };
-
   return (
     <div className="article-editor">
-      <form
-        action=""
-        className="article-editor-form"
-        onSubmit={(e) => e.preventDefault()}
-      >
+      <div className="article-editor-form">
         <label
           htmlFor="article-editor-cover-upload"
           className="article-editor-upload-label"
@@ -123,28 +165,53 @@ export const ArticleEditor = () => {
           className="article-editor-title-input"
           placeholder="New post title here..."
           ref={titleInputRef}
+          onBlur={handleSubmitTitle}
         ></textarea>
 
         <textarea
           className="article-editor-desc-input"
           placeholder="Enter post description..."
+          ref={descInputRef}
+          onBlur={handleSubmitDesc}
         ></textarea>
 
         <div className="article-editor-form-group">
-          {tagItems.length < 4 && (
-            <input
-              type="text"
-              className="article-editor-tags-search"
-              placeholder="Add up to 4 tags..."
-              value={tagItemValue}
-              ref={tagInputRef}
-              onChange={handleTagChange}
-              onKeyUp={handleTagEnter}
-            />
-          )}
+          <div className="article-editor-tags-search-group">
+            {tagItems.length < 4 && (
+              <input
+                type="text"
+                className="article-editor-tags-search"
+                placeholder="Add up to 4 tags..."
+                value={tagItemValue}
+                ref={tagInputRef}
+                onChange={handleTagChange}
+                onKeyUp={handleTagEnter}
+                onSubmit={(e) => e.preventDefault()}
+              />
+            )}
+
+            <ul className="article-editor-tag-list">
+              {tagItems.map((item, index) => (
+                <li
+                  key={index}
+                  className="article-editor-tag-item"
+                  onClick={() => handleDeleteTagItem(index)}
+                >
+                  <span className="badge badge-primary">
+                    {item} <span className="close-btn">&times;</span>
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
 
           <div className="article-editor-post-status">
-            <select name="" id="" className="article-editor-status-select">
+            <select
+              name=""
+              id=""
+              className="article-editor-status-select"
+              onChange={(choice: any) => setStatusValue(choice.target.value)}
+            >
               <option value="public" className="article-editor-status-option">
                 public
               </option>
@@ -155,40 +222,20 @@ export const ArticleEditor = () => {
           </div>
         </div>
 
-        <ul className="article-editor-tag-list">
-          {tagItems.map((item, index) => (
-            <li
-              key={index}
-              className="article-editor-tag-item"
-              onClick={() => handleDelete(index)}
-            >
-              <span className="badge badge-primary">
-                {item} <span className="close-btn">&times;</span>
-              </span>
-            </li>
-          ))}
-        </ul>
-      </form>
-
-      <CKEditor
-        editor={ClassicEditor}
-        // data="<p>Write your post content here...</p>"
-        config={{ placeholder: 'Write your post content here..' }}
-        onReady={(editor) => {
-          // You can store the "editor" and use when it is needed.
-          console.log('Write your post content here...', editor);
-        }}
-        onChange={(event, editor) => {
-          const data = editor.getData();
-          console.log({ event, editor, data });
-        }}
-        onBlur={(event, editor) => {
-          console.log('Blur.', editor);
-        }}
-        onFocus={(event, editor) => {
-          console.log('Focus.', editor);
-        }}
-      />
+        <CKEditor
+          editor={ClassicEditor}
+          config={{ placeholder: 'Write your post content here..' }}
+          onBlur={(_, editor) => {
+            console.log(editor.getData());
+            setContentValue(editor.getData());
+          }}
+        />
+        <div className="article-editor-form-action">
+          <button className="btn btn-primary" onClick={handleSubmitData}>
+            Publish
+          </button>
+        </div>
+      </div>
     </div>
   );
 };
