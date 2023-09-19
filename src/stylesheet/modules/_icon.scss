@@ -69,6 +69,16 @@
     }
   }
 
+  &-like-fulfill {
+    width: 24px;
+    height: 24px;
+    background-image: url("../assets/icons/ic-like-fulfill.svg");
+
+    &:hover {
+      background-image: url("../assets/icons/ic-like-highlight.svg");
+    }
+  }
+
   &-bookmark {
     width: 24px;
     height: 24px;
