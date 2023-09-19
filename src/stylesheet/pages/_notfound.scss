@@ -1,0 +1,55 @@
+.notfound {
+  &-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    height: 80vh;
+  }
+
+  &-page-error {
+    font-size: map-get($font-sizes, '4xl');
+  }
+
+  &-page-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 40px;
+
+    padding: 20px 0;
+  }
+
+  &-page-image {
+    width: 100%;
+    max-width: 500px;
+    max-height: 250px;
+  }
+
+  &-page-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+    margin-top: -15px;
+  }
+
+  &-page-title {
+    font-size: 32px;
+    font-weight: map-get($font-weights, bold);
+  }
+
+  &-page-desc {
+    text-align: center;
+    font-size: map-get($font-sizes, 'xl');
+    // max-width: 500px;
+  }
+
+  &-page-action {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+}
