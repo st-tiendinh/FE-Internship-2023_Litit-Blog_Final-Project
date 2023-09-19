@@ -53,14 +53,14 @@ export const RecommendPosts = () => {
         const isValidAvatar = isValidAvatars[index];
         return (
           <div className="article ">
-            <div className="article-image-wrapper">
+            <Link to={`/articles/${post.id}`} className="article-image-wrapper">
               <div className="overlay"></div>
               <img
                 src={isValidCover ? post.cover : BlankPostImg}
                 alt={post.description}
                 className="article-image"
               />
-            </div>
+            </Link>
             <div className="article-content">
               <ul className="d-flex tag-list">
                 {post.tags.map((tag: any) => {
@@ -73,7 +73,9 @@ export const RecommendPosts = () => {
                   );
                 })}
               </ul>
-              <h3 className={`article-title title-${index} text-truncate`}>{post.title}</h3>
+              <Link to={`/articles/${post.id}`}>
+                <h3 className={`article-title title-${index} text-truncate`}>{post.title}</h3>
+              </Link>
               <div className="d-flex article-about">
                 <Link to={`/users/${post.user.id}`} className="d-flex article-author">
                   <div className="author-avatar-wrapper">
