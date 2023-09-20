@@ -1,5 +1,5 @@
-import { useState, useEffect, useLayoutEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 import { ApiService } from '../../core/services/api.service';
 import { ENDPOINT } from '../../../config/endpoint';
@@ -10,10 +10,10 @@ export const Sidebar = () => {
   const [popularPost, setPopularPost] = useState<any>([]);
   const apiService = new ApiService();
   const tags = [
-    { name: '#ReactJS', quantity: 50 },
-    { name: '#VueJS', quantity: 46 },
-    { name: '#Angular', quantity: 30 },
-    { name: '#NodeJS', quantity: 20 },
+    { name: '#ReactJS' },
+    { name: '#VueJS' },
+    { name: '#Angular' },
+    { name: '#NodeJS' },
   ];
 
   const [allPost, setAllPost] = useState<any[]>([]);
@@ -92,7 +92,6 @@ export const Sidebar = () => {
                 <a href="" className="category-link">
                   <span className="badge badge-primary">{tag.name}</span>
                 </a>
-                <span className="badge badge-secondary">{tag.quantity}</span>
               </li>
             );
           })}
