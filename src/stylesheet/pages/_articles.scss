@@ -4,7 +4,7 @@
   .section {
     &-public-post {
       .section-title {
-        font-size: map-get($font-sizes, '2xl');
+        font-size: map-get($font-sizes, "2xl");
         font-weight: map-get($font-weights, medium);
         padding: 20px 0;
       }
@@ -101,7 +101,7 @@
   padding: 25px 0;
 
   .section {
-    &-title {
+    &-tags-title {
       font-size: map-get($font-sizes, "2xl");
       font-weight: map-get($font-weights, medium);
       padding-block: 20px;
