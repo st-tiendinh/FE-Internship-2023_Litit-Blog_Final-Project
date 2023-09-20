@@ -7,6 +7,7 @@ import { Link, redirect, useLocation, useNavigate } from 'react-router-dom';
 import { ApiService } from '../../../../core/services/api.service';
 import JwtHelper from '../../../../core/helpers/jwtHelper';
 import { ENDPOINT } from '../../../../../config/endpoint';
+import { SimpleUploadAdapter } from '@ckeditor/ckeditor5-upload';
 
 const apiService = new ApiService();
 const jwt = new JwtHelper();
@@ -61,9 +62,7 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
     reader.onloadend = async function () {
       if (reader.result) {
         const base64String = reader.result.toString().split(',')[1];
-        const base64Response = await fetch(
-          `data:image/png;base64,${base64String}`
-        );
+        const base64Response = await fetch(`data:image/png;base64,${base64String}`);
         const blob = await base64Response.blob();
         setBinaryImg(blob);
       }
@@ -121,10 +120,7 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
           description: descValue,
           tags: tagItems,
         };
-        const response = await apiService.post(
-          [ENDPOINT.posts.index],
-          postData
-        );
+        const response = await apiService.post([ENDPOINT.posts.index], postData);
         navigate('/');
         return response;
       } catch (error: any) {
@@ -166,9 +162,7 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
             `https://fe-internship.liveonce.online/api/v1/signatures${params}`,
           ]);
           if (res && res.url && res.signedRequest) {
-            await axios
-              .put(res.signedRequest, binaryImg)
-              .then((err) => console.log(err));
+            await axios.put(res.signedRequest, binaryImg).then((err) => console.log(err));
             setImageUrl(res.url);
           } else {
             console.error('Invalid response from API:', res);
@@ -180,6 +174,38 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
     };
     getImage();
   }, [binaryImg]);
+
+  function uploadAdapter(loader: any) {
+    return {
+      upload: () => {
+        return new Promise((resolve, reject) => {
+          let signUrl: any;
+          let imgUrl: any;
+          loader.file.then((file: any) => {
+            const filenameParts = file?.name.split('.');
+            const firstNameElement = filenameParts?.shift();
+            const params = `?type_upload=content-post&file_name=${firstNameElement}&file_type=image/png}`;
+            apiService.setHeaders(jwt.getAuthHeader());
+            apiService
+              .get([`https://fe-internship.liveonce.online/api/v1/signatures${params}`])
+              .then((res: any) => {
+                signUrl = res.signedRequest;
+                imgUrl = res.url;
+              })
+              .then(() => axios.put(signUrl, file).then((err) => console.log(err)))
+              .then(() => resolve({ default: imgUrl }))
+              .catch((err) => reject(err));
+          });
+        });
+      },
+    };
+  }
+
+  function uploadPlugin(editor: any) {
+    editor.plugins.get('FileRepository').createUploadAdapter = (loader: any) => {
+      return uploadAdapter(loader);
+    };
+  }
 
   return (
     <div className="article-editor">
@@ -286,8 +312,8 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
 
         <CKEditor
           editor={ClassicEditor}
+          config={{ extraPlugins: [uploadPlugin], placeholder: 'Write your post here...' }}
           data={type === PostAction.CREATE ? '' : data.content}
-          config={{ placeholder: 'Write your post content here..' }}
           onBlur={(_, editor) => {
             setContentValue(editor.getData());
           }}
