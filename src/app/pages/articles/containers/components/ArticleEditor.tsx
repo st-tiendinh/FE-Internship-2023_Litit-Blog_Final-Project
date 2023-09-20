@@ -2,12 +2,11 @@ import axios from 'axios';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useState, useRef, useEffect } from 'react';
-import { Link, redirect, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { ApiService } from '../../../../core/services/api.service';
 import JwtHelper from '../../../../core/helpers/jwtHelper';
 import { ENDPOINT } from '../../../../../config/endpoint';
-import { SimpleUploadAdapter } from '@ckeditor/ckeditor5-upload';
 
 const apiService = new ApiService();
 const jwt = new JwtHelper();
@@ -49,27 +48,16 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
     undefined
   );
   const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
-  const [binaryImg, setBinaryImg] = useState<any>(undefined); // 1
+  const [imageFile, setImageFile] = useState<any>({});
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file: any = event.target.files?.[0];
+    setImageFile(file);
     const filenameParts = file?.name.split('.');
     const getExtension = filenameParts?.length && filenameParts.pop();
     setFileExtension(getExtension);
     const firstElement = filenameParts?.shift();
     setNameImage(firstElement);
-    const reader = new FileReader();
-    reader.onloadend = async function () {
-      if (reader.result) {
-        const base64String = reader.result.toString().split(',')[1];
-        const base64Response = await fetch(
-          `data:image/png;base64,${base64String}`
-        );
-        const blob = await base64Response.blob();
-        setBinaryImg(blob);
-      }
-    };
-    reader.readAsDataURL(file);
   };
 
   const handleChangeTitle = () => {
@@ -156,32 +144,6 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
     })();
   };
 
-  useEffect(() => {
-    const getImage = async () => {
-      if (nameImage && fileExtension) {
-        try {
-          apiService.setHeaders(jwt.getAuthHeader());
-          const uploadType = 'cover-post';
-          const params = `?type_upload=${uploadType}&file_name=${nameImage}&file_type=image/png}`;
-          const res: any = await apiService.get([
-            `https://fe-internship.liveonce.online/api/v1/signatures${params}`,
-          ]);
-          if (res && res.url && res.signedRequest) {
-            await axios
-              .put(res.signedRequest, binaryImg)
-              .then((err) => console.log(err));
-            setImageUrl(res.url);
-          } else {
-            console.error('Invalid response from API:', res);
-          }
-        } catch (error) {
-          console.error('Error in API call:', error);
-        }
-      }
-    };
-    getImage();
-  }, [binaryImg]);
-
   function uploadAdapter(loader: any) {
     return {
       upload: () => {
@@ -194,9 +156,7 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
             const params = `?type_upload=content-post&file_name=${firstNameElement}&file_type=image/png}`;
             apiService.setHeaders(jwt.getAuthHeader());
             apiService
-              .get([
-                `https://fe-internship.liveonce.online/api/v1/signatures${params}`,
-              ])
+              .get([ENDPOINT.signatures.index, `${params}`])
               .then((res: any) => {
                 signUrl = res.signedRequest;
                 imgUrl = res.url;
@@ -219,6 +179,33 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
       return uploadAdapter(loader);
     };
   }
+
+  useEffect(() => {
+    const getImage = async () => {
+      if (nameImage && fileExtension) {
+        try {
+          apiService.setHeaders(jwt.getAuthHeader());
+          const uploadType = 'cover-post';
+          const params = `?type_upload=${uploadType}&file_name=${nameImage}&file_type=image/png}`;
+          const res: any = await apiService.get([
+            ENDPOINT.signatures.index,
+            `${params}`,
+          ]);
+          if (res && res.url && res.signedRequest) {
+            await axios
+              .put(res.signedRequest, imageFile)
+              .then((err) => console.log(err));
+            setImageUrl(res.url);
+          } else {
+            console.error('Invalid response from API:', res);
+          }
+        } catch (error) {
+          console.error('Error in API call:', error);
+        }
+      }
+    };
+    getImage();
+  }, [imageFile]);
 
   return (
     <div className="article-editor">
