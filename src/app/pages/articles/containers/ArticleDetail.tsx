@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import { Sidebar } from '../../../shared/components';
 import { ListComments } from '../../../shared/components/ListComments';
@@ -23,6 +23,7 @@ const ArticleDetail = () => {
   const [isValidCover, setIsValidCover] = useState(false);
   const [isValidUserImg, setIsValidUserImg] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const navigate = useNavigate();
   const location = useLocation();
 
   const [isEnoughSpaceForToolTip, setIsEnoughSpaceForToolTip] = useState(
@@ -66,6 +67,7 @@ const ArticleDetail = () => {
         return response;
       } catch (error) {
         console.log(error);
+        navigate('/404');
         setIsLoading(false);
       }
     })();
