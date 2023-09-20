@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import DOMPurify from 'dompurify';
 
 import { formatDate } from '../utils/formatDate';
 import { isImageUrlValid } from '../utils/checkValidImage';
@@ -39,6 +40,7 @@ export const Post = ({
   const [isValidCover, setIsValidCover] = useState(false);
   const [isValidUserImg, setIsValidUserImg] = useState(false);
   const formattedDate = formatDate(postedDate);
+  const clean = DOMPurify.sanitize(desc);
 
   useEffect(() => {
     isImageUrlValid(cover).then((isValid) => {

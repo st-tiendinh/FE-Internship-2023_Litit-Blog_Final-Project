@@ -72,8 +72,10 @@
     }
 
     &:disabled {
-      opacity: 0.8;
       cursor: not-allowed;
+      border: none;
+      color: map-get($colors, secondary-400);
+      background: map-get($colors, secondary-100);
     }
   }
 

@@ -20,20 +20,29 @@ export const UserPersonalPosts = ({ userPost, postAuthor }: any) => {
         {userPost.map((post: any) => {
           return (
             <li key={post.id} className="personal-post-item">
-              <div className="personal-short-info">
-                <img
-                  src={isValidUserImg ? postAuthor.picture : BlankUserImage}
-                  className="personal-author-avatar"
-                  alt=""
-                />
-                <div className="personal-author-info">
-                  <p className="personal-author-name">
-                    {postAuthor.displayName}
-                  </p>
-                  <span className="personal-post-timestamp">
-                    {formattedDate}
-                  </span>
+              <div className="personal-post-header">
+                <div className="personal-short-info">
+                  <img
+                    src={isValidUserImg ? postAuthor.picture : BlankUserImage}
+                    className="personal-author-avatar"
+                    alt=""
+                  />
+                  <div className="personal-author-info">
+                    <p className="personal-author-name">
+                      {postAuthor.displayName}
+                    </p>
+                    <span className="personal-post-timestamp">
+                      {formattedDate}
+                    </span>
+                  </div>
                 </div>
+                <Link
+                  to={`/articles/update/${post.id}`}
+                  className="personal-post-edit-link"
+                >
+                  <i className="icon icon-pen"></i>
+                  Edit
+                </Link>
               </div>
               <div className="personal-post-detail">
                 <Link

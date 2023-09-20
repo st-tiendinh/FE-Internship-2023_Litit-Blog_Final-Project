@@ -15,6 +15,8 @@ import { ENDPOINT } from '../../../../config/endpoint';
 import Like from '../../../shared/components/Like';
 import { ScrollToTopButton } from '../../home/containers/components/ScrollToTopButton';
 
+import DOMPurify from 'dompurify';
+
 const ArticleDetail = () => {
   const apiService = new ApiService();
   const [post, setPost] = useState<any>({});
@@ -26,6 +28,8 @@ const ArticleDetail = () => {
   const [isEnoughSpaceForToolTip, setIsEnoughSpaceForToolTip] = useState(
     window.innerWidth <= 1250
   );
+
+  const clean = DOMPurify.sanitize(post.content);
 
   useEffect(() => {
     const handleResize = () => {
@@ -150,7 +154,10 @@ const ArticleDetail = () => {
                     />
                   </div>
                 )}
-                <p className="article-detail-paragraph">{post.content}</p>
+                <div
+                  className="article-detail-paragraph"
+                  dangerouslySetInnerHTML={{ __html: clean }}
+                ></div>
               </div>
             </article>
             <div ref={commentRef}>
