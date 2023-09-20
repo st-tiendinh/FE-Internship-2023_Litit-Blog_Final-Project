@@ -9,7 +9,7 @@
     padding: 24px;
     border-radius: 12px;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-    background-color: map-get($colors, white);
+    background-color: map-get($colors, "white");
 
     &-title {
       font-size: map-get($font-sizes, xl);
@@ -19,6 +19,7 @@
     }
 
     &-category {
+      background-color: map-get($colors, "white");
       position: sticky;
       top: 92px;
       .section-title {
@@ -32,10 +33,11 @@
     display: flex;
     align-items: center;
     border-radius: 12px;
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.12);
 
     &:hover {
-      box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+      box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
+        rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
       transform: translateY(-2px);
       cursor: pointer;
     }

@@ -11,7 +11,9 @@ export const Sidebar = () => {
   const apiService = new ApiService();
   const tags = [
     { name: 'React' },
-    { name: 'ReactJS' },
+    {
+      name: 'React JSRea ctJ SReac tJSReact SReactJSReactJSReactJSReactJSReactJS',
+    },
     { name: 'VueJS' },
     { name: 'Angular' },
     { name: 'NodeJS' },

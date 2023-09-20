@@ -16,7 +16,6 @@ import Like from '../../../shared/components/Like';
 import { ScrollToTopButton } from '../../home/containers/components/ScrollToTopButton';
 
 const ArticleDetail = () => {
-  const tags = ['ReactJS', 'VueJS', 'Angular', 'NodeJS'];
   const apiService = new ApiService();
   const [post, setPost] = useState<any>({});
   const [isValidCover, setIsValidCover] = useState(false);
@@ -116,7 +115,7 @@ const ArticleDetail = () => {
 
           <div className="col col-7">
             <article className="article article-detail">
-              <ArticleTagList tags={tags} />
+              {post.tags && <ArticleTagList tags={post.tags} />}
               <h2 className="article-detail-title">{post.title}</h2>
               <div className="article-detail-content">
                 <div className="short-info">

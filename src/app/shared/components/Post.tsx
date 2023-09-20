@@ -80,13 +80,12 @@ export const Post = ({
                   {comments}
                 </span>
               </div>
-
               <div className="post-tags">
-                {tags.map((tag: any, index: number) => (
+                {tags.slice(0, 2).map((tag: any, index: number) => (
                   <Link
                     to={`/articles/tag/${tag}`}
                     key={index}
-                    className="badge badge-primary"
+                    className="badge badge-primary text-truncate"
                   >
                     {tag}
                   </Link>
@@ -99,7 +98,6 @@ export const Post = ({
                 <Link to={`/articles/${id.toString()}`}>
                   <h4 className="post-title text-truncate">{title}</h4>
                 </Link>
-                <p className="post-desc text-truncate">{desc}</p>
               </div>
 
               <div className="post-footer">
@@ -142,13 +140,15 @@ export const Post = ({
 
           <div className="personal-post-content">
             <ul className="personal-post-tag-list">
-              {tags.map((tag: any, index: number) => (
+              {tags.slice(0, 4).map((tag: any, index: number) => (
                 <li key={index} className="personal-post-tag-item">
                   <Link
                     to={`/articles/tag/${tag}`}
                     className="personal-post-tag-link"
                   >
-                    <span className="badge badge-primary"> {tag}</span>
+                    <span className="badge badge-primary text-truncate">
+                      {tag}
+                    </span>
                   </Link>
                 </li>
               ))}
