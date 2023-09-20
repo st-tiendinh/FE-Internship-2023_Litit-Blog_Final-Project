@@ -62,7 +62,9 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
     reader.onloadend = async function () {
       if (reader.result) {
         const base64String = reader.result.toString().split(',')[1];
-        const base64Response = await fetch(`data:image/png;base64,${base64String}`);
+        const base64Response = await fetch(
+          `data:image/png;base64,${base64String}`
+        );
         const blob = await base64Response.blob();
         setBinaryImg(blob);
       }
@@ -120,7 +122,10 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
           description: descValue,
           tags: tagItems,
         };
-        const response = await apiService.post([ENDPOINT.posts.index], postData);
+        const response = await apiService.post(
+          [ENDPOINT.posts.index],
+          postData
+        );
         navigate('/');
         return response;
       } catch (error: any) {
@@ -162,7 +167,9 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
             `https://fe-internship.liveonce.online/api/v1/signatures${params}`,
           ]);
           if (res && res.url && res.signedRequest) {
-            await axios.put(res.signedRequest, binaryImg).then((err) => console.log(err));
+            await axios
+              .put(res.signedRequest, binaryImg)
+              .then((err) => console.log(err));
             setImageUrl(res.url);
           } else {
             console.error('Invalid response from API:', res);
@@ -187,12 +194,16 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
             const params = `?type_upload=content-post&file_name=${firstNameElement}&file_type=image/png}`;
             apiService.setHeaders(jwt.getAuthHeader());
             apiService
-              .get([`https://fe-internship.liveonce.online/api/v1/signatures${params}`])
+              .get([
+                `https://fe-internship.liveonce.online/api/v1/signatures${params}`,
+              ])
               .then((res: any) => {
                 signUrl = res.signedRequest;
                 imgUrl = res.url;
               })
-              .then(() => axios.put(signUrl, file).then((err) => console.log(err)))
+              .then(() =>
+                axios.put(signUrl, file).then((err) => console.log(err))
+              )
               .then(() => resolve({ default: imgUrl }))
               .catch((err) => reject(err));
           });
@@ -202,7 +213,9 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
   }
 
   function uploadPlugin(editor: any) {
-    editor.plugins.get('FileRepository').createUploadAdapter = (loader: any) => {
+    editor.plugins.get('FileRepository').createUploadAdapter = (
+      loader: any
+    ) => {
       return uploadAdapter(loader);
     };
   }
@@ -284,8 +297,8 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
                     className="article-editor-tag-item"
                     onClick={() => handleDeleteTagItem(index)}
                   >
-                    <span className="badge badge-primary">
-                      {item} <span className="close-btn">&times;</span>
+                    <span className="badge badge-primary text-truncate">
+                      {item}
                     </span>
                   </li>
                 ))}
@@ -312,7 +325,10 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
 
         <CKEditor
           editor={ClassicEditor}
-          config={{ extraPlugins: [uploadPlugin], placeholder: 'Write your post here...' }}
+          config={{
+            extraPlugins: [uploadPlugin],
+            placeholder: 'Write your post here...',
+          }}
           data={type === PostAction.CREATE ? '' : data.content}
           onBlur={(_, editor) => {
             setContentValue(editor.getData());
