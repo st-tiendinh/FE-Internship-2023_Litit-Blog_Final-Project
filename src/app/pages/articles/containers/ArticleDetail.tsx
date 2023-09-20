@@ -37,8 +37,6 @@ const ArticleDetail = () => {
     };
   }, []);
 
-  console.log(isEnoughSpaceForToolTip);
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
