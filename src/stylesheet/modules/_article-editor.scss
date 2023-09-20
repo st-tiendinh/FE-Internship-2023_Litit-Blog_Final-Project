@@ -1,8 +1,20 @@
 .article-editor {
   margin: 32px 0;
   background-color: map-get($colors, "white");
-  padding: 20px;
   border-radius: 8px;
+
+  &-error-wrapper {
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
+    background: rgba(220, 38, 38, 0.1);
+    padding: 20px;
+  }
+
+  &-error-title {
+    color: rgba(185, 28, 28);
+    font-weight: map-get($font-weights, bold);
+    margin-bottom: 10px;
+  }
 
   &-form {
     display: flex;
@@ -18,7 +30,7 @@
     padding: 10px;
     border: 2px solid #eee;
     border-radius: 6px;
-    width: 168px;
+    width: 174px;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
     cursor: pointer;
   }
@@ -121,6 +133,13 @@
     margin-top: 20px;
     display: flex;
     justify-content: flex-end;
+    align-items: center;
+    gap: 30px;
+  }
+
+  &-upload-error {
+    font-weight: map-get($font-weights, md);
+    font-size: map-get($font-sizes, lg);
   }
 
   .ck {

@@ -1,13 +1,11 @@
 .page-user {
   min-height: 100vh;
   padding-top: 64px;
-  background: linear-gradient(
-    to bottom,
-    black 0%,
-    black 128px,
-    transparent 128px,
-    #e8e8e8 100%
-  );
+  background: linear-gradient(to bottom,
+      black 0%,
+      black 128px,
+      transparent 128px,
+      #e8e8e8 100%);
 
   .profile-section {
     .profile {
@@ -116,10 +114,32 @@
         }
       }
 
+      &-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+      }
+
       &-title {
         font-size: map-get($font-sizes, "2xl");
         font-weight: map-get($font-weights, bold);
         margin-left: 40px;
+      }
+
+      &-edit-link {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: map-get($font-sizes, sm);
+
+        &:hover {
+          color: map-get($colors, primary);
+
+          .icon.icon-pen {
+            background-image: url("../assets/icons/ic-pen-highlight.svg");
+          }
+        }
       }
 
       &-comment-link {
@@ -149,7 +169,6 @@
       &-short-info {
         display: flex;
         align-items: center;
-        margin-bottom: 12px;
       }
 
       &-author-avatar {
@@ -183,6 +202,7 @@
       height: 240px;
       border-radius: 8px;
     }
+
     &-user-avatar {
       margin-top: -64px;
       width: 120px;
@@ -190,11 +210,13 @@
       border-radius: 50%;
       border: 8px solid black;
     }
+
     &-user-sidebar {
       width: 100%;
       height: 176px;
       border-radius: 8px;
     }
+
     &-personal-list {
       width: 100%;
       height: 176px;
