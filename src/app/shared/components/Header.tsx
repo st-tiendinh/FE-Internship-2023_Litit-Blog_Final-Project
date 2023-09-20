@@ -126,28 +126,35 @@ export const Header = () => {
                           <div className="dropdown-menu">
                             <ul className="menu-list">
                               <li className="menu-item">
-                                <p className="user-name">
-                                  {userInfo.displayName}
-                                </p>
-                              </li>
-                              <li className="menu-item">
                                 <Link
-                                  className="d-flex menu-action"
                                   to={`users/${jwtHelper.getUserInfo().userId}`}
                                 >
-                                  <i className="icon icon-profile"></i>
-                                  <p className="menu-label">My Profile</p>
+                                  <div className="menu-action">
+                                    <p className="user-name">
+                                      {userInfo.displayName}
+                                    </p>
+                                    <p className="user-email">
+                                      {userInfo.email}
+                                    </p>
+                                  </div>
                                 </Link>
+                              </li>
+                              <li className="menu-item">
+                                <div className="menu-action">
+                                  <p className="menu-label">Settings</p>
+                                </div>
+                              </li>
+                              <li className="menu-item">
+                                <div className="menu-action">
+                                  <p className="menu-label">Bookmark</p>
+                                </div>
                               </li>
                               <li className="menu-item">
                                 <div
                                   onClick={handleSignOut}
-                                  className="d-flex menu-action action-logout"
+                                  className="menu-action action-logout"
                                 >
-                                  <i className="icon icon-logout"></i>
-                                  <p className="menu-label logout-label">
-                                    Logout
-                                  </p>
+                                  <p className="logout-label">Sign out</p>
                                 </div>
                               </li>
                             </ul>

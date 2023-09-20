@@ -92,40 +92,49 @@
     }
 
     .dropdown-menu {
+      width: 210px;
+      padding: 6px 10px;
+
       position: absolute;
       z-index: 3;
       top: calc(100% + 10px);
       right: 0;
 
+      color: #404040;
       border-radius: 4px;
       background-color: #ffffff;
-      box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+      box-shadow: 0 10px 15px -3px rgba(black, 0.1),
+        0 4px 6px -2px rgba(black, 0.05), 0 0 0 1px rgba(black, 0.1);
 
       .menu-item {
-        &:not(:last-child) {
-          border-bottom: 0.5px solid #c4c4c4;
-        }
-
         .user-name {
-          margin: 12px 0px;
-          text-align: center;
-          font-size: map-get($font-sizes, "lg");
+          font-size: 17px;
           font-weight: map-get($font-weights, "medium");
         }
 
-        .menu-action {
-          padding: 12px 20px;
-          gap: 12px;
-          align-items: center;
-          font-size: 15px;
-          &:hover {
-            background-color: map-get($colors, "secondary-50");
-            cursor: pointer;
-          }
+        .user-email {
+          font-size: map-get($font-sizes, "sm");
+          color: #808080;
         }
 
-        .menu-label {
-          white-space: nowrap;
+        &:first-child {
+          border-bottom: 1px solid #e4e4e4;
+        }
+
+        &:last-child {
+          border-top: 1px solid #e4e4e4;
+        }
+
+        .menu-action {
+          font-size: 15px;
+          padding: 10px;
+          margin: 6px 0px;
+
+          &:hover {
+            background-color: map-get($colors, "tag-bg");
+            border-radius: 4px;
+            cursor: pointer;
+          }
         }
 
         .action-logout {
