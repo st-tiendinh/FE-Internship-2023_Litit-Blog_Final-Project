@@ -89,4 +89,19 @@
       border-color: #cfaf2f;
     }
   }
+
+  &-edit {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: map-get($font-sizes, sm);
+
+    &:hover {
+      color: map-get($colors, primary);
+
+      .icon.icon-pen {
+        background-image: url("../assets/icons/ic-pen-highlight.svg");
+      }
+    }
+  }
 }

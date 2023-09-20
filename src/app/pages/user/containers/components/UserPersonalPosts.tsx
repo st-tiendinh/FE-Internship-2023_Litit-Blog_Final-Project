@@ -38,7 +38,7 @@ export const UserPersonalPosts = ({ userPost, postAuthor }: any) => {
                 </div>
                 <Link
                   to={`/articles/update/${post.id}`}
-                  className="personal-post-edit-link"
+                  className="btn btn-edit"
                 >
                   <i className="icon icon-pen"></i>
                   Edit

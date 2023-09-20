@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import DOMPurify from 'dompurify';
 
 import { Sidebar } from '../../../shared/components';
 import { ListComments } from '../../../shared/components/ListComments';
@@ -14,31 +15,35 @@ import { ApiService } from '../../../core/services/api.service';
 import { ENDPOINT } from '../../../../config/endpoint';
 import Like from '../../../shared/components/Like';
 import { ScrollToTopButton } from '../../home/containers/components/ScrollToTopButton';
-
-import DOMPurify from 'dompurify';
+import JwtHelper from '../../../core/helpers/jwtHelper';
 
 const ArticleDetail = () => {
   const apiService = new ApiService();
+  const jwtHelper = new JwtHelper();
   const [post, setPost] = useState<any>({});
   const [isValidCover, setIsValidCover] = useState(false);
   const [isValidUserImg, setIsValidUserImg] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isShowButtonEdit, setIsShowButtonEdit] = useState<boolean>(false);
+
   const navigate = useNavigate();
   const location = useLocation();
+  const commentRef = useRef<HTMLDivElement>(null);
+  const clean = DOMPurify.sanitize(post.content);
 
   const [isEnoughSpaceForToolTip, setIsEnoughSpaceForToolTip] = useState(
     window.innerWidth <= 1250
   );
 
-  const clean = DOMPurify.sanitize(post.content);
+  const handleCommentClick = () => {
+    commentRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   useEffect(() => {
     const handleResize = () => {
       setIsEnoughSpaceForToolTip(window.innerWidth <= 1250);
     };
-
     window.addEventListener('resize', handleResize);
-
     return () => {
       window.removeEventListener('resize', handleResize);
     };
@@ -48,21 +53,16 @@ const ArticleDetail = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  const commentRef = useRef<HTMLDivElement>(null);
-
-  const handleCommentClick = () => {
-    commentRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
-
   useEffect(() => {
     (async () => {
       try {
         setIsLoading(true);
-        const response = await apiService.get([
+        const response: any = await apiService.get([
           ENDPOINT.posts.index,
           location.pathname.slice(10),
         ]);
         setPost(response);
+        setIsShowButtonEdit(jwtHelper.isCurrentUser(response.userId));
         setIsLoading(false);
         return response;
       } catch (error) {
@@ -124,26 +124,41 @@ const ArticleDetail = () => {
               {post.tags && <ArticleTagList tags={post.tags} />}
               <h2 className="article-detail-title">{post.title}</h2>
               <div className="article-detail-content">
-                <div className="short-info">
-                  <div className="short-info-author">
-                    <Link
-                      className="d-flex author-link"
-                      to={'/users/' + post.user?.id}
-                    >
-                      <img
-                        src={isValidUserImg ? post.user?.picture : BlankUserImg}
-                        alt="author avatar"
-                        className="short-info-author-avatar"
-                      />
-                      <span className="short-info-author-name">
-                        {post.user?.displayName}
-                      </span>
-                    </Link>
+                <div className="article-detail-header">
+                  <div className="short-info">
+                    <div className="short-info-author">
+                      <Link
+                        className="d-flex author-link"
+                        to={'/users/' + post.user?.id}
+                      >
+                        <img
+                          src={
+                            isValidUserImg ? post.user?.picture : BlankUserImg
+                          }
+                          alt="author avatar"
+                          className="short-info-author-avatar"
+                        />
+                        <span className="short-info-author-name">
+                          {post.user?.displayName}
+                        </span>
+                      </Link>
+                    </div>
+                    <span className="short-info-dot-symbol">&#x2022;</span>
+                    <span className="short-info-timestamp">
+                      {formatDate(post.updatedAt)}
+                    </span>
                   </div>
-                  <span className="short-info-dot-symbol">&#x2022;</span>
-                  <span className="short-info-timestamp">
-                    {formatDate(post.updatedAt)}
-                  </span>
+                  {isShowButtonEdit && (
+                    <Link
+                      to={`/articles/update/${location.pathname
+                        .split('/')
+                        .pop()}`}
+                      className="btn btn-edit"
+                    >
+                      <i className="icon icon-pen"></i>
+                      Edit
+                    </Link>
+                  )}
                 </div>
                 {isLoading ? (
                   <div className="article-detail-cover-wrapper skeleton"></div>
