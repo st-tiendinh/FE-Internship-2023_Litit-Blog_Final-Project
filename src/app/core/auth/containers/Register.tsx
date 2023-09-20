@@ -217,6 +217,7 @@ const Register = () => {
               <div className="d-flex signup-action">
                 <button
                   className={`btn btn-primary ${isLoading ? 'loading' : null}`}
+                  disabled={isLoading}
                   type="submit"
                 >
                   <span className="btn-text">Sign up</span>
