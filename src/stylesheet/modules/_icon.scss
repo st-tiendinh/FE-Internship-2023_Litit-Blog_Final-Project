@@ -49,15 +49,12 @@
     background-image: url("../assets/icons/ic-arrow-up.svg");
   }
 
-
   &-tag {
     width: 30px;
     height: 30px;
     background-image: url("../assets/icons/ic-tag.svg");
   }
   &-comment-normal {
-    width: 24px;
-    height: 24px;
     background-image: url("../assets/icons/ic-comment-normal.svg");
 
     &:hover {
@@ -89,7 +86,6 @@
     &:hover {
       background-image: url("../assets/icons/ic-bookmark-highlight.svg");
     }
-
   }
 
   &-dob {
@@ -111,26 +107,18 @@
   }
 
   &-comment-darker {
-    width: 24px;
-    height: 24px;
     background-image: url("../assets/icons/ic-comment-darker.svg");
   }
 
   &-comments-number {
-    width: 24px;
-    height: 24px;
     background-image: url("../assets/icons/ic-comments-number.svg");
   }
 
   &-post-number {
-    width: 24px;
-    height: 24px;
     background-image: url("../assets/icons/ic-post.svg");
   }
 
   &-followed-tag {
-    width: 24px;
-    height: 24px;
     background-image: url("../assets/icons/ic-followed-tag.svg");
   }
 }
