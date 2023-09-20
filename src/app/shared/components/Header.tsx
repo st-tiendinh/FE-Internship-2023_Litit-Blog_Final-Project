@@ -91,9 +91,9 @@ export const Header = () => {
                     </Link>
                   </li>
                   <li className="nav-item">
-                    <a className="nav-link" href="#">
+                    <Link to={'/articles/new'} className="nav-link">
                       Write
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </nav>

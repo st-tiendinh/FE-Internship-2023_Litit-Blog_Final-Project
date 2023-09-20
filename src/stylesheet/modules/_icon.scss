@@ -54,6 +54,7 @@
     height: 30px;
     background-image: url("../assets/icons/ic-tag.svg");
   }
+
   &-comment-normal {
     background-image: url("../assets/icons/ic-comment-normal.svg");
 
@@ -120,5 +121,23 @@
 
   &-followed-tag {
     background-image: url("../assets/icons/ic-followed-tag.svg");
+  }
+
+  &-earch {
+    width: 24px;
+    height: 24px;
+    background-image: url("../assets/icons/ic-earch.svg");
+  }
+
+  &-lock {
+    width: 24px;
+    height: 24px;
+    background-image: url("../assets/icons/ic-lock.svg");
+  }
+
+  &-pen {
+    width: 16px;
+    height: 16px;
+    background-image: url("../assets/icons/ic-pen.svg");
   }
 }

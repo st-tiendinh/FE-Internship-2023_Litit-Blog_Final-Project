@@ -14,6 +14,8 @@ import { ApiService } from '../../../core/services/api.service';
 import { ENDPOINT } from '../../../../config/endpoint';
 import Like from '../../../shared/components/Like';
 
+import DOMPurify from 'dompurify';
+
 const ArticleDetail = () => {
   const tags = ['ReactJS', 'VueJS', 'Angular', 'NodeJS'];
   const apiService = new ApiService();
@@ -23,7 +25,11 @@ const ArticleDetail = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const location = useLocation();
 
-  const [isEnoughSpaceForToolTip, setIsEnoughSpaceForToolTip] = useState(window.innerWidth <= 1250);
+  const [isEnoughSpaceForToolTip, setIsEnoughSpaceForToolTip] = useState(
+    window.innerWidth <= 1250
+  );
+
+  const clean = DOMPurify.sanitize(post.content);
 
   useEffect(() => {
     const handleResize = () => {
@@ -51,7 +57,10 @@ const ArticleDetail = () => {
     (async () => {
       try {
         setIsLoading(true);
-        const response = await apiService.get([ENDPOINT.posts.index, location.pathname.slice(10)]);
+        const response = await apiService.get([
+          ENDPOINT.posts.index,
+          location.pathname.slice(10),
+        ]);
         setPost(response);
         setIsLoading(false);
         return response;
@@ -80,16 +89,29 @@ const ArticleDetail = () => {
         <div className="row">
           <div className="col col-1">
             <ul className="article-action-list position-sticky">
-              <Like postId={location.pathname.slice(10).toString()} tooltip={isEnoughSpaceForToolTip}/>
+              <Like
+                postId={location.pathname.slice(10).toString()}
+                tooltip={isEnoughSpaceForToolTip}
+              />
               <li onClick={handleCommentClick} className="article-action-item">
-                <span className={`tooltip tooltip-${isEnoughSpaceForToolTip ? 'bottom' : 'left'}`}>
+                <span
+                  className={`tooltip tooltip-${
+                    isEnoughSpaceForToolTip ? 'bottom' : 'left'
+                  }`}
+                >
                   Comments
                 </span>
                 <i className="icon icon-comment-normal"></i>
                 {post.comments}
               </li>
               <li className="article-action-item">
-                <span className={`tooltip tooltip-${isEnoughSpaceForToolTip ? 'bottom' : 'left'}`}>Bookmark</span>
+                <span
+                  className={`tooltip tooltip-${
+                    isEnoughSpaceForToolTip ? 'bottom' : 'left'
+                  }`}
+                >
+                  Bookmark
+                </span>
                 <i className="icon icon-bookmark"></i>
               </li>
             </ul>
@@ -102,17 +124,24 @@ const ArticleDetail = () => {
               <div className="article-detail-content">
                 <div className="short-info">
                   <div className="short-info-author">
-                    <Link className="d-flex author-link" to={'/users/' + post.user?.id}>
+                    <Link
+                      className="d-flex author-link"
+                      to={'/users/' + post.user?.id}
+                    >
                       <img
                         src={isValidUserImg ? post.user?.picture : BlankUserImg}
                         alt="author avatar"
                         className="short-info-author-avatar"
                       />
-                      <span className="short-info-author-name">{post.user?.displayName}</span>
+                      <span className="short-info-author-name">
+                        {post.user?.displayName}
+                      </span>
                     </Link>
                   </div>
                   <span className="short-info-dot-symbol">&#x2022;</span>
-                  <span className="short-info-timestamp">{formatDate(post.updatedAt)}</span>
+                  <span className="short-info-timestamp">
+                    {formatDate(post.updatedAt)}
+                  </span>
                 </div>
                 {isLoading ? (
                   <div className="article-detail-cover-wrapper skeleton"></div>
@@ -125,10 +154,15 @@ const ArticleDetail = () => {
                     />
                   </div>
                 )}
-                <p className="article-detail-paragraph">{post.content}</p>
+                <div
+                  className="article-detail-paragraph"
+                  dangerouslySetInnerHTML={{ __html: clean }}
+                ></div>
               </div>
             </article>
-            <div ref={commentRef}>{post.id && <ListComments postId={post.id} />}</div>
+            <div ref={commentRef}>
+              {post.id && <ListComments postId={post.id} />}
+            </div>
           </div>
           <div className="col col-4">
             <Sidebar />
