@@ -1,9 +1,9 @@
-import { useState, useRef, useEffect } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { useState, useRef, useEffect } from 'react';
+import { Link, redirect, useLocation, useNavigate } from 'react-router-dom';
+
 import { ApiService } from '../../../../core/services/api.service';
 import JwtHelper from '../../../../core/helpers/jwtHelper';
 import { ENDPOINT } from '../../../../../config/endpoint';
@@ -22,6 +22,7 @@ interface ArticleEditorProps {
 }
 
 export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
+  const [error, setError] = useState<string>('');
   const [titleInput, setTitleInput] = useState<string>(
     type === PostAction.UPDATE ? data.title : ''
   );
@@ -42,8 +43,8 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
   const titleInputRef = useRef<any>(null);
   const descInputRef = useRef<any>(null);
 
-  const [nameImage, setNameImage] = useState<string | 0 | undefined>(undefined);
-  const [fileExtension, setFileExtension] = useState<string | 0 | undefined>(
+  const [nameImage, setNameImage] = useState<string | undefined>(undefined);
+  const [fileExtension, setFileExtension] = useState<string | undefined>(
     undefined
   );
   const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
@@ -76,7 +77,7 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
 
   const handleSubmitTitle = () => {
     if (titleInputRef.current.value.trim()) {
-      setTitleValue(titleInputRef.current.value.trim());
+      setTitleValue(titleInputRef.current.value);
     }
   };
 
@@ -126,8 +127,9 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
         );
         navigate('/');
         return response;
-      } catch (error) {
-        console.log(error);
+      } catch (error: any) {
+        setError(error.response.data.errors[0]);
+        window.scrollTo(0, 0);
       }
     })();
   };
@@ -145,7 +147,7 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
           [ENDPOINT.posts.index, `${location.pathname.split('/').pop()}`],
           postUpdated
         );
-        console.log(response);
+        navigate(-1);
         return response;
       } catch (error) {
         console.log(error);
@@ -181,6 +183,14 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
 
   return (
     <div className="article-editor">
+      {!!error && (
+        <div className="article-editor-error-wrapper">
+          <h3 className="article-editor-error-title">
+            Whoops, something went wrong:
+          </h3>
+          <p className="article-editor-error-message">{error}</p>
+        </div>
+      )}
       <div className="article-editor-form">
         {type === PostAction.CREATE && (
           <>
@@ -188,7 +198,7 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
               htmlFor="article-editor-cover-upload"
               className="article-editor-upload-label"
             >
-              Add a cover image
+              {imageUrl ? 'Change image' : 'Add a cover image'}
               <input
                 type="file"
                 accept="image/*"
