@@ -32,15 +32,15 @@
   }
 
   &-comment {
-    width: 16px;
-    height: 16px;
-    background-image: url("../assets/icons/ic-comment.svg");
+    width: 18px;
+    height: 18px;
+    background-image: url("../assets/icons/ic-comment-normal.svg");
   }
 
   &-unlike {
-    width: 16px;
-    height: 16px;
-    background-image: url("../assets/icons/ic-unlike.svg");
+    width: 18px;
+    height: 18px;
+    background-image: url("../assets/icons/ic-like-normal.svg");
   }
 
   &-arrow-up {
@@ -49,7 +49,6 @@
     background-image: url("../assets/icons/ic-arrow-up.svg");
   }
 
-
   &-tag {
     width: 30px;
     height: 30px;
@@ -57,8 +56,6 @@
   }
 
   &-comment-normal {
-    width: 24px;
-    height: 24px;
     background-image: url("../assets/icons/ic-comment-normal.svg");
 
     &:hover {
@@ -90,7 +87,6 @@
     &:hover {
       background-image: url("../assets/icons/ic-bookmark-highlight.svg");
     }
-
   }
 
   &-dob {
@@ -112,26 +108,18 @@
   }
 
   &-comment-darker {
-    width: 24px;
-    height: 24px;
     background-image: url("../assets/icons/ic-comment-darker.svg");
   }
 
   &-comments-number {
-    width: 24px;
-    height: 24px;
     background-image: url("../assets/icons/ic-comments-number.svg");
   }
 
   &-post-number {
-    width: 24px;
-    height: 24px;
     background-image: url("../assets/icons/ic-post.svg");
   }
 
   &-followed-tag {
-    width: 24px;
-    height: 24px;
     background-image: url("../assets/icons/ic-followed-tag.svg");
   }
 

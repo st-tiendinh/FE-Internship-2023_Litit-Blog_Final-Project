@@ -8,7 +8,7 @@
   white-space: nowrap;
 
   font-size: map-get($font-sizes, "sm");
-  font-weight: map-get($font-weights, "regular");
+  font-weight: map-get($font-weights, "medium");
 
   border-radius: 4px;
   border: 1px solid transparent;
@@ -20,18 +20,21 @@
     background-color: map-get($colors, "white");
     border-color: map-get($colors, "primary");
     color: map-get($colors, "primary");
+
+    &:hover {
+      border-color: map-get($colors, "primary");
+      background-color: map-get($colors, "primary");
+      color: map-get($colors, "white");
+    }
   }
 
-  &.btn-outline:hover,
   &.btn-primary {
     border-color: map-get($colors, "primary");
     background-color: map-get($colors, "primary");
     color: map-get($colors, "white");
-  }
 
-  &.btn-primary {
     &:hover {
-      background-color: #2740af;
+      opacity: 0.8;
     }
 
     &.loading {
@@ -73,6 +76,17 @@
       border: none;
       color: map-get($colors, secondary-400);
       background: map-get($colors, secondary-100);
+    }
+  }
+
+  &-secondary {
+    border-color: map-get($colors, "yellow");
+    background-color: map-get($colors, "yellow");
+    color: map-get($colors, "primary");
+
+    &:hover {
+      background-color: #cfaf2f;
+      border-color: #cfaf2f;
     }
   }
 }
