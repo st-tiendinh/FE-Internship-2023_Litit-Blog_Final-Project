@@ -6,7 +6,7 @@ import { ENDPOINT } from '../../../config/endpoint';
 import { ApiService } from '../../core/services/api.service';
 import { RootState } from '../../app.reducers';
 
-const Like = ({ postId }: any) => {
+const Like = ({ postId, tooltip }: any) => {
   const apiService = new ApiService();
   const jwt = new JwtHelper();
 
@@ -73,7 +73,7 @@ const Like = ({ postId }: any) => {
 
   return (
     <li onClick={handleLike} className="article-action-item">
-      <span className="tooltip tooltip-left">Likes</span>
+      <span className={`tooltip tooltip-${tooltip ? 'bottom' : 'left'}`}>Likes</span>
       {isLiked ? (
         <i className="icon icon-like-fulfill"></i>
       ) : (

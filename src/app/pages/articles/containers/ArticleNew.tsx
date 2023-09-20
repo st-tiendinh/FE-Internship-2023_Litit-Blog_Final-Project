@@ -1,4 +1,4 @@
-import { ArticleEditor } from './components/ArticleEditor';
+import { ArticleEditor, PostAction } from './components/ArticleEditor';
 
 const ArticleNew = () => {
   return (
@@ -6,7 +6,7 @@ const ArticleNew = () => {
       <div className="container">
         <div className="row">
           <div className="col col-9">
-            <ArticleEditor />
+            <ArticleEditor type={PostAction.CREATE} />
           </div>
 
           <div className="col col-3">

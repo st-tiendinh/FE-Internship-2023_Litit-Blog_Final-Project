@@ -40,7 +40,7 @@ const ArticleByTag = () => {
     if (lastPart !== undefined) {
       getPostByTag(encodedTag);
     }
-  }, []);
+  }, [lastPart]);
 
   return (
     <section className="section section-article-list">
