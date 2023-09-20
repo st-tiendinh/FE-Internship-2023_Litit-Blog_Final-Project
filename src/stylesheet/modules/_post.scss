@@ -40,11 +40,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    min-height: 150px;
-  }
-
-  &-info {
-    margin-bottom: 10px;
+    min-height: 101px;
   }
 
   &-image {
@@ -62,7 +58,7 @@
   }
 
   &-tags > * {
-    margin-right: 6px;
+    margin-right: 8px;
   }
 
   &-title {
@@ -121,7 +117,7 @@
     cursor: pointer;
 
     &:hover {
-      text-decoration: underline;
+      color: map-get($colors, "yellow");
     }
   }
 
