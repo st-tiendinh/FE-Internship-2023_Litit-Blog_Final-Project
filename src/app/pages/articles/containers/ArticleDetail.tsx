@@ -23,6 +23,20 @@ const ArticleDetail = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const location = useLocation();
 
+  const [isEnoughSpaceForToolTip, setIsEnoughSpaceForToolTip] = useState(window.innerWidth <= 1250);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsEnoughSpaceForToolTip(window.innerWidth <= 1250);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -66,14 +80,16 @@ const ArticleDetail = () => {
         <div className="row">
           <div className="col col-1">
             <ul className="article-action-list position-sticky">
-              <Like postId={location.pathname.slice(10).toString()} />
+              <Like postId={location.pathname.slice(10).toString()} tooltip={isEnoughSpaceForToolTip}/>
               <li onClick={handleCommentClick} className="article-action-item">
-                <span className="tooltip tooltip-left">Comments</span>
+                <span className={`tooltip tooltip-${isEnoughSpaceForToolTip ? 'bottom' : 'left'}`}>
+                  Comments
+                </span>
                 <i className="icon icon-comment-normal"></i>
                 {post.comments}
               </li>
               <li className="article-action-item">
-                <span className="tooltip tooltip-left">Bookmark</span>
+                <span className={`tooltip tooltip-${isEnoughSpaceForToolTip ? 'bottom' : 'left'}`}>Bookmark</span>
                 <i className="icon icon-bookmark"></i>
               </li>
             </ul>
