@@ -55,6 +55,7 @@
     height: 30px;
     background-image: url("../assets/icons/ic-tag.svg");
   }
+
   &-comment-normal {
     width: 24px;
     height: 24px;
@@ -144,5 +145,11 @@
     width: 24px;
     height: 24px;
     background-image: url("../assets/icons/ic-lock.svg");
+  }
+
+  &-pen {
+    width: 16px;
+    height: 16px;
+    background-image: url("../assets/icons/ic-pen.svg");
   }
 }

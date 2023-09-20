@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 import { CKEditor } from '@ckeditor/ckeditor5-react';
@@ -11,19 +11,36 @@ import { ENDPOINT } from '../../../../../config/endpoint';
 const apiService = new ApiService();
 const jwt = new JwtHelper();
 
-export const ArticleEditor = () => {
+export enum PostAction {
+  CREATE = 'create',
+  UPDATE = 'update',
+}
+
+interface ArticleEditorProps {
+  type: PostAction;
+  data?: any;
+}
+
+export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
+  const [titleInput, setTitleInput] = useState<string>(
+    type === PostAction.UPDATE ? data.title : ''
+  );
+
   const [titleValue, setTitleValue] = useState<string>('');
   const [descValue, setDescValue] = useState<string>('');
   const [tagItems, setTagItems] = useState<string[]>([]);
   const [tagItemValue, SetTagItemValue] = useState('');
   const [contentValue, setContentValue] = useState<string>('');
-  const [statusValue, setStatusValue] = useState<string>('public');
+  const [statusValue, setStatusValue] = useState<string>(
+    type === PostAction.CREATE ? 'public' : data.status
+  );
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   const tagInputRef = useRef<any>(null);
-  const titleInputRef = useRef<any>('');
-  const descInputRef = useRef<any>('');
+  const titleInputRef = useRef<any>(null);
+  const descInputRef = useRef<any>(null);
 
   const [nameImage, setNameImage] = useState<string | 0 | undefined>(undefined);
   const [fileExtension, setFileExtension] = useState<string | 0 | undefined>(
@@ -31,8 +48,6 @@ export const ArticleEditor = () => {
   );
   const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
   const [binaryImg, setBinaryImg] = useState<any>(undefined); // 1
-  const uploadType = 'cover-post';
-  const params = `?type_upload=${uploadType}&file_name=${nameImage}&file_type=image/png}`;
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file: any = event.target.files?.[0];
@@ -53,6 +68,10 @@ export const ArticleEditor = () => {
       }
     };
     reader.readAsDataURL(file);
+  };
+
+  const handleChangeTitle = () => {
+    setTitleInput(titleInputRef.current.value);
   };
 
   const handleSubmitTitle = () => {
@@ -113,11 +132,34 @@ export const ArticleEditor = () => {
     })();
   };
 
+  const handleUpdateData = () => {
+    (async () => {
+      try {
+        apiService.setHeaders(jwt.getAuthHeader());
+        const postUpdated = {
+          title: titleValue,
+          content: contentValue,
+          status: statusValue,
+        };
+        const response = await apiService.put(
+          [ENDPOINT.posts.index, `${location.pathname.split('/').pop()}`],
+          postUpdated
+        );
+        console.log(response);
+        return response;
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  };
+
   useEffect(() => {
     const getImage = async () => {
       if (nameImage && fileExtension) {
         try {
           apiService.setHeaders(jwt.getAuthHeader());
+          const uploadType = 'cover-post';
+          const params = `?type_upload=${uploadType}&file_name=${nameImage}&file_type=image/png}`;
           const res: any = await apiService.get([
             `https://fe-internship.liveonce.online/api/v1/signatures${params}`,
           ]);
@@ -140,70 +182,80 @@ export const ArticleEditor = () => {
   return (
     <div className="article-editor">
       <div className="article-editor-form">
-        <label
-          htmlFor="article-editor-cover-upload"
-          className="article-editor-upload-label"
-        >
-          Add a cover image
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleFileChange}
-            className="article-editor-cover-upload"
-            name=""
-            id="article-editor-cover-upload"
-          />
-        </label>
+        {type === PostAction.CREATE && (
+          <>
+            <label
+              htmlFor="article-editor-cover-upload"
+              className="article-editor-upload-label"
+            >
+              Add a cover image
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleFileChange}
+                className="article-editor-cover-upload"
+                name=""
+                id="article-editor-cover-upload"
+              />
+            </label>
 
-        {!!imageUrl && (
-          <div className="article-editor-preview-cover">
-            <img src={imageUrl} className="article-editor-image" />
-          </div>
+            {!!imageUrl && (
+              <div className="article-editor-preview-cover">
+                <img src={imageUrl} className="article-editor-image" />
+              </div>
+            )}
+          </>
         )}
 
         <textarea
           className="article-editor-title-input"
+          value={titleInput}
           placeholder="New post title here..."
           ref={titleInputRef}
+          onChange={handleChangeTitle}
           onBlur={handleSubmitTitle}
         ></textarea>
 
-        <textarea
-          className="article-editor-desc-input"
-          placeholder="Enter post description..."
-          ref={descInputRef}
-          onBlur={handleSubmitDesc}
-        ></textarea>
+        {type === PostAction.CREATE && (
+          <textarea
+            className="article-editor-desc-input"
+            placeholder="Enter post description..."
+            ref={descInputRef}
+            onBlur={handleSubmitDesc}
+          ></textarea>
+        )}
 
         <div className="article-editor-form-group">
-          <div className="article-editor-tags-search-group">
-            {tagItems.length < 4 && (
-              <input
-                type="text"
-                className="article-editor-tags-search"
-                placeholder="Add up to 4 tags..."
-                value={tagItemValue}
-                ref={tagInputRef}
-                onChange={handleTagChange}
-                onKeyUp={handleTagEnter}
-                onSubmit={(e) => e.preventDefault()}
-              />
-            )}
+          {type === PostAction.CREATE && (
+            <div className="article-editor-tags-search-group">
+              {tagItems.length < 4 && (
+                <input
+                  type="text"
+                  className="article-editor-tags-search"
+                  placeholder="Add up to 4 tags..."
+                  value={tagItemValue}
+                  ref={tagInputRef}
+                  onChange={handleTagChange}
+                  onKeyUp={handleTagEnter}
+                  onSubmit={(e) => e.preventDefault()}
+                />
+              )}
 
-            <ul className="article-editor-tag-list">
-              {tagItems.map((item, index) => (
-                <li
-                  key={index}
-                  className="article-editor-tag-item"
-                  onClick={() => handleDeleteTagItem(index)}
-                >
-                  <span className="badge badge-primary">
-                    {item} <span className="close-btn">&times;</span>
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
+              <ul className="article-editor-tag-list">
+                {tagItems.map((item, index) => (
+                  <li
+                    key={index}
+                    className="article-editor-tag-item"
+                    onClick={() => handleDeleteTagItem(index)}
+                  >
+                    <span className="badge badge-primary">
+                      {item} <span className="close-btn">&times;</span>
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
 
           <div className="article-editor-post-status">
             <select
@@ -224,16 +276,23 @@ export const ArticleEditor = () => {
 
         <CKEditor
           editor={ClassicEditor}
+          data={type === PostAction.CREATE ? '' : data.content}
           config={{ placeholder: 'Write your post content here..' }}
           onBlur={(_, editor) => {
-            console.log(editor.getData());
             setContentValue(editor.getData());
           }}
         />
         <div className="article-editor-form-action">
-          <button className="btn btn-primary" onClick={handleSubmitData}>
-            Publish
-          </button>
+          {(type === PostAction.CREATE && (
+            <button className="btn btn-primary" onClick={handleSubmitData}>
+              Publish
+            </button>
+          )) ||
+            (type === PostAction.UPDATE && (
+              <button className="btn btn-primary" onClick={handleUpdateData}>
+                Update
+              </button>
+            ))}
         </div>
       </div>
     </div>
