@@ -1,6 +1,6 @@
 .personal-post {
   display: flex;
-  padding: 12px 0;
+  border-radius: 12px;
 
   &-image-wrapper {
     width: 320px;
@@ -45,12 +45,7 @@
   }
 
   &-image {
-    width: 140%;
-    object-fit: cover;
-
-    &:hover {
-      transform: scale(1.1);
-    }
+    height: 100%;
   }
 
   &-tag-list {
@@ -68,7 +63,7 @@
     cursor: pointer;
 
     &:hover {
-      color: map-get($colors, primary);
+      text-decoration: underline;
     }
   }
 
@@ -78,6 +73,11 @@
     color: map-get($colors, secondary-500);
     line-height: 1.5;
     margin-bottom: 24px;
+  }
+
+  &:hover {
+    transform: translateX(-4px);
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   }
 }
 
@@ -100,19 +100,16 @@
     &-tag-list {
       height: 14px;
       border-radius: 4px;
-
     }
 
     &-title {
       height: 16px;
       border-radius: 4px;
-
     }
 
     &-desc {
       height: 16px;
       border-radius: 4px;
-
     }
   }
 }

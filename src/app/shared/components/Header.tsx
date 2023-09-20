@@ -95,11 +95,6 @@ export const Header = () => {
                       Write
                     </a>
                   </li>
-                  <li className="nav-item">
-                    <a className="nav-link" href="#">
-                      About Us
-                    </a>
-                  </li>
                 </ul>
               </nav>
             </div>
@@ -168,24 +163,23 @@ export const Header = () => {
                     <li className="action-item">
                       <Link
                         to={'auth/register'}
-                        className="btn btn-outline action-link"
+                        className="btn btn-secondary action-link"
                       >
                         Sign up
                       </Link>
                     </li>
                   )}
 
-                  {(location.pathname === '/' && !isLogged) ||
-                  location.pathname === '/auth/register' ? (
+                  {!isLogged && location.pathname !== '/auth/login' && (
                     <li className="action-item">
                       <Link
                         to={'auth/login'}
-                        className="btn btn-outline action-link"
+                        className="btn btn-secondary action-link"
                       >
                         Sign in
                       </Link>
                     </li>
-                  ) : null}
+                  )}
                 </ul>
               </div>
             </div>

@@ -87,7 +87,7 @@ export const Post = ({
                   <Link
                     to={`/articles/tag/${tag}`}
                     key={tag}
-                    className="badge badge-secondary"
+                    className="badge badge-primary"
                   >
                     {tag}
                   </Link>
@@ -149,7 +149,7 @@ export const Post = ({
                     to={`/articles/tag/${tag}`}
                     className="personal-post-tag-link"
                   >
-                    <span className="badge badge-secondary"> {tag}</span>
+                    <span className="badge badge-primary"> {tag}</span>
                   </Link>
                 </li>
               ))}

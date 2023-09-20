@@ -5,4 +5,8 @@
     font-size: map-get($font-sizes, "xl");
     font-weight: map-get($font-weights, "medium");
   }
+
+  .comment-input {
+    resize: none;
+  }
 }

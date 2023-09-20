@@ -24,16 +24,18 @@
 
   .nav {
     height: 100%;
+    width: 100%;
     display: flex;
     align-items: center;
+    justify-content: center;
     &-list {
       height: 100%;
-      gap: 48px;
+      gap: 64px;
       align-items: center;
     }
 
     &-link {
-      color: #f2ce3f;
+      color: map-get($colors, "yellow");
       font-size: map-get($font-sizes, "sm");
       transition: text-decoration 0.2s ease;
       text-transform: uppercase;
@@ -48,8 +50,8 @@
         bottom: -8px;
         width: 0;
         height: 2px;
-        background-color: #f2ce3f;
-        transition: width 0.4s ease;
+        background-color: map-get($colors, "yellow");
+        transition: width 0.3s ease;
       }
 
       &:hover {
@@ -68,6 +70,10 @@
   .action-list {
     align-items: center;
     gap: 16px;
+
+    .action-link {
+      padding: 8px 16px;
+    }
 
     .user-avatar {
       &-wrapper {
@@ -131,7 +137,7 @@
           margin: 6px 0px;
 
           &:hover {
-            background-color: #fffcee;
+            background-color: map-get($colors, "primary-50");
             border-radius: 4px;
             cursor: pointer;
           }
