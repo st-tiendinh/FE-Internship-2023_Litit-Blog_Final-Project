@@ -56,27 +56,26 @@ export const Sidebar = () => {
             : popularPost.map((post: any) => {
                 return (
                   <li key={post.id} className="popular-post-item">
-                    <div className="popular-post">
-                      <div className="popular-post-image-wrapper">
-                        <Link to={`/articles/${post.id}`}>
+                    <Link to={`/articles/${post.id}`}>
+                      <div className="popular-post">
+                        <div className="popular-post-image-wrapper">
                           <img
                             src={post.cover}
                             alt=""
                             className="popular-post-image"
                           />
-                        </Link>
-                      </div>
-                      <div className="popular-post-content">
-                        <Link to={`/articles/${post.id}`}>
+                        </div>
+                        <div className="popular-post-content">
                           <h4 className="popular-post-title text-truncate">
                             {post.title}
                           </h4>
-                        </Link>
-                        <p className="popular-post-timestamp">
-                          {formatDate(post.createdAt)}
-                        </p>
+
+                          <p className="popular-post-timestamp">
+                            {formatDate(post.createdAt)}
+                          </p>
+                        </div>
                       </div>
-                    </div>
+                    </Link>
                   </li>
                 );
               })}
