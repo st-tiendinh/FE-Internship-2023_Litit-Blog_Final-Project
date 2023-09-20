@@ -10,10 +10,11 @@ export const Sidebar = () => {
   const [popularPost, setPopularPost] = useState<any>([]);
   const apiService = new ApiService();
   const tags = [
-    { name: '#ReactJS' },
-    { name: '#VueJS' },
-    { name: '#Angular' },
-    { name: '#NodeJS' },
+    { name: 'React' },
+    { name: 'ReactJS' },
+    { name: 'VueJS' },
+    { name: 'Angular' },
+    { name: 'NodeJS' },
   ];
 
   const [allPost, setAllPost] = useState<any[]>([]);
@@ -69,7 +70,6 @@ export const Sidebar = () => {
                           <h4 className="popular-post-title text-truncate">
                             {post.title}
                           </h4>
-
                           <p className="popular-post-timestamp">
                             {formatDate(post.createdAt)}
                           </p>
@@ -88,9 +88,14 @@ export const Sidebar = () => {
           {tags.map((tag, index) => {
             return (
               <li key={index} className="category-item">
-                <a href="" className="category-link">
-                  <span className="badge badge-primary">{tag.name}</span>
-                </a>
+                <Link
+                  to={`/articles/tag/${tag.name}`}
+                  className="category-link"
+                >
+                  <span className="badge badge-primary text-truncate">
+                    {tag.name}
+                  </span>
+                </Link>
               </li>
             );
           })}

@@ -54,7 +54,6 @@ const PublicPost = ({ type, sectionTitle }: PublicPostProps) => {
       ) : (
         <h3 className="section-title">{sectionTitle}</h3>
       )}
-
       {isLoading && page === 1 ? (
         <ul className="post-list row">
           {skeletonArray.map((item) => {
