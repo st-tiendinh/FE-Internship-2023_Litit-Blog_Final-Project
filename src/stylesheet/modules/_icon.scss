@@ -49,7 +49,6 @@
     background-image: url("../assets/icons/ic-arrow-up.svg");
   }
 
-
   &-tag {
     width: 30px;
     height: 30px;
@@ -89,7 +88,6 @@
     &:hover {
       background-image: url("../assets/icons/ic-bookmark-highlight.svg");
     }
-
   }
 
   &-dob {
@@ -132,5 +130,13 @@
     width: 24px;
     height: 24px;
     background-image: url("../assets/icons/ic-followed-tag.svg");
+  }
+
+  &-profile {
+    background-image: url("../assets/icons/ic-profile.svg");
+  }
+
+  &-logout {
+    background-image: url("../assets/icons/ic-logout.svg");
   }
 }

@@ -3,16 +3,15 @@
   top: 0;
   z-index: 100;
   background-color: map-get($colors, "white");
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
-    rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+  box-shadow: 0px 8px 24px rgba(149, 157, 165, 0.1);
 
   &-inner {
-    padding: 16px 0px;
+    padding: 16px 0;
     justify-content: space-between;
     align-items: center;
 
     .logo {
-      width: 100px;
+      width: 110px;
       object-fit: cover;
     }
   }
@@ -34,40 +33,105 @@
     }
 
     &-link {
-      color: map-get($colors, "primary");
-      text-transform: uppercase;
+      color: map-get($colors, "secondary-500");
+      font-size: map-get($font-sizes, "sm");
       transition: text-decoration 0.2s ease;
+      text-transform: uppercase;
       position: relative;
       white-space: nowrap;
-      font-weight: map-get($font-weights, "medium");
+      font-weight: map-get($font-weights, "bold");
+
+      &::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -8px;
+        width: 0;
+        height: 2px;
+        background-color: map-get($colors, "secondary-800");
+        transition: width 0.4s ease;
+      }
 
       &:hover {
+        color: map-get($colors, "secondary-800");
         &::after {
-          content: "";
-          position: absolute;
-          left: 50%;
-          bottom: -5px;
-          width: 70%;
-          height: 1.5px;
-          background-color: map-get($colors, "primary");
-          transform: translateX(-50%);
+          width: 100%;
         }
       }
     }
   }
 
   &-action {
-    display: flex;
     justify-content: flex-end;
+    height: 100%;
   }
 
   .action-list {
     align-items: center;
-    gap: 32px;
+    gap: 16px;
 
-    .display-name {
-      color: map-get($colors, "primary");
-      font-size: map-get($font-sizes, "lg");
+    .user-avatar {
+      &-wrapper {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 0.5px solid #eeeeee;
+      }
+      border-radius: 50%;
+    }
+
+    .user-action {
+      position: relative;
+
+      .user-avatar-wrapper {
+        &:hover {
+          cursor: pointer;
+          box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+        }
+      }
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      z-index: 3;
+      top: calc(100% + 10px);
+      right: 0;
+
+      border-radius: 4px;
+      background-color: #ffffff;
+      box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+
+      .menu-item {
+        &:not(:last-child) {
+          border-bottom: 0.5px solid #c4c4c4;
+        }
+
+        .user-name {
+          margin: 12px 0px;
+          text-align: center;
+          font-size: map-get($font-sizes, "lg");
+          font-weight: map-get($font-weights, "medium");
+        }
+
+        .menu-action {
+          padding: 12px 20px;
+          gap: 12px;
+          align-items: center;
+          font-size: 15px;
+          &:hover {
+            background-color: map-get($colors, "secondary-50");
+            cursor: pointer;
+          }
+        }
+
+        .menu-label {
+          white-space: nowrap;
+        }
+
+        .action-logout {
+          color: #ef4444;
+        }
+      }
     }
   }
 }

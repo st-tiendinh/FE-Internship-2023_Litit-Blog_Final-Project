@@ -2,10 +2,13 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import LogoImage from '../../../assets/images/logo.png';
+import BlankUserImg from '../../../assets/images/blank-user.webp';
 
 import { signOut } from '../../core/auth/auth.actions';
 import { RootState } from '../../app.reducers';
 import JwtHelper from '../../core/helpers/jwtHelper';
+import { useEffect, useRef, useState } from 'react';
+import { isImageUrlValid } from '../utils/checkValidImage';
 
 const jwtHelper = new JwtHelper();
 
@@ -13,7 +16,9 @@ export const Header = () => {
   const location = useLocation();
   const dispatch = useDispatch();
 
-  const navigate = useNavigate();
+  const [isValidUserImg, setIsValidUserImg] = useState(false);
+  const userActionRef = useRef<HTMLDivElement | null>(null);
+  const [isOpenDropdown, setIsOpenDropdown] = useState(false);
 
   const isLogged = useSelector(
     (state: RootState) => state.authReducer.isLogged
@@ -22,11 +27,37 @@ export const Header = () => {
     (state: RootState) => state.authReducer.userInfo
   );
 
+  useEffect(() => {
+    isImageUrlValid(userInfo?.picture).then((isValid) => {
+      isValid ? setIsValidUserImg(true) : setIsValidUserImg(false);
+    });
+  }, [isImageUrlValid, userInfo?.picture]);
+
+  const navigate = useNavigate();
+
   const handleSignOut = () => {
     dispatch(signOut());
 
     navigate('/');
   };
+
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (
+        userActionRef.current &&
+        event.target instanceof Node &&
+        !userActionRef.current.contains(event.target)
+      ) {
+        setIsOpenDropdown(false);
+      }
+    };
+
+    window.addEventListener('click', handleOutsideClick);
+
+    return () => {
+      window.removeEventListener('click', handleOutsideClick);
+    };
+  }, [setIsOpenDropdown]);
 
   return (
     <header className="header position-sticky">
@@ -56,7 +87,7 @@ export const Header = () => {
                   </li>
                   <li className="nav-item">
                     <Link to={'articles'} className="nav-link">
-                      Blog
+                      Blogs
                     </Link>
                   </li>
                   <li className="nav-item">
@@ -73,30 +104,58 @@ export const Header = () => {
               </nav>
             </div>
             <div className="col col-4">
-              <div className="header-action">
+              <div className="d-flex header-action">
                 <ul className="d-flex action-list">
-                  {location.pathname !== '/auth/login' &&
-                    location.pathname !== '/auth/register' &&
-                    isLogged && (
-                      <>
-                        <li className="action-item">
-                          <Link
-                            to={`/users/${jwtHelper.getUserInfo().userId}`}
-                            className="action-link display-name"
-                          >
-                            {userInfo.displayName}
-                          </Link>
-                        </li>
-                        <li className="action-item">
-                          <button
-                            className="btn btn-outline action-link"
-                            onClick={handleSignOut}
-                          >
-                            LOGOUT
-                          </button>
-                        </li>
-                      </>
-                    )}
+                  {isLogged && (
+                    <li className="action-item">
+                      <div
+                        onClick={() => setIsOpenDropdown(!isOpenDropdown)}
+                        ref={userActionRef}
+                        className="user-action"
+                      >
+                        <div className="user-avatar-wrapper">
+                          <img
+                            className="user-avatar"
+                            src={
+                              isValidUserImg ? userInfo.picture : BlankUserImg
+                            }
+                            alt="User Image"
+                          />
+                        </div>
+                        {isOpenDropdown && (
+                          <div className="dropdown-menu">
+                            <ul className="menu-list">
+                              <li className="menu-item">
+                                <p className="user-name">
+                                  {userInfo.displayName}
+                                </p>
+                              </li>
+                              <li className="menu-item">
+                                <Link
+                                  className="d-flex menu-action"
+                                  to={`users/${jwtHelper.getUserInfo().userId}`}
+                                >
+                                  <i className="icon icon-profile"></i>
+                                  <p className="menu-label">My Profile</p>
+                                </Link>
+                              </li>
+                              <li className="menu-item">
+                                <div
+                                  onClick={handleSignOut}
+                                  className="d-flex menu-action action-logout"
+                                >
+                                  <i className="icon icon-logout"></i>
+                                  <p className="menu-label logout-label">
+                                    Logout
+                                  </p>
+                                </div>
+                              </li>
+                            </ul>
+                          </div>
+                        )}
+                      </div>
+                    </li>
+                  )}
 
                   {location.pathname === '/auth/login' && !isLogged && (
                     <li className="action-item">
@@ -104,7 +163,7 @@ export const Header = () => {
                         to={'auth/register'}
                         className="btn btn-outline action-link"
                       >
-                        SIGN UP
+                        Sign up
                       </Link>
                     </li>
                   )}
@@ -116,7 +175,7 @@ export const Header = () => {
                         to={'auth/login'}
                         className="btn btn-outline action-link"
                       >
-                        SIGN IN
+                        Sign in
                       </Link>
                     </li>
                   ) : null}
