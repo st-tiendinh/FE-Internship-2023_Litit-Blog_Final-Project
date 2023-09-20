@@ -7,6 +7,7 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { ApiService } from '../../../../core/services/api.service';
 import JwtHelper from '../../../../core/helpers/jwtHelper';
 import { ENDPOINT } from '../../../../../config/endpoint';
+import { SimpleUploadAdapter } from '@ckeditor/ckeditor5-upload';
 
 const apiService = new ApiService();
 const jwt = new JwtHelper();
@@ -26,9 +27,7 @@ export const ArticleEditor = () => {
   const descInputRef = useRef<any>('');
 
   const [nameImage, setNameImage] = useState<string | 0 | undefined>(undefined);
-  const [fileExtension, setFileExtension] = useState<string | 0 | undefined>(
-    undefined
-  );
+  const [fileExtension, setFileExtension] = useState<string | 0 | undefined>(undefined);
   const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
   const [binaryImg, setBinaryImg] = useState<any>(undefined); // 1
   const uploadType = 'cover-post';
@@ -45,9 +44,7 @@ export const ArticleEditor = () => {
     reader.onloadend = async function () {
       if (reader.result) {
         const base64String = reader.result.toString().split(',')[1];
-        const base64Response = await fetch(
-          `data:image/png;base64,${base64String}`
-        );
+        const base64Response = await fetch(`data:image/png;base64,${base64String}`);
         const blob = await base64Response.blob();
         setBinaryImg(blob);
       }
@@ -101,10 +98,7 @@ export const ArticleEditor = () => {
           description: descValue,
           tags: tagItems,
         };
-        const response = await apiService.post(
-          [ENDPOINT.posts.index],
-          postData
-        );
+        const response = await apiService.post([ENDPOINT.posts.index], postData);
         navigate('/');
         return response;
       } catch (error) {
@@ -122,9 +116,7 @@ export const ArticleEditor = () => {
             `https://fe-internship.liveonce.online/api/v1/signatures${params}`,
           ]);
           if (res && res.url && res.signedRequest) {
-            await axios
-              .put(res.signedRequest, binaryImg)
-              .then((err) => console.log(err));
+            await axios.put(res.signedRequest, binaryImg).then((err) => console.log(err));
             setImageUrl(res.url);
           } else {
             console.error('Invalid response from API:', res);
@@ -137,13 +129,42 @@ export const ArticleEditor = () => {
     getImage();
   }, [binaryImg]);
 
+  function uploadAdapter(loader: any) {
+    return {
+      upload: () => {
+        return new Promise((resolve, reject) => {
+          let signUrl: any;
+          let imgUrl: any;
+          loader.file.then((file: any) => {
+            const filenameParts = file?.name.split('.');
+            const firstNameElement = filenameParts?.shift();
+            const params = `?type_upload=content-post&file_name=${firstNameElement}&file_type=image/png}`;
+            apiService.setHeaders(jwt.getAuthHeader());
+            apiService
+              .get([`https://fe-internship.liveonce.online/api/v1/signatures${params}`])
+              .then((res: any) => {
+                signUrl = res.signedRequest;
+                imgUrl = res.url;
+              })
+              .then(() => axios.put(signUrl, file).then((err) => console.log(err)))
+              .then(() => resolve({ default: imgUrl }))
+              .catch((err) => reject(err));
+          });
+        });
+      },
+    };
+  }
+
+  function uploadPlugin(editor: any) {
+    editor.plugins.get('FileRepository').createUploadAdapter = (loader: any) => {
+      return uploadAdapter(loader);
+    };
+  }
+
   return (
     <div className="article-editor">
       <div className="article-editor-form">
-        <label
-          htmlFor="article-editor-cover-upload"
-          className="article-editor-upload-label"
-        >
+        <label htmlFor="article-editor-cover-upload" className="article-editor-upload-label">
           Add a cover image
           <input
             type="file"
@@ -224,7 +245,7 @@ export const ArticleEditor = () => {
 
         <CKEditor
           editor={ClassicEditor}
-          config={{ placeholder: 'Write your post content here..' }}
+          config={{ extraPlugins: [uploadPlugin] }}
           onBlur={(_, editor) => {
             console.log(editor.getData());
             setContentValue(editor.getData());
