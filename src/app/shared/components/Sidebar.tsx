@@ -1,5 +1,5 @@
-import { useState, useEffect, useLayoutEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 import { ApiService } from '../../core/services/api.service';
 import { ENDPOINT } from '../../../config/endpoint';

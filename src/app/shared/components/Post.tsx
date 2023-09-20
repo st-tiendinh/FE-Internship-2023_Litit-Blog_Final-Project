@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
+import DOMPurify from 'dompurify';
 
 import { formatDate } from '../utils/formatDate';
 import { isImageUrlValid } from '../utils/checkValidImage';
 import BlankPostImg from '../../../assets/images/blank-post.png';
 import BlankUserImg from '../../../assets/images/blank-user.webp';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { PostListType } from '../../pages/home/containers/components/PublicPost';
 
 interface PostProps {
@@ -39,7 +40,7 @@ export const Post = ({
   const [isValidCover, setIsValidCover] = useState(false);
   const [isValidUserImg, setIsValidUserImg] = useState(false);
   const formattedDate = formatDate(postedDate);
-  const location = useLocation();
+  const clean = DOMPurify.sanitize(desc);
 
   useEffect(() => {
     isImageUrlValid(cover).then((isValid) => {
