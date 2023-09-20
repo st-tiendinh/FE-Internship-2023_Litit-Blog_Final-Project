@@ -24,7 +24,7 @@
     cursor: pointer;
 
     &:hover {
-      text-decoration: underline;
+      color: map-get($colors, "yellow");
     }
   }
 

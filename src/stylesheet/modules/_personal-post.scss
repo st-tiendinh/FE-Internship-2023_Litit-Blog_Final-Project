@@ -1,12 +1,14 @@
 .personal-post {
   display: flex;
   border-radius: 12px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 
   &-image-wrapper {
     width: 320px;
     height: 240px;
     margin-right: 24px;
-    border-radius: 12px;
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
     border: 1px solid map-get($colors, secondary-100);
   }
 

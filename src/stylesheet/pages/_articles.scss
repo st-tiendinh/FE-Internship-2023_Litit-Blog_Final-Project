@@ -46,7 +46,6 @@
         margin-bottom: 48px;
 
         &-detail {
-
           &-tag-list {
             display: flex;
             margin-bottom: 16px;
@@ -98,7 +97,7 @@
   }
 }
 
-.section-article-list{
+.section-article-list {
   padding: 25px 0;
 
   .section {
@@ -107,6 +106,10 @@
       font-weight: map-get($font-weights, medium);
       padding-block: 20px;
     }
+  }
+
+  .post-item {
+    margin-bottom: 20px;
   }
 }
 
