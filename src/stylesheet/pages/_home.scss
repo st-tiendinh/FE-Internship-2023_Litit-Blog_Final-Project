@@ -115,6 +115,10 @@
         font-size: 10px;
         color: white;
       }
+
+      &.skeleton {
+        border-radius: 12px;
+      }
     }
 
     .overlay {
