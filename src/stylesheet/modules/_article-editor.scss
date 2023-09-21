@@ -142,6 +142,11 @@
   }
 
   .ck {
+    * {
+      margin-bottom: 0 !important;
+      line-height: 1.4 !important;
+    }
+
     &.ck-toolbar__items {
       justify-content: space-between;
     }
