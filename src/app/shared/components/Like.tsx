@@ -47,7 +47,7 @@ const Like = ({ postId, tooltip }: any) => {
         console.log(error);
       }
     })();
-  }, [isLiked, isLogged]);
+  }, [isLiked, isLogged, location.pathname]);
 
   useEffect(() => {
     (async () => {
@@ -70,10 +70,11 @@ const Like = ({ postId, tooltip }: any) => {
     })();
   }, [isLogged]);
 
-
   return (
     <li onClick={handleLike} className="article-action-item">
-      <span className={`tooltip tooltip-${tooltip ? 'bottom' : 'left'}`}>Likes</span>
+      <span className={`tooltip tooltip-${tooltip ? 'bottom' : 'left'}`}>
+        Likes
+      </span>
       {isLiked ? (
         <i className="icon icon-like-fulfill"></i>
       ) : (

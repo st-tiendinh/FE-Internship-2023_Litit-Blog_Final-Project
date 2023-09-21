@@ -103,23 +103,21 @@ export const Post = ({
               </div>
 
               <div className="post-footer">
-                <div className="post-author">
+                <div className="post-about">
                   <Link className="author-link" to={'/users/' + userId}>
-                    <img
-                      className="post-author-avatar"
-                      src={isValidUserImg ? authorImg : BlankUserImg}
-                      alt="author image"
-                    />
-                  </Link>
-                  <div className="post-about">
-                    <Link className="author-link" to={'/users/' + userId}>
+                    <div className="post-author">
+                      <img
+                        className="post-author-avatar"
+                        src={isValidUserImg ? authorImg : BlankUserImg}
+                        alt="author image"
+                      />
                       <span className="post-author-name text-truncate">
                         {authorName}
                       </span>
-                    </Link>
-                    <span className="post-dot-symbol">&#x2022;</span>
-                    <span className="post-date">{formattedDate}</span>
-                  </div>
+                    </div>
+                  </Link>
+                  <span className="post-dot-symbol">&#x2022;</span>
+                  <span className="post-date">{formattedDate}</span>
                 </div>
               </div>
             </div>
@@ -131,18 +129,20 @@ export const Post = ({
         <div className="personal-post">
           <Link
             to={`/articles/${id.toString()}`}
-            className="personal-post-image-wrapper"
+            className="personal-post-image-link"
           >
-            <img
-              src={isValidCover ? cover : BlankPostImg}
-              alt={authorName}
-              className="personal-post-image"
-            />
+            <div className="personal-post-image-wrapper">
+              <img
+                src={isValidCover ? cover : BlankPostImg}
+                alt={authorName}
+                className="personal-post-image"
+              />
+            </div>
           </Link>
 
-          <div className="personal-post-content">
+          <div className="d-flex flex-column personal-post-content">
             <ul className="personal-post-tag-list">
-              {tags.slice(0, 4).map((tag: any, index: number) => (
+              {tags.slice(0, 3).map((tag: any, index: number) => (
                 <li key={index} className="personal-post-tag-item">
                   <Link
                     to={`/articles/tag/${tag}`}
@@ -155,13 +155,22 @@ export const Post = ({
                 </li>
               ))}
             </ul>
+            <div className="personal-post-title-wrapper">
+              <Link to={`/articles/${id.toString()}`}>
+                <h4 className="personal-post-title text-truncate">{title}</h4>
+              </Link>
+            </div>
+            <div className="personal-post-action">
+              <span className="personal-post-action-group">
+                <i className="icon icon-unlike"></i>
+                {likes}
+              </span>
 
-            <Link to={`/articles/${id.toString()}`}>
-              <h4 className="personal-post-title text-truncate">{title}</h4>
-            </Link>
-
-            <p className="personal-post-desc text-truncate">{desc}</p>
-
+              <span className="personal-post-action-group">
+                <i className="icon icon-comment"></i>
+                {comments}
+              </span>
+            </div>
             <div className="short-info">
               <Link to={`/users/${userId}`} className="author-link">
                 <div className="short-info-author">

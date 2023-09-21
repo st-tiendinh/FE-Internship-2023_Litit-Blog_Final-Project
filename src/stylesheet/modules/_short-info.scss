@@ -17,14 +17,16 @@
   }
 
   &-author-name {
-    font-size: map-get($font-sizes, lg);
+    font-size: 15px;
     font-weight: map-get($font-weights, medium);
-    line-height: 1.4;
     -webkit-line-clamp: 1;
     cursor: pointer;
+    color: map-get($colors, secondary-500);
+  }
 
-    &:hover {
-      color: map-get($colors, "yellow");
+  &:hover {
+    .short-info-author-name {
+      color: map-get($colors, "dark-yellow");
     }
   }
 
