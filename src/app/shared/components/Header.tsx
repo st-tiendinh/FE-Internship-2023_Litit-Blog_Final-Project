@@ -20,12 +20,8 @@ export const Header = () => {
   const userActionRef = useRef<HTMLDivElement | null>(null);
   const [isOpenDropdown, setIsOpenDropdown] = useState(false);
 
-  const isLogged = useSelector(
-    (state: RootState) => state.authReducer.isLogged
-  );
-  const userInfo = useSelector(
-    (state: RootState) => state.authReducer.userInfo
-  );
+  const isLogged = useSelector((state: RootState) => state.authReducer.isLogged);
+  const userInfo = useSelector((state: RootState) => state.authReducer.userInfo);
 
   useEffect(() => {
     isImageUrlValid(userInfo?.picture).then((isValid) => {
@@ -68,11 +64,7 @@ export const Header = () => {
               <div className="header-logo">
                 <Link to={'/'} className="logo-link">
                   <h1 className="logo">
-                    <img
-                      className="logo-image"
-                      src={LogoImage}
-                      alt="Lit.it Blog"
-                    />
+                    <img className="logo-image" src={LogoImage} alt="Lit.it Blog" />
                   </h1>
                 </Link>
               </div>
@@ -111,9 +103,7 @@ export const Header = () => {
                         <div className="user-avatar-wrapper">
                           <img
                             className="user-avatar"
-                            src={
-                              isValidUserImg ? userInfo.picture : BlankUserImg
-                            }
+                            src={isValidUserImg ? userInfo.picture : BlankUserImg}
                             alt="User Image"
                           />
                         </div>
@@ -121,24 +111,18 @@ export const Header = () => {
                           <div className="dropdown-menu">
                             <ul className="menu-list">
                               <li className="menu-item">
-                                <Link
-                                  to={`users/${jwtHelper.getUserInfo().userId}`}
-                                >
+                                <Link to={`users/${jwtHelper.getUserInfo().userId}`}>
                                   <div className="menu-action">
-                                    <p className="user-name">
-                                      {userInfo.displayName}
-                                    </p>
-                                    <p className="user-email">
-                                      {userInfo.email}
-                                    </p>
+                                    <p className="user-name">{userInfo.displayName}</p>
+                                    <p className="user-email">{userInfo.email}</p>
                                   </div>
                                 </Link>
                               </li>
+                              <Link to={'/articles/bookmark'} className="menu-item">
+                                <div className="menu-action">Bookmark</div>
+                              </Link>
                               <li className="menu-item">
-                                <div
-                                  onClick={handleSignOut}
-                                  className="menu-action action-logout"
-                                >
+                                <div onClick={handleSignOut} className="menu-action action-logout">
                                   <p className="logout-label">Sign out</p>
                                 </div>
                               </li>
@@ -151,10 +135,7 @@ export const Header = () => {
 
                   {location.pathname === '/auth/login' && !isLogged && (
                     <li className="action-item">
-                      <Link
-                        to={'auth/register'}
-                        className="btn btn-secondary action-link"
-                      >
+                      <Link to={'auth/register'} className="btn btn-secondary action-link">
                         Sign up
                       </Link>
                     </li>
@@ -162,10 +143,7 @@ export const Header = () => {
 
                   {!isLogged && location.pathname !== '/auth/login' && (
                     <li className="action-item">
-                      <Link
-                        to={'auth/login'}
-                        className="btn btn-secondary action-link"
-                      >
+                      <Link to={'auth/login'} className="btn btn-secondary action-link">
                         Sign in
                       </Link>
                     </li>
