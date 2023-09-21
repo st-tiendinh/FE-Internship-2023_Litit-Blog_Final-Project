@@ -228,7 +228,7 @@ export const Post = ({
                 <span className="short-info-dot-symbol">&#x2022;</span>
                 <span className="short-info-timestamp">{formattedDate}</span>
               </div>
-              {jwtHelper.isCurrentUser(+`${currentUserId}`) && (
+              {isHasAction && jwtHelper.isCurrentUser(+`${currentUserId}`) && (
                 <div className="short-info-status">
                   <span className="badge badge-status">
                     {(status === PostStatus.PUBLIC && (
