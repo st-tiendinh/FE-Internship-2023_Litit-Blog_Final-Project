@@ -68,23 +68,23 @@
         .user {
           &-name {
             font-size: 32px;
-            font-weight: map-get($font-weights, "medium");
+            font-weight: map-get($font-weights, 'medium');
             line-height: 1.4;
             margin-bottom: 16px;
           }
 
           &-follow-list {
-            font-size: map-get($font-sizes, "lg");
+            font-size: map-get($font-sizes, 'lg');
             margin-bottom: 24px;
             gap: 48px;
           }
 
           &-follow-amount {
-            font-weight: map-get($font-weights, "medium");
+            font-weight: map-get($font-weights, 'medium');
           }
 
           &-about-list {
-            font-size: map-get($font-sizes, "sm");
+            font-size: map-get($font-sizes, 'sm');
             color: #717171;
             margin-bottom: 8px;
             gap: 64px;
@@ -99,13 +99,33 @@
     }
   }
 
+  .filter {
+    display: flex;
+    gap: 20px;
+    padding-bottom: 16px;
+    &-item {
+      cursor: pointer;
+      padding: 8px 16px;
+      border: 2px solid transparent;
+    
+      &:hover {
+        background-color: map-get($colors, 'white');
+        border: 2px solid map-get($colors, 'yellow');
+        border-radius: 6px;
+      }
+    }
+
+    .active {
+
+      border-radius: 6px;
+      border: 2px solid map-get($colors, 'yellow');
+    }
+  }
+
   .section {
     &.section-wrapper {
       padding: 16px 0;
     }
-  }
-
-  .section-personal-post {
   }
 
   .skeleton {
