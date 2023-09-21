@@ -7,6 +7,9 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { ApiService } from '../../../../core/services/api.service';
 import JwtHelper from '../../../../core/helpers/jwtHelper';
 import { ENDPOINT } from '../../../../../config/endpoint';
+import { PostStatus } from '../../../user/containers/UserDetail';
+import { isImageUrlValid } from '../../../../shared/utils/checkValidImage';
+import BlankPostImg from '../../../../../assets/images/blank-post.png';
 
 const apiService = new ApiService();
 const jwt = new JwtHelper();
@@ -26,14 +29,18 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
   const [titleInput, setTitleInput] = useState<string>(
     type === PostAction.UPDATE ? data.title : ''
   );
-
   const [titleValue, setTitleValue] = useState<string>('');
+  const [descInput, setDescInput] = useState<string>(
+    type === PostAction.UPDATE ? data.description : ''
+  );
   const [descValue, setDescValue] = useState<string>('');
-  const [tagItems, setTagItems] = useState<string[]>([]);
+  const [tagItems, setTagItems] = useState<string[]>(
+    type === PostAction.UPDATE ? data.tags : []
+  );
   const [tagItemValue, SetTagItemValue] = useState('');
   const [contentValue, setContentValue] = useState<string>('');
   const [statusValue, setStatusValue] = useState<string>(
-    type === PostAction.CREATE ? 'public' : data.status
+    type === PostAction.UPDATE ? data.status : PostStatus.PUBLIC
   );
 
   const navigate = useNavigate();
@@ -47,8 +54,20 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
   const [fileExtension, setFileExtension] = useState<string | undefined>(
     undefined
   );
-  const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
+  const [imageUrl, setImageUrl] = useState<string | undefined>(
+    type === PostAction.UPDATE ? data.cover : undefined
+  );
+
   const [imageFile, setImageFile] = useState<any>({});
+  const [isValidCover, setIsValidCover] = useState(false);
+
+  useEffect(() => {
+    if (type === PostAction.UPDATE) {
+      isImageUrlValid(data.cover).then((isValid) => {
+        isValid ? setIsValidCover(true) : setIsValidCover(false);
+      });
+    }
+  }, [isValidCover, data?.cover]);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file: any = event.target.files?.[0];
@@ -62,6 +81,10 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
 
   const handleChangeTitle = () => {
     setTitleInput(titleInputRef.current.value);
+  };
+
+  const handleChangeDesc = () => {
+    setDescInput(descInputRef.current.value);
   };
 
   const handleSubmitTitle = () => {
@@ -129,8 +152,11 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
         apiService.setHeaders(jwt.getAuthHeader());
         const postUpdated = {
           title: titleValue,
+          cover: imageUrl,
           content: contentValue,
           status: statusValue,
+          description: descValue,
+          tags: tagItems,
         };
         const response = await apiService.put(
           [ENDPOINT.posts.index, `${location.pathname.split('/').pop()}`],
@@ -218,29 +244,34 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
         </div>
       )}
       <div className="article-editor-form">
-        {type === PostAction.CREATE && (
-          <>
-            <label
-              htmlFor="article-editor-cover-upload"
-              className="article-editor-upload-label"
-            >
-              {imageUrl ? 'Change image' : 'Add a cover image'}
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleFileChange}
-                className="article-editor-cover-upload"
-                name=""
-                id="article-editor-cover-upload"
-              />
-            </label>
+        <label
+          htmlFor="article-editor-cover-upload"
+          className="article-editor-upload-label"
+        >
+          {imageUrl ? 'Change image' : 'Add a cover image'}
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleFileChange}
+            className="article-editor-cover-upload"
+            name=""
+            id="article-editor-cover-upload"
+          />
+        </label>
 
-            {!!imageUrl && (
-              <div className="article-editor-preview-cover">
-                <img src={imageUrl} className="article-editor-image" />
-              </div>
-            )}
-          </>
+        {!!imageUrl && (
+          <div className="article-editor-preview-cover">
+            <img
+              src={
+                type === PostAction.UPDATE
+                  ? isValidCover
+                    ? imageUrl
+                    : BlankPostImg
+                  : imageUrl
+              }
+              className="article-editor-image"
+            />
+          </div>
         )}
 
         <textarea
@@ -252,46 +283,44 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
           onBlur={handleSubmitTitle}
         ></textarea>
 
-        {type === PostAction.CREATE && (
-          <textarea
-            className="article-editor-desc-input"
-            placeholder="Enter post description..."
-            ref={descInputRef}
-            onBlur={handleSubmitDesc}
-          ></textarea>
-        )}
+        <textarea
+          className="article-editor-desc-input"
+          placeholder="Enter post description..."
+          value={descInput}
+          onChange={handleChangeDesc}
+          ref={descInputRef}
+          onBlur={handleSubmitDesc}
+        ></textarea>
 
         <div className="article-editor-form-group">
-          {type === PostAction.CREATE && (
-            <div className="article-editor-tags-search-group">
-              {tagItems.length < 4 && (
-                <input
-                  type="text"
-                  className="article-editor-tags-search"
-                  placeholder="Add up to 4 tags..."
-                  value={tagItemValue}
-                  ref={tagInputRef}
-                  onChange={handleTagChange}
-                  onKeyUp={handleTagEnter}
-                  onSubmit={(e) => e.preventDefault()}
-                />
-              )}
+          <div className="article-editor-tags-search-group">
+            {tagItems.length < 4 && (
+              <input
+                type="text"
+                className="article-editor-tags-search"
+                placeholder="Add up to 4 tags..."
+                value={tagItemValue}
+                ref={tagInputRef}
+                onChange={handleTagChange}
+                onKeyUp={handleTagEnter}
+                onSubmit={(e) => e.preventDefault()}
+              />
+            )}
 
-              <ul className="article-editor-tag-list">
-                {tagItems.map((item, index) => (
-                  <li
-                    key={index}
-                    className="article-editor-tag-item"
-                    onClick={() => handleDeleteTagItem(index)}
-                  >
-                    <span className="badge badge-primary text-truncate">
-                      {item}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
+            <ul className="article-editor-tag-list">
+              {tagItems.map((item, index) => (
+                <li
+                  key={index}
+                  className="article-editor-tag-item"
+                  onClick={() => handleDeleteTagItem(index)}
+                >
+                  <span className="badge badge-primary text-truncate">
+                    {item}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
 
           <div className="article-editor-post-status">
             <select

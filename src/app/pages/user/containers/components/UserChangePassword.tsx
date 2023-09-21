@@ -1,13 +1,10 @@
-import { useEffect, useState } from 'react';
-import { set, useForm } from 'react-hook-form';
-import { useSelector } from 'react-redux';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 import { InputGroup } from '../../../../shared/components';
-import { RootState } from '../../../../app.reducers';
 import { ApiService } from '../../../../core/services/api.service';
 import JwtHelper from '../../../../core/helpers/jwtHelper';
 import { ENDPOINT } from '../../../../../config/endpoint';
-import { useNavigate } from 'react-router-dom';
 
 interface FormData {
   oldPassword: string;
@@ -38,12 +35,15 @@ export const UserChangePassword = ({ setFilter }: any) => {
     setIsLoading(true);
     try {
       apiService.setHeaders(jwtHelper.getAuthHeader());
-      const res: any = await apiService.put([ENDPOINT.users.changePassword], data);
+      const res: any = await apiService.put(
+        [ENDPOINT.users.changePassword],
+        data
+      );
       setIsLoading(false);
       if (res) {
         setFilter('public-post');
       }
-    } catch (error:any) {
+    } catch (error: any) {
       setError(error.response.data.errors);
       console.log(error);
       setIsLoading(false);
