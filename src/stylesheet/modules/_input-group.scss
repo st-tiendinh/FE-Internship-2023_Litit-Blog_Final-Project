@@ -28,6 +28,12 @@
         border-color: map-get($colors, "secondary-800");
       }
 
+      &:read-only {
+        color: map-get($colors, "secondary-600");
+        border-color: map-get($colors, "secondary-600");
+        cursor: not-allowed;
+      }
+
       &:focus {
         border: 1px solid map-get($colors, "primary");
         transition: 0.1s;
