@@ -8,7 +8,6 @@ export const PostSkeleton = () => {
             <div className="post-header skeleton"></div>
             <div className="post-body">
               <div className="post-title skeleton"></div>
-              <div className="post-desc skeleton"></div>
               <div className="post-author skeleton"></div>
             </div>
           </div>
