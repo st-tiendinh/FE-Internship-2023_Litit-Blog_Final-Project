@@ -54,20 +54,6 @@ const UserDetail = () => {
     setIsUserLoading(true);
     (async () => {
       try {
-        const response = await apiService.get([ENDPOINT.users.index, userId]);
-        setUser(response);
-        setIsUserLoading(false);
-      } catch (error) {
-        console.log(error);
-        setIsUserLoading(false);
-      }
-    })();
-  }, [location]);
-
-  useEffect(() => {
-    setIsUserLoading(true);
-    (async () => {
-      try {
         apiService.setHeaders(jwtHelper.getAuthHeader());
         const response: any = await apiService.get([ENDPOINT.posts.recyclebin]);
 
@@ -84,12 +70,14 @@ const UserDetail = () => {
     setIsLoading(true);
     (async () => {
       try {
+        const isCurrentUser = jwtHelper.isCurrentUser(
+          +`${location.pathname.split('/').pop()}`
+        );
         apiService.setHeaders(jwtHelper.getAuthHeader());
-        const response: any = await apiService.get([
-          ENDPOINT.users.index,
-          `${userId}/posts`,
-        ]);
-
+        const response: any = isCurrentUser
+          ? await apiService.get([ENDPOINT.users.index, 'me/posts'])
+          : await apiService.get([ENDPOINT.users.index, `${userId}/posts`]);
+        setUser(response);
         const postPublicQuantity = await response.Posts.filter(
           (post: any) => post.status === PostStatus.PUBLIC
         ).length;
