@@ -11,9 +11,7 @@ export const Sidebar = () => {
   const apiService = new ApiService();
   const tags = [
     { name: 'React' },
-    {
-      name: 'React JSRea ctJ SReac tJSReact SReactJSReactJSReactJSReactJSReactJS',
-    },
+    { name: 'ReactJS' },
     { name: 'VueJS' },
     { name: 'Angular' },
     { name: 'NodeJS' },
@@ -60,7 +58,7 @@ export const Sidebar = () => {
                 return (
                   <li key={post.id} className="popular-post-item">
                     <Link to={`/articles/${post.id}`}>
-                      <div className="popular-post">
+                      <div className="d-flex popular-post">
                         <div className="popular-post-image-wrapper">
                           <img
                             src={post.cover}
@@ -68,13 +66,13 @@ export const Sidebar = () => {
                             className="popular-post-image"
                           />
                         </div>
-                        <div className="popular-post-content">
-                          <h4 className="popular-post-title text-truncate">
-                            {post.title}
-                          </h4>
+                        <div className="d-flex flex-column popular-post-content">
                           <p className="popular-post-timestamp">
                             {formatDate(post.createdAt)}
                           </p>
+                          <h4 className="popular-post-title text-truncate">
+                            {post.title}
+                          </h4>
                         </div>
                       </div>
                     </Link>

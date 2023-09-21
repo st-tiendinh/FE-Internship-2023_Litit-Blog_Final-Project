@@ -1,6 +1,6 @@
 .comment {
-  gap: 24px;
-  margin-bottom: 32px;
+  gap: 16px;
+  margin-bottom: 16px;
 
   &-content {
     width: 100%;
@@ -12,17 +12,20 @@
   .user {
     &-avatar {
       &-wrapper {
-        width: 36px;
-        height: 36px;
+        width: 30px;
+        height: 30px;
         margin-top: 8px;
       }
       border-radius: 50%;
     }
 
     &-name {
-      font-size: map-get($font-sizes, "lg");
       font-weight: map-get($font-weights, "medium");
       margin-bottom: 12px;
+
+      &:hover {
+        color: map-get($colors, "dark-yellow");
+      }
     }
   }
 
@@ -36,14 +39,14 @@
   }
 
   &-date {
-    font-size: map-get($font-sizes, "sm");
+    font-size: 13px;
     font-weight: map-get($font-weights, "light");
     color: map-get($colors, "secondary-600");
   }
 
   &-text {
+    font-size: 15px;
     color: map-get($colors, "secondary-600");
-    line-height: 1.5;
   }
 
   &-form {
@@ -51,7 +54,7 @@
     align-items: flex-end;
 
     > .btn {
-      margin-top: 16px;
+      margin-top: 8px;
       font-size: map-get($font-sizes, "sm");
     }
   }
