@@ -122,6 +122,19 @@
     }
   }
 
+  &-three-dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+
+      .icon.icon-three-dots {
+        background-image: url("../assets/icons/ic-dots-highlight.svg");
+      }
+    }
+  }
+
   &-danger-outline {
     padding: 8px 26px;
     color: map-get($colors, primary);
