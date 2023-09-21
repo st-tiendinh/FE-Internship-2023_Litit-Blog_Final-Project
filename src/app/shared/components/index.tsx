@@ -7,3 +7,5 @@ export { SelectGroup } from './SelectGroup';
 export { InputGroup } from './InputGroup';
 export { Spinner } from './Spinner';
 export { Sidebar } from './Sidebar';
+export { Modal } from './Modal';
+export { ConfirmModal } from './ConfirmModal';
