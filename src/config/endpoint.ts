@@ -7,6 +7,7 @@ const RESOURCES = {
   },
   users: 'users',
   posts: environment.apiBaseUrl + 'posts',
+  signatures: environment.apiBaseUrl + 'signatures',
 };
 
 export const ENDPOINT = {
@@ -23,5 +24,8 @@ export const ENDPOINT = {
     index: `${RESOURCES.posts}`,
     public: `${RESOURCES.posts}/public`,
     recommend: `${RESOURCES.posts}/recommend`,
+  },
+  signatures: {
+    index: `${RESOURCES.signatures}`,
   },
 };
