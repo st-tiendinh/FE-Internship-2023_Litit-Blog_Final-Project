@@ -28,16 +28,22 @@ const UserDetail = () => {
   const [postAuthor, setPostAuthor] = useState<any>();
   const [userPost, setUserPost] = useState<any>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [toggleDeletedPost, setToggleDeletedPost] = useState<boolean>(false);
   const isLogged = useSelector(
     (state: RootState) => state.authReducer.isLogged
   );
   const location = useLocation();
   const userId = location.pathname.slice(7);
   const isLoggedUser = isLogged ? jwtHelper.isCurrentUser(+userId) : false;
+  const id = useSelector((state: RootState) => state.modalReducer.id);
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+  const handleSoftDelete = () => {
+    (async () => {
+      apiService.setHeaders(jwtHelper.getAuthHeader());
+      await apiService.delete([ENDPOINT.posts.index, `${id}`]);
+      setToggleDeletedPost(!toggleDeletedPost);
+    })();
+  };
 
   useEffect(() => {
     setIsUserLoading(true);
@@ -97,7 +103,11 @@ const UserDetail = () => {
         setIsLoading(false);
       }
     })();
-  }, [location]);
+  }, [location, toggleDeletedPost]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="page-user">
@@ -105,7 +115,7 @@ const UserDetail = () => {
         <Modal
           title="Do you want to delete?!!"
           type={ModalType.CONFIRM_DELETE}
-          action={() => console.log(123)}
+          action={handleSoftDelete}
         />
 
         {isUserLoading ? (

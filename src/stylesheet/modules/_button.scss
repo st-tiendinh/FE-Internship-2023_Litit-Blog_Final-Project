@@ -95,12 +95,29 @@
     align-items: center;
     gap: 5px;
     font-size: map-get($font-sizes, sm);
+    padding: 6px;
 
     &:hover {
-      color: map-get($colors, primary);
+      color: map-get($colors, "dark-yellow");
 
       .icon.icon-pen {
         background-image: url("../assets/icons/ic-pen-highlight.svg");
+      }
+    }
+  }
+
+  &-delete {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: map-get($font-sizes, sm);
+    padding: 6px;
+
+    &:hover {
+      color: map-get($colors, "dark-yellow");
+
+      .icon.icon-bin {
+        background-image: url("../assets/icons/ic-bin-highlight.svg");
       }
     }
   }

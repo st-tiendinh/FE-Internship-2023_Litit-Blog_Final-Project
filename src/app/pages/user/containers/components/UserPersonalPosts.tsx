@@ -1,13 +1,28 @@
+import { Link, useLocation } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 
 import { formatDate } from '../../../../shared/utils/formatDate';
 import { isImageUrlValid } from '../../../../shared/utils/checkValidImage';
 import BlankUserImage from '../../../../../assets/images/blank-user.webp';
+import {
+  setConfirmModalId,
+  setShowModal,
+} from '../../../../../redux/actions/modal';
+import JwtHelper from '../../../../core/helpers/jwtHelper';
 
 export const UserPersonalPosts = ({ userPost, postAuthor }: any) => {
+  const jwtHelper = new JwtHelper();
   const [isValidUserImg, setIsValidUserImg] = useState(false);
   const formattedDate = formatDate(postAuthor?.updatedAt);
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const currentUserId = location.pathname.split('/').pop();
+
+  const handleDelete = (id: number) => {
+    dispatch(setConfirmModalId(id));
+    dispatch(setShowModal());
+  };
 
   useEffect(() => {
     isImageUrlValid(userPost).then((isValid) => {
@@ -37,13 +52,24 @@ export const UserPersonalPosts = ({ userPost, postAuthor }: any) => {
                     </span>
                   </div>
                 </div>
-                <Link
-                  to={`/articles/update/${post.id}`}
-                  className="btn btn-edit"
-                >
-                  <i className="icon icon-pen"></i>
-                  Edit
-                </Link>
+                {jwtHelper.isCurrentUser(+`${currentUserId}`) && (
+                  <div className="personal-post-action">
+                    <span
+                      className="btn btn-delete"
+                      onClick={() => handleDelete(post.id)}
+                    >
+                      <i className="icon icon-bin"></i>
+                      Delete
+                    </span>
+                    <Link
+                      to={`/articles/update/${post.id}`}
+                      className="btn btn-edit"
+                    >
+                      <i className="icon icon-pen"></i>
+                      Edit
+                    </Link>
+                  </div>
+                )}
               </div>
               <div className="personal-post-detail">
                 <Link
