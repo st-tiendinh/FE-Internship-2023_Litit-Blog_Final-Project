@@ -32,16 +32,23 @@ const UserDetail = () => {
   const [userStatistic, setUserStatistic] = useState<any>({});
   const [userPosts, setUserPost] = useState<any>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const isLogged = useSelector((state: RootState) => state.authReducer.isLogged);
+  const [toggleDeletedPost, setToggleDeletedPost] = useState<boolean>(false);
+  const isLogged = useSelector(
+    (state: RootState) => state.authReducer.isLogged
+  );
   const location = useLocation();
   const userId = location.pathname.slice(7);
   const isLoggedUser = isLogged ? jwtHelper.isCurrentUser(+userId) : false;
-
+  const id = useSelector((state: RootState) => state.modalReducer.id);
   const [filter, setFilter] = useState<FilterType>('public-post');
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+  const handleSoftDelete = () => {
+    (async () => {
+      apiService.setHeaders(jwtHelper.getAuthHeader());
+      await apiService.delete([ENDPOINT.posts.index, `${id}`]);
+      setToggleDeletedPost(!toggleDeletedPost);
+    })();
+  };
 
   useEffect(() => {
     setIsUserLoading(true);
@@ -63,7 +70,7 @@ const UserDetail = () => {
       try {
         apiService.setHeaders(jwtHelper.getAuthHeader());
         const response: any = await apiService.get([ENDPOINT.posts.recyclebin]);
-        
+
         setUserRecycleBin(response.data);
       } catch (error) {
         console.log(error);
@@ -77,7 +84,10 @@ const UserDetail = () => {
     (async () => {
       try {
         apiService.setHeaders(jwtHelper.getAuthHeader());
-        const response: any = await apiService.get([ENDPOINT.users.index, `${userId}/posts`]);
+        const response: any = await apiService.get([
+          ENDPOINT.users.index,
+          `${userId}/posts`,
+        ]);
 
         const postPublicQuantity = await response.Posts.filter(
           (post: any) => post.status === PostStatus.PUBLIC
@@ -119,7 +129,11 @@ const UserDetail = () => {
         setIsLoading(false);
       }
     })();
-  }, [location]);
+  }, [location, toggleDeletedPost]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="page-user">
@@ -127,7 +141,7 @@ const UserDetail = () => {
         <Modal
           title="Do you want to delete?!!"
           type={ModalType.CONFIRM_DELETE}
-          action={() => console.log(123)}
+          action={handleSoftDelete}
         />
 
         {isUserLoading ? (
@@ -151,41 +165,49 @@ const UserDetail = () => {
                 <ul className="filter">
                   <li
                     onClick={() => setFilter('public-post')}
-                    className={`filter-item ${filter === 'public-post' ? 'active' : ''}`}
+                    className={`filter-item ${
+                      filter === 'public-post' ? 'active' : ''
+                    }`}
                   >
                     Public posts
                   </li>
                   <li
                     onClick={() => setFilter('deleted-post')}
-                    className={`filter-item ${filter === 'deleted-post' ? 'active' : ''}`}
+                    className={`filter-item ${
+                      filter === 'deleted-post' ? 'active' : ''
+                    }`}
                   >
                     Deleted posts
                   </li>
                   <li
                     onClick={() => setFilter('change-password')}
-                    className={`filter-item ${filter === 'change-password' ? 'active' : ''}`}
+                    className={`filter-item ${
+                      filter === 'change-password' ? 'active' : ''
+                    }`}
                   >
                     Change password
                   </li>
                 </ul>
               )}
-              {filter === 'change-password' && <UserChangePassword setFilter={setFilter} />}
+              {filter === 'change-password' && (
+                <UserChangePassword setFilter={setFilter} />
+              )}
               {filter === 'deleted-post' &&
                 (isLoading ? (
                   <div className="skeleton skeleton-personal-list"></div>
                 ) : (
-                  <PostList posts={userRecycleBin}  type={PostListType.LIST} />
+                  <PostList posts={userRecycleBin} type={PostListType.LIST} />
                 ))}
               {filter === 'public-post' &&
-                (
-                  isLoading ? (
-                    <div className="skeleton skeleton-personal-list"></div>
-                  ) : (
-                    <PostList
-                      posts={userPosts}
-                      type={PostListType.LIST}
-                      isHasAction={true}
-                    />))}
+                (isLoading ? (
+                  <div className="skeleton skeleton-personal-list"></div>
+                ) : (
+                  <PostList
+                    posts={userPosts}
+                    type={PostListType.LIST}
+                    isHasAction={true}
+                  />
+                ))}
             </div>
           </div>
         </section>

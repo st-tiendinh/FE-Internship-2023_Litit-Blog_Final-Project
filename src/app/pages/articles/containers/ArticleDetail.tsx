@@ -16,6 +16,8 @@ import { ENDPOINT } from '../../../../config/endpoint';
 import Like from '../../../shared/components/Like';
 import { ScrollToTopButton } from '../../home/containers/components/ScrollToTopButton';
 import JwtHelper from '../../../core/helpers/jwtHelper';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../app.reducers';
 
 const ArticleDetail = () => {
   const apiService = new ApiService();
@@ -25,6 +27,9 @@ const ArticleDetail = () => {
   const [isValidUserImg, setIsValidUserImg] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isShowButtonEdit, setIsShowButtonEdit] = useState<boolean>(false);
+  const isLogged = useSelector(
+    (state: RootState) => state.authReducer.isLogged
+  );
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -62,11 +67,11 @@ const ArticleDetail = () => {
           location.pathname.slice(10),
         ]);
         setPost(response);
-        setIsShowButtonEdit(jwtHelper.isCurrentUser(response.userId));
+        isLogged &&
+          setIsShowButtonEdit(jwtHelper.isCurrentUser(response.userId));
         setIsLoading(false);
         return response;
       } catch (error) {
-        console.log(error);
         navigate('/404');
         setIsLoading(false);
       }
@@ -94,6 +99,7 @@ const ArticleDetail = () => {
               <Like
                 postId={location.pathname.slice(10).toString()}
                 tooltip={isEnoughSpaceForToolTip}
+                userId={post.userId}
               />
               <li onClick={handleCommentClick} className="article-action-item">
                 <span

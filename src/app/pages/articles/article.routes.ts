@@ -25,10 +25,12 @@ const articleRoutes: PageRoute[] = [
       {
         path: 'new',
         element: ArticleNew,
+        isProtected: true,
       },
       {
         path: 'update/:id',
         element: ArticleUpdate,
+        isProtected: true,
       },
       {
         path: 'tag/:tag',

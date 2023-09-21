@@ -95,11 +95,42 @@
     align-items: center;
     gap: 5px;
     font-size: map-get($font-sizes, sm);
+    padding: 6px;
 
     &:hover {
-      color: #4b6bfb;
+      color: map-get($colors, "dark-yellow");
+
       .icon.icon-pen {
         background-image: url("../assets/icons/ic-pen-highlight.svg");
+      }
+    }
+  }
+
+  &-delete {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: map-get($font-sizes, sm);
+    padding: 6px;
+
+    &:hover {
+      color: map-get($colors, "dark-yellow");
+
+      .icon.icon-bin {
+        background-image: url("../assets/icons/ic-bin-highlight.svg");
+      }
+    }
+  }
+
+  &-three-dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+
+      .icon.icon-three-dots {
+        background-image: url("../assets/icons/ic-dots-highlight.svg");
       }
     }
   }
