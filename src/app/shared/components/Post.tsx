@@ -174,13 +174,6 @@ export const Post = ({
                   <span className="btn btn-three-dots">
                     <i className="icon icon-three-dots"></i>
                     <div className="personal-post-action-popper">
-                      <span
-                        className="btn btn-delete"
-                        onClick={() => handleDelete(id)}
-                      >
-                        <i className="icon icon-bin"></i>
-                        Delete
-                      </span>
                       <Link
                         to={`/articles/update/${id}`}
                         className="btn btn-edit"
@@ -188,6 +181,13 @@ export const Post = ({
                         <i className="icon icon-pen"></i>
                         Edit
                       </Link>
+                      <span
+                        className="btn btn-delete"
+                        onClick={() => handleDelete(id)}
+                      >
+                        <i className="icon icon-bin"></i>
+                        Delete
+                      </span>
                     </div>
                   </span>
                 </div>
