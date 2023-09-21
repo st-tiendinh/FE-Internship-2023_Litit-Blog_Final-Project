@@ -1,6 +1,6 @@
 import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { UserPersonalPosts } from './components/UserPersonalPosts';
 import { UserProfile } from './components/UserProfile';
@@ -34,7 +34,6 @@ const UserDetail = () => {
   const location = useLocation();
   const userId = location.pathname.slice(7);
   const isLoggedUser = isLogged ? jwtHelper.isCurrentUser(+userId) : false;
-  const dispatch = useDispatch();
 
   useEffect(() => {
     window.scrollTo(0, 0);
