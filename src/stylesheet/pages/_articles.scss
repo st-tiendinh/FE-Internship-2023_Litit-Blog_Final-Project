@@ -63,8 +63,11 @@
             margin-bottom: 24px;
           }
 
-          .short-info {
-            margin-bottom: 32px;
+          &-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
           }
 
           &-cover-wrapper {
@@ -140,6 +143,7 @@
                 }
               }
             }
+
             &:hover {
               .tooltip {
                 position: absolute;
