@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ConfirmModal } from './ConfirmModal';
 
 import { RootState } from '../../app.reducers';
-import { setHideModal } from '../../redux/actions/modal';
+import { setHideModal } from '../../../redux/actions/modal';
 
 export enum ModalType {
   CONFIRM_DELETE,
