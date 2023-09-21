@@ -9,6 +9,7 @@ import { PostListType } from '../../pages/home/containers/components/PublicPost'
 import { useDispatch } from 'react-redux';
 import { setConfirmModalId, setShowModal } from '../../../redux/actions/modal';
 import JwtHelper from '../../core/helpers/jwtHelper';
+import { PostStatus } from './PostList';
 
 interface PostProps {
   id: number;
@@ -16,6 +17,7 @@ interface PostProps {
   title: string;
   desc: string;
   tags: string[];
+  status: string;
   cover: string;
   authorImg: string; // Add a type to the authorImg prop
   authorName: string;
@@ -32,6 +34,7 @@ export const Post = ({
   title,
   desc,
   tags,
+  status,
   cover,
   authorImg,
   authorName,
@@ -168,7 +171,6 @@ export const Post = ({
                   </li>
                 ))}
               </ul>
-              {/* button 3dots, edit, delete, recycle */}
               {isHasAction && jwtHelper.isCurrentUser(+`${currentUserId}`) && (
                 <div className="personal-post-action">
                   <span className="btn btn-three-dots">
@@ -209,21 +211,34 @@ export const Post = ({
                 {comments}
               </span>
             </div>
-            <div className="short-info">
-              <Link to={`/users/${userId}`} className="author-link">
-                <div className="short-info-author">
-                  <img
-                    src={isValidUserImg ? authorImg : BlankUserImg}
-                    alt="author avatar"
-                    className="short-info-author-avatar"
-                  />
-                  <span className="short-info-author-name text-truncate">
-                    {authorName}
-                  </span>
-                </div>
-              </Link>
-              <span className="short-info-dot-symbol">&#x2022;</span>
-              <span className="short-info-timestamp">{formattedDate}</span>
+            <div className="short-info-wrapper">
+              <div className="short-info">
+                <Link to={`/users/${userId}`} className="author-link">
+                  <div className="short-info-author">
+                    <img
+                      src={isValidUserImg ? authorImg : BlankUserImg}
+                      alt="author avatar"
+                      className="short-info-author-avatar"
+                    />
+                    <span className="short-info-author-name text-truncate">
+                      {authorName}
+                    </span>
+                  </div>
+                </Link>
+                <span className="short-info-dot-symbol">&#x2022;</span>
+                <span className="short-info-timestamp">{formattedDate}</span>
+              </div>
+              <span className="short-info-status">
+                <span className="badge badge-status">
+                  {(status === PostStatus.PUBLIC && (
+                    <i className="icon icon-earth"></i>
+                  )) ||
+                    (status === PostStatus.PRIVATE && (
+                      <i className="icon icon-lock"></i>
+                    ))}
+                  {status}
+                </span>
+              </span>
             </div>
           </div>
         </div>
