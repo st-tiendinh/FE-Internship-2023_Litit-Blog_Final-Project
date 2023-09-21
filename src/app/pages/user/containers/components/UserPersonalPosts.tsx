@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+
 import { formatDate } from '../../../../shared/utils/formatDate';
 import { isImageUrlValid } from '../../../../shared/utils/checkValidImage';
 import BlankUserImage from '../../../../../assets/images/blank-user.webp';

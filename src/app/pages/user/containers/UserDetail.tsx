@@ -1,16 +1,18 @@
+import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
 
-import { UserProfile } from './components/UserProfile';
 import { UserPersonalPosts } from './components/UserPersonalPosts';
+import { UserProfile } from './components/UserProfile';
 import { UserSideBar } from './components/UserSidebar';
+import { ModalType } from '../../../shared/components/Modal';
+import { Modal } from '../../../shared/components';
 import { UserChangePassword } from './components/UserChangePassword';
 
-import { ApiService } from '../../../core/services/api.service';
-import { RootState } from '../../../app.reducers';
-import { ENDPOINT } from '../../../../config/endpoint';
 import JwtHelper from '../../../core/helpers/jwtHelper';
+import { ApiService } from '../../../core/services/api.service';
+import { ENDPOINT } from '../../../../config/endpoint';
+import { RootState } from '../../../app.reducers';
 
 const apiService = new ApiService();
 const jwtHelper = new JwtHelper();
@@ -115,6 +117,12 @@ const UserDetail = () => {
   return (
     <div className="page-user">
       <div className="container">
+        <Modal
+          title="Do you want to delete?!!"
+          type={ModalType.CONFIRM_DELETE}
+          action={() => console.log(123)}
+        />
+
         {isUserLoading ? (
           <div className="skeleton skeleton-user-profile">
             <div className="skeleton skeleton-user-avatar"></div>

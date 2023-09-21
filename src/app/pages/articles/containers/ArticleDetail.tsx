@@ -131,16 +131,18 @@ const ArticleDetail = () => {
                         className="d-flex author-link"
                         to={'/users/' + post.user?.id}
                       >
-                        <img
-                          src={
-                            isValidUserImg ? post.user?.picture : BlankUserImg
-                          }
-                          alt="author avatar"
-                          className="short-info-author-avatar"
-                        />
-                        <span className="short-info-author-name">
-                          {post.user?.displayName}
-                        </span>
+                        <div className="post-author">
+                          <img
+                            src={
+                              isValidUserImg ? post.user?.picture : BlankUserImg
+                            }
+                            alt="author avatar"
+                            className="short-info-author-avatar"
+                          />
+                          <span className="short-info-author-name">
+                            {post.user?.displayName}
+                          </span>
+                        </div>
                       </Link>
                     </div>
                     <span className="short-info-dot-symbol">&#x2022;</span>

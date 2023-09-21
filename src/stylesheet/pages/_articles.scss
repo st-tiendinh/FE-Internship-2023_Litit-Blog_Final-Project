@@ -57,10 +57,12 @@
           }
 
           &-title {
-            font-size: map-get($font-sizes, "3xl");
+            font-size: 32px;
             font-weight: map-get($font-weights, bold);
-            line-height: 1.1;
+            line-height: 1.3;
             margin-bottom: 24px;
+            color: map-get($colors, "primary");
+            word-wrap: break-word;
           }
 
           &-header {
@@ -86,15 +88,28 @@
           }
 
           &-paragraph {
-            font-size: map-get($font-sizes, xl);
             font-weight: map-get($font-weights, normal);
-            line-height: 1.6;
+            line-height: 1.5;
+            word-wrap: break-word;
           }
         }
       }
 
       .sidebar {
         padding-left: 6px;
+      }
+
+      .list-comments {
+        &-title {
+          margin-bottom: 24px;
+
+          font-size: map-get($font-sizes, "lg");
+          font-weight: map-get($font-weights, "medium");
+        }
+
+        .comment-input {
+          resize: none;
+        }
       }
     }
   }

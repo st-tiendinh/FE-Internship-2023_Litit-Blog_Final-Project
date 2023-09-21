@@ -1,67 +1,44 @@
 .personal-post {
   display: flex;
-  border-radius: 12px;
+  border-radius: 8px;
   box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.12);
 
-  &-image-wrapper {
-    width: 320px;
-    height: 240px;
-    margin-right: 24px;
-    border-top-left-radius: 12px;
-    border-bottom-left-radius: 12px;
-    border-right: 1px solid map-get($colors, secondary-100);
-  }
-
-  &-image {
-    width: 100%;
-    object-fit: cover;
-  }
-
-  &-content {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  &-list {
-    padding: 20px 6px 20px 0;
-  }
-
-  &-item {
-    display: flex;
-    padding: 12px 0;
-
-    &:not(:last-child) {
-      border-bottom: 1px solid #eee;
+  &-image-link {
+    &:hover {
+      cursor: pointer;
     }
   }
 
   &-image-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 320px;
-    flex-shrink: 0;
-    overflow: hidden;
-    cursor: pointer;
+    width: 345px;
+    height: 198px;
+    border-right: 1px solid map-get($colors, secondary-100);
   }
 
   &-image {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
     height: 100%;
+  }
+
+  &-content {
+    padding: 20px;
+    justify-content: center;
   }
 
   &-tag-list {
     display: flex;
-    gap: 4px;
-    margin-bottom: 12px;
+    gap: 8px;
+    margin-bottom: 10px;
   }
 
   &-title {
-    font-size: map-get($font-sizes, "2xl");
+    height: 54px;
+    font-size: map-get($font-sizes, lg);
     font-weight: map-get($font-weights, bold);
-    color: map-get($colors, secondary-800);
-    line-height: 1.2;
-    margin-bottom: 16px;
+    color: map-get($colors, primary);
+    line-height: 1.5;
+    margin-bottom: 10px;
     cursor: pointer;
 
     &:hover {
@@ -70,11 +47,26 @@
   }
 
   &-desc {
-    font-size: map-get($font-sizes, md);
+    font-size: map-get($font-sizes, sm);
     font-weight: map-get($font-weights, normal);
     color: map-get($colors, secondary-500);
     line-height: 1.5;
-    margin-bottom: 24px;
+    margin-bottom: 10px;
+  }
+
+  &-action {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 13px;
+  }
+
+  &-action-group {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: map-get($font-weights, medium);
+    font-size: map-get($font-sizes, sm);
   }
 
   &:hover {

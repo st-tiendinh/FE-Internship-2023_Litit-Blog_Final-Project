@@ -20,7 +20,7 @@ export const RecommendPosts = () => {
   useEffect(() => {
     setIsLoading(true);
     apiService
-      .get([ENDPOINT.posts.recommend], { page: 2, size: 3 })
+      .get([ENDPOINT.posts.recommend], { page: 4, size: 3 })
       .then((response: any) => {
         setRecommendPosts(response.data);
         setIsLoading(false);
@@ -87,13 +87,6 @@ export const RecommendPosts = () => {
                       );
                     })}
                   </ul>
-                  <Link to={`/articles/${post.id}`}>
-                    <h3
-                      className={`article-title title-${index} text-truncate`}
-                    >
-                      {post.title}
-                    </h3>
-                  </Link>
                   <div className="d-flex article-about">
                     <Link
                       to={`/users/${post.user.id}`}
@@ -111,6 +104,13 @@ export const RecommendPosts = () => {
                     <span className="dot-symbol">&#x2022;</span>
                     <p className="article-date">{formatDate(post.createdAt)}</p>
                   </div>
+                  <Link to={`/articles/${post.id}`}>
+                    <h3
+                      className={`article-title title-${index} text-truncate`}
+                    >
+                      {post.title}
+                    </h3>
+                  </Link>
                 </div>
               </div>
             );
