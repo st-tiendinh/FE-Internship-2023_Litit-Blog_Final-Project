@@ -172,7 +172,7 @@ export const Post = ({
                 ))}
               </ul>
               {isHasAction && jwtHelper.isCurrentUser(+`${currentUserId}`) && (
-                <div className="personal-post-action">
+                <div className="personal-post-options">
                   <span className="btn btn-three-dots">
                     <i className="icon icon-three-dots"></i>
                     <div className="personal-post-action-popper">
