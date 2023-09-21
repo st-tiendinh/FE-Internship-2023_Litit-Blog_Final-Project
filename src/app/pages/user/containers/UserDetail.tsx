@@ -72,12 +72,13 @@ const UserDetail = () => {
         const response: any = await apiService.get([ENDPOINT.posts.recyclebin]);
 
         setUserRecycleBin(response.data);
+        setIsUserLoading(false);
       } catch (error) {
         console.log(error);
         setIsUserLoading(false);
       }
     })();
-  }, [location]);
+  }, [location, toggleDeletedPost]);
 
   useEffect(() => {
     setIsLoading(true);
