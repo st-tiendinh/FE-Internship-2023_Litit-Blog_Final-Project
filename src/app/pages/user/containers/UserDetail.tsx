@@ -104,7 +104,7 @@ const UserDetail = () => {
       <div className="container">
         <Modal
           title="Do you want to delete?!!"
-          type={ModalType.CONFIRM}
+          type={ModalType.CONFIRM_DELETE}
           action={() => console.log(123)}
         />
 

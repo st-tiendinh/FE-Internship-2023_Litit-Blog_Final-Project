@@ -7,7 +7,7 @@ import { RootState } from '../../app.reducers';
 import { setHideModal } from '../../redux/actions/modal';
 
 export enum ModalType {
-  CONFIRM,
+  CONFIRM_DELETE,
 }
 
 interface ModalPropTypes {
@@ -29,13 +29,20 @@ export const Modal = ({ title, button, type, action }: ModalPropTypes) => {
     <div className={`modal-wrapper ${isShow ? 'd-block' : 'd-none'}`}>
       <div className="modal">
         <div className="modal-header">
+          {type === ModalType.CONFIRM_DELETE && (
+            <i className="icon icon-danger"></i>
+          )}
           <h4 className="modal-title">{title}</h4>
-          <span className="modal-close" onClick={handleClose}>
-            &times;
-          </span>
+          {type !== ModalType.CONFIRM_DELETE && (
+            <span className="modal-close" onClick={handleClose}>
+              &times;
+            </span>
+          )}
         </div>
         <div className="modal-body">
-          {type === ModalType.CONFIRM && <ConfirmModal action={action} />}
+          {type === ModalType.CONFIRM_DELETE && (
+            <ConfirmModal action={action} />
+          )}
         </div>
         <div className="modal-footer">{button}</div>
       </div>

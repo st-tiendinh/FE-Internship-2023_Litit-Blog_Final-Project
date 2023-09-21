@@ -17,11 +17,11 @@ export const ConfirmModal = ({ action }: any) => {
 
   return (
     <div className={`confirm-wrapper ${isShow ? 'd-flex' : 'd-none'} `}>
-      <button className="btn btn-primary" onClick={handleConfirm}>
-        Yes
+      <button className="btn btn-danger-outline" onClick={handleCancel}>
+        No
       </button>
-      <button className="btn btn-outline" onClick={handleCancel}>
-        Cancel
+      <button className="btn btn-danger" onClick={handleConfirm}>
+        Yes
       </button>
     </div>
   );

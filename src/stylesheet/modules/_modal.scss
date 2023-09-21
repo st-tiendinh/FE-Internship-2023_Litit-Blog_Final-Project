@@ -17,10 +17,11 @@
     padding: 20px;
     background-color: #eee;
     border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 
     &-header {
       display: flex;
-      justify-content: space-between;
+      gap: 20px;
       align-items: center;
       margin-bottom: 20px;
     }
@@ -35,8 +36,9 @@
     }
 
     &-close {
-      font-size: 24px;
+      font-size: 29px;
       padding: 6px;
+      font-weight: 600;
       cursor: pointer;
     }
 
