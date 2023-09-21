@@ -63,7 +63,7 @@ export const RecommendPosts = () => {
             const isValidCover = isValidCovers[index];
             const isValidAvatar = isValidAvatars[index];
             return (
-              <div className="article">
+              <div key={post.id} className="article">
                 <Link
                   to={`/articles/${post.id}`}
                   className="article-image-wrapper"

@@ -4,6 +4,7 @@ import { Post } from './Post';
 
 export interface IPost {
   id: number;
+  userId: number;
   title: string;
   description: string;
   content: string;
@@ -39,9 +40,10 @@ export interface IPost {
 interface PostListProps {
   posts: Array<IPost>;
   type: PostListType;
+  isHasAction?: boolean;
 }
 
-const PostList = ({ posts, type }: PostListProps) => {
+const PostList = ({ posts, type, isHasAction }: PostListProps) => {
   return (
     <ul className="post-list row">
       {posts.length ? (
@@ -55,7 +57,7 @@ const PostList = ({ posts, type }: PostListProps) => {
             <div className="post-item">
               <Post
                 id={post.id}
-                userId={post.user.id}
+                userId={post.userId}
                 title={post.title}
                 desc={post.description}
                 cover={post.cover}
@@ -66,6 +68,7 @@ const PostList = ({ posts, type }: PostListProps) => {
                 comments={post.comments}
                 likes={post.likes}
                 listType={type}
+                isHasAction={isHasAction}
               />
             </div>
           </li>

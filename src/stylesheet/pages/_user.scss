@@ -1,13 +1,22 @@
 .page-user {
   min-height: 100vh;
   padding-top: 64px;
-  background: linear-gradient(to bottom,
-      black 0%,
-      black 128px,
-      transparent 128px,
-      #e8e8e8 100%);
+  background: linear-gradient(
+    to bottom,
+    black 0%,
+    black 128px,
+    transparent 128px,
+    transparent 100%
+  );
+
+  .post-item {
+    margin-bottom: 16px;
+  }
 
   .profile-section {
+    box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.12);
+    border-radius: 12px;
+
     .profile {
       margin-top: -48px;
 
@@ -97,86 +106,6 @@
   }
 
   .section-personal-post {
-    .personal-post {
-      &-list {
-        padding: 0;
-      }
-
-      &-item {
-        display: flex;
-        flex-direction: column;
-        padding: 20px;
-        background-color: map-get($colors, "white");
-        border-radius: 8px;
-
-        &:not(:last-child) {
-          margin-bottom: 10px;
-        }
-      }
-
-      &-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 12px;
-      }
-
-      &-title {
-        font-size: map-get($font-sizes, "2xl");
-        font-weight: map-get($font-weights, bold);
-        margin-left: 40px;
-      }
-
-      &-comment-link {
-        display: inline-block;
-        border-radius: 6px;
-        margin-left: 24px;
-
-        &:hover {
-          background: rgba(0, 0, 0, 0.035);
-        }
-
-        .icon {
-          margin-right: 3px;
-        }
-
-        .btn {
-          display: flex;
-          align-items: center;
-          font-size: map-get($font-sizes, sm);
-          text-transform: lowercase;
-          padding: 4px 12px 4px 8px;
-        }
-      }
-    }
-
-    .personal {
-      &-short-info {
-        display: flex;
-        align-items: center;
-      }
-
-      &-author-avatar {
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-        margin-right: 8px;
-        border: 1px solid #eee;
-      }
-
-      &-author-name {
-        font-size: map-get($font-sizes, lg);
-        font-weight: map-get($font-weights, medium);
-        line-height: 1.4;
-        cursor: pointer;
-      }
-
-      &-post-timestamp {
-        font-size: map-get($font-sizes, sm);
-        font-weight: map-get($font-weights, normal);
-        color: map-get($colors, secondary-500);
-      }
-    }
   }
 
   .skeleton {

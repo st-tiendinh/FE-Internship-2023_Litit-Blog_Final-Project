@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import DOMPurify from 'dompurify';
 
 import { formatDate } from '../utils/formatDate';
 import { isImageUrlValid } from '../utils/checkValidImage';
@@ -21,6 +20,7 @@ interface PostProps {
   likes: number;
   comments: number;
   listType: PostListType;
+  isHasAction?: boolean;
 }
 
 export const Post = ({
@@ -36,11 +36,11 @@ export const Post = ({
   likes,
   comments,
   listType,
+  isHasAction,
 }: PostProps) => {
   const [isValidCover, setIsValidCover] = useState(false);
   const [isValidUserImg, setIsValidUserImg] = useState(false);
   const formattedDate = formatDate(postedDate);
-  const clean = DOMPurify.sanitize(desc);
 
   useEffect(() => {
     isImageUrlValid(cover).then((isValid) => {
@@ -142,7 +142,7 @@ export const Post = ({
 
           <div className="d-flex flex-column personal-post-content">
             <ul className="personal-post-tag-list">
-              {tags.slice(0, 3).map((tag: any, index: number) => (
+              {tags.slice(0, 2).map((tag: any, index: number) => (
                 <li key={index} className="personal-post-tag-item">
                   <Link
                     to={`/articles/tag/${tag}`}
@@ -188,6 +188,19 @@ export const Post = ({
               <span className="short-info-timestamp">{formattedDate}</span>
             </div>
           </div>
+
+          {isHasAction && (
+            <div className="personal-post-action-wrapper">
+              <Link
+                to={`/articles/update/${location.pathname.split('/').pop()}`}
+                className="btn btn-edit"
+              >
+                <i className="icon icon-pen"></i>
+                Edit
+              </Link>
+              <button className="btn btn-danger">Delete</button>
+            </div>
+          )}
         </div>
       )}
     </>

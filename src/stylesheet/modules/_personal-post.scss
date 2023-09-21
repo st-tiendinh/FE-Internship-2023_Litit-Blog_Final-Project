@@ -2,6 +2,21 @@
   display: flex;
   border-radius: 8px;
   box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.12);
+  background-color: white;
+  position: relative;
+
+  &-action-wrapper {
+    display: flex;
+    gap: 8px;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    transform: translateY(-4px);
+
+    > .btn {
+      padding: 4px 8px;
+    }
+  }
 
   &-image-link {
     &:hover {
@@ -10,7 +25,8 @@
   }
 
   &-image-wrapper {
-    width: 345px;
+    width: 100%;
+    min-width: 345px;
     height: 198px;
     border-right: 1px solid map-get($colors, secondary-100);
   }
@@ -24,6 +40,7 @@
   &-content {
     padding: 20px;
     justify-content: center;
+    background: map-get($colors, white);
   }
 
   &-tag-list {
@@ -77,9 +94,11 @@
 }
 
 .personal-post-skeleton {
+  margin-block: 10px;
   .personal-post {
     &-image-wrapper {
-      height: 200px;
+      border-top-left-radius: 8px;
+      border-bottom-left-radius: 8px;
     }
 
     &-content {

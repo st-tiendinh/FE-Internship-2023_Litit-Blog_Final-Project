@@ -2,7 +2,6 @@ import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { UserPersonalPosts } from './components/UserPersonalPosts';
 import { UserProfile } from './components/UserProfile';
 import { UserSideBar } from './components/UserSidebar';
 import { ModalType } from '../../../shared/components/Modal';
@@ -12,6 +11,8 @@ import JwtHelper from '../../../core/helpers/jwtHelper';
 import { ApiService } from '../../../core/services/api.service';
 import { ENDPOINT } from '../../../../config/endpoint';
 import { RootState } from '../../../app.reducers';
+import PostList from '../../../shared/components/PostList';
+import { PostListType } from '../../home/containers/components/PublicPost';
 
 const apiService = new ApiService();
 const jwtHelper = new JwtHelper();
@@ -25,8 +26,7 @@ const UserDetail = () => {
   const [user, setUser] = useState<any>({});
   const [isUserLoading, setIsUserLoading] = useState<boolean>(false);
   const [userStatistic, setUserStatistic] = useState<any>({});
-  const [postAuthor, setPostAuthor] = useState<any>();
-  const [userPost, setUserPost] = useState<any>([]);
+  const [userPosts, setUserPost] = useState<any>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const isLogged = useSelector(
     (state: RootState) => state.authReducer.isLogged
@@ -89,8 +89,14 @@ const UserDetail = () => {
           likeQuantity: likeQuantity,
         });
 
-        setUserPost(response.Posts);
-        setPostAuthor(response);
+        const { Posts, ...other } = response;
+
+        const newPostsArr = response.Posts.map((item: any) => {
+          const newPost = { ...item, user: other };
+          return newPost;
+        });
+
+        setUserPost(newPostsArr);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
@@ -128,9 +134,10 @@ const UserDetail = () => {
               {isLoading ? (
                 <div className="skeleton skeleton-personal-list"></div>
               ) : (
-                <UserPersonalPosts
-                  userPost={userPost}
-                  postAuthor={postAuthor}
+                <PostList
+                  posts={userPosts}
+                  type={PostListType.LIST}
+                  isHasAction={true}
                 />
               )}
             </div>
