@@ -49,7 +49,6 @@ interface PostListProps {
 }
 
 const PostList = ({ posts, type, isHasAction }: PostListProps) => {
-  console.log(posts);
   return (
     <ul className="post-list row">
       {posts.length ? (

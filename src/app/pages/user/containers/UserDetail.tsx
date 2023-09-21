@@ -73,13 +73,11 @@ const UserDetail = () => {
         const isCurrentUser = jwtHelper.isCurrentUser(
           +`${location.pathname.split('/').pop()}`
         );
-        console.log(isCurrentUser);
         apiService.setHeaders(jwtHelper.getAuthHeader());
         const response: any = isCurrentUser
           ? await apiService.get([ENDPOINT.users.index, 'me/posts'])
           : await apiService.get([ENDPOINT.users.index, `${userId}/posts`]);
-        console.log(response);
-
+        setUser(response);
         const postPublicQuantity = await response.Posts.filter(
           (post: any) => post.status === PostStatus.PUBLIC
         ).length;
