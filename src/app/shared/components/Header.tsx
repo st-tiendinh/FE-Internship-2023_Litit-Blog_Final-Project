@@ -135,16 +135,6 @@ export const Header = () => {
                                 </Link>
                               </li>
                               <li className="menu-item">
-                                <div className="menu-action">
-                                  <p className="menu-label">Settings</p>
-                                </div>
-                              </li>
-                              <li className="menu-item">
-                                <div className="menu-action">
-                                  <p className="menu-label">Bookmark</p>
-                                </div>
-                              </li>
-                              <li className="menu-item">
                                 <div
                                   onClick={handleSignOut}
                                   className="menu-action action-logout"

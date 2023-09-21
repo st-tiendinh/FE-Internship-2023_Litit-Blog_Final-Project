@@ -6,6 +6,7 @@ import { UserProfile } from './components/UserProfile';
 import { UserSideBar } from './components/UserSidebar';
 import { ModalType } from '../../../shared/components/Modal';
 import { Modal } from '../../../shared/components';
+import { UserChangePassword } from './components/UserChangePassword';
 
 import JwtHelper from '../../../core/helpers/jwtHelper';
 import { ApiService } from '../../../core/services/api.service';
@@ -22,8 +23,11 @@ export enum PostStatus {
   PRIVATE = 'private',
 }
 
+type FilterType = 'public-post' | 'deleted-post' | 'change-password';
+
 const UserDetail = () => {
   const [user, setUser] = useState<any>({});
+  const [userRecycleBin, setUserRecycleBin] = useState<any>([]);
   const [isUserLoading, setIsUserLoading] = useState<boolean>(false);
   const [userStatistic, setUserStatistic] = useState<any>({});
   const [userPosts, setUserPost] = useState<any>([]);
@@ -36,6 +40,7 @@ const UserDetail = () => {
   const userId = location.pathname.slice(7);
   const isLoggedUser = isLogged ? jwtHelper.isCurrentUser(+userId) : false;
   const id = useSelector((state: RootState) => state.modalReducer.id);
+  const [filter, setFilter] = useState<FilterType>('public-post');
 
   const handleSoftDelete = () => {
     (async () => {
@@ -52,6 +57,21 @@ const UserDetail = () => {
         const response = await apiService.get([ENDPOINT.users.index, userId]);
         setUser(response);
         setIsUserLoading(false);
+      } catch (error) {
+        console.log(error);
+        setIsUserLoading(false);
+      }
+    })();
+  }, [location]);
+
+  useEffect(() => {
+    setIsUserLoading(true);
+    (async () => {
+      try {
+        apiService.setHeaders(jwtHelper.getAuthHeader());
+        const response: any = await apiService.get([ENDPOINT.posts.recyclebin]);
+
+        setUserRecycleBin(response.data);
       } catch (error) {
         console.log(error);
         setIsUserLoading(false);
@@ -141,15 +161,53 @@ const UserDetail = () => {
               )}
             </div>
             <div className="col col-8">
-              {isLoading ? (
-                <div className="skeleton skeleton-personal-list"></div>
-              ) : (
-                <PostList
-                  posts={userPosts}
-                  type={PostListType.LIST}
-                  isHasAction={true}
-                />
+              {jwtHelper.getUserInfo().userId.toString() === userId && (
+                <ul className="filter">
+                  <li
+                    onClick={() => setFilter('public-post')}
+                    className={`filter-item ${
+                      filter === 'public-post' ? 'active' : ''
+                    }`}
+                  >
+                    Public posts
+                  </li>
+                  <li
+                    onClick={() => setFilter('deleted-post')}
+                    className={`filter-item ${
+                      filter === 'deleted-post' ? 'active' : ''
+                    }`}
+                  >
+                    Deleted posts
+                  </li>
+                  <li
+                    onClick={() => setFilter('change-password')}
+                    className={`filter-item ${
+                      filter === 'change-password' ? 'active' : ''
+                    }`}
+                  >
+                    Change password
+                  </li>
+                </ul>
               )}
+              {filter === 'change-password' && (
+                <UserChangePassword setFilter={setFilter} />
+              )}
+              {filter === 'deleted-post' &&
+                (isLoading ? (
+                  <div className="skeleton skeleton-personal-list"></div>
+                ) : (
+                  <PostList posts={userRecycleBin} type={PostListType.LIST} />
+                ))}
+              {filter === 'public-post' &&
+                (isLoading ? (
+                  <div className="skeleton skeleton-personal-list"></div>
+                ) : (
+                  <PostList
+                    posts={userPosts}
+                    type={PostListType.LIST}
+                    isHasAction={true}
+                  />
+                ))}
             </div>
           </div>
         </section>
