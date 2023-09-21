@@ -1,11 +1,7 @@
 .page-user {
   min-height: 100vh;
   padding-top: 64px;
-  background: linear-gradient(to bottom,
-      black 0%,
-      black 128px,
-      transparent 128px,
-      #e8e8e8 100%);
+  background: linear-gradient(to bottom, black 0%, black 128px, transparent 128px, #e8e8e8 100%);
 
   .profile-section {
     .profile {
@@ -59,23 +55,23 @@
         .user {
           &-name {
             font-size: 32px;
-            font-weight: map-get($font-weights, "medium");
+            font-weight: map-get($font-weights, 'medium');
             line-height: 1.4;
             margin-bottom: 16px;
           }
 
           &-follow-list {
-            font-size: map-get($font-sizes, "lg");
+            font-size: map-get($font-sizes, 'lg');
             margin-bottom: 24px;
             gap: 48px;
           }
 
           &-follow-amount {
-            font-weight: map-get($font-weights, "medium");
+            font-weight: map-get($font-weights, 'medium');
           }
 
           &-about-list {
-            font-size: map-get($font-sizes, "sm");
+            font-size: map-get($font-sizes, 'sm');
             color: #717171;
             margin-bottom: 8px;
             gap: 64px;
@@ -87,6 +83,29 @@
           }
         }
       }
+    }
+  }
+
+  .filter {
+    display: flex;
+    gap: 20px;
+    padding-bottom: 16px;
+    &-item {
+      cursor: pointer;
+      padding: 8px 16px;
+      border: 2px solid transparent;
+    
+      &:hover {
+        background-color: map-get($colors, 'white');
+        border: 2px solid map-get($colors, 'yellow');
+        border-radius: 6px;
+      }
+    }
+
+    .active {
+
+      border-radius: 6px;
+      border: 2px solid map-get($colors, 'yellow');
     }
   }
 
@@ -106,7 +125,7 @@
         display: flex;
         flex-direction: column;
         padding: 20px;
-        background-color: map-get($colors, "white");
+        background-color: map-get($colors, 'white');
         border-radius: 8px;
 
         &:not(:last-child) {
@@ -122,7 +141,7 @@
       }
 
       &-title {
-        font-size: map-get($font-sizes, "2xl");
+        font-size: map-get($font-sizes, '2xl');
         font-weight: map-get($font-weights, bold);
         margin-left: 40px;
       }
