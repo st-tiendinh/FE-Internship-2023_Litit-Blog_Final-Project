@@ -104,4 +104,20 @@
       }
     }
   }
+
+  &-danger-outline {
+    padding: 8px 26px;
+    color: map-get($colors, primary);
+    border: 1px solid map-get($colors, primary);
+  }
+
+  &-danger {
+    padding: 8px 26px;
+    color: map-get($colors, "white");
+    background: #CB2027;
+
+    &:hover {
+      box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+    }
+  }
 }
