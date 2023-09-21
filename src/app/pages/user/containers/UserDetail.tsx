@@ -1,13 +1,16 @@
+import { useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
 import { UserPersonalPosts } from './components/UserPersonalPosts';
 import { UserProfile } from './components/UserProfile';
 import { UserSideBar } from './components/UserSidebar';
-import { useLocation } from 'react-router-dom';
+import { ModalType } from '../../../shared/components/Modal';
+import { Modal } from '../../../shared/components';
 
-import { ApiService } from '../../../core/services/api.service';
-import { useEffect, useState } from 'react';
-import { ENDPOINT } from '../../../../config/endpoint';
 import JwtHelper from '../../../core/helpers/jwtHelper';
-import { useSelector } from 'react-redux';
+import { ApiService } from '../../../core/services/api.service';
+import { ENDPOINT } from '../../../../config/endpoint';
 import { RootState } from '../../../app.reducers';
 
 const apiService = new ApiService();
@@ -31,6 +34,7 @@ const UserDetail = () => {
   const location = useLocation();
   const userId = location.pathname.slice(7);
   const isLoggedUser = isLogged ? jwtHelper.isCurrentUser(+userId) : false;
+  const dispatch = useDispatch();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -99,6 +103,12 @@ const UserDetail = () => {
   return (
     <div className="page-user">
       <div className="container">
+        <Modal
+          title="Do you want to delete?!!"
+          type={ModalType.CONFIRM}
+          action={() => console.log(123)}
+        />
+
         {isUserLoading ? (
           <div className="skeleton skeleton-user-profile">
             <div className="skeleton skeleton-user-avatar"></div>
