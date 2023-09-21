@@ -67,12 +67,8 @@
       font-size: 15px;
       font-weight: map-get($font-weights, bold);
       line-height: 1.5;
-      color: map-get($colors, secondary-800);
+      color: map-get($colors, primary);
       cursor: pointer;
-
-      &:hover {
-        color: map-get($colors, primary);
-      }
     }
 
     &-timestamp {
@@ -85,16 +81,32 @@
   }
 
   .popular-post {
-    &-title.skeleton {
+    &-image-wrapper {
       &.skeleton {
-        height: 16px;
-        margin-bottom: 14px;
+        border-top-left-radius: 8px;
+        border-bottom-left-radius: 8px;
       }
+    }
+
+    &-content {
+      width: 100%;
+      justify-content: center;
     }
 
     &-timestamp {
       &.skeleton {
-        height: 14px;
+        border-radius: 4px;
+        height: 20px;
+        width: 75%;
+        margin-bottom: 8px;
+      }
+    }
+
+    &-title {
+      &.skeleton {
+        width: 100%;
+        height: 40px;
+        border-radius: 4px;
       }
     }
   }

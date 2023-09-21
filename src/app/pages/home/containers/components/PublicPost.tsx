@@ -16,7 +16,7 @@ export enum PostListType {
 
 interface PublicPostProps {
   type: PostListType;
-  sectionTitle: string;
+  sectionTitle?: string;
 }
 
 const PublicPost = ({ type, sectionTitle }: PublicPostProps) => {
@@ -44,16 +44,16 @@ const PublicPost = ({ type, sectionTitle }: PublicPostProps) => {
 
   return (
     <section className="section section-public-post">
-      {type === PostListType.LIST ? (
+      {type === PostListType.LIST && sectionTitle ? (
         <div className="section-header">
           <h3 className="section-title">{sectionTitle}</h3>
           <Link to={'/articles'} className="btn btn-outline">
             Show more
           </Link>
         </div>
-      ) : (
+      ) : sectionTitle ? (
         <h3 className="section-title">{sectionTitle}</h3>
-      )}
+      ) : null}
       {isLoading && page === 1 ? (
         <ul className="post-list row">
           {skeletonArray.map((item) => {
