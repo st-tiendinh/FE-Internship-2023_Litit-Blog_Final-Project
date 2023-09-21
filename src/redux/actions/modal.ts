@@ -1,4 +1,9 @@
-import { HIDE_MODAL, SET_CONFIRM, SHOW_MODAL } from '../types/confirmModal';
+import {
+  HIDE_MODAL,
+  SET_CONFIRM,
+  SET_CONFIRM_DELETE_ID,
+  SHOW_MODAL,
+} from '../types/confirmModal';
 
 export const setShowModal = () => {
   return {
@@ -16,5 +21,12 @@ export const setConfirmModal = (confirmCallback: any) => {
   return {
     type: SET_CONFIRM,
     payload: { confirmCallback },
+  };
+};
+
+export const setConfirmModalId = (id: any) => {
+  return {
+    type: SET_CONFIRM_DELETE_ID,
+    payload: { id },
   };
 };
