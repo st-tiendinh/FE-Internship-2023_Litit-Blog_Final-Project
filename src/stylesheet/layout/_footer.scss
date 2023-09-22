@@ -1,34 +1,79 @@
 .footer {
-  padding: 20px 0;
+  background: map-get($colors, primary);
 
-  color: map-get($colors, secondary-600);
-  border-top: 1px solid map-get($colors, secondary-600);
-
-  &-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  &-title {
+    color: map-get($colors, "yellow");
+    font-size: map-get($font-sizes, "xl");
+    font-weight: map-get($font-weights, "bold");
+    text-transform: uppercase;
+    margin-bottom: 14px;
   }
 
-  &-logo {
-    width: 120px;
-    line-height: 1.5;
-  }
+  .main-footer {
+    padding: 50px 0;
 
-  &-content {
-    display: flex;
-    align-items: center;
-  }
-  &-info-list {
-    display: flex;
-    align-items: center;
-  }
-  &-info-item {
-    padding-inline: 16px;
-    border-right: 1px solid map-get($colors, secondary-200);
+    .logo {
+      width: 110px;
 
-    &:last-child {
-      border-right: none;
+      &-image {
+        width: 100%;
+        display: block;
+        object-fit: cover;
+      }
     }
   }
+
+  &-reference {
+    &-item {
+      &:not(:last-child) {
+        margin-bottom: 14px;
+      }
+    }
+
+    &-link {
+      display: inline-block;
+      color: map-get($colors, "white");
+
+      &:hover {
+        color: map-get($colors, "yellow");
+      }
+    }
+  }
+
+  .sub-footer {
+    .container {
+      display: flex;
+      align-items: center;
+    }
+
+    padding: 20px 0;
+    border-top: 1px solid map-get($colors, "dark-yellow");
+
+    .container {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .copy-right {
+      color: map-get($colors, "white");
+    }
+  }
+
+  &-social-list {
+    display: flex;
+    gap: 14px;
+  }
+
+  &-social-item {
+    .icon {
+      border-radius: 50%;
+    }
+
+    &:hover {
+      .icon {
+        box-shadow: rgba(255, 255, 255, 0.5) 0px 0px 8px 0px;
+      }
+    }
+  }
+
 }
