@@ -2,6 +2,7 @@ import {
   HIDE_MODAL,
   SET_CONFIRM,
   SET_CONFIRM_DELETE_ID,
+  SET_CONFIRM_TYPE,
   SHOW_MODAL,
 } from '../types/confirmModal';
 
@@ -21,6 +22,13 @@ export const setConfirmModal = (confirmCallback: any) => {
   return {
     type: SET_CONFIRM,
     payload: { confirmCallback },
+  };
+};
+
+export const setConfirmModalType = (type: any) => {
+  return {
+    type: SET_CONFIRM_TYPE,
+    payload: { type },
   };
 };
 

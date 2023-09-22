@@ -24,6 +24,11 @@ export enum PostStatus {
   PRIVATE = 'private',
 }
 
+export enum PersonalPostAction {
+  RECYCLE = 'recycle',
+  DELETE = 'delete',
+}
+
 type FilterType =
   | 'public-post'
   | 'deleted-post'
@@ -38,9 +43,8 @@ const UserDetail = () => {
   const [userPosts, setUserPost] = useState<any>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [toggleDeletedPost, setToggleDeletedPost] = useState<boolean>(false);
-  const isLogged = useSelector(
-    (state: RootState) => state.authReducer.isLogged
-  );
+  const [toggleRecyle, setToggleRecyle] = useState<boolean>(false);
+  const isLogged = useSelector((state: RootState) => state.authReducer.isLogged);
   const location = useLocation();
   const userId = location.pathname.slice(7);
   const isLoggedUser = isLogged ? jwtHelper.isCurrentUser(+userId) : false;
@@ -52,6 +56,18 @@ const UserDetail = () => {
       apiService.setHeaders(jwtHelper.getAuthHeader());
       await apiService.delete([ENDPOINT.posts.index, `${id}`]);
       setToggleDeletedPost(!toggleDeletedPost);
+    })();
+  };
+
+  const handleRestore = () => {
+    (async () => {
+      try {
+        apiService.setHeaders(jwtHelper.getAuthHeader());
+        await apiService.put([ENDPOINT.posts.index, `${id}/restore`]);
+        setToggleRecyle(!toggleRecyle);
+      } catch (error) {
+        console.log(error);
+      }
     })();
   };
 
@@ -69,15 +85,13 @@ const UserDetail = () => {
         setIsUserLoading(false);
       }
     })();
-  }, [location, toggleDeletedPost]);
+  }, [location, toggleDeletedPost, toggleRecyle]);
 
   useEffect(() => {
     setIsLoading(true);
     (async () => {
       try {
-        const isCurrentUser = jwtHelper.isCurrentUser(
-          +`${location.pathname.split('/').pop()}`
-        );
+        const isCurrentUser = jwtHelper.isCurrentUser(+`${location.pathname.split('/').pop()}`);
         apiService.setHeaders(jwtHelper.getAuthHeader());
         const response: any = isCurrentUser
           ? await apiService.get([ENDPOINT.users.index, 'me/posts'])
@@ -123,19 +137,21 @@ const UserDetail = () => {
         setIsLoading(false);
       }
     })();
-  }, [location, toggleDeletedPost]);
+  }, [location, toggleDeletedPost, toggleRecyle]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  const type = useSelector((state: RootState) => state.modalReducer.type);
 
   return (
     <div className="page-user">
       <div className="container">
         <Modal
           title="Do you want to delete?!!"
-          type={ModalType.CONFIRM_DELETE}
-          action={handleSoftDelete}
+          // type={ModalType.CONFIRM_DELETE}
+          action={(type === 'delete' && handleSoftDelete) || (type === 'restore' && handleRestore)}
         />
 
         {isUserLoading ? (
@@ -195,24 +211,19 @@ const UserDetail = () => {
               )}
             </div>
             <div className="col col-8">
-              {filter === 'change-password' && (
-                <UserChangePassword setFilter={setFilter} />
-              )}
+           
+              {filter === 'change-password' && <UserChangePassword setFilter={setFilter} />}
               {filter === 'deleted-post' &&
                 (isLoading ? (
                   <div className="skeleton skeleton-personal-list"></div>
                 ) : (
-                  <PostList posts={userRecycleBin} type={PostListType.LIST} />
+                  <PostList posts={userRecycleBin} type={PostListType.LIST} isCanRestore={true} />
                 ))}
               {filter === 'public-post' &&
                 (isLoading ? (
                   <div className="skeleton skeleton-personal-list"></div>
                 ) : (
-                  <PostList
-                    posts={userPosts}
-                    type={PostListType.LIST}
-                    isHasAction={true}
-                  />
+                  <PostList posts={userPosts} type={PostListType.LIST} isHasAction={true} />
                 ))}
               {filter === 'update-profile' && <UserUpdateProfile {...user} />}
             </div>
