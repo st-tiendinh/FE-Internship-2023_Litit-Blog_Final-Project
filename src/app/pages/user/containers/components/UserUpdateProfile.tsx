@@ -1,8 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import axios from 'axios';
+
 import { InputGroup, SelectGroup } from '../../../../shared/components';
-import { formatDateToString } from '../../../../shared/utils/formatDate';
 import BlankUserImage from '../../../../../assets/images/blank-user.webp';
+
+import { formatDateToString } from '../../../../shared/utils/formatDate';
+import { ApiService } from '../../../../core/services/api.service';
+import JwtHelper from '../../../../core/helpers/jwtHelper';
+import { ENDPOINT } from '../../../../../config/endpoint';
+import { KEYS, setLS } from '../../../../core/helpers/storageHelper';
+import { isImageUrlValid } from '../../../../shared/utils/checkValidImage';
+
+const apiService = new ApiService();
+const jwt = new JwtHelper();
 
 interface FormData {
   firstName: string;
@@ -11,12 +22,11 @@ interface FormData {
   gender: 'male' | 'female' | 'other';
   dob: string;
   phone: string;
-  picture: string;
 }
 
 export const UserUpdateProfile = (userInfo: any) => {
-  const { email, followers, followings, ...other } = userInfo;
-  const newData = {
+  const { email, followers, followings, picture, ...other } = userInfo;
+  const user = {
     ...other,
     dob: userInfo.dob.split('/').reverse().join('-'),
   };
@@ -26,36 +36,115 @@ export const UserUpdateProfile = (userInfo: any) => {
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm<FormData>({ defaultValues: newData });
+  } = useForm<FormData>({ defaultValues: user });
 
+  const [isUploadLoading, setIsUploadLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [fileExtension, setFileExtension] = useState<string | undefined>(
+    undefined
+  );
+  const [isValidUserImg, setIsValidUserImg] = useState(false);
+  const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [nameImage, setNameImage] = useState<string | undefined>(undefined);
 
   const handleTrimInput = (fieldName: keyof FormData, value: string) => {
     setValue(fieldName, value.trim());
   };
 
-  const onSubmit = (data: FormData) => {
-    console.log(data);
+  const onSubmit = async (data: FormData) => {
+    const newData = { ...data, picture: imageUrl };
+    try {
+      apiService.setHeaders(jwt.getAuthHeader());
+      const res: any = await apiService.put([ENDPOINT.users.me], newData);
+      setLS(KEYS.USER_INFO, res);
+      setIsLoading(false);
+      location.reload();
+    } catch (error: any) {
+      setError(error?.response?.data?.errors);
+      setIsLoading(false);
+    }
   };
+
+  useEffect(() => {
+    isImageUrlValid(userInfo?.picture).then((isValid) => {
+      isValid ? setIsValidUserImg(true) : setIsValidUserImg(false);
+    });
+  }, [isImageUrlValid, userInfo?.picture]);
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file: File | null = event.target.files?.[0] || null;
+    setImageFile(file);
+    if (file) {
+      const filenameParts = file?.name.split('.');
+      const getExtension = filenameParts?.length && filenameParts.pop();
+      setFileExtension(getExtension);
+      const firstElement = filenameParts?.shift();
+      setNameImage(firstElement);
+    }
+  };
+
+  useEffect(() => {
+    const getImage = async () => {
+      if (nameImage && fileExtension) {
+        setIsUploadLoading(true);
+        try {
+          apiService.setHeaders(jwt.getAuthHeader());
+          const uploadType = 'avatar';
+          const params = `?type_upload=${uploadType}&file_name=${nameImage}&file_type=image/png}`;
+          const res: any = await apiService.get([
+            ENDPOINT.signatures.index,
+            `${params}`,
+          ]);
+          if (res && res.url && res.signedRequest) {
+            await axios
+              .put(res.signedRequest, imageFile)
+              .then((err) => console.log(err));
+            setImageUrl(res.url);
+          } else {
+            console.error('Invalid response from API:', res);
+          }
+          setIsUploadLoading(false);
+        } catch (error) {
+          console.error('Error in API call:', error);
+          setIsUploadLoading(false);
+        }
+      }
+    };
+    getImage();
+  }, [imageFile]);
 
   return (
     <div className="update-profile-wrapper">
       <h4 className="update-profile-title">Update Profile</h4>
       <div className="d-flex update-profile-avatar-group">
         <div className="update-profile-avatar-wrapper">
-          <img src={BlankUserImage} className="update-profile-avatar" />
+          <img
+            src={
+              imageUrl
+                ? imageUrl
+                : isValidUserImg
+                ? userInfo?.picture
+                : BlankUserImage
+            }
+            className="update-profile-avatar"
+          />
         </div>
         <label
-          htmlFor="update-profile-avatar-wrapper"
-          className="btn btn-secondary update-profile-upload-label"
+          htmlFor="article-editor-cover-upload"
+          aria-disabled={isUploadLoading}
+          className={`btn btn-secondary ${
+            isUploadLoading ? 'loading' : null
+          } update-profile-upload-label`}
         >
-          Change image
+          <span className="btn-text">Change image</span>
           <input
             type="file"
             accept="image/*"
-            //onChange={handleFileChange}
+            onChange={handleFileChange}
             className="article-editor-cover-upload"
-            name=""
+            name="image"
             id="article-editor-cover-upload"
           />
         </label>
@@ -158,14 +247,14 @@ export const UserUpdateProfile = (userInfo: any) => {
         </div>
         <button
           className={`btn btn-primary ${isLoading ? 'loading' : null}`}
-          disabled={isLoading}
+          disabled={isUploadLoading || isLoading}
           type="submit"
         >
           <span className="btn-text">Save Profile Information</span>
         </button>
       </form>
-      <p className={`signup-error text-danger text-center`}>
-        {/* {!!resError && !isLoading && resError} */}
+      <p className={`update-profile-error text-danger text-center`}>
+        {!!error && !isLoading && error}
       </p>
     </div>
   );

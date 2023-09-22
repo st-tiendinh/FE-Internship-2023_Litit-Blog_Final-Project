@@ -19,6 +19,7 @@ export const ENDPOINT = {
   },
   users: {
     index: `${RESOURCES.users}`,
+    me: `${RESOURCES.users}/me`,
     changePassword: `${RESOURCES.users}/change-password`,
   },
   posts: {
