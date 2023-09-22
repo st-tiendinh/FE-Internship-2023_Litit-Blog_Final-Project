@@ -120,7 +120,7 @@ export const UserUpdateProfile = (userInfo: any) => {
 
   return (
     <div className="update-profile-wrapper">
-      <h4 className="update-profile-title">Update Profile</h4>
+      <h4 className="update-profile-title">My Profile</h4>
       <div className="d-flex update-profile-avatar-group">
         <div className="update-profile-avatar-wrapper">
           <img

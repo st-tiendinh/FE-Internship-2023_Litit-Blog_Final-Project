@@ -1,8 +1,14 @@
+import { useEffect } from 'react';
+
 import { Sidebar } from '../../../shared/components';
 import PublicPost, { PostListType } from './components/PublicPost';
 import { RecommendPosts } from './components/RecommendPosts';
 
 const Home = () => {
+  useEffect(() => {
+    window.scroll(0, 0);
+  }, []);
+
   return (
     <div className="page-home">
       <div className="container">
