@@ -37,32 +37,23 @@ const UserDetail = () => {
   const [userStatistic, setUserStatistic] = useState<any>({});
   const [userPosts, setUserPost] = useState<any>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [toggleDeletedPost, setToggleDeletedPost] = useState<boolean>(false);
   const isLogged = useSelector(
     (state: RootState) => state.authReducer.isLogged
   );
   const location = useLocation();
   const userId = location.pathname.slice(7);
   const isLoggedUser = isLogged ? jwtHelper.isCurrentUser(+userId) : false;
-
+  const id = useSelector((state: RootState) => state.modalReducer.id);
   const [filter, setFilter] = useState<FilterType>('public-post');
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
-  useEffect(() => {
-    setIsUserLoading(true);
+  const handleSoftDelete = () => {
     (async () => {
-      try {
-        const response = await apiService.get([ENDPOINT.users.index, userId]);
-        setUser(response);
-        setIsUserLoading(false);
-      } catch (error) {
-        console.log(error);
-        setIsUserLoading(false);
-      }
+      apiService.setHeaders(jwtHelper.getAuthHeader());
+      await apiService.delete([ENDPOINT.posts.index, `${id}`]);
+      setToggleDeletedPost(!toggleDeletedPost);
     })();
-  }, [location]);
+  };
 
   useEffect(() => {
     setIsUserLoading(true);
@@ -72,23 +63,26 @@ const UserDetail = () => {
         const response: any = await apiService.get([ENDPOINT.posts.recyclebin]);
 
         setUserRecycleBin(response.data);
+        setIsUserLoading(false);
       } catch (error) {
         console.log(error);
         setIsUserLoading(false);
       }
     })();
-  }, [location]);
+  }, [location, toggleDeletedPost]);
 
   useEffect(() => {
     setIsLoading(true);
     (async () => {
       try {
+        const isCurrentUser = jwtHelper.isCurrentUser(
+          +`${location.pathname.split('/').pop()}`
+        );
         apiService.setHeaders(jwtHelper.getAuthHeader());
-        const response: any = await apiService.get([
-          ENDPOINT.users.index,
-          `${userId}/posts`,
-        ]);
-
+        const response: any = isCurrentUser
+          ? await apiService.get([ENDPOINT.users.index, 'me/posts'])
+          : await apiService.get([ENDPOINT.users.index, `${userId}/posts`]);
+        setUser(response);
         const postPublicQuantity = await response.Posts.filter(
           (post: any) => post.status === PostStatus.PUBLIC
         ).length;
@@ -129,7 +123,11 @@ const UserDetail = () => {
         setIsLoading(false);
       }
     })();
-  }, [location]);
+  }, [location, toggleDeletedPost]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="page-user">
@@ -137,7 +135,7 @@ const UserDetail = () => {
         <Modal
           title="Do you want to delete?!!"
           type={ModalType.CONFIRM_DELETE}
-          action={() => console.log(123)}
+          action={handleSoftDelete}
         />
 
         {isUserLoading ? (
@@ -193,6 +191,34 @@ const UserDetail = () => {
               )}
             </div>
             <div className="col col-8">
+              {jwtHelper.getUserInfo().userId.toString() === userId && (
+                <ul className="filter">
+                  <li
+                    onClick={() => setFilter('public-post')}
+                    className={`filter-item ${
+                      filter === 'public-post' ? 'active' : ''
+                    }`}
+                  >
+                    Public posts
+                  </li>
+                  <li
+                    onClick={() => setFilter('deleted-post')}
+                    className={`filter-item ${
+                      filter === 'deleted-post' ? 'active' : ''
+                    }`}
+                  >
+                    Deleted posts
+                  </li>
+                  <li
+                    onClick={() => setFilter('change-password')}
+                    className={`filter-item ${
+                      filter === 'change-password' ? 'active' : ''
+                    }`}
+                  >
+                    Change password
+                  </li>
+                </ul>
+              )}
               {filter === 'change-password' && (
                 <UserChangePassword setFilter={setFilter} />
               )}

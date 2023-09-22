@@ -7,10 +7,22 @@ import { ENDPOINT } from '../../../../config/endpoint';
 
 const apiService = new ApiService();
 
+export interface PostEdittDataProps {
+  cover: string;
+  title: string;
+  description: '';
+  tags: string[];
+  status: string;
+  content: string;
+}
+
 const ArticleUpdate = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [postData, setPostData] = useState({
+  const [postData, setPostData] = useState<PostEdittDataProps>({
+    cover: '',
     title: '',
+    description: '',
+    tags: [],
     status: '',
     content: '',
   });
@@ -23,7 +35,10 @@ const ArticleUpdate = () => {
         `${location.pathname.split('/').pop()}`,
       ]);
       setPostData({
+        cover: response.cover,
         title: response.title,
+        description: response.description,
+        tags: response.tags,
         status: response.status,
         content: response.content,
       });
