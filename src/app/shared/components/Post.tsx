@@ -7,10 +7,11 @@ import BlankUserImg from '../../../assets/images/blank-user.webp';
 import { Link, useLocation } from 'react-router-dom';
 import { PostListType } from '../../pages/home/containers/components/PublicPost';
 import { useDispatch } from 'react-redux';
-import { setConfirmModalId, setShowModal } from '../../../redux/actions/modal';
+import { setConfirmModalId, setConfirmModalType, setShowModal } from '../../../redux/actions/modal';
 import JwtHelper from '../../core/helpers/jwtHelper';
 import { ApiService } from '../../core/services/api.service';
 import { ENDPOINT } from '../../../config/endpoint';
+import { PostStatus } from './PostList';
 
 interface PostProps {
   id: number;
@@ -18,6 +19,7 @@ interface PostProps {
   title: string;
   desc: string;
   tags: string[];
+  status: string;
   cover: string;
   authorImg: string; // Add a type to the authorImg prop
   authorName: string;
@@ -35,6 +37,7 @@ export const Post = ({
   title,
   desc,
   tags,
+  status,
   cover,
   authorImg,
   authorName,
@@ -56,13 +59,14 @@ export const Post = ({
 
   const handleDelete = (id: number) => {
     dispatch(setConfirmModalId(id));
+    dispatch(setConfirmModalType('delete'));
     dispatch(setShowModal());
   };
 
-  const handleRestore = (id: number) => {
-    apiService.setHeaders(jwtHelper.getAuthHeader());
-    const res: any =  apiService.put([ENDPOINT.posts.index, `${id}/restore`]);
-    console.log(res)
+  const handleRestore = async (id: number) => {
+    dispatch(setConfirmModalId(id));
+    dispatch(setConfirmModalType('restore'));
+    dispatch(setShowModal());
   };
 
   useEffect(() => {
@@ -162,20 +166,19 @@ export const Post = ({
                   </li>
                 ))}
               </ul>
-              {/* button 3dots, edit, delete, recycle */}
               {isHasAction && jwtHelper.isCurrentUser(+`${currentUserId}`) && (
-                <div className="personal-post-action">
+                <div className="personal-post-options">
                   <span className="btn btn-three-dots">
                     <i className="icon icon-three-dots"></i>
                     <div className="personal-post-action-popper">
-                      <span className="btn btn-delete" onClick={() => handleDelete(id)}>
-                        <i className="icon icon-bin"></i>
-                        Delete
-                      </span>
                       <Link to={`/articles/update/${id}`} className="btn btn-edit">
                         <i className="icon icon-pen"></i>
                         Edit
                       </Link>
+                      <span className="btn btn-delete" onClick={() => handleDelete(id)}>
+                        <i className="icon icon-bin"></i>
+                        Delete
+                      </span>
                     </div>
                   </span>
                 </div>
@@ -211,19 +214,30 @@ export const Post = ({
                 {comments}
               </span>
             </div>
-            <div className="short-info">
-              <Link to={`/users/${userId}`} className="author-link">
-                <div className="short-info-author">
-                  <img
-                    src={isValidUserImg ? authorImg : BlankUserImg}
-                    alt="author avatar"
-                    className="short-info-author-avatar"
-                  />
-                  <span className="short-info-author-name text-truncate">{authorName}</span>
+            <div className="short-info-wrapper">
+              <div className="short-info">
+                <Link to={`/users/${userId}`} className="author-link">
+                  <div className="short-info-author">
+                    <img
+                      src={isValidUserImg ? authorImg : BlankUserImg}
+                      alt="author avatar"
+                      className="short-info-author-avatar"
+                    />
+                    <span className="short-info-author-name text-truncate">{authorName}</span>
+                  </div>
+                </Link>
+                <span className="short-info-dot-symbol">&#x2022;</span>
+                <span className="short-info-timestamp">{formattedDate}</span>
+              </div>
+              {isHasAction && jwtHelper.isCurrentUser(+`${currentUserId}`) && (
+                <div className="short-info-status">
+                  <span className="badge badge-status">
+                    {(status === PostStatus.PUBLIC && <i className="icon icon-earth"></i>) ||
+                      (status === PostStatus.PRIVATE && <i className="icon icon-lock"></i>)}
+                    {status}
+                  </span>
                 </div>
-              </Link>
-              <span className="short-info-dot-symbol">&#x2022;</span>
-              <span className="short-info-timestamp">{formattedDate}</span>
+              )}
             </div>
           </div>
         </div>

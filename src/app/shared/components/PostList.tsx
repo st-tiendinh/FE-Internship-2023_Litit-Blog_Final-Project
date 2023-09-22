@@ -2,6 +2,11 @@ import { PostListType } from '../../pages/home/containers/components/PublicPost'
 import { EmptyData } from './EmptyData';
 import { Post } from './Post';
 
+export enum PostStatus {
+  PUBLIC = 'public',
+  PRIVATE = 'private',
+}
+
 export interface IPost {
   id: number;
   userId: number;
@@ -13,7 +18,7 @@ export interface IPost {
   likes: number;
   comments: number;
   recommend: boolean;
-  status: 'public' | 'private';
+  status: PostStatus;
   createdAt: string;
   updatedAt: string;
   deletedAt: string | null;
@@ -61,6 +66,7 @@ const PostList = ({ posts, type, isHasAction, isCanRestore }: PostListProps) => 
                 desc={post.description}
                 cover={post.cover}
                 tags={post.tags}
+                status={post.status}
                 authorImg={post.user.picture}
                 authorName={post.user.displayName}
                 postedDate={post.createdAt}

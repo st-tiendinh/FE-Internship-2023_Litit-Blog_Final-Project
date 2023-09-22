@@ -2,6 +2,7 @@ import {
   HIDE_MODAL,
   SET_CONFIRM,
   SET_CONFIRM_DELETE_ID,
+  SET_CONFIRM_TYPE,
   SHOW_MODAL,
 } from '../types/confirmModal';
 
@@ -10,6 +11,7 @@ export interface ConfirmModalStateProps {
   isConfirm: boolean;
   confirmCallback: any;
   id: number;
+  type: string;
 }
 
 const initialState = {
@@ -17,6 +19,7 @@ const initialState = {
   isConfirm: false,
   confirmCallback: () => {},
   id: 0,
+  type: '',
 };
 
 export const modalReducer = (state = initialState, action: any) => {
@@ -37,13 +40,16 @@ export const modalReducer = (state = initialState, action: any) => {
       confirmCallback: action.payload.confirmCallback,
     }),
 
+    [SET_CONFIRM_TYPE]: () => ({
+      ...state,
+      type: action.payload.type,
+    }),
+
     [SET_CONFIRM_DELETE_ID]: () => ({
       ...state,
       id: action.payload.id,
     }),
   };
 
-  return typeof objReducer[action.type] === 'function'
-    ? objReducer[action.type]()
-    : state;
+  return typeof objReducer[action.type] === 'function' ? objReducer[action.type]() : state;
 };
