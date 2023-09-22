@@ -4,8 +4,10 @@ import { ArticleEditor, PostAction } from './components/ArticleEditor';
 import { ApiService } from '../../../core/services/api.service';
 import { useLocation } from 'react-router-dom';
 import { ENDPOINT } from '../../../../config/endpoint';
+import JwtHelper from '../../../core/helpers/jwtHelper';
 
 const apiService = new ApiService();
+const jwt = new JwtHelper();
 
 export interface PostEdittDataProps {
   cover: string;
@@ -30,17 +32,24 @@ const ArticleUpdate = () => {
 
   useEffect(() => {
     (async () => {
+      apiService.setHeaders(jwt.getAuthHeader());
       const response: any = await apiService.get([
-        ENDPOINT.posts.index,
-        `${location.pathname.split('/').pop()}`,
+        ENDPOINT.users.index,
+        '/me/posts',
       ]);
+      const currentPostId = location.pathname.split('/').pop();
+
+      const filterPost = response.Posts.filter(
+        (post: any) => post.id.toString() === currentPostId
+      )[0];
+
       setPostData({
-        cover: response.cover,
-        title: response.title,
-        description: response.description,
-        tags: response.tags,
-        status: response.status,
-        content: response.content,
+        cover: filterPost.cover,
+        title: filterPost.title,
+        description: filterPost.description,
+        tags: filterPost.tags,
+        status: filterPost.status,
+        content: filterPost.content,
       });
       setIsLoading(false);
     })();

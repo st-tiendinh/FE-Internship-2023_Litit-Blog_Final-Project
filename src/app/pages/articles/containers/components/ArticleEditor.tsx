@@ -326,6 +326,7 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
             <select
               name=""
               id=""
+              value={statusValue}
               className="article-editor-status-select"
               onChange={(choice: any) => setStatusValue(choice.target.value)}
             >
