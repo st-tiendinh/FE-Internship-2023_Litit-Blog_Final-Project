@@ -18,6 +18,7 @@ import { ScrollToTopButton } from '../../home/containers/components/ScrollToTopB
 import JwtHelper from '../../../core/helpers/jwtHelper';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../app.reducers';
+import Bookmark from '../../../shared/components/Bookmark';
 
 const ArticleDetail = () => {
   const apiService = new ApiService();
@@ -27,18 +28,14 @@ const ArticleDetail = () => {
   const [isValidUserImg, setIsValidUserImg] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isShowButtonEdit, setIsShowButtonEdit] = useState<boolean>(false);
-  const isLogged = useSelector(
-    (state: RootState) => state.authReducer.isLogged
-  );
+  const isLogged = useSelector((state: RootState) => state.authReducer.isLogged);
 
   const navigate = useNavigate();
   const location = useLocation();
   const commentRef = useRef<HTMLDivElement>(null);
   const clean = DOMPurify.sanitize(post.content);
 
-  const [isEnoughSpaceForToolTip, setIsEnoughSpaceForToolTip] = useState(
-    window.innerWidth <= 1250
-  );
+  const [isEnoughSpaceForToolTip, setIsEnoughSpaceForToolTip] = useState(window.innerWidth <= 1250);
 
   const handleCommentClick = () => {
     commentRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -67,8 +64,7 @@ const ArticleDetail = () => {
           location.pathname.slice(10),
         ]);
         setPost(response);
-        isLogged &&
-          setIsShowButtonEdit(jwtHelper.isCurrentUser(response.userId));
+        isLogged && setIsShowButtonEdit(jwtHelper.isCurrentUser(response.userId));
         setIsLoading(false);
         return response;
       } catch (error) {
@@ -102,26 +98,15 @@ const ArticleDetail = () => {
                 userId={post.userId}
               />
               <li onClick={handleCommentClick} className="article-action-item">
-                <span
-                  className={`tooltip tooltip-${
-                    isEnoughSpaceForToolTip ? 'bottom' : 'left'
-                  }`}
-                >
+                <span className={`tooltip tooltip-${isEnoughSpaceForToolTip ? 'bottom' : 'left'}`}>
                   Comments
                 </span>
                 <i className="icon icon-comment-normal"></i>
                 {post.comments}
               </li>
-              <li className="article-action-item">
-                <span
-                  className={`tooltip tooltip-${
-                    isEnoughSpaceForToolTip ? 'bottom' : 'left'
-                  }`}
-                >
-                  Bookmark
-                </span>
-                <i className="icon icon-bookmark"></i>
-              </li>
+              <Bookmark
+                tooltip={isEnoughSpaceForToolTip}
+              />
             </ul>
           </div>
 
@@ -133,34 +118,23 @@ const ArticleDetail = () => {
                 <div className="article-detail-header">
                   <div className="short-info">
                     <div className="short-info-author">
-                      <Link
-                        className="d-flex author-link"
-                        to={'/users/' + post.user?.id}
-                      >
+                      <Link className="d-flex author-link" to={'/users/' + post.user?.id}>
                         <div className="post-author">
                           <img
-                            src={
-                              isValidUserImg ? post.user?.picture : BlankUserImg
-                            }
+                            src={isValidUserImg ? post.user?.picture : BlankUserImg}
                             alt="author avatar"
                             className="short-info-author-avatar"
                           />
-                          <span className="short-info-author-name">
-                            {post.user?.displayName}
-                          </span>
+                          <span className="short-info-author-name">{post.user?.displayName}</span>
                         </div>
                       </Link>
                     </div>
                     <span className="short-info-dot-symbol">&#x2022;</span>
-                    <span className="short-info-timestamp">
-                      {formatDate(post.updatedAt)}
-                    </span>
+                    <span className="short-info-timestamp">{formatDate(post.updatedAt)}</span>
                   </div>
                   {isShowButtonEdit && (
                     <Link
-                      to={`/articles/update/${location.pathname
-                        .split('/')
-                        .pop()}`}
+                      to={`/articles/update/${location.pathname.split('/').pop()}`}
                       className="btn btn-edit"
                     >
                       <i className="icon icon-pen"></i>
@@ -185,9 +159,7 @@ const ArticleDetail = () => {
                 ></div>
               </div>
             </article>
-            <div ref={commentRef}>
-              {post.id && <ListComments postId={post.id} />}
-            </div>
+            <div ref={commentRef}>{post.id && <ListComments postId={post.id} />}</div>
           </div>
           <div className="col col-4">
             <Sidebar />
