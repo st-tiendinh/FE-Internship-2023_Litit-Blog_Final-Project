@@ -1,7 +1,11 @@
+import { Link } from 'react-router-dom';
+
 export const ArticleTagItem = ({ tag }: any) => {
   return (
     <li className="article-detail-tag-item">
-      <span className="badge badge-primary">{tag}</span>
+      <Link to={`/articles/tag/${tag}`}>
+        <span className="badge badge-primary">{tag}</span>
+      </Link>
     </li>
   );
 };

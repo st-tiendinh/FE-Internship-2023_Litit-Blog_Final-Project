@@ -46,6 +46,9 @@
         margin-bottom: 48px;
 
         &-detail {
+          .short-info-author-name {
+            max-width: 400px;
+          }
           &-tag-list {
             display: flex;
             margin-bottom: 16px;
