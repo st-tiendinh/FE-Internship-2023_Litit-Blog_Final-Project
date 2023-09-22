@@ -122,6 +122,22 @@
     }
   }
 
+  &-restore {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: map-get($font-sizes, sm);
+    padding: 6px;
+
+    &:hover {
+      color: map-get($colors, "dark-yellow");
+
+      .icon.icon-restore {
+        background-image: url("../assets/icons/ic-restore-highlight.svg");
+      }
+    }
+  }
+
   &-three-dots {
     display: flex;
     align-items: center;

@@ -196,7 +196,7 @@ const UserDetail = () => {
                 (isLoading ? (
                   <div className="skeleton skeleton-personal-list"></div>
                 ) : (
-                  <PostList posts={userRecycleBin} type={PostListType.LIST} />
+                  <PostList posts={userRecycleBin} type={PostListType.LIST} isCanRestore={true}/>
                 ))}
               {filter === 'public-post' &&
                 (isLoading ? (
