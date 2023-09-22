@@ -65,6 +65,15 @@
             word-wrap: break-word;
           }
 
+          &-desc {
+            font-size: 20px;
+            font-weight: map-get($font-weights, medium);
+            line-height: 1.5;
+            margin-bottom: 24px;
+            color: map-get($colors, "primary");
+            word-wrap: break-word;
+          }
+
           &-header {
             display: flex;
             justify-content: space-between;

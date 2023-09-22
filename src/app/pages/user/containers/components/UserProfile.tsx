@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import BlankUserImage from '../../../../../assets/images/blank-user.webp';
 import { isImageUrlValid } from '../../../../shared/utils/checkValidImage';
 
-export const UserProfile = ({ isLoggedUser, user }: any) => {
+export const UserProfile = ({ isLoggedUser, user, setFilter }: any) => {
   const [isValidUserImg, setIsValidUserImg] = useState(false);
 
   useEffect(() => {
@@ -23,9 +23,16 @@ export const UserProfile = ({ isLoggedUser, user }: any) => {
             />
           </div>
           <div className="d-flex profile-header-action">
-            <button className="btn btn-primary">
-              {isLoggedUser ? 'Edit Profile' : 'Follow'}
-            </button>
+            {isLoggedUser ? (
+              <button
+                onClick={() => setFilter('update-profile')}
+                className="btn btn-primary"
+              >
+                Edit Profile
+              </button>
+            ) : (
+              <button className="btn btn-primary">Follow</button>
+            )}
           </div>
         </div>
         <div className="d-flex flex-column profile-content">

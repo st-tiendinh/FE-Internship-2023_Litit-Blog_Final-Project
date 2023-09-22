@@ -7,6 +7,7 @@ import { UserSideBar } from './components/UserSidebar';
 import { ModalType } from '../../../shared/components/Modal';
 import { Modal } from '../../../shared/components';
 import { UserChangePassword } from './components/UserChangePassword';
+import { UserUpdateProfile } from './components/UserUpdateProfile';
 
 import JwtHelper from '../../../core/helpers/jwtHelper';
 import { ApiService } from '../../../core/services/api.service';
@@ -14,7 +15,6 @@ import { ENDPOINT } from '../../../../config/endpoint';
 import { RootState } from '../../../app.reducers';
 import PostList from '../../../shared/components/PostList';
 import { PostListType } from '../../home/containers/components/PublicPost';
-import { UserUpdateProfile } from './components/UserUpdateProfile';
 
 const apiService = new ApiService();
 const jwtHelper = new JwtHelper();
@@ -159,7 +159,11 @@ const UserDetail = () => {
             <div className="skeleton skeleton-user-avatar"></div>
           </div>
         ) : (
-          <UserProfile isLoggedUser={isLoggedUser} user={user} />
+          <UserProfile
+            isLoggedUser={isLoggedUser}
+            user={user}
+            setFilter={setFilter}
+          />
         )}
         <section className="section section-wrapper">
           {jwtHelper.getUserInfo().userId.toString() === userId && (
@@ -170,7 +174,7 @@ const UserDetail = () => {
                   filter === 'public-post' ? 'active' : ''
                 }`}
               >
-                Public posts
+                My posts
               </li>
               <li
                 onClick={() => setFilter('deleted-post')}
@@ -186,7 +190,7 @@ const UserDetail = () => {
                   filter === 'update-profile' ? 'active' : ''
                 }`}
               >
-                Update Profile
+                My Profile
               </li>
               <li
                 onClick={() => setFilter('change-password')}
