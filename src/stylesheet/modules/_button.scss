@@ -36,47 +36,6 @@
     &:hover {
       opacity: 0.8;
     }
-
-    &.loading {
-      &::after {
-        content: "";
-        position: absolute;
-        width: 20px;
-        height: 20px;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        margin: auto;
-        border: 3px solid transparent;
-        border-top-color: #ffffff;
-        border-radius: 50%;
-        animation: button-loading-spinner 1s ease infinite;
-      }
-
-      .btn-text {
-        visibility: hidden;
-        transition: none;
-        opacity: 0;
-      }
-
-      @keyframes button-loading-spinner {
-        from {
-          transform: rotate(0turn);
-        }
-
-        to {
-          transform: rotate(1turn);
-        }
-      }
-    }
-
-    &:disabled {
-      cursor: not-allowed;
-      border: none;
-      color: map-get($colors, secondary-400);
-      background: map-get($colors, secondary-100);
-    }
   }
 
   &-secondary {
@@ -150,5 +109,46 @@
       box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
         rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
     }
+  }
+
+  &.loading {
+    &::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      margin: auto;
+      border: 3px solid transparent;
+      border-top-color: #ffffff;
+      border-radius: 50%;
+      animation: button-loading-spinner 1s ease infinite;
+    }
+
+    .btn-text {
+      visibility: hidden;
+      transition: none;
+      opacity: 0;
+    }
+
+    @keyframes button-loading-spinner {
+      from {
+        transform: rotate(0turn);
+      }
+
+      to {
+        transform: rotate(1turn);
+      }
+    }
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    border: none;
+    color: map-get($colors, secondary-400);
+    background: map-get($colors, secondary-100);
   }
 }

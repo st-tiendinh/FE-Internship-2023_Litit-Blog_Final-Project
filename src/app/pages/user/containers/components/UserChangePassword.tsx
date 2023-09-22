@@ -54,70 +54,69 @@ export const UserChangePassword = ({ setFilter }: any) => {
     const { oldPassword, newPassword } = data;
     handleChangePassword({ oldPassword, newPassword });
   };
+
   return (
     <>
       <div className="change-password-wrapper">
-        <div className="change-password-form-wrapper">
-          <p className="change-password-title">Set your new password</p>
-          <form className="form-group" onSubmit={handleSubmit(onSubmit)}>
-            <InputGroup
-              label="Old Password*"
-              type="password"
-              id="oldPassword"
-              {...register('oldPassword', {
-                required: 'Old Password is required!',
-                minLength: {
-                  value: 6,
-                  message: 'Password must be at least 6 characters!',
-                },
-              })}
-              error={errors.oldPassword?.message}
-              onBlur={(e) => handleTrimInput('oldPassword', e.target.value)}
-            />
+        <h4 className="change-password-title">Change password</h4>
+        <form className="form-group" onSubmit={handleSubmit(onSubmit)}>
+          <InputGroup
+            label="Old Password*"
+            type="password"
+            id="oldPassword"
+            {...register('oldPassword', {
+              required: 'Old Password is required!',
+              minLength: {
+                value: 6,
+                message: 'Password must be at least 6 characters!',
+              },
+            })}
+            error={errors.oldPassword?.message}
+            onBlur={(e) => handleTrimInput('oldPassword', e.target.value)}
+          />
 
-            <InputGroup
-              label="New Password*"
-              type="password"
-              id="newPassword"
-              {...register('newPassword', {
-                required: 'New Password is required!',
-                minLength: {
-                  value: 6,
-                  message: 'Password must be at least 6 characters!',
-                },
-              })}
-              error={errors.newPassword?.message}
-              onBlur={(e) => handleTrimInput('newPassword', e.target.value)}
-            />
+          <InputGroup
+            label="New Password*"
+            type="password"
+            id="newPassword"
+            {...register('newPassword', {
+              required: 'New Password is required!',
+              minLength: {
+                value: 6,
+                message: 'Password must be at least 6 characters!',
+              },
+            })}
+            error={errors.newPassword?.message}
+            onBlur={(e) => handleTrimInput('newPassword', e.target.value)}
+          />
 
-            <InputGroup
-              label="Confirm Password*"
-              type="password"
-              id="confirmPassword"
-              {...register('confirmPassword', {
-                required: 'Confirm Password is required!',
-                validate: (val: string) => {
-                  if (watch('newPassword') != val) {
-                    return 'Your passwords do no match!';
-                  }
-                },
-              })}
-              error={errors.confirmPassword?.message}
-              onBlur={(e) => handleTrimInput('confirmPassword', e.target.value)}
-            />
+          <InputGroup
+            label="Confirm Password*"
+            type="password"
+            id="confirmPassword"
+            {...register('confirmPassword', {
+              required: 'Confirm Password is required!',
+              validate: (val: string) => {
+                if (watch('newPassword') != val) {
+                  return 'Your passwords do no match!';
+                }
+              },
+            })}
+            error={errors.confirmPassword?.message}
+            onBlur={(e) => handleTrimInput('confirmPassword', e.target.value)}
+          />
 
-            <button
-              className={`btn btn-primary ${isLoading ? 'loading' : null}`}
-              disabled={isLoading}
-              type="submit"
-            >
-              <span className="btn-text">Change password</span>
-            </button>
-          </form>
-          <p className="signin-error text-center text-danger">
-            {error && !isLoading && error}
-          </p>
-        </div>
+          <button
+            className={`btn btn-primary ${isLoading ? 'loading' : null}`}
+            disabled={isLoading}
+            type="submit"
+          >
+            <span className="btn-text">Change password</span>
+          </button>
+        </form>
+        <p className="signin-error text-center text-danger">
+          {error && !isLoading && error}
+        </p>
       </div>
     </>
   );
