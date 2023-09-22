@@ -25,9 +25,12 @@ interface FormData {
 }
 
 export const UserUpdateProfile = (userInfo: any) => {
-  const { email, followers, followings, picture, ...other } = userInfo;
   const user = {
-    ...other,
+    firstName: userInfo.firstName,
+    lastName: userInfo.lastName,
+    displayName: userInfo.displayName,
+    gender: userInfo.gender,
+    phone: userInfo.phone,
     dob: userInfo.dob.split('/').reverse().join('-'),
   };
 
