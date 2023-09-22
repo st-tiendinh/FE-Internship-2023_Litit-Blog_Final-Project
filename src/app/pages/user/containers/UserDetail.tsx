@@ -191,34 +191,6 @@ const UserDetail = () => {
               )}
             </div>
             <div className="col col-8">
-              {jwtHelper.getUserInfo().userId.toString() === userId && (
-                <ul className="filter">
-                  <li
-                    onClick={() => setFilter('public-post')}
-                    className={`filter-item ${
-                      filter === 'public-post' ? 'active' : ''
-                    }`}
-                  >
-                    Public posts
-                  </li>
-                  <li
-                    onClick={() => setFilter('deleted-post')}
-                    className={`filter-item ${
-                      filter === 'deleted-post' ? 'active' : ''
-                    }`}
-                  >
-                    Deleted posts
-                  </li>
-                  <li
-                    onClick={() => setFilter('change-password')}
-                    className={`filter-item ${
-                      filter === 'change-password' ? 'active' : ''
-                    }`}
-                  >
-                    Change password
-                  </li>
-                </ul>
-              )}
               {filter === 'change-password' && (
                 <UserChangePassword setFilter={setFilter} />
               )}

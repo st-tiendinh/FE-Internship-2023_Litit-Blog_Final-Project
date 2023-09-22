@@ -45,15 +45,13 @@ const ArticleBookmark = () => {
           <div className="section-header">
             <h3 className="section-title">Your bookmark</h3>
           </div>
-          <ul className="post-list row">
-            {isLoading ? (
-              skeletonArray.map((item) => {
-                return PostListType.GRID && <PostSkeleton key={item} />;
-              })
-            ) : (
-              <PostList posts={articlesBookmark} type={PostListType.GRID} />
-            )}
-          </ul>
+          {isLoading ? (
+            skeletonArray.map((item) => {
+              return PostListType.GRID && <PostSkeleton key={item} />;
+            })
+          ) : (
+            <PostList posts={articlesBookmark} type={PostListType.GRID} />
+          )}
         </section>
       </div>
     </section>
