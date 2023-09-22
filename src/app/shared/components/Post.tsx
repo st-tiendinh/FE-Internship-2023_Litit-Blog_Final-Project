@@ -7,8 +7,10 @@ import BlankUserImg from '../../../assets/images/blank-user.webp';
 import { Link, useLocation } from 'react-router-dom';
 import { PostListType } from '../../pages/home/containers/components/PublicPost';
 import { useDispatch } from 'react-redux';
-import { setConfirmModalId, setShowModal } from '../../../redux/actions/modal';
+import { setConfirmModalId, setConfirmModalType, setShowModal } from '../../../redux/actions/modal';
 import JwtHelper from '../../core/helpers/jwtHelper';
+import { ApiService } from '../../core/services/api.service';
+import { ENDPOINT } from '../../../config/endpoint';
 import { PostStatus } from './PostList';
 
 interface PostProps {
@@ -26,6 +28,7 @@ interface PostProps {
   comments: number;
   listType: PostListType;
   isHasAction?: boolean;
+  isCanRestore?: boolean;
 }
 
 export const Post = ({
@@ -43,7 +46,9 @@ export const Post = ({
   comments,
   listType,
   isHasAction,
+  isCanRestore,
 }: PostProps) => {
+  const apiService = new ApiService();
   const jwtHelper = new JwtHelper();
   const [isValidCover, setIsValidCover] = useState(false);
   const [isValidUserImg, setIsValidUserImg] = useState(false);
@@ -54,6 +59,13 @@ export const Post = ({
 
   const handleDelete = (id: number) => {
     dispatch(setConfirmModalId(id));
+    dispatch(setConfirmModalType('delete'));
+    dispatch(setShowModal());
+  };
+
+  const handleRestore = async (id: number) => {
+    dispatch(setConfirmModalId(id));
+    dispatch(setConfirmModalType('restore'));
     dispatch(setShowModal());
   };
 
@@ -73,15 +85,8 @@ export const Post = ({
     <>
       {listType === PostListType.GRID && (
         <div className="post">
-          <Link
-            to={`/articles/${id.toString()}`}
-            className="post-image-wrapper"
-          >
-            <img
-              className="post-image"
-              src={isValidCover ? cover : BlankPostImg}
-              alt={title}
-            />
+          <Link to={`/articles/${id.toString()}`} className="post-image-wrapper">
+            <img className="post-image" src={isValidCover ? cover : BlankPostImg} alt={title} />
           </Link>
 
           <div className="post-content">
@@ -126,9 +131,7 @@ export const Post = ({
                         src={isValidUserImg ? authorImg : BlankUserImg}
                         alt="author image"
                       />
-                      <span className="post-author-name text-truncate">
-                        {authorName}
-                      </span>
+                      <span className="post-author-name text-truncate">{authorName}</span>
                     </div>
                   </Link>
                   <span className="post-dot-symbol">&#x2022;</span>
@@ -142,10 +145,7 @@ export const Post = ({
 
       {listType === PostListType.LIST && (
         <div className="personal-post">
-          <Link
-            to={`/articles/${id.toString()}`}
-            className="personal-post-image-link"
-          >
+          <Link to={`/articles/${id.toString()}`} className="personal-post-image-link">
             <div className="personal-post-image-wrapper">
               <img
                 src={isValidCover ? cover : BlankPostImg}
@@ -160,13 +160,8 @@ export const Post = ({
               <ul className="personal-post-tag-list">
                 {tags.slice(0, 2).map((tag: any, index: number) => (
                   <li key={index} className="personal-post-tag-item">
-                    <Link
-                      to={`/articles/tag/${tag}`}
-                      className="personal-post-tag-link"
-                    >
-                      <span className="badge badge-primary text-truncate">
-                        {tag}
-                      </span>
+                    <Link to={`/articles/tag/${tag}`} className="personal-post-tag-link">
+                      <span className="badge badge-primary text-truncate">{tag}</span>
                     </Link>
                   </li>
                 ))}
@@ -176,19 +171,27 @@ export const Post = ({
                   <span className="btn btn-three-dots">
                     <i className="icon icon-three-dots"></i>
                     <div className="personal-post-action-popper">
-                      <Link
-                        to={`/articles/update/${id}`}
-                        className="btn btn-edit"
-                      >
+                      <Link to={`/articles/update/${id}`} className="btn btn-edit">
                         <i className="icon icon-pen"></i>
                         Edit
                       </Link>
-                      <span
-                        className="btn btn-delete"
-                        onClick={() => handleDelete(id)}
-                      >
+                      <span className="btn btn-delete" onClick={() => handleDelete(id)}>
                         <i className="icon icon-bin"></i>
                         Delete
+                      </span>
+                    </div>
+                  </span>
+                </div>
+              )}
+              {/* button restore */}
+              {isCanRestore && jwtHelper.isCurrentUser(+`${currentUserId}`) && (
+                <div className="personal-post-action">
+                  <span className="btn btn-three-dots">
+                    <i className="icon icon-three-dots"></i>
+                    <div className="personal-post-action-popper">
+                      <span className="btn btn-restore" onClick={() => handleRestore(id)}>
+                        <i className="icon icon-restore"></i>
+                        Restore
                       </span>
                     </div>
                   </span>
@@ -220,9 +223,7 @@ export const Post = ({
                       alt="author avatar"
                       className="short-info-author-avatar"
                     />
-                    <span className="short-info-author-name text-truncate">
-                      {authorName}
-                    </span>
+                    <span className="short-info-author-name text-truncate">{authorName}</span>
                   </div>
                 </Link>
                 <span className="short-info-dot-symbol">&#x2022;</span>
@@ -231,12 +232,8 @@ export const Post = ({
               {isHasAction && jwtHelper.isCurrentUser(+`${currentUserId}`) && (
                 <div className="short-info-status">
                   <span className="badge badge-status">
-                    {(status === PostStatus.PUBLIC && (
-                      <i className="icon icon-earth"></i>
-                    )) ||
-                      (status === PostStatus.PRIVATE && (
-                        <i className="icon icon-lock"></i>
-                      ))}
+                    {(status === PostStatus.PUBLIC && <i className="icon icon-earth"></i>) ||
+                      (status === PostStatus.PRIVATE && <i className="icon icon-lock"></i>)}
                     {status}
                   </span>
                 </div>

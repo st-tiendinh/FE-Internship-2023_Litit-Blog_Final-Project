@@ -19,6 +19,11 @@ export const Header = () => {
   const [isValidUserImg, setIsValidUserImg] = useState(false);
   const userActionRef = useRef<HTMLDivElement | null>(null);
   const [isOpenDropdown, setIsOpenDropdown] = useState(false);
+  const [filter, setFilter] = useState<string | undefined>('');
+
+  useEffect(() => {
+    setFilter(location.pathname.split('/').pop());
+  }, [location]);
 
   const isLogged = useSelector(
     (state: RootState) => state.authReducer.isLogged
@@ -81,17 +86,30 @@ export const Header = () => {
               <nav className="nav">
                 <ul className="d-flex nav-list">
                   <li className="nav-item">
-                    <Link to={'/'} className="nav-link">
+                    <Link
+                      to={'/'}
+                      className={`nav-link ${filter === '' ? 'active' : null}`}
+                    >
                       Home
                     </Link>
                   </li>
                   <li className="nav-item">
-                    <Link to={'articles'} className="nav-link">
-                      Blogs
+                    <Link
+                      to={'articles'}
+                      className={`nav-link ${
+                        filter === 'articles' ? 'active' : null
+                      }`}
+                    >
+                      Articles
                     </Link>
                   </li>
                   <li className="nav-item">
-                    <Link to={'/articles/new'} className="nav-link">
+                    <Link
+                      to={'/articles/new'}
+                      className={`nav-link ${
+                        filter === 'new' ? 'active' : null
+                      }`}
+                    >
                       Write
                     </Link>
                   </li>
@@ -134,6 +152,12 @@ export const Header = () => {
                                   </div>
                                 </Link>
                               </li>
+                              <Link
+                                to={'/articles/bookmark'}
+                                className="menu-item"
+                              >
+                                <div className="menu-action">Bookmark</div>
+                              </Link>
                               <li className="menu-item">
                                 <div
                                   onClick={handleSignOut}

@@ -7,6 +7,7 @@ import { UserSideBar } from './components/UserSidebar';
 import { ModalType } from '../../../shared/components/Modal';
 import { Modal } from '../../../shared/components';
 import { UserChangePassword } from './components/UserChangePassword';
+import { UserUpdateProfile } from './components/UserUpdateProfile';
 
 import JwtHelper from '../../../core/helpers/jwtHelper';
 import { ApiService } from '../../../core/services/api.service';
@@ -23,7 +24,16 @@ export enum PostStatus {
   PRIVATE = 'private',
 }
 
-type FilterType = 'public-post' | 'deleted-post' | 'change-password';
+export enum PersonalPostAction {
+  RECYCLE = 'recycle',
+  DELETE = 'delete',
+}
+
+type FilterType =
+  | 'public-post'
+  | 'deleted-post'
+  | 'change-password'
+  | 'update-profile';
 
 const UserDetail = () => {
   const [user, setUser] = useState<any>({});
@@ -33,9 +43,8 @@ const UserDetail = () => {
   const [userPosts, setUserPost] = useState<any>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [toggleDeletedPost, setToggleDeletedPost] = useState<boolean>(false);
-  const isLogged = useSelector(
-    (state: RootState) => state.authReducer.isLogged
-  );
+  const [toggleRecyle, setToggleRecyle] = useState<boolean>(false);
+  const isLogged = useSelector((state: RootState) => state.authReducer.isLogged);
   const location = useLocation();
   const userId = location.pathname.slice(7);
   const isLoggedUser = isLogged ? jwtHelper.isCurrentUser(+userId) : false;
@@ -47,6 +56,18 @@ const UserDetail = () => {
       apiService.setHeaders(jwtHelper.getAuthHeader());
       await apiService.delete([ENDPOINT.posts.index, `${id}`]);
       setToggleDeletedPost(!toggleDeletedPost);
+    })();
+  };
+
+  const handleRestore = () => {
+    (async () => {
+      try {
+        apiService.setHeaders(jwtHelper.getAuthHeader());
+        await apiService.put([ENDPOINT.posts.index, `${id}/restore`]);
+        setToggleRecyle(!toggleRecyle);
+      } catch (error) {
+        console.log(error);
+      }
     })();
   };
 
@@ -64,15 +85,13 @@ const UserDetail = () => {
         setIsUserLoading(false);
       }
     })();
-  }, [location, toggleDeletedPost]);
+  }, [location, toggleDeletedPost, toggleRecyle]);
 
   useEffect(() => {
     setIsLoading(true);
     (async () => {
       try {
-        const isCurrentUser = jwtHelper.isCurrentUser(
-          +`${location.pathname.split('/').pop()}`
-        );
+        const isCurrentUser = jwtHelper.isCurrentUser(+`${location.pathname.split('/').pop()}`);
         apiService.setHeaders(jwtHelper.getAuthHeader());
         const response: any = isCurrentUser
           ? await apiService.get([ENDPOINT.users.index, 'me/posts'])
@@ -118,19 +137,21 @@ const UserDetail = () => {
         setIsLoading(false);
       }
     })();
-  }, [location, toggleDeletedPost]);
+  }, [location, toggleDeletedPost, toggleRecyle]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  const type = useSelector((state: RootState) => state.modalReducer.type);
 
   return (
     <div className="page-user">
       <div className="container">
         <Modal
           title="Do you want to delete?!!"
-          type={ModalType.CONFIRM_DELETE}
-          action={handleSoftDelete}
+          // type={ModalType.CONFIRM_DELETE}
+          action={(type === 'delete' && handleSoftDelete) || (type === 'restore' && handleRestore)}
         />
 
         {isUserLoading ? (
@@ -138,9 +159,49 @@ const UserDetail = () => {
             <div className="skeleton skeleton-user-avatar"></div>
           </div>
         ) : (
-          <UserProfile isLoggedUser={isLoggedUser} user={user} />
+          <UserProfile
+            isLoggedUser={isLoggedUser}
+            user={user}
+            setFilter={setFilter}
+          />
         )}
         <section className="section section-wrapper">
+          {jwtHelper.getUserInfo().userId.toString() === userId && (
+            <ul className="filter">
+              <li
+                onClick={() => setFilter('public-post')}
+                className={`filter-item ${
+                  filter === 'public-post' ? 'active' : ''
+                }`}
+              >
+                My posts
+              </li>
+              <li
+                onClick={() => setFilter('deleted-post')}
+                className={`filter-item ${
+                  filter === 'deleted-post' ? 'active' : ''
+                }`}
+              >
+                Deleted posts
+              </li>
+              <li
+                onClick={() => setFilter('update-profile')}
+                className={`filter-item ${
+                  filter === 'update-profile' ? 'active' : ''
+                }`}
+              >
+                My Profile
+              </li>
+              <li
+                onClick={() => setFilter('change-password')}
+                className={`filter-item ${
+                  filter === 'change-password' ? 'active' : ''
+                }`}
+              >
+                Change password
+              </li>
+            </ul>
+          )}
           <div className="row">
             <div className="col col-4">
               {isLoading ? (
@@ -150,53 +211,21 @@ const UserDetail = () => {
               )}
             </div>
             <div className="col col-8">
-              {jwtHelper.getUserInfo().userId.toString() === userId && (
-                <ul className="filter">
-                  <li
-                    onClick={() => setFilter('public-post')}
-                    className={`filter-item ${
-                      filter === 'public-post' ? 'active' : ''
-                    }`}
-                  >
-                    Public posts
-                  </li>
-                  <li
-                    onClick={() => setFilter('deleted-post')}
-                    className={`filter-item ${
-                      filter === 'deleted-post' ? 'active' : ''
-                    }`}
-                  >
-                    Deleted posts
-                  </li>
-                  <li
-                    onClick={() => setFilter('change-password')}
-                    className={`filter-item ${
-                      filter === 'change-password' ? 'active' : ''
-                    }`}
-                  >
-                    Change password
-                  </li>
-                </ul>
-              )}
-              {filter === 'change-password' && (
-                <UserChangePassword setFilter={setFilter} />
-              )}
+           
+              {filter === 'change-password' && <UserChangePassword setFilter={setFilter} />}
               {filter === 'deleted-post' &&
                 (isLoading ? (
                   <div className="skeleton skeleton-personal-list"></div>
                 ) : (
-                  <PostList posts={userRecycleBin} type={PostListType.LIST} />
+                  <PostList posts={userRecycleBin} type={PostListType.LIST} isCanRestore={true} />
                 ))}
               {filter === 'public-post' &&
                 (isLoading ? (
                   <div className="skeleton skeleton-personal-list"></div>
                 ) : (
-                  <PostList
-                    posts={userPosts}
-                    type={PostListType.LIST}
-                    isHasAction={true}
-                  />
+                  <PostList posts={userPosts} type={PostListType.LIST} isHasAction={true} />
                 ))}
+              {filter === 'update-profile' && <UserUpdateProfile {...user} />}
             </div>
           </div>
         </section>

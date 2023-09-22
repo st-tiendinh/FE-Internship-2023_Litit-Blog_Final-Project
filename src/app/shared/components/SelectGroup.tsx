@@ -47,7 +47,7 @@ export const SelectGroup = forwardRef<HTMLSelectElement, SelectGroupProps>(
             {label}
           </label>
         </div>
-        {error && <p className="select-group-error">{error}</p>}
+        <p className="select-group-error">{error}</p>
       </div>
     );
   }

@@ -18,6 +18,7 @@ import { ScrollToTopButton } from '../../home/containers/components/ScrollToTopB
 import JwtHelper from '../../../core/helpers/jwtHelper';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../app.reducers';
+import Bookmark from '../../../shared/components/Bookmark';
 
 const ArticleDetail = () => {
   const apiService = new ApiService();
@@ -35,6 +36,7 @@ const ArticleDetail = () => {
   const location = useLocation();
   const commentRef = useRef<HTMLDivElement>(null);
   const clean = DOMPurify.sanitize(post.content);
+  const postDesc = DOMPurify.sanitize(post.description);
 
   const [isEnoughSpaceForToolTip, setIsEnoughSpaceForToolTip] = useState(
     window.innerWidth <= 1250
@@ -112,16 +114,7 @@ const ArticleDetail = () => {
                 <i className="icon icon-comment-normal"></i>
                 {post.comments}
               </li>
-              <li className="article-action-item">
-                <span
-                  className={`tooltip tooltip-${
-                    isEnoughSpaceForToolTip ? 'bottom' : 'left'
-                  }`}
-                >
-                  Bookmark
-                </span>
-                <i className="icon icon-bookmark"></i>
-              </li>
+              <Bookmark tooltip={isEnoughSpaceForToolTip} />
             </ul>
           </div>
 
@@ -179,6 +172,10 @@ const ArticleDetail = () => {
                     />
                   </div>
                 )}
+                <div
+                  className="article-detail-desc"
+                  dangerouslySetInnerHTML={{ __html: postDesc }}
+                ></div>
                 <div
                   className="article-detail-paragraph"
                   dangerouslySetInnerHTML={{ __html: clean }}

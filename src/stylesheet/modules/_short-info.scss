@@ -27,6 +27,7 @@
     font-weight: map-get($font-weights, medium);
     -webkit-line-clamp: 1;
     cursor: pointer;
+    max-width: 112px;
     color: map-get($colors, secondary-500);
   }
 

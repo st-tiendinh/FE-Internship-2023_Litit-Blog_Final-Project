@@ -43,6 +43,19 @@
       white-space: nowrap;
       font-weight: map-get($font-weights, "bold");
 
+      &.active {
+        &::after {
+          content: "";
+          position: absolute;
+          left: 0;
+          bottom: -8px;
+          width: 100%;
+          height: 2px;
+          background-color: map-get($colors, "yellow");
+          transition: width 0.3s ease;
+        }
+      }
+
       &::after {
         content: "";
         position: absolute;
@@ -84,6 +97,7 @@
         background-color: white;
       }
       border-radius: 50%;
+      height: 100%;
     }
 
     .user-action {

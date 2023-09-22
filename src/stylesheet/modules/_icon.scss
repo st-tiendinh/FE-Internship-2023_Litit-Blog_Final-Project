@@ -89,6 +89,12 @@
     }
   }
 
+  &-bookmark-fulfill {
+    width: 24px;
+    height: 24px;
+    background-image: url("../assets/icons/ic-bookmark-fulfill.svg");
+  }
+
   &-dob {
     width: 20px;
     height: 20px;
@@ -181,5 +187,11 @@
     width: 35px;
     height: 35px;
     background-image: url("../assets/icons/ic-instagram.svg");
+
+    &-restore {
+      width: 24px;
+      height: 24px;
+      background-image: url("../assets/icons/ic-restore.svg");
+    }
   }
 }
