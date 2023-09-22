@@ -6,7 +6,7 @@ import { ENDPOINT } from '../../../config/endpoint';
 import { ApiService } from '../../core/services/api.service';
 import { RootState } from '../../app.reducers';
 
-const Like = ({ postId, tooltip, userId }: any) => {
+const Like = ({ postId, tooltip }: any) => {
   const apiService = new ApiService();
   const jwt = new JwtHelper();
 
