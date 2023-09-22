@@ -18,6 +18,10 @@ const ArticleByTag = () => {
   const encodedTag = lastPart ? decodeURI(lastPart) : '';
 
   useEffect(() => {
+    window.scroll(0, 0);
+  }, []);
+
+  useEffect(() => {
     const getPostByTag = async (articleTag: any) => {
       const response: any = await apiService.get([ENDPOINT.posts.public], {
         tags: articleTag,
