@@ -90,6 +90,7 @@ const ArticleDetail = () => {
           isLogged && setIsShowButtonEdit(jwtHelper.isCurrentUser(res.id));
           setIsLoading(false);
         } catch (error) {
+          navigate('/404');
           console.log(error);
         }
       }
