@@ -8,6 +8,7 @@ const ArticleList = React.lazy(() => import('./containers/ArticleList'));
 const ArticleNew = React.lazy(() => import('./containers/ArticleNew'));
 const ArticleUpdate = React.lazy(() => import('./containers/ArticleUpdate'));
 const ArticleByTag = React.lazy(() => import('./containers/ArticleByTag'));
+const ArticleBookmark = React.lazy(() => import('./containers/ArticleBookmark'));
 
 const articleRoutes: PageRoute[] = [
   {
@@ -25,14 +26,21 @@ const articleRoutes: PageRoute[] = [
       {
         path: 'new',
         element: ArticleNew,
+        isProtected: true,
       },
       {
         path: 'update/:id',
         element: ArticleUpdate,
+        isProtected: true,
       },
       {
         path: 'tag/:tag',
         element: ArticleByTag,
+      },
+      {
+        path: 'bookmark',
+        isProtected: true,
+        element: ArticleBookmark,
       },
     ],
   },

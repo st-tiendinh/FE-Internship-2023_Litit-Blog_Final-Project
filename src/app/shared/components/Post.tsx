@@ -4,8 +4,12 @@ import { formatDate } from '../utils/formatDate';
 import { isImageUrlValid } from '../utils/checkValidImage';
 import BlankPostImg from '../../../assets/images/blank-post.png';
 import BlankUserImg from '../../../assets/images/blank-user.webp';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { PostListType } from '../../pages/home/containers/components/PublicPost';
+import { useDispatch } from 'react-redux';
+import { setConfirmModalId, setShowModal } from '../../../redux/actions/modal';
+import JwtHelper from '../../core/helpers/jwtHelper';
+import { PostStatus } from './PostList';
 
 interface PostProps {
   id: number;
@@ -13,6 +17,7 @@ interface PostProps {
   title: string;
   desc: string;
   tags: string[];
+  status: string;
   cover: string;
   authorImg: string; // Add a type to the authorImg prop
   authorName: string;
@@ -29,6 +34,7 @@ export const Post = ({
   title,
   desc,
   tags,
+  status,
   cover,
   authorImg,
   authorName,
@@ -38,9 +44,18 @@ export const Post = ({
   listType,
   isHasAction,
 }: PostProps) => {
+  const jwtHelper = new JwtHelper();
   const [isValidCover, setIsValidCover] = useState(false);
   const [isValidUserImg, setIsValidUserImg] = useState(false);
   const formattedDate = formatDate(postedDate);
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const currentUserId = location.pathname.split('/').pop();
+
+  const handleDelete = (id: number) => {
+    dispatch(setConfirmModalId(id));
+    dispatch(setShowModal());
+  };
 
   useEffect(() => {
     isImageUrlValid(cover).then((isValid) => {
@@ -141,20 +156,45 @@ export const Post = ({
           </Link>
 
           <div className="d-flex flex-column personal-post-content">
-            <ul className="personal-post-tag-list">
-              {tags.slice(0, 2).map((tag: any, index: number) => (
-                <li key={index} className="personal-post-tag-item">
-                  <Link
-                    to={`/articles/tag/${tag}`}
-                    className="personal-post-tag-link"
-                  >
-                    <span className="badge badge-primary text-truncate">
-                      {tag}
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            <div className="personal-post-card-header">
+              <ul className="personal-post-tag-list">
+                {tags.slice(0, 2).map((tag: any, index: number) => (
+                  <li key={index} className="personal-post-tag-item">
+                    <Link
+                      to={`/articles/tag/${tag}`}
+                      className="personal-post-tag-link"
+                    >
+                      <span className="badge badge-primary text-truncate">
+                        {tag}
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+              {isHasAction && jwtHelper.isCurrentUser(+`${currentUserId}`) && (
+                <div className="personal-post-options">
+                  <span className="btn btn-three-dots">
+                    <i className="icon icon-three-dots"></i>
+                    <div className="personal-post-action-popper">
+                      <Link
+                        to={`/articles/update/${id}`}
+                        className="btn btn-edit"
+                      >
+                        <i className="icon icon-pen"></i>
+                        Edit
+                      </Link>
+                      <span
+                        className="btn btn-delete"
+                        onClick={() => handleDelete(id)}
+                      >
+                        <i className="icon icon-bin"></i>
+                        Delete
+                      </span>
+                    </div>
+                  </span>
+                </div>
+              )}
+            </div>
             <div className="personal-post-title-wrapper">
               <Link to={`/articles/${id.toString()}`}>
                 <h4 className="personal-post-title text-truncate">{title}</h4>
@@ -171,36 +211,38 @@ export const Post = ({
                 {comments}
               </span>
             </div>
-            <div className="short-info">
-              <Link to={`/users/${userId}`} className="author-link">
-                <div className="short-info-author">
-                  <img
-                    src={isValidUserImg ? authorImg : BlankUserImg}
-                    alt="author avatar"
-                    className="short-info-author-avatar"
-                  />
-                  <span className="short-info-author-name text-truncate">
-                    {authorName}
+            <div className="short-info-wrapper">
+              <div className="short-info">
+                <Link to={`/users/${userId}`} className="author-link">
+                  <div className="short-info-author">
+                    <img
+                      src={isValidUserImg ? authorImg : BlankUserImg}
+                      alt="author avatar"
+                      className="short-info-author-avatar"
+                    />
+                    <span className="short-info-author-name text-truncate">
+                      {authorName}
+                    </span>
+                  </div>
+                </Link>
+                <span className="short-info-dot-symbol">&#x2022;</span>
+                <span className="short-info-timestamp">{formattedDate}</span>
+              </div>
+              {isHasAction && jwtHelper.isCurrentUser(+`${currentUserId}`) && (
+                <div className="short-info-status">
+                  <span className="badge badge-status">
+                    {(status === PostStatus.PUBLIC && (
+                      <i className="icon icon-earth"></i>
+                    )) ||
+                      (status === PostStatus.PRIVATE && (
+                        <i className="icon icon-lock"></i>
+                      ))}
+                    {status}
                   </span>
                 </div>
-              </Link>
-              <span className="short-info-dot-symbol">&#x2022;</span>
-              <span className="short-info-timestamp">{formattedDate}</span>
+              )}
             </div>
           </div>
-
-          {isHasAction && (
-            <div className="personal-post-action-wrapper">
-              <Link
-                to={`/articles/update/${location.pathname.split('/').pop()}`}
-                className="btn btn-edit"
-              >
-                <i className="icon icon-pen"></i>
-                Edit
-              </Link>
-              <button className="btn btn-danger">Delete</button>
-            </div>
-          )}
         </div>
       )}
     </>

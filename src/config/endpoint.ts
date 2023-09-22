@@ -7,6 +7,7 @@ const RESOURCES = {
   },
   users: 'users',
   posts: environment.apiBaseUrl + 'posts',
+  bookmarks: environment.apiBaseUrl + 'bookmarks',
   signatures: environment.apiBaseUrl + 'signatures',
 };
 
@@ -31,4 +32,7 @@ export const ENDPOINT = {
   signatures: {
     index: `${RESOURCES.signatures}`,
   },
+  bookmarks: {
+    index: `${RESOURCES.bookmarks}`,
+  }
 };

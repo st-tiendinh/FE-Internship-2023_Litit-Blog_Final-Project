@@ -21,17 +21,24 @@
     flex-direction: column;
     background: map-get($colors, "white");
     border-radius: 8px;
-    padding: 32px 20px;
+    padding: 32px;
   }
 
   &-upload-label {
     display: inline-block;
+    text-align: center;
     padding: 10px;
     border: 2px solid #eee;
     border-radius: 6px;
-    width: 174px;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+    width: 180px;
+    font-size: map-get($font-sizes, md);
+    font-weight: map-get($font-weights, "medium");
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
     cursor: pointer;
+
+    &:hover {
+      box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    }
   }
 
   &-cover-upload {
@@ -44,24 +51,24 @@
   }
 
   &-title-input {
-    padding: 20px 0;
-    font-size: map-get($font-sizes, "3xl");
+    font-family: "Montserrat", sans-serif;
+    font-size: 32px;
     font-weight: map-get($font-weights, bold);
     color: map-get($colors, secondary-800);
     resize: none;
     margin: 16px 0px;
 
     &::placeholder {
-      font-size: map-get($font-sizes, "3xl");
+      font-size: 32px;
       font-weight: map-get($font-weights, bold);
       color: map-get($colors, secondary-400);
     }
   }
 
   &-desc-input {
+    font-family: "Montserrat", sans-serif;
     font-size: map-get($font-sizes, "xl");
     font-weight: map-get($font-weights, normal);
-    padding: 10px 0;
     resize: none;
     margin: 16px 0px;
   }
@@ -137,6 +144,11 @@
   }
 
   .ck {
+    * {
+      margin-bottom: 0 !important;
+      line-height: 1.4 !important;
+    }
+
     &.ck-toolbar__items {
       justify-content: space-between;
     }
@@ -145,5 +157,4 @@
       min-height: 250px;
     }
   }
-
 }

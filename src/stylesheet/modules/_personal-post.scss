@@ -5,6 +5,35 @@
   background-color: white;
   position: relative;
 
+  &-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .btn.btn-three-dots {
+    position: relative;
+    padding: 6px 0 6px 14px;
+
+    &:hover {
+      .personal-post-action-popper {
+        display: flex;
+      }
+    }
+  }
+
+  &-action-popper {
+    position: absolute;
+    display: none;
+    flex-direction: column;
+    padding: 6px;
+    top: 24px;
+    right: 0px;
+    border-radius: 4px;
+    background: map-get($colors, "white");
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(0, 0, 0, 0.1);
+  }
+
   &-action-wrapper {
     display: flex;
     gap: 8px;
@@ -13,7 +42,7 @@
     right: 20px;
     transform: translateY(-4px);
 
-    > .btn {
+    >.btn {
       padding: 4px 8px;
     }
   }
@@ -39,6 +68,7 @@
 
   &-content {
     padding: 20px;
+    width: 100%;
     justify-content: center;
     background: map-get($colors, white);
   }
@@ -95,6 +125,7 @@
 
 .personal-post-skeleton {
   margin-block: 10px;
+
   .personal-post {
     &-image-wrapper {
       border-top-left-radius: 8px;

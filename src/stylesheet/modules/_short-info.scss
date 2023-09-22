@@ -3,6 +3,12 @@
   align-items: center;
   gap: 8px;
 
+  &-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
   &-author {
     display: flex;
     align-items: center;
@@ -39,4 +45,5 @@
     font-weight: map-get($font-weights, normal);
     color: map-get($colors, secondary-500);
   }
+
 }

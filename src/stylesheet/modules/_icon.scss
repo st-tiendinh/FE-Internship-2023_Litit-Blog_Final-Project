@@ -89,6 +89,12 @@
     }
   }
 
+  &-bookmark-fulfill {
+    width: 24px;
+    height: 24px;
+    background-image: url("../assets/icons/ic-bookmark-fulfill.svg");
+  }
+
   &-dob {
     width: 20px;
     height: 20px;
@@ -123,15 +129,15 @@
     background-image: url("../assets/icons/ic-followed-tag.svg");
   }
 
-  &-earch {
-    width: 24px;
-    height: 24px;
-    background-image: url("../assets/icons/ic-earch.svg");
+  &-earth {
+    width: 14px;
+    height: 14px;
+    background-image: url("../assets/icons/ic-earth.svg");
   }
 
   &-lock {
-    width: 24px;
-    height: 24px;
+    width: 14px;
+    height: 14px;
     background-image: url("../assets/icons/ic-lock.svg");
   }
 
@@ -139,6 +145,18 @@
     width: 16px;
     height: 16px;
     background-image: url("../assets/icons/ic-pen.svg");
+  }
+
+  &-bin {
+    width: 17px;
+    height: 17px;
+    background-image: url("../assets/icons/ic-bin.svg");
+  }
+
+  &-three-dots {
+    width: 16px;
+    height: 16px;
+    background-image: url("../assets/icons/ic-dots.svg");
   }
 
   &-danger {
