@@ -14,6 +14,7 @@ import { ENDPOINT } from '../../../../config/endpoint';
 import { RootState } from '../../../app.reducers';
 import PostList from '../../../shared/components/PostList';
 import { PostListType } from '../../home/containers/components/PublicPost';
+import { UserUpdateProfile } from './components/UserUpdateProfile';
 
 const apiService = new ApiService();
 const jwtHelper = new JwtHelper();
@@ -28,7 +29,11 @@ export enum PersonalPostAction {
   DELETE = 'delete',
 }
 
-type FilterType = 'public-post' | 'deleted-post' | 'change-password';
+type FilterType =
+  | 'public-post'
+  | 'deleted-post'
+  | 'change-password'
+  | 'update-profile';
 
 const UserDetail = () => {
   const [user, setUser] = useState<any>({});
@@ -157,6 +162,42 @@ const UserDetail = () => {
           <UserProfile isLoggedUser={isLoggedUser} user={user} />
         )}
         <section className="section section-wrapper">
+          {jwtHelper.getUserInfo().userId.toString() === userId && (
+            <ul className="filter">
+              <li
+                onClick={() => setFilter('public-post')}
+                className={`filter-item ${
+                  filter === 'public-post' ? 'active' : ''
+                }`}
+              >
+                Public posts
+              </li>
+              <li
+                onClick={() => setFilter('deleted-post')}
+                className={`filter-item ${
+                  filter === 'deleted-post' ? 'active' : ''
+                }`}
+              >
+                Deleted posts
+              </li>
+              <li
+                onClick={() => setFilter('update-profile')}
+                className={`filter-item ${
+                  filter === 'update-profile' ? 'active' : ''
+                }`}
+              >
+                Update Profile
+              </li>
+              <li
+                onClick={() => setFilter('change-password')}
+                className={`filter-item ${
+                  filter === 'change-password' ? 'active' : ''
+                }`}
+              >
+                Change password
+              </li>
+            </ul>
+          )}
           <div className="row">
             <div className="col col-4">
               {isLoading ? (
@@ -166,28 +207,7 @@ const UserDetail = () => {
               )}
             </div>
             <div className="col col-8">
-              {jwtHelper.getUserInfo().userId.toString() === userId && (
-                <ul className="filter">
-                  <li
-                    onClick={() => setFilter('public-post')}
-                    className={`filter-item ${filter === 'public-post' ? 'active' : ''}`}
-                  >
-                    Public posts
-                  </li>
-                  <li
-                    onClick={() => setFilter('deleted-post')}
-                    className={`filter-item ${filter === 'deleted-post' ? 'active' : ''}`}
-                  >
-                    Deleted posts
-                  </li>
-                  <li
-                    onClick={() => setFilter('change-password')}
-                    className={`filter-item ${filter === 'change-password' ? 'active' : ''}`}
-                  >
-                    Change password
-                  </li>
-                </ul>
-              )}
+           
               {filter === 'change-password' && <UserChangePassword setFilter={setFilter} />}
               {filter === 'deleted-post' &&
                 (isLoading ? (
@@ -201,6 +221,7 @@ const UserDetail = () => {
                 ) : (
                   <PostList posts={userPosts} type={PostListType.LIST} isHasAction={true} />
                 ))}
+              {filter === 'update-profile' && <UserUpdateProfile {...user} />}
             </div>
           </div>
         </section>
