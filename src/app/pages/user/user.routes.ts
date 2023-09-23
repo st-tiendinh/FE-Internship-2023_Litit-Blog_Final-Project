@@ -6,10 +6,12 @@ const Users = React.lazy(() => import('./containers/Users'));
 const UserDetail = React.lazy(() => import('./containers/UserDetail'));
 const UserList = React.lazy(() => import('./containers/UserList'));
 
+
 const userRoutes: PageRoute[] = [
   {
     path: 'users',
     element: Users,
+    isProtected: true,
     children: [
       {
         path: '',

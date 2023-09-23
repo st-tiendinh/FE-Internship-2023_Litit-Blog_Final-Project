@@ -1,0 +1,185 @@
+.page-user {
+  min-height: 100vh;
+
+  .post-item {
+    margin-bottom: 16px;
+  }
+
+  .profile-section {
+    box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.12);
+    border-radius: 12px;
+    margin-top: 16px;
+    padding: 16px 0;
+
+    .profile {
+      position: relative;
+      &-image {
+        align-items: center;
+        justify-content: center;
+      }
+      .user {
+        &-avatar {
+          &-wrapper {
+            width: 128px;
+            height: 128px;
+            border-radius: 50%;
+            box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+              rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+          }
+          background-color: #fff;
+          height: 100%;
+          border-radius: 50%;
+        }
+      }
+
+      &-content {
+        height: 100%;
+        justify-content: flex-end;
+        .user {
+          &-name {
+            font-size: map-get($font-sizes, "2xl");
+            font-weight: map-get($font-weights, "medium");
+            margin-bottom: 24px;
+          }
+
+          &-follow-list {
+            margin-bottom: 16px;
+            gap: 36px;
+          }
+
+          &-follow-amount {
+            font-size: map-get($font-sizes, "xl");
+            color: map-get($colors, "dark-yellow");
+            font-weight: map-get($font-weights, "medium");
+            margin-left: 4px;
+          }
+
+          &-about-list {
+            gap: 42px;
+          }
+
+          &-about-item {
+            font-size: map-get($font-sizes, "sm");
+            color: map-get($colors, "secondary-600");
+            gap: 8px;
+          }
+        }
+      }
+
+      &-button {
+        position: absolute;
+        top: 0;
+        right: 16px;
+      }
+    }
+  }
+
+  .filter {
+    display: flex;
+    gap: 20px;
+    padding-bottom: 16px;
+    justify-content: center;
+    &-item {
+      cursor: pointer;
+      padding: 8px 16px;
+      border: 2px solid transparent;
+      position: relative;
+      font-size: map-get($font-sizes, "sm");
+      font-weight: map-get($font-weights, "medium");
+
+      &::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -2px;
+        width: 0;
+        height: 2px;
+        background-color: map-get($colors, "yellow");
+        transition: width 0.3s ease;
+      }
+
+      &:hover {
+        &::after {
+          width: 100%;
+        }
+      }
+    }
+
+    .active {
+      &::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -2px;
+        width: 100%;
+        height: 2px;
+        background-color: map-get($colors, "yellow");
+        transition: width 0.3s ease;
+      }
+    }
+  }
+
+  .section {
+    &.section-wrapper {
+      padding: 16px 0;
+    }
+  }
+
+  .skeleton {
+    &-user-profile {
+      width: 100%;
+      height: 160px;
+      border-radius: 8px;
+      margin-top: 16px;
+    }
+
+    &-user-avatar {
+      margin-top: -64px;
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 8px solid black;
+    }
+
+    &-user-sidebar {
+      width: 100%;
+      height: 176px;
+      border-radius: 8px;
+    }
+
+    &-personal-list {
+      width: 100%;
+      height: 176px;
+      border-radius: 8px;
+    }
+  }
+}
+
+.change-password {
+  &-title {
+    text-align: center;
+    font-size: 22px;
+    font-weight: map-get($font-weights, medium);
+    color: map-get($colors, primary);
+    padding-bottom: 24px;
+    line-height: 1.5;
+  }
+
+  &-wrapper {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 6px;
+    box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.12);
+
+    .form-group {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+
+      .input-group {
+        width: 400px;
+      }
+    }
+  }
+}

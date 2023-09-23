@@ -7,6 +7,8 @@ const RESOURCES = {
   },
   users: 'users',
   posts: environment.apiBaseUrl + 'posts',
+  bookmarks: environment.apiBaseUrl + 'bookmarks',
+  signatures: environment.apiBaseUrl + 'signatures',
 };
 
 export const ENDPOINT = {
@@ -18,8 +20,19 @@ export const ENDPOINT = {
   },
   users: {
     index: `${RESOURCES.users}`,
+    me: `${RESOURCES.users}/me`,
+    changePassword: `${RESOURCES.users}/change-password`,
   },
   posts: {
+    index: `${RESOURCES.posts}`,
     public: `${RESOURCES.posts}/public`,
+    recommend: `${RESOURCES.posts}/recommend`,
+    recyclebin: `${RESOURCES.posts}/recyclebin`,
   },
+  signatures: {
+    index: `${RESOURCES.signatures}`,
+  },
+  bookmarks: {
+    index: `${RESOURCES.bookmarks}`,
+  }
 };

@@ -1,0 +1,20 @@
+.scroll-button-wrap {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+}
+
+.scroll-button {
+  background-color: RGBA(233, 184, 36, 0.5);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  padding: 10px;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+
+  &:hover {
+    background-color: RGBA(233, 184, 36, 0.8);
+  }
+}

@@ -12,7 +12,7 @@
   &-wrapper {
     width: 400px;
     padding: 36px;
-    border-radius: 20px;
+    border-radius: 12px;
     border: 1px solid map-get($colors, secondary-200);
     background: map-get($colors, "white");
     z-index: 10;
@@ -27,8 +27,9 @@
       flex-direction: column;
       gap: 6px;
       .btn {
-        padding: 13px;
+        padding: 10px;
         width: 100%;
+        font-size: map-get($font-sizes, "md");
       }
     }
   }
@@ -36,21 +37,24 @@
   &-title {
     font-size: 28px;
     text-align: center;
-    text-transform: uppercase;
-    font-weight: map-get($font-weights, "medium");
+    font-weight: map-get($font-weights, "bold");
+    color: map-get($colors, "primary");
     margin-bottom: 36px;
   }
 
   &-redirect {
     width: 100%;
+    font-size: map-get($font-sizes, "sm");
     text-align: center;
 
     &-link {
-      color: map-get($colors, "primary");
+      color: #084dbf;
       transition: none;
+      font-weight: map-get($font-weights, "medium");
+      font-size: map-get($font-sizes, "md");
 
       &:hover {
-        font-weight: map-get($font-weights, "medium");
+        text-decoration: underline;
       }
     }
   }

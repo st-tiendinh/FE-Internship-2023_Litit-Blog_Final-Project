@@ -28,3 +28,18 @@ export const signOutError = (payload: any) => ({
   type: ACTION_TYPES.SIGN_OUT_ERROR,
   payload,
 });
+
+export const updateUser = (account: object) => ({
+  type: ACTION_TYPES.UPDATE_USER,
+  payload: account,
+});
+
+export const updateUserSuccess = (payload: any) => ({
+  type: ACTION_TYPES.UPDATE_USER_SUCCESS,
+  payload,
+});
+
+export const updateUserError = (payload: any) => ({
+  type: ACTION_TYPES.UPDATE_USER_ERROR,
+  payload,
+});

@@ -1,0 +1,132 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background-color: map-get($colors, white);
+  height: 100%;
+
+  .section {
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    background-color: map-get($colors, "white");
+
+    &-title {
+      font-size: map-get($font-sizes, xl);
+      font-weight: map-get($font-weights, bold);
+      color: map-get($colors, secondary-800);
+      margin-bottom: 32px;
+    }
+
+    &-category {
+      background-color: map-get($colors, "white");
+      position: sticky;
+      top: 92px;
+      .section-title {
+        margin-bottom: 24px;
+      }
+    }
+  }
+
+  .popular-post {
+    border-radius: 8px;
+    box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.12);
+
+    &:hover {
+      box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
+        rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+      transform: translateY(-2px);
+      cursor: pointer;
+    }
+
+    &-item {
+      &:not(:last-child) {
+        margin-bottom: 24px;
+      }
+    }
+
+    &-image-wrapper {
+      min-width: 140px;
+      width: 140px;
+      height: 120px;
+    }
+
+    &-image {
+      height: 100%;
+      border-top-left-radius: 8px;
+      border-bottom-left-radius: 8px;
+    }
+
+    &-content {
+      padding: 12px;
+      justify-content: center;
+      gap: 4px;
+    }
+
+    &-title {
+      margin-bottom: 8px;
+      font-weight: map-get($font-weights, bold);
+      line-height: 1.5;
+      color: map-get($colors, primary);
+      cursor: pointer;
+    }
+
+    &-timestamp {
+      color: map-get($colors, secondary-400);
+      font-size: map-get($font-sizes, "xs");
+      font-weight: map-get($font-weights, normal);
+      line-height: 1.4;
+    }
+  }
+
+  .popular-post {
+    &-image-wrapper {
+      &.skeleton {
+        border-top-left-radius: 8px;
+        border-bottom-left-radius: 8px;
+      }
+    }
+
+    &-content {
+      width: 100%;
+      justify-content: center;
+    }
+
+    &-timestamp {
+      &.skeleton {
+        border-radius: 4px;
+        height: 20px;
+        width: 75%;
+        margin-bottom: 8px;
+      }
+    }
+
+    &-title {
+      &.skeleton {
+        width: 100%;
+        height: 40px;
+        border-radius: 4px;
+      }
+    }
+  }
+
+  .category {
+    &-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    &-item {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    &-link {
+      font-size: map-get($font-sizes, md);
+      font-weight: map-get($font-weights, medium);
+      color: #3b3c4a;
+      line-height: 1.5;
+    }
+  }
+}

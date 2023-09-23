@@ -1,0 +1,79 @@
+.comment {
+  gap: 16px;
+  margin-bottom: 16px;
+
+  &-content {
+    width: 100%;
+    padding: 16px;
+    border: 1px solid #e8e8ea;
+    border-radius: 4px;
+  }
+
+  .user {
+    &-avatar {
+      &-wrapper {
+        width: 30px;
+        height: 30px;
+        margin-top: 8px;
+      }
+      border-radius: 50%;
+      height: 100%;
+    }
+
+    &-name {
+      font-weight: map-get($font-weights, "medium");
+      margin-bottom: 12px;
+
+      &:hover {
+        color: map-get($colors, "dark-yellow");
+      }
+    }
+  }
+
+  &-about {
+    display: flex;
+    gap: 10px;
+  }
+
+  &-dot-symbol {
+    font-size: 8px;
+  }
+
+  &-date {
+    font-size: 13px;
+    font-weight: map-get($font-weights, "light");
+    color: map-get($colors, "secondary-600");
+  }
+
+  &-text {
+    font-size: 15px;
+    color: map-get($colors, "secondary-600");
+  }
+
+  &-form {
+    width: 100%;
+    align-items: flex-end;
+
+    > .btn {
+      margin-top: 8px;
+      font-size: map-get($font-sizes, "sm");
+    }
+  }
+
+  &-input {
+    width: 100%;
+    padding: 16px;
+    border: 1px solid #e8e8ea;
+    border-radius: 4px;
+    font-family: "Work Sans", sans-serif;
+    font-style: normal;
+    font-size: map-get($font-sizes, "md");
+    font-weight: map-get($font-weights, "normal");
+    line-height: 1.3;
+    color: map-get($colors, "secondary-800");
+
+    &::placeholder {
+      color: map-get($colors, "secondary-600");
+    }
+  }
+}

@@ -8,8 +8,7 @@
   white-space: nowrap;
 
   font-size: map-get($font-sizes, "sm");
-  font-weight: map-get($font-weights, "regular");
-  text-transform: uppercase;
+  font-weight: map-get($font-weights, "medium");
 
   border-radius: 4px;
   border: 1px solid transparent;
@@ -21,55 +20,151 @@
     background-color: map-get($colors, "white");
     border-color: map-get($colors, "primary");
     color: map-get($colors, "primary");
+
+    &:hover {
+      border-color: map-get($colors, "primary");
+      background-color: map-get($colors, "primary");
+      color: map-get($colors, "white");
+    }
   }
 
-  &.btn-outline:hover,
   &.btn-primary {
     border-color: map-get($colors, "primary");
     background-color: map-get($colors, "primary");
     color: map-get($colors, "white");
-  }
 
-  &.btn-primary {
     &:hover {
       opacity: 0.8;
     }
-    &.loading {
-      &::after {
-        content: "";
-        position: absolute;
-        width: 20px;
-        height: 20px;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        margin: auto;
-        border: 3px solid transparent;
-        border-top-color: #ffffff;
-        border-radius: 50%;
-        animation: button-loading-spinner 1s ease infinite;
-      }
+  }
 
-      .btn-text {
-        visibility: hidden;
-        transition: none;
-        opacity: 0;
-      }
+  &-secondary {
+    border-color: map-get($colors, "yellow");
+    background-color: map-get($colors, "yellow");
+    color: map-get($colors, "primary");
 
-      @keyframes button-loading-spinner {
-        from {
-          transform: rotate(0turn);
-        }
+    &:hover {
+      background-color: #cfaf2f;
+      border-color: #cfaf2f;
+    }
+  }
 
-        to {
-          transform: rotate(1turn);
-        }
+  &-edit {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: map-get($font-sizes, sm);
+    padding: 6px;
+
+    &:hover {
+      color: map-get($colors, "dark-yellow");
+
+      .icon.icon-pen {
+        background-image: url("../assets/icons/ic-pen-highlight.svg");
       }
     }
-    &:disabled {
-      opacity: 0.8;
-      cursor: not-allowed;
+  }
+
+  &-delete {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: map-get($font-sizes, sm);
+    padding: 6px;
+
+    &:hover {
+      color: map-get($colors, "dark-yellow");
+
+      .icon.icon-bin {
+        background-image: url("../assets/icons/ic-bin-highlight.svg");
+      }
     }
+  }
+
+  &-restore {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: map-get($font-sizes, sm);
+    padding: 6px;
+
+    &:hover {
+      color: map-get($colors, "dark-yellow");
+
+      .icon.icon-restore {
+        background-image: url("../assets/icons/ic-restore-highlight.svg");
+      }
+    }
+  }
+
+  &-three-dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+
+      .icon.icon-three-dots {
+        background-image: url("../assets/icons/ic-dots-highlight.svg");
+      }
+    }
+  }
+
+  &-danger-outline {
+    padding: 8px 26px;
+    color: map-get($colors, primary);
+    border: 1px solid map-get($colors, primary);
+  }
+
+  &-danger {
+    padding: 8px 26px;
+    color: map-get($colors, "white");
+    background: #cb2027;
+
+    &:hover {
+      box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+        rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+    }
+  }
+
+  &.loading {
+    &::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      margin: auto;
+      border: 3px solid transparent;
+      border-top-color: #ffffff;
+      border-radius: 50%;
+      animation: button-loading-spinner 1s ease infinite;
+    }
+
+    .btn-text {
+      visibility: hidden;
+      transition: none;
+      opacity: 0;
+    }
+
+    @keyframes button-loading-spinner {
+      from {
+        transform: rotate(0turn);
+      }
+
+      to {
+        transform: rotate(1turn);
+      }
+    }
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    border: none;
+    color: map-get($colors, secondary-400);
+    background: map-get($colors, secondary-100);
   }
 }

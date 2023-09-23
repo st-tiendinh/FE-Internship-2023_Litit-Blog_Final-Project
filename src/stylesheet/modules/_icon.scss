@@ -32,20 +32,212 @@
   }
 
   &-comment {
-    width: 16px;
-    height: 16px;
-    background-image: url("../assets/icons/ic-comment.svg");
+    width: 18px;
+    height: 18px;
+    background-image: url("../assets/icons/ic-comment-normal.svg");
   }
 
   &-unlike {
-    width: 16px;
-    height: 16px;
-    background-image: url("../assets/icons/ic-unlike.svg");
+    width: 18px;
+    height: 18px;
+    background-image: url("../assets/icons/ic-like-normal.svg");
   }
 
   &-arrow-up {
     width: 28px;
     height: 28px;
     background-image: url("../assets/icons/ic-arrow-up.svg");
+  }
+
+  &-tag {
+    width: 30px;
+    height: 30px;
+    background-image: url("../assets/icons/ic-tag.svg");
+  }
+
+  &-comment-normal {
+    background-image: url("../assets/icons/ic-comment-normal.svg");
+
+    &:hover {
+      background-image: url("../assets/icons/ic-comment-highlight.svg");
+    }
+  }
+
+  &-like-normal {
+    width: 24px;
+    height: 24px;
+    background-image: url("../assets/icons/ic-like-normal.svg");
+
+    &:hover {
+      background-image: url("../assets/icons/ic-like-fulfill.svg");
+    }
+  }
+
+  &-like-fulfill {
+    width: 24px;
+    height: 24px;
+    background-image: url("../assets/icons/ic-like-fulfill.svg");
+  }
+
+  &-bookmark {
+    width: 24px;
+    height: 24px;
+    background-image: url("../assets/icons/ic-bookmark.svg");
+
+    &:hover {
+      background-image: url("../assets/icons/ic-bookmark-highlight.svg");
+    }
+  }
+
+  &-bookmark-fulfill {
+    width: 24px;
+    height: 24px;
+    background-image: url("../assets/icons/ic-bookmark-fulfill.svg");
+  }
+
+  &-dob {
+    width: 20px;
+    height: 20px;
+    background-image: url("../assets/icons/ic-dob.svg");
+  }
+
+  &-person {
+    width: 18px;
+    height: 18px;
+    background-image: url("../assets/icons/ic-person.svg");
+  }
+
+  &-mail {
+    width: 18px;
+    height: 18px;
+    background-image: url("../assets/icons/ic-mail.svg");
+  }
+
+  &-comment-darker {
+    background-image: url("../assets/icons/ic-comment-darker.svg");
+  }
+
+  &-comments-number {
+    background-image: url("../assets/icons/ic-comments-number.svg");
+  }
+
+  &-post-number {
+    background-image: url("../assets/icons/ic-post.svg");
+  }
+
+  &-followed-tag {
+    background-image: url("../assets/icons/ic-followed-tag.svg");
+  }
+
+  &-earth {
+    width: 14px;
+    height: 14px;
+    background-image: url("../assets/icons/ic-earth.svg");
+  }
+
+  &-lock {
+    width: 14px;
+    height: 14px;
+    background-image: url("../assets/icons/ic-lock.svg");
+  }
+
+  &-pen {
+    width: 16px;
+    height: 16px;
+    background-image: url("../assets/icons/ic-pen.svg");
+  }
+
+  &-bin {
+    width: 17px;
+    height: 17px;
+    background-image: url("../assets/icons/ic-bin.svg");
+  }
+
+  &-three-dots {
+    width: 16px;
+    height: 16px;
+    background-image: url("../assets/icons/ic-dots.svg");
+  }
+
+  &-danger {
+    width: 30px;
+    height: 30px;
+    background-image: url("../assets/icons/ic-danger.svg");
+  }
+
+  &-facebook {
+    width: 35px;
+    height: 35px;
+    background-image: url("../assets/icons/ic-facebook.svg");
+  }
+
+  &-twitter {
+    width: 35px;
+    height: 35px;
+    background-image: url("../assets/icons/ic-twitter.svg");
+  }
+
+  &-linkedin {
+    width: 35px;
+    height: 35px;
+    background-image: url("../assets/icons/ic-linkedin.svg");
+  }
+
+  &-instagram {
+    width: 35px;
+    height: 35px;
+    background-image: url("../assets/icons/ic-instagram.svg");
+
+    &-restore {
+      width: 24px;
+      height: 24px;
+      background-image: url("../assets/icons/ic-restore.svg");
+    }
+  }
+
+  &-avatar-uploader {
+    background-image: url("../assets/icons/ic-avatar-uploader.svg");
+  }
+
+  &-profile {
+    width: 30px;
+    height: 30px;
+    background-image: url("../assets/icons/ic-profile.svg");
+  }
+
+  &-change-pw {
+    width: 30px;
+    height: 30px;
+    background-image: url("../assets/icons/ic-change-pw.svg");
+  }
+
+  &-bookmarks {
+    width: 30px;
+    height: 30px;
+    background-image: url("../assets/icons/ic-bookmarks.svg");
+  }
+
+  &-draft {
+    width: 30px;
+    height: 30px;
+    background-image: url("../assets/icons/ic-draft.svg");
+  }
+
+  &-recycle-bin {
+    width: 30px;
+    height: 30px;
+    background-image: url("../assets/icons/ic-recycle-bin.svg");
+  }
+
+  &-follower {
+    width: 30px;
+    height: 30px;
+    background-image: url("../assets/icons/ic-follower.svg");
+  }
+
+  &-following {
+    width: 30px;
+    height: 30px;
+    background-image: url("../assets/icons/ic-following.svg");
   }
 }

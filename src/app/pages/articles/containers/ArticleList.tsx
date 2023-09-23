@@ -1,13 +1,14 @@
-import { Link } from 'react-router-dom';
+import PublicPost, {
+  PostListType,
+} from '../../home/containers/components/PublicPost';
 
 const ArticleList = () => {
   return (
-    <div>
-      This is article-list page
-      <p>
-        <Link to="1">See detail</Link>
-      </p>
-    </div>
+    <section className="section section-wrapper">
+      <div className="container">
+        <PublicPost type={PostListType.GRID} sectionTitle="LATEST POSTS" />
+      </div>
+    </section>
   );
 };
 

@@ -1,8 +1,15 @@
+import { PostListType } from '../../pages/home/containers/components/PublicPost';
 import { EmptyData } from './EmptyData';
 import { Post } from './Post';
 
-interface IPost {
+export enum PostStatus {
+  PUBLIC = 'public',
+  PRIVATE = 'private',
+}
+
+export interface IPost {
   id: number;
+  userId: number;
   title: string;
   description: string;
   content: string;
@@ -11,7 +18,7 @@ interface IPost {
   likes: number;
   comments: number;
   recommend: boolean;
-  status: 'public' | 'private';
+  status: PostStatus;
   createdAt: string;
   updatedAt: string;
   deletedAt: string | null;
@@ -37,25 +44,44 @@ interface IPost {
 
 interface PostListProps {
   posts: Array<IPost>;
+  type: PostListType;
+  isHasAction?: boolean;
+  isCanRestore?: boolean;
 }
 
-const PostList = ({ posts }: PostListProps) => {
+const PostList = ({
+  posts,
+  type,
+  isHasAction,
+  isCanRestore,
+}: PostListProps) => {
   return (
     <ul className="post-list row">
       {posts.length ? (
         posts.map((post) => (
-          <li key={post.id} className="col col-4 col-md-6 col-sm-12">
+          <li
+            key={post.id}
+            className={`col col-${
+              type === PostListType.GRID ? '4' : '12'
+            } col-md-6 col-sm-12`}
+          >
             <div className="post-item">
               <Post
+                id={post.id}
+                userId={post.userId}
                 title={post.title}
                 desc={post.description}
                 cover={post.cover}
                 tags={post.tags}
+                status={post.status}
                 authorImg={post.user.picture}
                 authorName={post.user.displayName}
                 postedDate={post.createdAt}
                 comments={post.comments}
                 likes={post.likes}
+                listType={type}
+                isHasAction={isHasAction}
+                isCanRestore={isCanRestore}
               />
             </div>
           </li>

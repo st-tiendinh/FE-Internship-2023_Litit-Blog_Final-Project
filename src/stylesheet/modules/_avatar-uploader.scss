@@ -1,0 +1,42 @@
+.avatar-uploader {
+  position: relative;
+  width: 128px;
+  height: 128px;
+  border-radius: 50%;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em,
+    rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em,
+    rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+
+  &-form {
+    width: 100%;
+    height: 100%;
+  }
+
+  &-image {
+    width: 128px;
+    height: 128px;
+    border-radius: 50%;
+  }
+
+  &-icon {
+    position: absolute;
+    z-index: 10;
+    bottom: 0;
+    right: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 40px;
+    height: 40px;
+
+    background: rgba(23, 23, 23, 0.5);
+    border-radius: 50%;
+
+    &:hover {
+      cursor: pointer;
+      background: rgba(23, 23, 23, 0.8);
+    }
+  }
+}
