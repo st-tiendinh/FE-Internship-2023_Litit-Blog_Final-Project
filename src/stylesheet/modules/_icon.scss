@@ -194,4 +194,34 @@
       background-image: url("../assets/icons/ic-restore.svg");
     }
   }
+
+  &-profile {
+    width: 30px;
+    height: 30px;
+    background-image: url("../assets/icons/ic-profile.svg");
+  }
+
+  &-change-pw {
+    width: 30px;
+    height: 30px;
+    background-image: url("../assets/icons/ic-change-pw.svg");
+  }
+
+  &-bookmarks {
+    width: 30px;
+    height: 30px;
+    background-image: url("../assets/icons/ic-bookmarks.svg");
+  }
+
+  &-draft {
+    width: 30px;
+    height: 30px;
+    background-image: url("../assets/icons/ic-draft.svg");
+  }
+
+  &-recycle-bin {
+    width: 30px;
+    height: 30px;
+    background-image: url("../assets/icons/ic-recycle-bin.svg");
+  }
 }
