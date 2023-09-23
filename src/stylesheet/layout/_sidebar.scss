@@ -64,7 +64,7 @@
     }
 
     &-title {
-      font-size: 15px;
+      margin-bottom: 8px;
       font-weight: map-get($font-weights, bold);
       line-height: 1.5;
       color: map-get($colors, primary);
@@ -73,10 +73,9 @@
 
     &-timestamp {
       color: map-get($colors, secondary-400);
-      font-size: 13px;
+      font-size: map-get($font-sizes, "xs");
       font-weight: map-get($font-weights, normal);
       line-height: 1.4;
-      margin-bottom: 4px;
     }
   }
 

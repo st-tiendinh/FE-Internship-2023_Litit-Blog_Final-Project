@@ -67,12 +67,12 @@ export const Sidebar = () => {
                           />
                         </div>
                         <div className="d-flex flex-column popular-post-content">
-                          <p className="popular-post-timestamp">
-                            {formatDate(post.createdAt)}
-                          </p>
                           <h4 className="popular-post-title text-truncate">
                             {post.title}
                           </h4>
+                          <p className="popular-post-timestamp">
+                            {formatDate(post.createdAt)}
+                          </p>
                         </div>
                       </div>
                     </Link>
