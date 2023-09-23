@@ -4,7 +4,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ConfirmModal } from './ConfirmModal';
 
 import { RootState } from '../../app.reducers';
-import { setConfirmModalId, setConfirmModalType, setHideModal } from '../../../redux/actions/modal';
+import {
+  setConfirmModalId,
+  setConfirmModalType,
+  setHideModal,
+} from '../../../redux/actions/modal';
 
 export enum ModalType {
   CONFIRM_DELETE,
@@ -17,7 +21,7 @@ interface ModalPropTypes {
   button?: ReactElement;
 }
 
-export const Modal = ({ title, button, action }: ModalPropTypes) => {
+export const Modal = ({ button, action }: ModalPropTypes) => {
   const isShow = useSelector((state: RootState) => state.modalReducer.isShow);
   const dispatch = useDispatch();
   const type = useSelector((state: RootState) => state.modalReducer.type);
