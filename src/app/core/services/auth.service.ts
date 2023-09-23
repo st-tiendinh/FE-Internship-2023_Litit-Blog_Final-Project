@@ -34,4 +34,10 @@ export class AuthService extends AuthHelper {
     Cookies.remove(KEYS.ACCESS_TOKEN);
     return response;
   }
+
+  async updateUser(body: any) {
+    this.http.setHeaders(this.jwt.getAuthHeader());
+    const response: any = await this.http.put([ENDPOINT.users.me], body);
+    return response;
+  }
 }

@@ -59,6 +59,31 @@ const signOut = (state: any, payload: any) => ({
   isLogged: false,
 });
 
+const updateUser = (state: any, payload: any) => ({
+  ...state,
+  isLoading: true,
+  payload,
+});
+
+const updateUserSuccess = (state: any, payload: any) => {
+  localStorage.setItem(KEYS.USER_INFO, JSON.stringify(payload));
+
+  return {
+    ...state,
+    isLoading: false,
+    userInfo: payload,
+    error: null,
+    hasError: false,
+  };
+};
+
+const updateUserError = (state: any, payload: any) => ({
+  ...state,
+  isLoading: false,
+  error: payload,
+  hasError: true,
+});
+
 const strategies = {
   [ACTION_TYPES.SIGN_IN]: signIn,
   [ACTION_TYPES.SIGN_IN_SUCCESS]: signInSuccess,
@@ -66,6 +91,9 @@ const strategies = {
   [ACTION_TYPES.SIGN_OUT]: signOut,
   [ACTION_TYPES.SIGN_OUT_SUCCESS]: signOutSuccess,
   [ACTION_TYPES.SIGN_OUT_ERROR]: signOutError,
+  [ACTION_TYPES.UPDATE_USER]: updateUser,
+  [ACTION_TYPES.UPDATE_USER_SUCCESS]: updateUserSuccess,
+  [ACTION_TYPES.UPDATE_USER_ERROR]: updateUserError,
   __default__: (state: any) => state,
 };
 

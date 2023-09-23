@@ -2,7 +2,14 @@ import { AnyAction } from 'redux';
 import { all, put, takeLatest } from 'redux-saga/effects';
 import ACTION_TYPES from './constants/types';
 import { AuthService } from '../services/auth.service';
-import { signInSuccess, signInError, signOutSuccess, signOutError } from './auth.actions';
+import {
+  signInSuccess,
+  signInError,
+  signOutSuccess,
+  signOutError,
+  updateUserSuccess,
+  updateUserError,
+} from './auth.actions';
 import { KEYS } from '../helpers/storageHelper';
 
 const auth = new AuthService();
@@ -32,6 +39,19 @@ export function* signout(): any {
   }
 }
 
+export function* updateUser({ payload }: AnyAction): any {
+  try {
+    const res = yield auth.updateUser(payload).then((res) => res);
+    yield put(updateUserSuccess(res));
+  } catch (error) {
+    yield put(updateUserError(error));
+  }
+}
+
 export function* watchAuth() {
-  yield all([takeLatest(ACTION_TYPES.SIGN_IN, signin), takeLatest(ACTION_TYPES.SIGN_OUT, signout)]);
+  yield all([
+    takeLatest(ACTION_TYPES.SIGN_IN, signin),
+    takeLatest(ACTION_TYPES.SIGN_OUT, signout),
+    takeLatest(ACTION_TYPES.UPDATE_USER, updateUser),
+  ]);
 }
