@@ -133,7 +133,7 @@ const UserDetail = () => {
           return newPost;
         });
 
-        setUserPost(newPostsArr);
+        setUserPost(isLoggedUser ? newPostsArr.reverse() : newPostsArr);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
