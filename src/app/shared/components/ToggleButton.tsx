@@ -5,10 +5,7 @@ interface ToggleButtonProps {
   setIsPublic: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const ToggleButton: React.FC<ToggleButtonProps> = ({
-  isPublic,
-  setIsPublic,
-}) => {
+const ToggleButton = ({ isPublic, setIsPublic }: ToggleButtonProps) => {
   const handleToggle = () => {
     setIsPublic(!isPublic);
   };

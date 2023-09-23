@@ -228,4 +228,16 @@
     height: 30px;
     background-image: url("../assets/icons/ic-recycle-bin.svg");
   }
+
+  &-follower {
+    width: 30px;
+    height: 30px;
+    background-image: url("../assets/icons/ic-follower.svg");
+  }
+
+  &-following {
+    width: 30px;
+    height: 30px;
+    background-image: url("../assets/icons/ic-following.svg");
+  }
 }

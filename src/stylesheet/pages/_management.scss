@@ -17,8 +17,19 @@
         border-radius: 4px;
         font-weight: map-get($font-weights, "medium");
 
+        &:not(:last-child) {
+          margin-bottom: 6px;
+        }
+
         &:hover {
           cursor: pointer;
+          background-color: #fffae6;
+          .menu-label {
+            color: map-get($colors, "dark-yellow");
+          }
+        }
+
+        &.active {
           background-color: #fffae6;
           .menu-label {
             color: map-get($colors, "dark-yellow");
