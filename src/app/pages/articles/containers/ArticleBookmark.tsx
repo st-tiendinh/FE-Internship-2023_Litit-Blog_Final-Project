@@ -25,9 +25,12 @@ const ArticleBookmark = () => {
         const filterPost = response.filter((item: any) => item.post !== null);
 
         const newArr = filterPost.map((item: any) => item.post);
+        const publicPosts = newArr.filter(
+          (item: any) => item.status !== 'private'
+        );
 
-        if (newArr) {
-          setArticlesBookmark(newArr);
+        if (publicPosts) {
+          setArticlesBookmark(publicPosts);
         }
 
         setIsLoading(false);
@@ -46,9 +49,11 @@ const ArticleBookmark = () => {
             <h3 className="section-title">Your bookmark</h3>
           </div>
           {isLoading ? (
-            skeletonArray.map((item) => {
-              return PostListType.GRID && <PostSkeleton key={item} />;
-            })
+            <ul className="post-list row">
+              {skeletonArray.map((item) => {
+                return PostListType.GRID && <PostSkeleton key={item} />;
+              })}
+            </ul>
           ) : (
             <PostList posts={articlesBookmark} type={PostListType.GRID} />
           )}

@@ -15,7 +15,7 @@ const Home = () => {
         <RecommendPosts />
         <div className="row">
           <div className="col col-8">
-            <PublicPost type={PostListType.LIST} sectionTitle="Latest post" />
+            <PublicPost type={PostListType.LIST} sectionTitle="LATEST POSTS" />
           </div>
           <div className="col col-4">
             <Sidebar />

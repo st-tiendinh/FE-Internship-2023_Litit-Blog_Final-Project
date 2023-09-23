@@ -133,7 +133,7 @@ const UserDetail = () => {
           return newPost;
         });
 
-        setUserPost(newPostsArr);
+        setUserPost(isLoggedUser ? newPostsArr.reverse() : newPostsArr);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
@@ -159,9 +159,7 @@ const UserDetail = () => {
         />
 
         {isUserLoading ? (
-          <div className="skeleton skeleton-user-profile">
-            <div className="skeleton skeleton-user-avatar"></div>
-          </div>
+          <div className="skeleton skeleton-user-profile"></div>
         ) : (
           <UserProfile
             isLoggedUser={isLoggedUser}

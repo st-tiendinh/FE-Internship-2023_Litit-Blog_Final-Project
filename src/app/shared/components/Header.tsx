@@ -126,50 +126,49 @@ export const Header = () => {
                         ref={userActionRef}
                         className="user-action"
                       >
-                        <div className="user-avatar-wrapper">
-                          <img
-                            className="user-avatar"
-                            src={
-                              isValidUserImg ? userInfo.picture : BlankUserImg
-                            }
-                            alt="User Image"
-                          />
-                        </div>
-                        {isOpenDropdown && (
-                          <div className="dropdown-menu">
-                            <ul className="menu-list">
-                              <li className="menu-item">
-                                <Link
-                                  to={`users/${jwtHelper.getUserInfo().userId}`}
-                                >
-                                  <div className="menu-action">
-                                    <p className="user-name">
-                                      {userInfo.displayName}
-                                    </p>
-                                    <p className="user-email">
-                                      {userInfo.email}
-                                    </p>
-                                  </div>
-                                </Link>
-                              </li>
-                              <Link
-                                to={'/articles/bookmark'}
-                                className="menu-item"
-                              >
-                                <div className="menu-action">Bookmark</div>
-                              </Link>
-                              <li className="menu-item">
-                                <div
-                                  onClick={handleSignOut}
-                                  className="menu-action action-logout"
-                                >
-                                  <p className="logout-label">Sign out</p>
-                                </div>
-                              </li>
-                            </ul>
-                          </div>
-                        )}
+                        <p className="user-name">{userInfo.displayName}</p>
                       </div>
+                      {isOpenDropdown && (
+                        <div className="dropdown-menu">
+                          <ul className="menu-list">
+                            <li className="menu-item">
+                              <Link
+                                className="d-flex menu-action"
+                                to={`users/${jwtHelper.getUserInfo().userId}`}
+                              >
+                                <div className="user-avatar-wrapper">
+                                  <img
+                                    className="user-avatar"
+                                    src={
+                                      isValidUserImg
+                                        ? userInfo.picture
+                                        : BlankUserImg
+                                    }
+                                    alt="User Image"
+                                  />
+                                </div>
+                                <div className="user-info">
+                                  <p className="user-name">
+                                    {userInfo.displayName}
+                                  </p>
+                                  <p className="user-email">{userInfo.email}</p>
+                                </div>
+                              </Link>
+                            </li>
+                            <Link to={'/management'} className="menu-item">
+                              <div className="menu-action">Management</div>
+                            </Link>
+                            <li className="menu-item">
+                              <div
+                                onClick={handleSignOut}
+                                className="menu-action action-logout"
+                              >
+                                <p className="logout-label">Sign out</p>
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
+                      )}
                     </li>
                   )}
 
