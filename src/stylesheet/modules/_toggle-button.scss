@@ -1,0 +1,84 @@
+.toggle-button {
+  &-wrapper {
+    position: relative;
+    width: 160px;
+    height: 40px;
+  }
+
+  appearance: none;
+  width: 160px;
+  height: 40px;
+  border-radius: 25px;
+  outline: none;
+
+  &::before,
+  &::after {
+    z-index: 2;
+    position: absolute;
+    top: -60%;
+    font-weight: map-get($font-weights, bold);
+  }
+
+  &::before {
+    content: "Public";
+    left: 20px;
+  }
+
+  &::after {
+    content: "Private";
+    right: 20px;
+  }
+
+  &:checked {
+    background: #e5f5fa;
+  }
+
+  &-label {
+    z-index: 1;
+    position: absolute;
+    top: -21px;
+    bottom: 8px;
+    border-radius: 20px;
+  }
+
+  transition: 0.25s;
+
+  &:checked::before {
+    color: #ffff;
+    transition: color 0.5s 0.1s;
+  }
+
+  &:checked::after {
+    color: #9b9b9b;
+    transition: color 0.5s;
+  }
+
+  &:checked + label {
+    left: 4px;
+    right: 80px;
+    background: #00a8f4;
+    transition: left 0.5s, right 0.3s 0.1s;
+  }
+
+  &:not(:checked) {
+    background: #ffe9c8;
+    transition: background 0.4s;
+  }
+
+  &:not(:checked)::before {
+    color: #9b9b9b;
+    transition: color 0.5s;
+  }
+
+  &:not(:checked)::after {
+    color: #ffff;
+    transition: color 0.5s 0.1s;
+  }
+
+  &:not(:checked) + label {
+    left: 80px;
+    right: 4px;
+    background: #ff9800;
+    transition: left 0.3s 0.1s, right 0.5s, background 0.35s;
+  }
+}
