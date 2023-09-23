@@ -39,7 +39,7 @@ export const UserUpdateProfile = (userInfo: any) => {
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm<FormData>({ defaultValues: user });
+  } = useForm<FormData>({ mode: 'onChange', defaultValues: user });
 
   const [isUploadLoading, setIsUploadLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -239,8 +239,8 @@ export const UserUpdateProfile = (userInfo: any) => {
               {...register('phone', {
                 required: 'Phone is required!',
                 pattern: {
-                  value: /^[0-9]\d*$/,
-                  message: 'Phone must be number!',
+                  value: /^(?:\+|[0-9])[0-9]{9,10}$/,
+                  message: 'Phone number must be between 10 and 11 digits.',
                 },
               })}
               error={errors.phone?.message}

@@ -17,15 +17,16 @@ export const UserChangePassword = ({ setFilter }: any) => {
   const jwtHelper = new JwtHelper();
 
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState();
+  const [error, setErrors] = useState();
 
   const {
     register,
     handleSubmit,
     setValue,
     watch,
+    setError,
     formState: { errors },
-  } = useForm<FormData>();
+  } = useForm<FormData>({ mode: 'onChange' });
 
   const handleTrimInput = (fieldName: keyof FormData, value: string) => {
     setValue(fieldName, value.trim());
@@ -44,8 +45,7 @@ export const UserChangePassword = ({ setFilter }: any) => {
         setFilter('public-post');
       }
     } catch (error: any) {
-      setError(error.response.data.errors);
-      console.log(error);
+      setErrors(error.response.data.errors);
       setIsLoading(false);
     }
   };
@@ -88,6 +88,23 @@ export const UserChangePassword = ({ setFilter }: any) => {
             })}
             error={errors.newPassword?.message}
             onBlur={(e) => handleTrimInput('newPassword', e.target.value)}
+            onChange={(e) => {
+              const confirmPasswordValue = watch('confirmPassword');
+              if (
+                confirmPasswordValue &&
+                e.target.value === confirmPasswordValue
+              ) {
+                setError('confirmPassword', {
+                  type: 'custom',
+                  message: undefined,
+                });
+              } else {
+                setError('confirmPassword', {
+                  type: 'custom',
+                  message: 'Password and confirm password must match!',
+                });
+              }
+            }}
           />
 
           <InputGroup
@@ -98,7 +115,7 @@ export const UserChangePassword = ({ setFilter }: any) => {
               required: 'Confirm Password is required!',
               validate: (val: string) => {
                 if (watch('newPassword') != val) {
-                  return 'Your passwords do no match!';
+                  return 'Password and confirm password must match!';
                 }
               },
             })}

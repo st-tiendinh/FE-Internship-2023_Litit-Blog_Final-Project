@@ -29,9 +29,10 @@ const Register = () => {
     register,
     handleSubmit,
     setValue,
+    setError,
     formState: { errors },
     watch,
-  } = useForm<FormData>();
+  } = useForm<FormData>({ mode: 'onChange' });
 
   const [isLoading, setIsLoading] = useState(false);
   const [resError, setResError] = useState();
@@ -170,8 +171,8 @@ const Register = () => {
                 {...register('phone', {
                   required: 'Phone is required!',
                   pattern: {
-                    value: /^[0-9]\d*$/,
-                    message: 'Phone must be number!',
+                    value: /^(?:\+|[0-9])[0-9]{9,10}$/,
+                    message: 'Phone number must be between 10 and 11 digits.',
                   },
                 })}
                 error={errors.phone?.message}
@@ -192,6 +193,23 @@ const Register = () => {
                 })}
                 error={errors.password?.message}
                 onBlur={(e) => handleTrimInput('password', e.target.value)}
+                onChange={(e) => {
+                  const confirmPasswordValue = watch('confirmPassword');
+                  if (
+                    confirmPasswordValue &&
+                    e.target.value !== confirmPasswordValue
+                  ) {
+                    setError('confirmPassword', {
+                      type: 'custom',
+                      message: 'Password and confirm password must match!',
+                    });
+                  } else {
+                    setError('confirmPassword', {
+                      type: 'custom',
+                      message: undefined,
+                    });
+                  }
+                }}
               />
             </div>
             <div className="col col-6">
@@ -201,9 +219,9 @@ const Register = () => {
                 id="confirm-password"
                 {...register('confirmPassword', {
                   required: 'Confirm Password is required!',
-                  validate: (val: string) => {
-                    if (watch('password') != val) {
-                      return 'Your passwords do no match!';
+                  validate: (val) => {
+                    if (val !== watch('password')) {
+                      return 'Password and confirm password must match!';
                     }
                   },
                 })}
