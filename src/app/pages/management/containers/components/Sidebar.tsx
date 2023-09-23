@@ -12,6 +12,18 @@ export const Sidebar = () => {
         </li>
         <li className="menu-item">
           <div className="d-flex menu">
+            <i className="icon icon-follower"></i>
+            <span className="menu-label">Followers</span>
+          </div>
+        </li>
+        <li className="menu-item">
+          <div className="d-flex menu">
+            <i className="icon icon-following"></i>
+            <span className="menu-label">Followings</span>
+          </div>
+        </li>
+        <li className="menu-item">
+          <div className="d-flex menu">
             <i className="icon icon-change-pw"></i>
             <span className="menu-label">Change Password</span>
           </div>
