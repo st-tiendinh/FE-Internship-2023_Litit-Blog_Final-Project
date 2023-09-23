@@ -35,7 +35,7 @@
     }
 
     &-link {
-      color: map-get($colors, "yellow");
+      color: map-get($colors, "white");
       font-size: map-get($font-sizes, "sm");
       transition: text-decoration 0.2s ease;
       text-transform: uppercase;
@@ -44,6 +44,7 @@
       font-weight: map-get($font-weights, "bold");
 
       &.active {
+        color: map-get($colors, "yellow");
         &::after {
           content: "";
           position: absolute;
@@ -68,6 +69,7 @@
       }
 
       &:hover {
+        color: map-get($colors, "yellow");
         &::after {
           width: 100%;
         }
@@ -81,6 +83,7 @@
   }
 
   .action-list {
+    position: relative;
     align-items: center;
     gap: 16px;
 
@@ -93,7 +96,7 @@
         width: 40px;
         height: 40px;
         border-radius: 50%;
-        border: 0.5px solid #eeeeee;
+        border: 1px solid #cfcfcf;
         background-color: white;
       }
       border-radius: 50%;
@@ -101,23 +104,23 @@
     }
 
     .user-action {
-      position: relative;
-
-      .user-avatar-wrapper {
+      .user-name {
+        font-weight: map-get($font-weights, "medium");
+        color: map-get($colors, "white");
+        padding: 8px;
         &:hover {
           cursor: pointer;
-          box-shadow: rgba(255, 255, 255, 0.5) 0px 0px 8px 0px;
         }
       }
     }
 
     .dropdown-menu {
-      width: 210px;
+      width: 250px;
       padding: 6px 10px;
 
       position: absolute;
       z-index: 3;
-      top: calc(100% + 10px);
+      top: calc(100% + 6px);
       right: 0;
 
       color: #404040;
@@ -145,9 +148,13 @@
           border-top: 1px solid #e4e4e4;
         }
 
+        .user-avatar-wrapper {
+          margin-right: 8px;
+        }
+
         .menu-action {
           font-size: 15px;
-          padding: 10px;
+          padding: 12px;
           margin: 6px 0px;
 
           &:hover {
