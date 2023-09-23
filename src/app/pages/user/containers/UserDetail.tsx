@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 
 import { UserProfile } from './components/UserProfile';
 import { UserSideBar } from './components/UserSidebar';
+import PostList from '../../../shared/components/PostList';
 import { Modal } from '../../../shared/components';
 import { UserChangePassword } from './components/UserChangePassword';
 import { UserUpdateProfile } from './components/UserUpdateProfile';
@@ -12,7 +13,6 @@ import JwtHelper from '../../../core/helpers/jwtHelper';
 import { ApiService } from '../../../core/services/api.service';
 import { ENDPOINT } from '../../../../config/endpoint';
 import { RootState } from '../../../app.reducers';
-import PostList from '../../../shared/components/PostList';
 import { PostListType } from '../../home/containers/components/PublicPost';
 
 const apiService = new ApiService();
@@ -152,8 +152,6 @@ const UserDetail = () => {
     <div className="page-user">
       <div className="container">
         <Modal
-          title="Do you want to delete?!!"
-          // type={ModalType.CONFIRM_DELETE}
           action={
             (type === 'delete' && handleSoftDelete) ||
             (type === 'restore' && handleRestore)

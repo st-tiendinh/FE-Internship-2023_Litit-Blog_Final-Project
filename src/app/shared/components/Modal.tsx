@@ -16,7 +16,6 @@ export enum ModalType {
 
 interface ModalPropTypes {
   type?: ModalType;
-  title: string;
   action?: any;
   button?: ReactElement;
 }

@@ -44,6 +44,16 @@ const Like = ({ postId, tooltip }: any) => {
         setLikeNumber(response.likes);
         return response;
       } catch (error) {
+        apiService.setHeaders(jwt.getAuthHeader());
+        const response: any = await apiService.get([
+          ENDPOINT.users.index,
+          'me/posts',
+        ]);
+        const filterPost = response.Posts.find(
+          (item: any) =>
+            item.id.toString() === location.pathname.split('/').pop()
+        );
+        setLikeNumber(filterPost.likes);
         console.log(error);
       }
     })();

@@ -24,6 +24,7 @@ const ArticleDetail = () => {
   const apiService = new ApiService();
   const jwtHelper = new JwtHelper();
   const [post, setPost] = useState<any>({});
+  const [userShortInfo, setUserShortInfo] = useState<any>({});
   const [isValidCover, setIsValidCover] = useState(false);
   const [isValidUserImg, setIsValidUserImg] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -66,16 +67,32 @@ const ArticleDetail = () => {
         setIsLoading(true);
         const response: any = await apiService.get([
           ENDPOINT.posts.index,
-          location.pathname.slice(10),
+          `${location.pathname.split('/').pop()}`,
         ]);
         setPost(response);
+        setUserShortInfo(response.user);
         isLogged &&
           setIsShowButtonEdit(jwtHelper.isCurrentUser(response.userId));
         setIsLoading(false);
-        return response;
-      } catch (error) {
-        navigate('/404');
-        setIsLoading(false);
+      } catch (error: any) {
+        try {
+          apiService.setHeaders(jwtHelper.getAuthHeader());
+          const res: any = await apiService.get([
+            ENDPOINT.users.index,
+            'me/posts',
+          ]);
+          const filterPost = res.Posts.find(
+            (item: any) =>
+              item.id.toString() === location.pathname.split('/').pop()
+          );
+          setPost(filterPost);
+          setUserShortInfo(res);
+          isLogged && setIsShowButtonEdit(jwtHelper.isCurrentUser(res.id));
+          setIsLoading(false);
+        } catch (error) {
+          navigate('/404');
+          console.log(error);
+        }
       }
     })();
   }, [location]);
@@ -87,10 +104,10 @@ const ArticleDetail = () => {
   }, [isValidCover, post.cover]);
 
   useEffect(() => {
-    isImageUrlValid(post.user?.picture).then((isValid) => {
+    isImageUrlValid(userShortInfo.picture).then((isValid) => {
       isValid ? setIsValidUserImg(true) : setIsValidUserImg(false);
     });
-  }, [isValidCover, post.user?.picture]);
+  }, [isValidCover, userShortInfo.picture]);
 
   return (
     <section className="section section-article-detail">
@@ -101,7 +118,7 @@ const ArticleDetail = () => {
               <Like
                 postId={location.pathname.slice(10).toString()}
                 tooltip={isEnoughSpaceForToolTip}
-                userId={post.userId}
+                userId={userShortInfo.id}
               />
               <li onClick={handleCommentClick} className="article-action-item">
                 <span
@@ -133,13 +150,15 @@ const ArticleDetail = () => {
                         <div className="post-author">
                           <img
                             src={
-                              isValidUserImg ? post.user?.picture : BlankUserImg
+                              isValidUserImg
+                                ? userShortInfo.picture
+                                : BlankUserImg
                             }
                             alt="author avatar"
                             className="short-info-author-avatar"
                           />
                           <span className="short-info-author-name">
-                            {post.user?.displayName}
+                            {userShortInfo.displayName}
                           </span>
                         </div>
                       </Link>
