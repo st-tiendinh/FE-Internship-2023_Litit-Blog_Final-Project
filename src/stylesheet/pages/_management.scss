@@ -1,0 +1,33 @@
+.management-page {
+  padding: 16px 0;
+  background-color: rgb(245, 245, 245);
+
+  .sidebar {
+    background-color: white !important;
+    box-shadow: 0 0 0 1px rgba(23, 23, 23, 0.05);
+    border-radius: 4px;
+
+    .menu {
+      &-list {
+        padding: 10px;
+      }
+
+      &-item {
+        padding: 10px;
+        border-radius: 4px;
+        font-weight: map-get($font-weights, "medium");
+
+        &:hover {
+          cursor: pointer;
+          background-color: #fffae6;
+          .menu-label {
+            color: map-get($colors, "dark-yellow");
+          }
+        }
+      }
+
+      align-items: center;
+      gap: 8px;
+    }
+  }
+}

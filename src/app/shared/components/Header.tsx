@@ -155,11 +155,8 @@ export const Header = () => {
                                 </div>
                               </Link>
                             </li>
-                            <Link
-                              to={'/articles/bookmark'}
-                              className="menu-item"
-                            >
-                              <div className="menu-action">Bookmark</div>
+                            <Link to={'/management'} className="menu-item">
+                              <div className="menu-action">Management</div>
                             </Link>
                             <li className="menu-item">
                               <div
