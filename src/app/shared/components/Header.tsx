@@ -42,7 +42,7 @@ export const Header = () => {
 
   const handleSignOut = () => {
     dispatch(signOut());
-
+    closeDropdown();
     navigate('/');
   };
 
@@ -63,6 +63,10 @@ export const Header = () => {
       window.removeEventListener('click', handleOutsideClick);
     };
   }, [setIsOpenDropdown]);
+
+  const closeDropdown = () => {
+    setIsOpenDropdown(false);
+  };
 
   return (
     <header className="header position-sticky">
@@ -155,7 +159,11 @@ export const Header = () => {
                                 </div>
                               </Link>
                             </li>
-                            <Link to={'/management'} className="menu-item">
+                            <Link
+                              to={'/management'}
+                              className="menu-item"
+                              onClick={closeDropdown}
+                            >
                               <div className="menu-action">Management</div>
                             </Link>
                             <li className="menu-item">

@@ -8,6 +8,7 @@ import {
 import { UserManagement } from './UserManagement';
 
 import { RootState } from '../../../../app.reducers';
+import { ChangePasswordManagement } from './ChangePasswordManagement';
 
 export const ManagementContent = () => {
   const { managementType } = useContext(ManagementContext)!;
@@ -18,6 +19,9 @@ export const ManagementContent = () => {
   switch (managementType) {
     case ManagementType.MY_PROFILE:
       return <UserManagement userInfo={userInfo} />;
+
+    case ManagementType.CHANGE_PASSWORD:
+      return <ChangePasswordManagement />;
 
     default:
       return;
