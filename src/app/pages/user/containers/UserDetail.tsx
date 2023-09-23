@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 
 import { UserProfile } from './components/UserProfile';
 import { UserSideBar } from './components/UserSidebar';
-import { ModalType } from '../../../shared/components/Modal';
 import { Modal } from '../../../shared/components';
 import { UserChangePassword } from './components/UserChangePassword';
 import { UserUpdateProfile } from './components/UserUpdateProfile';
@@ -44,7 +43,9 @@ const UserDetail = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [toggleDeletedPost, setToggleDeletedPost] = useState<boolean>(false);
   const [toggleRecyle, setToggleRecyle] = useState<boolean>(false);
-  const isLogged = useSelector((state: RootState) => state.authReducer.isLogged);
+  const isLogged = useSelector(
+    (state: RootState) => state.authReducer.isLogged
+  );
   const location = useLocation();
   const userId = location.pathname.slice(7);
   const isLoggedUser = isLogged ? jwtHelper.isCurrentUser(+userId) : false;
@@ -91,7 +92,9 @@ const UserDetail = () => {
     setIsLoading(true);
     (async () => {
       try {
-        const isCurrentUser = jwtHelper.isCurrentUser(+`${location.pathname.split('/').pop()}`);
+        const isCurrentUser = jwtHelper.isCurrentUser(
+          +`${location.pathname.split('/').pop()}`
+        );
         apiService.setHeaders(jwtHelper.getAuthHeader());
         const response: any = isCurrentUser
           ? await apiService.get([ENDPOINT.users.index, 'me/posts'])
@@ -151,13 +154,14 @@ const UserDetail = () => {
         <Modal
           title="Do you want to delete?!!"
           // type={ModalType.CONFIRM_DELETE}
-          action={(type === 'delete' && handleSoftDelete) || (type === 'restore' && handleRestore)}
+          action={
+            (type === 'delete' && handleSoftDelete) ||
+            (type === 'restore' && handleRestore)
+          }
         />
 
         {isUserLoading ? (
-          <div className="skeleton skeleton-user-profile">
-            <div className="skeleton skeleton-user-avatar"></div>
-          </div>
+          <div className="skeleton skeleton-user-profile"></div>
         ) : (
           <UserProfile
             isLoggedUser={isLoggedUser}
@@ -211,19 +215,28 @@ const UserDetail = () => {
               )}
             </div>
             <div className="col col-8">
-           
-              {filter === 'change-password' && <UserChangePassword setFilter={setFilter} />}
+              {filter === 'change-password' && (
+                <UserChangePassword setFilter={setFilter} />
+              )}
               {filter === 'deleted-post' &&
                 (isLoading ? (
                   <div className="skeleton skeleton-personal-list"></div>
                 ) : (
-                  <PostList posts={userRecycleBin} type={PostListType.LIST} isCanRestore={true} />
+                  <PostList
+                    posts={userRecycleBin}
+                    type={PostListType.LIST}
+                    isCanRestore={true}
+                  />
                 ))}
               {filter === 'public-post' &&
                 (isLoading ? (
                   <div className="skeleton skeleton-personal-list"></div>
                 ) : (
-                  <PostList posts={userPosts} type={PostListType.LIST} isHasAction={true} />
+                  <PostList
+                    posts={userPosts}
+                    type={PostListType.LIST}
+                    isHasAction={true}
+                  />
                 ))}
               {filter === 'update-profile' && <UserUpdateProfile {...user} />}
             </div>

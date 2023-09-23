@@ -44,7 +44,7 @@ export const UserUpdateProfile = (userInfo: any) => {
   const [isUploadLoading, setIsUploadLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [fileExtension, setFileExtension] = useState<string | undefined>(
+  const [fileExtension, setFileExtension] = useState<string | 0 | undefined>(
     undefined
   );
   const [isValidUserImg, setIsValidUserImg] = useState(false);

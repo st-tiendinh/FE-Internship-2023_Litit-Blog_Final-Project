@@ -5,8 +5,6 @@ import BlankUserImage from '../../../assets/images/blank-user.webp';
 
 import { isImageUrlValid } from '../utils/checkValidImage';
 import { formatDate } from '../utils/formatDate';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../app.reducers';
 
 interface CommentProps {
   id: number;
@@ -18,7 +16,6 @@ interface CommentProps {
 }
 
 export const Comment = ({
-  id,
   userId,
   createdAt,
   userImage,
@@ -26,9 +23,6 @@ export const Comment = ({
   comment,
 }: CommentProps) => {
   const [isValidUserImg, setIsValidUserImg] = useState(false);
-  const isLogged = useSelector(
-    (state: RootState) => state.authReducer.isLogged
-  );
 
   useEffect(() => {
     isImageUrlValid(userImage).then((isValid) => {

@@ -49,14 +49,21 @@ interface PostListProps {
   isCanRestore?: boolean;
 }
 
-const PostList = ({ posts, type, isHasAction, isCanRestore }: PostListProps) => {
+const PostList = ({
+  posts,
+  type,
+  isHasAction,
+  isCanRestore,
+}: PostListProps) => {
   return (
     <ul className="post-list row">
       {posts.length ? (
         posts.map((post) => (
           <li
             key={post.id}
-            className={`col col-${type === PostListType.GRID ? '4' : '12'} col-md-6 col-sm-12`}
+            className={`col col-${
+              type === PostListType.GRID ? '4' : '12'
+            } col-md-6 col-sm-12`}
           >
             <div className="post-item">
               <Post

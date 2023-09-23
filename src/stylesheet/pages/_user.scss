@@ -1,13 +1,5 @@
 .page-user {
   min-height: 100vh;
-  padding-top: 64px;
-  background: linear-gradient(
-    to bottom,
-    black 0%,
-    black 128px,
-    transparent 128px,
-    transparent 100%
-  );
 
   .post-item {
     margin-bottom: 16px;
@@ -16,86 +8,68 @@
   .profile-section {
     box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.12);
     border-radius: 12px;
+    margin-top: 16px;
+    padding: 16px 0;
 
     .profile {
-      margin-top: -48px;
-
-      &-header {
-        position: relative;
+      position: relative;
+      &-image {
+        align-items: center;
         justify-content: center;
-
-        .user {
-          &-avatar-wrapper {
-            position: relative;
-            width: 118px;
-            height: 118px;
+      }
+      .user {
+        &-avatar {
+          &-wrapper {
+            width: 128px;
+            height: 128px;
             border-radius: 50%;
-            padding: 8px;
-            background-color: black;
-            z-index: 2;
+            box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+              rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
           }
-
-          &-avatar {
-            border-radius: 50%;
-            height: 100%;
-            background-color: #ffffff;
-          }
-        }
-
-        &-action {
-          width: 100%;
-          padding: 24px 24px 0px;
-
-          position: absolute;
-          right: 0;
-          bottom: 0;
-
-          border-top-right-radius: 8px;
-          border-top-left-radius: 8px;
-
-          justify-content: flex-end;
-          background-color: #ffffff;
+          background-color: #fff;
+          height: 100%;
+          border-radius: 50%;
         }
       }
 
       &-content {
-        background-color: #ffffff;
-        padding: 12px;
-        border-bottom-right-radius: 8px;
-        border-bottom-left-radius: 8px;
-        align-items: center;
-
+        height: 100%;
+        justify-content: flex-end;
         .user {
           &-name {
-            font-size: 27px;
+            font-size: map-get($font-sizes, "2xl");
             font-weight: map-get($font-weights, "medium");
-            line-height: 1.4;
-            margin-bottom: 8px;
-            color: map-get($colors, "primary");
+            margin-bottom: 24px;
           }
 
           &-follow-list {
             margin-bottom: 16px;
-            gap: 64px;
+            gap: 36px;
           }
 
           &-follow-amount {
-            font-size: 18px;
+            font-size: map-get($font-sizes, "xl");
+            color: map-get($colors, "dark-yellow");
             font-weight: map-get($font-weights, "medium");
+            margin-left: 4px;
           }
 
           &-about-list {
-            font-size: map-get($font-sizes, "sm");
-            color: #717171;
-            margin-bottom: 8px;
-            gap: 64px;
+            gap: 42px;
           }
 
           &-about-item {
-            gap: 10px;
-            align-items: center;
+            font-size: map-get($font-sizes, "sm");
+            color: map-get($colors, "secondary-600");
+            gap: 8px;
           }
         }
+      }
+
+      &-button {
+        position: absolute;
+        top: 0;
+        right: 16px;
       }
     }
   }
@@ -153,11 +127,10 @@
 
   .skeleton {
     &-user-profile {
-      display: flex;
-      justify-content: center;
       width: 100%;
-      height: 240px;
+      height: 160px;
       border-radius: 8px;
+      margin-top: 16px;
     }
 
     &-user-avatar {
