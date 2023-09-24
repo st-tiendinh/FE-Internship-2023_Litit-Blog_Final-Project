@@ -88,12 +88,12 @@
     font-size: map-get($font-sizes, sm);
     padding: 6px;
 
+    .icon.icon-restore {
+      background-image: url("../assets/icons/ic-restore-highlight.svg");
+    }
+
     &:hover {
       color: map-get($colors, "dark-yellow");
-
-      .icon.icon-restore {
-        background-image: url("../assets/icons/ic-restore-highlight.svg");
-      }
     }
   }
 
@@ -103,7 +103,6 @@
     justify-content: center;
 
     &:hover {
-
       .icon.icon-three-dots {
         background-image: url("../assets/icons/ic-dots-highlight.svg");
       }
