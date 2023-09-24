@@ -9,6 +9,7 @@ const RESOURCES = {
   posts: environment.apiBaseUrl + 'posts',
   bookmarks: environment.apiBaseUrl + 'bookmarks',
   signatures: environment.apiBaseUrl + 'signatures',
+  friends: environment.apiBaseUrl + 'friends',
 };
 
 export const ENDPOINT = {
@@ -34,5 +35,10 @@ export const ENDPOINT = {
   },
   bookmarks: {
     index: `${RESOURCES.bookmarks}`,
-  }
+  },
+  friends: {
+    followers: `${RESOURCES.friends}/me/followers`,
+    followings: `${RESOURCES.friends}/me/followings`,
+    follow: `${RESOURCES.friends}/follow`,
+  },
 };
