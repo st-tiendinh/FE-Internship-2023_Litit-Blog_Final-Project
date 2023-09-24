@@ -47,7 +47,7 @@
 
   &-image {
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
   }
 
   &-title-input {
@@ -68,7 +68,7 @@
   &-desc-input {
     font-family: "Montserrat", sans-serif;
     font-size: map-get($font-sizes, "xl");
-    font-weight: map-get($font-weights, normal);
+    font-weight: map-get($font-weights, "medium");
     resize: none;
     margin: 16px 0px;
   }
@@ -144,9 +144,25 @@
   }
 
   .ck {
+
     * {
+      font-family: 'Montserrat', sans-serif;
       margin-bottom: 0 !important;
-      line-height: 1.4 !important;
+      line-height: 1.5 !important;
+    }
+
+    p:not(:has(br[data-cke-filler="true"])),
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+      line-height: 1.5 !important;
+      margin-bottom: 14px !important;
+    }
+
+    p>br[data-cke-filler="true"] {
+      margin-bottom: 0;
     }
 
     &.ck-toolbar__items {
