@@ -98,6 +98,15 @@ const ArticleDetail = () => {
   }, [location]);
 
   useEffect(() => {
+    const pTags = document.querySelectorAll('.article-detail-paragraph p');
+    pTags.forEach((pTag) => {
+      if (pTag.textContent === '\u00a0') {
+        (pTag as HTMLElement).style.marginBottom = '0';
+      }
+    });
+  }, [isLoading]);
+
+  useEffect(() => {
     isImageUrlValid(post.cover).then((isValid) => {
       isValid ? setIsValidCover(true) : setIsValidCover(false);
     });
@@ -180,6 +189,10 @@ const ArticleDetail = () => {
                     </Link>
                   )}
                 </div>
+                <div
+                  className="article-detail-desc"
+                  dangerouslySetInnerHTML={{ __html: postDesc }}
+                ></div>
                 {isLoading ? (
                   <div className="article-detail-cover-wrapper skeleton"></div>
                 ) : (
@@ -191,10 +204,6 @@ const ArticleDetail = () => {
                     />
                   </div>
                 )}
-                <div
-                  className="article-detail-desc"
-                  dangerouslySetInnerHTML={{ __html: postDesc }}
-                ></div>
                 <div
                   className="article-detail-paragraph"
                   dangerouslySetInnerHTML={{ __html: clean }}

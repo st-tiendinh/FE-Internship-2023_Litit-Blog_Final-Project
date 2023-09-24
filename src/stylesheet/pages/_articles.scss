@@ -49,6 +49,7 @@
           .short-info-author-name {
             max-width: 400px;
           }
+
           &-tag-list {
             display: flex;
             margin-bottom: 16px;
@@ -72,7 +73,7 @@
             font-size: 20px;
             font-weight: map-get($font-weights, medium);
             line-height: 1.5;
-            margin-bottom: 24px;
+            margin-bottom: 14px;
             color: map-get($colors, "primary");
             word-wrap: break-word;
           }
@@ -95,14 +96,31 @@
           &-cover {
             height: 400px;
             object-fit: cover;
-            margin-bottom: 32px;
-            border-radius: 12px;
+            margin-bottom: 14px;
           }
 
           &-paragraph {
             font-weight: map-get($font-weights, normal);
             line-height: 1.5;
             word-wrap: break-word;
+
+            p {
+              margin-bottom: 14px;
+            }
+
+            em {
+              display: flex;
+              flex-direction: column;
+              gap: 14px;
+            }
+
+            h1,
+            h2,
+            h3,
+            h4,
+            h5 {
+              margin-bottom: 14px;
+            }
           }
         }
       }
