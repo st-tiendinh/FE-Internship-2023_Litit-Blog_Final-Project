@@ -3,6 +3,7 @@ import { useContext } from 'react';
 import { UserManagement } from './UserManagement';
 import { ChangePasswordManagement } from './ChangePasswordManagement';
 import { RecycleBin } from './RecycleBin';
+import { Bookmarks } from './Bookmarks';
 
 import {
   ManagementContext,
@@ -21,6 +22,9 @@ export const ManagementContent = () => {
 
     case ManagementType.RECYCLE_BIN:
       return <RecycleBin />;
+
+    case ManagementType.BOOKMARKS:
+      return <Bookmarks />;
 
     default:
       return;
