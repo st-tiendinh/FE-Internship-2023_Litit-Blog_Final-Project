@@ -12,6 +12,7 @@ import appReducer from './app/app.reducers';
 import appMiddleware from './app/app.middleware';
 
 import { Header, Footer } from './app/shared/components';
+import { Toast } from './app/shared/components/Toast';
 
 const middleware = createSagaMiddleware();
 const store = createStore(appReducer, applyMiddleware(middleware, logger));
@@ -24,6 +25,7 @@ function App() {
       <BrowserRouter>
         <div className="app">
           <AppSuspense fallback={<></>}>
+            <Toast />
             <Header />
             <RouterOutlet routes={appRoutes} />
             <Footer />
