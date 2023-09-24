@@ -99,14 +99,12 @@ const ArticleDetail = () => {
 
   useEffect(() => {
     const pTags = document.querySelectorAll('.article-detail-paragraph p');
-    console.log(pTags);
     pTags.forEach((pTag) => {
       if (pTag.textContent === '\u00a0') {
-        console.log(pTag);
         (pTag as HTMLElement).style.marginBottom = '0';
       }
     });
-  }, [post]);
+  }, [isLoading]);
 
   useEffect(() => {
     isImageUrlValid(post.cover).then((isValid) => {
