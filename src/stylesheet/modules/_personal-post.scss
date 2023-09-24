@@ -109,6 +109,12 @@
     margin-bottom: 13px;
   }
 
+  &-action-popper {
+    .icon-restore {
+      color: map-get($colors, "yellow");
+    }
+  }
+
   &-action-group {
     display: flex;
     align-items: center;

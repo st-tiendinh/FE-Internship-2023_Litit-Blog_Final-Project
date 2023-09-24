@@ -1,8 +1,14 @@
+import { useEffect } from 'react';
+
 import { ManagementProvider } from '../../../../context/ManagementContext';
 import { ManagementContent } from './components/ManagementContent';
 import { Sidebar } from './components/Sidebar';
 
 const Management = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <ManagementProvider>
       <div className="management-page">

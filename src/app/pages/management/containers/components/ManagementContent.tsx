@@ -1,27 +1,26 @@
 import { useContext } from 'react';
-import { useSelector } from 'react-redux';
+
+import { UserManagement } from './UserManagement';
+import { ChangePasswordManagement } from './ChangePasswordManagement';
+import { RecycleBin } from './RecycleBin';
 
 import {
   ManagementContext,
   ManagementType,
 } from '../../../../../context/ManagementContext';
-import { UserManagement } from './UserManagement';
-
-import { RootState } from '../../../../app.reducers';
-import { ChangePasswordManagement } from './ChangePasswordManagement';
 
 export const ManagementContent = () => {
   const { managementType } = useContext(ManagementContext)!;
-  const userInfo = useSelector(
-    (state: RootState) => state.authReducer.userInfo
-  );
 
   switch (managementType) {
     case ManagementType.MY_PROFILE:
-      return <UserManagement userInfo={userInfo} />;
+      return <UserManagement />;
 
     case ManagementType.CHANGE_PASSWORD:
       return <ChangePasswordManagement />;
+
+    case ManagementType.RECYCLE_BIN:
+      return <RecycleBin />;
 
     default:
       return;
