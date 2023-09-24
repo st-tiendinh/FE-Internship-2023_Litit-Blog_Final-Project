@@ -26,7 +26,11 @@ interface FormData {
 const apiService = new ApiService();
 const jwt = new JwtHelper();
 
-export const UserManagement = ({ userInfo }: any) => {
+export const UserManagement = () => {
+  const userInfo = useSelector(
+    (state: RootState) => state.authReducer.userInfo
+  );
+
   const user = {
     firstName: userInfo.firstName,
     lastName: userInfo.lastName,
