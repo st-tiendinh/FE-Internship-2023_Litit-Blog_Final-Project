@@ -128,7 +128,8 @@
     }
   }
 
-  .section-recycle-bin {
+  .section-recycle-bin,
+  .section-bookmarks {
     margin-block: -10px;
     .post-item {
       padding-block: 10px;
@@ -207,6 +208,15 @@
     &-message {
       text-align: center;
       width: 100%;
+    }
+  }
+
+  .skeleton {
+    &-personal-list {
+      margin-top: 10px;
+      width: 100%;
+      height: 176px;
+      border-radius: 8px;
     }
   }
 }

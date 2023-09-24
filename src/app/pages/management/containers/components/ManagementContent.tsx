@@ -5,6 +5,7 @@ import { ChangePasswordManagement } from './ChangePasswordManagement';
 import { RecycleBin } from './RecycleBin';
 import { ListFollowers } from './ListFollowers';
 import { ListFollowings } from './ListFollowings';
+import { Bookmarks } from './Bookmarks';
 
 import {
   ManagementContext,
@@ -29,6 +30,9 @@ export const ManagementContent = () => {
 
     case ManagementType.LIST_FOLLOWINGS:
       return <ListFollowings />;
+
+    case ManagementType.BOOKMARKS:
+      return <Bookmarks />;
 
     default:
       return;
