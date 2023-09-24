@@ -9,3 +9,4 @@ export { Spinner } from './Spinner';
 export { Sidebar } from './Sidebar';
 export { Modal } from './Modal';
 export { ConfirmModal } from './ConfirmModal';
+export { ToggleButton } from './ToggleButton';

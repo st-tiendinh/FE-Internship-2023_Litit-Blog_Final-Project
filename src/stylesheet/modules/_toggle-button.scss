@@ -1,6 +1,9 @@
 .toggle-button {
+  cursor: pointer;
+
   &-wrapper {
     position: relative;
+    display: inline-block;
     width: 160px;
     height: 40px;
   }
@@ -8,14 +11,15 @@
   appearance: none;
   width: 160px;
   height: 40px;
-  border-radius: 25px;
+  border-radius: 4px;
   outline: none;
 
   &::before,
   &::after {
     z-index: 2;
     position: absolute;
-    top: -60%;
+    top: 50%;
+    transform: translateY(-50%);
     font-weight: map-get($font-weights, bold);
   }
 
@@ -36,9 +40,9 @@
   &-label {
     z-index: 1;
     position: absolute;
-    top: -21px;
-    bottom: 8px;
-    border-radius: 20px;
+    top: 4px;
+    bottom: 4px;
+    border-radius: 4px;
   }
 
   transition: 0.25s;
@@ -53,7 +57,7 @@
     transition: color 0.5s;
   }
 
-  &:checked + label {
+  &:checked+label {
     left: 4px;
     right: 80px;
     background: #00a8f4;
@@ -75,7 +79,7 @@
     transition: color 0.5s 0.1s;
   }
 
-  &:not(:checked) + label {
+  &:not(:checked)+label {
     left: 80px;
     right: 4px;
     background: #ff9800;

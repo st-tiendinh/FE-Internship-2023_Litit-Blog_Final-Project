@@ -8,8 +8,14 @@ import { ApiService } from '../../../../core/services/api.service';
 import JwtHelper from '../../../../core/helpers/jwtHelper';
 import { ENDPOINT } from '../../../../../config/endpoint';
 import { PostStatus } from '../../../user/containers/UserDetail';
-import { isImageUrlValid } from '../../../../shared/utils/checkValidImage';
 import BlankPostImg from '../../../../../assets/images/blank-post.png';
+import {
+  TypeUpload,
+  UploadImageService,
+} from '../../../../core/services/uploadImage.service';
+
+import { isImageUrlValid } from '../../../../shared/utils/checkValidImage';
+import { ToggleButton } from '../../../../shared/components';
 
 const apiService = new ApiService();
 const jwt = new JwtHelper();
@@ -26,6 +32,8 @@ interface ArticleEditorProps {
 
 export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
   const [error, setError] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const [titleInput, setTitleInput] = useState<string>(
     type === PostAction.UPDATE ? data.title : ''
   );
@@ -39,9 +47,20 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
   );
   const [tagItemValue, SetTagItemValue] = useState('');
   const [contentValue, setContentValue] = useState<string>('');
-  const [statusValue, setStatusValue] = useState<string>(
-    type === PostAction.UPDATE ? data.status : PostStatus.PUBLIC
+  const [isPublic, setIsPublic] = useState<boolean>(
+    type === PostAction.UPDATE
+      ? data.status === PostStatus.PUBLIC
+        ? true
+        : false
+      : true
   );
+
+  const [imageUrl, setImageUrl] = useState<string | undefined>(
+    type === PostAction.UPDATE ? data.cover : undefined
+  );
+
+  const [imageFile, setImageFile] = useState<any>(null);
+  const [isValidCover, setIsValidCover] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -49,17 +68,6 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
   const tagInputRef = useRef<any>(null);
   const titleInputRef = useRef<any>(null);
   const descInputRef = useRef<any>(null);
-
-  const [nameImage, setNameImage] = useState<string | undefined>(undefined);
-  const [fileExtension, setFileExtension] = useState<string | undefined>(
-    undefined
-  );
-  const [imageUrl, setImageUrl] = useState<string | undefined>(
-    type === PostAction.UPDATE ? data.cover : undefined
-  );
-
-  const [imageFile, setImageFile] = useState<any>({});
-  const [isValidCover, setIsValidCover] = useState(false);
 
   useEffect(() => {
     if (type === PostAction.UPDATE) {
@@ -69,14 +77,28 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
     }
   }, [isValidCover, data?.cover]);
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file: any = event.target.files?.[0];
-    setImageFile(file);
-    const filenameParts = file?.name.split('.');
-    const getExtension = filenameParts?.length && filenameParts.pop();
-    setFileExtension(getExtension);
-    const firstElement = filenameParts?.shift();
-    setNameImage(firstElement);
+  const handleImage = (file: File | null) => {
+    if (file) {
+      setImageFile(file);
+    }
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    const file = e.dataTransfer.files[0];
+    handleImage(file);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files && e.target.files[0];
+    handleImage(file);
+  };
+
+  const handleImageClick = () => {
+    const fileInput = document.getElementById('file-input');
+    if (fileInput) {
+      fileInput.click();
+    }
   };
 
   const handleChangeTitle = () => {
@@ -121,27 +143,43 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
     );
   };
 
+  const handleUploadImage = async (typeUpload: TypeUpload) => {
+    const uploadImgService = new UploadImageService(apiService, jwt);
+    if (imageFile) {
+      const fileName = imageFile.name.split('.').shift();
+      const url: string = await uploadImgService.uploadImage(
+        typeUpload,
+        fileName,
+        'image/jpg',
+        imageFile
+      );
+      setImageUrl(url);
+      return url;
+    }
+    return imageUrl;
+  };
+
   const handleSubmitData = () => {
     (async () => {
       try {
-        apiService.setHeaders(jwt.getAuthHeader());
+        setIsLoading(true);
+        const url = await handleUploadImage(TypeUpload.COVER_POST);
         const postData = {
           title: titleValue,
-          cover: imageUrl,
+          cover: url,
           content: contentValue,
-          status: statusValue,
+          status: isPublic ? PostStatus.PUBLIC : PostStatus.PRIVATE,
           description: descValue,
           tags: tagItems,
         };
-        const response = await apiService.post(
-          [ENDPOINT.posts.index],
-          postData
-        );
+        apiService.setHeaders(jwt.getAuthHeader());
+        await apiService.post([ENDPOINT.posts.index], postData);
+        setIsLoading(false);
         navigate('/');
-        return response;
       } catch (error: any) {
         setError(error.response.data.errors[0]);
         window.scrollTo(0, 0);
+        setIsLoading(false);
       }
     })();
   };
@@ -149,21 +187,21 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
   const handleUpdateData = () => {
     (async () => {
       try {
-        apiService.setHeaders(jwt.getAuthHeader());
+        const url = await handleUploadImage(TypeUpload.COVER_POST);
         const postUpdated = {
           title: titleValue,
-          cover: imageUrl,
+          cover: url,
           content: contentValue,
-          status: statusValue,
+          status: isPublic ? PostStatus.PUBLIC : PostStatus.PRIVATE,
           description: descValue,
           tags: tagItems,
         };
-        const response = await apiService.put(
+        apiService.setHeaders(jwt.getAuthHeader());
+        await apiService.put(
           [ENDPOINT.posts.index, `${location.pathname.split('/').pop()}`],
           postUpdated
         );
         navigate(-1);
-        return response;
       } catch (error) {
         console.log(error);
       }
@@ -206,32 +244,7 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
     };
   }
 
-  useEffect(() => {
-    const getImage = async () => {
-      if (nameImage && fileExtension) {
-        try {
-          apiService.setHeaders(jwt.getAuthHeader());
-          const uploadType = 'cover-post';
-          const params = `?type_upload=${uploadType}&file_name=${nameImage}&file_type=image/png}`;
-          const res: any = await apiService.get([
-            ENDPOINT.signatures.index,
-            `${params}`,
-          ]);
-          if (res && res.url && res.signedRequest) {
-            await axios
-              .put(res.signedRequest, imageFile)
-              .then((err) => console.log(err));
-            setImageUrl(res.url);
-          } else {
-            console.error('Invalid response from API:', res);
-          }
-        } catch (error) {
-          console.error('Error in API call:', error);
-        }
-      }
-    };
-    getImage();
-  }, [imageFile]);
+  console.log(imageFile && URL.createObjectURL(imageFile));
 
   return (
     <div className="article-editor">
@@ -244,35 +257,63 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
         </div>
       )}
       <div className="article-editor-form">
-        <label
-          htmlFor="article-editor-cover-upload"
-          className="article-editor-upload-label"
+        <div
+          className="article-editor-drop-zone"
+          onDrop={handleDrop}
+          onDragOver={(e) => e.preventDefault()}
         >
-          {imageUrl ? 'Change image' : 'Add a cover image'}
           <input
             type="file"
+            id="file-input"
             accept="image/*"
-            onChange={handleFileChange}
-            className="article-editor-cover-upload"
-            name=""
-            id="article-editor-cover-upload"
+            style={{ display: 'none' }}
+            onChange={handleInputChange}
           />
-        </label>
-
-        {!!imageUrl && (
-          <div className="article-editor-preview-cover">
+          {imageFile && type === PostAction.CREATE ? (
             <img
-              src={
-                type === PostAction.UPDATE
-                  ? isValidCover
-                    ? imageUrl
-                    : BlankPostImg
-                  : imageUrl
-              }
+              src={URL.createObjectURL(imageFile)}
+              alt="Uploaded"
+              onClick={handleImageClick}
               className="article-editor-image"
             />
-          </div>
-        )}
+          ) : (
+            ''
+          )}
+          {imageUrl ? (
+            imageFile ? (
+              <img
+                src={
+                  type === PostAction.UPDATE
+                    ? URL.createObjectURL(imageFile)
+                    : imageUrl
+                }
+                alt="Uploaded"
+                onClick={handleImageClick}
+                className="article-editor-image"
+              />
+            ) : (
+              <img
+                src={
+                  type === PostAction.UPDATE
+                    ? isValidCover
+                      ? imageUrl
+                      : BlankPostImg
+                    : URL.createObjectURL(imageFile)
+                }
+                alt="Uploaded"
+                onClick={handleImageClick}
+                className="article-editor-image"
+              />
+            )
+          ) : null}
+          {!imageFile && !imageUrl ? (
+            <p onClick={handleImageClick}>
+              Drag and drop photo here or click to select photo
+            </p>
+          ) : (
+            ''
+          )}
+        </div>
 
         <textarea
           className="article-editor-title-input"
@@ -292,52 +333,33 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
           onBlur={handleSubmitDesc}
         ></textarea>
 
-        <div className="article-editor-form-group">
-          <div className="article-editor-tags-search-group">
-            {tagItems.length < 4 && (
-              <input
-                type="text"
-                className="article-editor-tags-search"
-                placeholder="Add up to 4 tags..."
-                value={tagItemValue}
-                ref={tagInputRef}
-                onChange={handleTagChange}
-                onKeyUp={handleTagEnter}
-                onSubmit={(e) => e.preventDefault()}
-              />
-            )}
+        <div className="article-editor-tags-search-group">
+          {tagItems.length < 4 && (
+            <input
+              type="text"
+              className="article-editor-tags-search"
+              placeholder="Add up to 4 tags..."
+              value={tagItemValue}
+              ref={tagInputRef}
+              onChange={handleTagChange}
+              onKeyUp={handleTagEnter}
+              onSubmit={(e) => e.preventDefault()}
+            />
+          )}
 
-            <ul className="article-editor-tag-list">
-              {tagItems.map((item, index) => (
-                <li
-                  key={index}
-                  className="article-editor-tag-item"
-                  onClick={() => handleDeleteTagItem(index)}
-                >
-                  <span className="badge badge-primary text-truncate">
-                    {item}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="article-editor-post-status">
-            <select
-              name=""
-              id=""
-              value={statusValue}
-              className="article-editor-status-select"
-              onChange={(choice: any) => setStatusValue(choice.target.value)}
-            >
-              <option value="public" className="article-editor-status-option">
-                public
-              </option>
-              <option value="private" className="article-editor-status-option">
-                private
-              </option>
-            </select>
-          </div>
+          <ul className="article-editor-tag-list">
+            {tagItems.map((item, index) => (
+              <li
+                key={index}
+                className="article-editor-tag-item"
+                onClick={() => handleDeleteTagItem(index)}
+              >
+                <span className="badge badge-primary text-truncate">
+                  {item}
+                </span>
+              </li>
+            ))}
+          </ul>
         </div>
 
         <CKEditor
@@ -352,16 +374,18 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
           }}
         />
         <div className="article-editor-form-action">
-          {(type === PostAction.CREATE && (
-            <button className="btn btn-primary" onClick={handleSubmitData}>
-              Publish
-            </button>
-          )) ||
-            (type === PostAction.UPDATE && (
-              <button className="btn btn-primary" onClick={handleUpdateData}>
-                Update
-              </button>
-            ))}
+          <div className="article-editor-post-status">
+            <ToggleButton isPublic={isPublic} setIsPublic={setIsPublic} />
+          </div>
+          <button
+            className={`btn btn-primary ${isLoading ? 'loading' : ''}`}
+            disabled={isLoading}
+            onClick={
+              type === PostAction.CREATE ? handleSubmitData : handleUpdateData
+            }
+          >
+            Save
+          </button>
         </div>
       </div>
     </div>

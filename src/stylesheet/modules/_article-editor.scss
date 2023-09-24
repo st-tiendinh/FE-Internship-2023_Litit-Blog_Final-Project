@@ -24,6 +24,16 @@
     padding: 32px;
   }
 
+  &-drop-zone {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px dashed #ccc;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+  }
+
   &-upload-label {
     display: inline-block;
     text-align: center;
@@ -46,8 +56,7 @@
   }
 
   &-image {
-    height: 100%;
-    width: 618px;
+    height: 400px;
     object-fit: cover;
   }
 
@@ -75,12 +84,11 @@
   }
 
   &-tags-search-group {
-    display: flex;
-    align-items: center;
-    width: 20%;
+    margin-bottom: 16px;
   }
 
   &-tags-search {
+    width: 100%;
     font-size: map-get($font-sizes, md);
     font-weight: map-get($font-weights, normal);
     padding: 10px 0;
@@ -93,15 +101,25 @@
 
   &-tag-list {
     display: flex;
-    gap: 4px;
-    margin-left: 20px;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-right: 20px;
   }
 
   &-tag-item {
+    display: inline-block;
+    max-width: 100%;
     cursor: pointer;
+
+    .badge.text-truncate {
+      max-width: 100%;
+    }
   }
 
-  &-preview-cover {
+  &-cover-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     padding: 20px 0;
     height: 400px;
     overflow: hidden;
@@ -134,9 +152,8 @@
   &-form-action {
     margin-top: 20px;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
-    gap: 30px;
   }
 
   &-upload-error {
