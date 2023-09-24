@@ -10,14 +10,6 @@ export enum ToastTypes {
   WARNING = 'warning',
 }
 
-// interface ToastProps {
-//   type: ToastTypes;
-//   title: string;
-//   desc: string;
-//   isShow: boolean;
-//   onClose: () => void;
-// }
-
 export const Toast = () => {
   const dispatch = useDispatch();
   const message = useSelector((state: RootState) => state.toastReducer.message);
