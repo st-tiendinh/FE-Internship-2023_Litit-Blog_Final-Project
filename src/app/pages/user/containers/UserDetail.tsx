@@ -4,10 +4,7 @@ import { useSelector } from 'react-redux';
 
 import { UserProfile } from './components/UserProfile';
 import { UserSideBar } from './components/UserSidebar';
-import PostList from '../../../shared/components/PostList';
-import { Modal } from '../../../shared/components';
-import { UserChangePassword } from './components/UserChangePassword';
-import { UserUpdateProfile } from './components/UserUpdateProfile';
+import PostList, { PostStatus } from '../../../shared/components/PostList';
 
 import JwtHelper from '../../../core/helpers/jwtHelper';
 import { ApiService } from '../../../core/services/api.service';
@@ -18,75 +15,17 @@ import { PostListType } from '../../home/containers/components/PublicPost';
 const apiService = new ApiService();
 const jwtHelper = new JwtHelper();
 
-export enum PostStatus {
-  PUBLIC = 'public',
-  PRIVATE = 'private',
-}
-
-export enum PersonalPostAction {
-  RECYCLE = 'recycle',
-  DELETE = 'delete',
-}
-
-type FilterType =
-  | 'public-post'
-  | 'deleted-post'
-  | 'change-password'
-  | 'update-profile';
-
 const UserDetail = () => {
   const [user, setUser] = useState<any>({});
-  const [userRecycleBin, setUserRecycleBin] = useState<any>([]);
-  const [isUserLoading, setIsUserLoading] = useState<boolean>(false);
   const [userStatistic, setUserStatistic] = useState<any>({});
   const [userPosts, setUserPost] = useState<any>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [toggleDeletedPost, setToggleDeletedPost] = useState<boolean>(false);
-  const [toggleRecyle, setToggleRecyle] = useState<boolean>(false);
   const isLogged = useSelector(
     (state: RootState) => state.authReducer.isLogged
   );
   const location = useLocation();
   const userId = location.pathname.slice(7);
   const isLoggedUser = isLogged ? jwtHelper.isCurrentUser(+userId) : false;
-  const id = useSelector((state: RootState) => state.modalReducer.id);
-  const [filter, setFilter] = useState<FilterType>('public-post');
-
-  const handleSoftDelete = () => {
-    (async () => {
-      apiService.setHeaders(jwtHelper.getAuthHeader());
-      await apiService.delete([ENDPOINT.posts.index, `${id}`]);
-      setToggleDeletedPost(!toggleDeletedPost);
-    })();
-  };
-
-  const handleRestore = () => {
-    (async () => {
-      try {
-        apiService.setHeaders(jwtHelper.getAuthHeader());
-        await apiService.put([ENDPOINT.posts.index, `${id}/restore`]);
-        setToggleRecyle(!toggleRecyle);
-      } catch (error) {
-        console.log(error);
-      }
-    })();
-  };
-
-  useEffect(() => {
-    setIsUserLoading(true);
-    (async () => {
-      try {
-        apiService.setHeaders(jwtHelper.getAuthHeader());
-        const response: any = await apiService.get([ENDPOINT.posts.recyclebin]);
-
-        setUserRecycleBin(response.data);
-        setIsUserLoading(false);
-      } catch (error) {
-        console.log(error);
-        setIsUserLoading(false);
-      }
-    })();
-  }, [location, toggleDeletedPost, toggleRecyle]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -140,70 +79,21 @@ const UserDetail = () => {
         setIsLoading(false);
       }
     })();
-  }, [location, toggleDeletedPost, toggleRecyle]);
+  }, [location, isLoggedUser, userId]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const type = useSelector((state: RootState) => state.modalReducer.type);
-
   return (
     <div className="page-user">
       <div className="container">
-        <Modal
-          action={
-            (type === 'delete' && handleSoftDelete) ||
-            (type === 'restore' && handleRestore)
-          }
-        />
-
-        {isUserLoading ? (
+        {isLoading ? (
           <div className="skeleton skeleton-user-profile"></div>
         ) : (
-          <UserProfile
-            isLoggedUser={isLoggedUser}
-            user={user}
-            setFilter={setFilter}
-          />
+          <UserProfile isLoggedUser={isLoggedUser} user={user} />
         )}
         <section className="section section-wrapper">
-          {jwtHelper.getUserInfo().userId.toString() === userId && (
-            <ul className="filter">
-              <li
-                onClick={() => setFilter('public-post')}
-                className={`filter-item ${
-                  filter === 'public-post' ? 'active' : ''
-                }`}
-              >
-                My posts
-              </li>
-              <li
-                onClick={() => setFilter('deleted-post')}
-                className={`filter-item ${
-                  filter === 'deleted-post' ? 'active' : ''
-                }`}
-              >
-                Deleted posts
-              </li>
-              <li
-                onClick={() => setFilter('update-profile')}
-                className={`filter-item ${
-                  filter === 'update-profile' ? 'active' : ''
-                }`}
-              >
-                My Profile
-              </li>
-              <li
-                onClick={() => setFilter('change-password')}
-                className={`filter-item ${
-                  filter === 'change-password' ? 'active' : ''
-                }`}
-              >
-                Change password
-              </li>
-            </ul>
-          )}
           <div className="row">
             <div className="col col-4">
               {isLoading ? (
@@ -213,30 +103,15 @@ const UserDetail = () => {
               )}
             </div>
             <div className="col col-8">
-              {filter === 'change-password' && (
-                <UserChangePassword setFilter={setFilter} />
+              {isLoading ? (
+                <div className="skeleton skeleton-personal-list"></div>
+              ) : (
+                <PostList
+                  posts={userPosts}
+                  type={PostListType.LIST}
+                  isHasAction={true}
+                />
               )}
-              {filter === 'deleted-post' &&
-                (isLoading ? (
-                  <div className="skeleton skeleton-personal-list"></div>
-                ) : (
-                  <PostList
-                    posts={userRecycleBin}
-                    type={PostListType.LIST}
-                    isCanRestore={true}
-                  />
-                ))}
-              {filter === 'public-post' &&
-                (isLoading ? (
-                  <div className="skeleton skeleton-personal-list"></div>
-                ) : (
-                  <PostList
-                    posts={userPosts}
-                    type={PostListType.LIST}
-                    isHasAction={true}
-                  />
-                ))}
-              {filter === 'update-profile' && <UserUpdateProfile {...user} />}
             </div>
           </div>
         </section>
