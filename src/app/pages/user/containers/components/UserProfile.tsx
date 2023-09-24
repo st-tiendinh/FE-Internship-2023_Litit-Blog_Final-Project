@@ -1,15 +1,55 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+
 import BlankUserImage from '../../../../../assets/images/blank-user.webp';
+
 import { isImageUrlValid } from '../../../../shared/utils/checkValidImage';
+import { ApiService } from '../../../../core/services/api.service';
+import JwtHelper from '../../../../core/helpers/jwtHelper';
+import { ENDPOINT } from '../../../../../config/endpoint';
+
+const apiService = new ApiService();
+const jwtHelper = new JwtHelper();
 
 export const UserProfile = ({ isLoggedUser, user }: any) => {
   const [isValidUserImg, setIsValidUserImg] = useState(false);
+  const [isFollowed, setIsFollowed] = useState<boolean>(false);
+
+  useEffect(() => {
+    apiService.setHeaders(jwtHelper.getAuthHeader());
+    (async () => {
+      try {
+        const response: any = await apiService.get([
+          ENDPOINT.friends.followings,
+        ]);
+        setIsFollowed(
+          response.filter((item: any) => item.id === user.id).length
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, []);
 
   useEffect(() => {
     isImageUrlValid(user.picture).then((isValid) => {
       isValid ? setIsValidUserImg(true) : setIsValidUserImg(false);
     });
   }, [isValidUserImg, user.picture]);
+
+  const handleFollow = () => {
+    (async () => {
+      try {
+        apiService.setHeaders(jwtHelper.getAuthHeader());
+        await apiService.post([ENDPOINT.friends.follow], {
+          followingId: user.id,
+        });
+        setIsFollowed(!isFollowed);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  };
 
   return (
     <section className="section profile-section">
@@ -64,9 +104,13 @@ export const UserProfile = ({ isLoggedUser, user }: any) => {
         </div>
         <div className="profile-button">
           {isLoggedUser ? (
-            <button className="btn btn-primary">Update Profile</button>
+            <Link to="/management" className="btn btn-primary">
+              Update Profile
+            </Link>
           ) : (
-            <button className="btn btn-primary">Follow</button>
+            <button onClick={handleFollow} className="btn btn-primary">
+              {isFollowed ? 'Followed' : 'Follow'}
+            </button>
           )}
         </div>
       </div>
