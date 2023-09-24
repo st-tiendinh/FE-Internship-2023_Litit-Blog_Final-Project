@@ -7,9 +7,9 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { ApiService } from '../../../../core/services/api.service';
 import JwtHelper from '../../../../core/helpers/jwtHelper';
 import { ENDPOINT } from '../../../../../config/endpoint';
-import { PostStatus } from '../../../user/containers/UserDetail';
 import { isImageUrlValid } from '../../../../shared/utils/checkValidImage';
 import BlankPostImg from '../../../../../assets/images/blank-post.png';
+import { PostStatus } from '../../../../shared/components/PostList';
 
 const apiService = new ApiService();
 const jwt = new JwtHelper();
