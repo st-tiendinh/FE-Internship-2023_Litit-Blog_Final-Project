@@ -29,26 +29,16 @@
     justify-content: center;
     align-items: center;
     border: 2px dashed #ccc;
-    padding: 20px;
     text-align: center;
     cursor: pointer;
   }
 
-  &-upload-label {
-    display: inline-block;
-    text-align: center;
-    padding: 10px;
-    border: 2px solid #eee;
-    border-radius: 6px;
-    width: 180px;
-    font-size: map-get($font-sizes, md);
-    font-weight: map-get($font-weights, "medium");
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-    cursor: pointer;
+  &-drop-zone-text {
+    padding: 20px 170px;
+  }
 
-    &:hover {
-      box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    }
+  &-upload-input {
+    display: none;
   }
 
   &-cover-upload {

@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { formatDate } from '../utils/formatDate';
 import { isImageUrlValid } from '../utils/checkValidImage';
 import BlankPostImg from '../../../assets/images/blank-post.png';
 import BlankUserImg from '../../../assets/images/blank-user.webp';
-import { Link, useLocation } from 'react-router-dom';
 import { PostListType } from '../../pages/home/containers/components/PublicPost';
-import { useDispatch } from 'react-redux';
 import {
   setConfirmModalId,
   setConfirmModalType,
@@ -14,6 +14,7 @@ import {
 } from '../../../redux/actions/modal';
 import JwtHelper from '../../core/helpers/jwtHelper';
 import { PostStatus } from './PostList';
+import { RootState } from '../../app.reducers';
 
 interface PostProps {
   id: number;
@@ -54,8 +55,12 @@ export const Post = ({
   const [isValidUserImg, setIsValidUserImg] = useState(false);
   const formattedDate = formatDate(postedDate);
   const dispatch = useDispatch();
-  const location = useLocation();
-  const currentUserId = location.pathname.split('/').pop();
+  const isLogged = useSelector(
+    (state: RootState) => state.authReducer.isLogged
+  );
+  const currentUserId = useSelector(
+    (state: RootState) => state.authReducer.userInfo?.userId
+  );
 
   const handleDelete = (id: number) => {
     dispatch(setConfirmModalId(id));
@@ -183,46 +188,50 @@ export const Post = ({
                   </li>
                 ))}
               </ul>
-              {isHasAction && jwtHelper.isCurrentUser(+`${currentUserId}`) && (
-                <div className="personal-post-options">
-                  <span className="btn btn-three-dots">
-                    <i className="icon icon-three-dots"></i>
-                    <div className="personal-post-action-popper">
-                      <Link
-                        to={`/articles/update/${id}`}
-                        className="btn btn-edit"
-                      >
-                        <i className="icon icon-pen"></i>
-                        Edit
-                      </Link>
-                      <span
-                        className="btn btn-delete"
-                        onClick={() => handleDelete(id)}
-                      >
-                        <i className="icon icon-bin"></i>
-                        Delete
-                      </span>
-                    </div>
-                  </span>
-                </div>
-              )}
+              {isLogged &&
+                isHasAction &&
+                jwtHelper.isCurrentUser(+`${currentUserId}`) && (
+                  <div className="personal-post-options">
+                    <span className="btn btn-three-dots">
+                      <i className="icon icon-three-dots"></i>
+                      <div className="personal-post-action-popper">
+                        <Link
+                          to={`/articles/update/${id}`}
+                          className="btn btn-edit"
+                        >
+                          <i className="icon icon-pen"></i>
+                          Edit
+                        </Link>
+                        <span
+                          className="btn btn-delete"
+                          onClick={() => handleDelete(id)}
+                        >
+                          <i className="icon icon-bin"></i>
+                          Delete
+                        </span>
+                      </div>
+                    </span>
+                  </div>
+                )}
               {/* button restore */}
-              {isCanRestore && jwtHelper.isCurrentUser(+`${currentUserId}`) && (
-                <div className="personal-post-action">
-                  <span className="btn btn-three-dots">
-                    <i className="icon icon-three-dots"></i>
-                    <div className="personal-post-action-popper">
-                      <span
-                        className="btn btn-restore"
-                        onClick={() => handleRestore(id)}
-                      >
-                        <i className="icon icon-restore"></i>
-                        Restore
-                      </span>
-                    </div>
-                  </span>
-                </div>
-              )}
+              {isLogged &&
+                isCanRestore &&
+                jwtHelper.isCurrentUser(+`${currentUserId}`) && (
+                  <div className="personal-post-action">
+                    <span className="btn btn-three-dots">
+                      <i className="icon icon-three-dots"></i>
+                      <div className="personal-post-action-popper">
+                        <span
+                          className="btn btn-restore"
+                          onClick={() => handleRestore(id)}
+                        >
+                          <i className="icon icon-restore"></i>
+                          Restore
+                        </span>
+                      </div>
+                    </span>
+                  </div>
+                )}
             </div>
             <div className="personal-post-title-wrapper">
               <Link to={`/articles/${id.toString()}`}>
@@ -257,19 +266,21 @@ export const Post = ({
                 <span className="short-info-dot-symbol">&#x2022;</span>
                 <span className="short-info-timestamp">{formattedDate}</span>
               </div>
-              {isHasAction && jwtHelper.isCurrentUser(+`${currentUserId}`) && (
-                <div className="short-info-status">
-                  <span className="badge badge-status">
-                    {(status === PostStatus.PUBLIC && (
-                      <i className="icon icon-earth"></i>
-                    )) ||
-                      (status === PostStatus.PRIVATE && (
-                        <i className="icon icon-lock"></i>
-                      ))}
-                    {status}
-                  </span>
-                </div>
-              )}
+              {isLogged &&
+                isHasAction &&
+                jwtHelper.isCurrentUser(+`${currentUserId}`) && (
+                  <div className="short-info-status">
+                    <span className="badge badge-status">
+                      {(status === PostStatus.PUBLIC && (
+                        <i className="icon icon-earth"></i>
+                      )) ||
+                        (status === PostStatus.PRIVATE && (
+                          <i className="icon icon-lock"></i>
+                        ))}
+                      {status}
+                    </span>
+                  </div>
+                )}
             </div>
           </div>
         </div>

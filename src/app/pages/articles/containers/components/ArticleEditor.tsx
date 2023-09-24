@@ -7,7 +7,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { ApiService } from '../../../../core/services/api.service';
 import JwtHelper from '../../../../core/helpers/jwtHelper';
 import { ENDPOINT } from '../../../../../config/endpoint';
-import { PostStatus } from '../../../user/containers/UserDetail';
+import { PostStatus } from '../../../../shared/components/PostList';
 import BlankPostImg from '../../../../../assets/images/blank-post.png';
 import {
   TypeUpload,
@@ -263,10 +263,10 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
           onDragOver={(e) => e.preventDefault()}
         >
           <input
+            className="article-editor-upload-input"
             type="file"
             id="file-input"
             accept="image/*"
-            style={{ display: 'none' }}
             onChange={handleInputChange}
           />
           {imageFile && type === PostAction.CREATE ? (
@@ -307,7 +307,10 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
             )
           ) : null}
           {!imageFile && !imageUrl ? (
-            <p onClick={handleImageClick}>
+            <p
+              className="article-editor-drop-zone-text"
+              onClick={handleImageClick}
+            >
               Drag and drop photo here or click to select photo
             </p>
           ) : (
