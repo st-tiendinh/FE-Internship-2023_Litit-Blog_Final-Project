@@ -83,14 +83,14 @@
   }
 
   &-title {
-    font-size: map-get($font-sizes, 'md');
-    font-weight: map-get($font-weights, 'medium');
+    font-size: map-get($font-sizes, md);
+    font-weight: map-get($font-weights, medium);
   }
 
   &-desc {
-    font-size: map-get($font-sizes, 'xs');
-    font-weight: map-get($font-weights, 'regular');
-    color: map-get($colors, 'secondary-500');
+    font-size: map-get($font-sizes, xs);
+    font-weight: map-get($font-weights, regular);
+    color: map-get($colors, secondary-500);
   }
 
   .icon-wrap {
