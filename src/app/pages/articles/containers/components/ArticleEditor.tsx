@@ -2,19 +2,18 @@ import axios from 'axios';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useState, useRef, useEffect } from 'react';
-<<<<<<< HEAD
 import { useLocation, useNavigate, unstable_usePrompt } from 'react-router-dom';
-=======
-import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
->>>>>>> fddbd0026e15ba1b14edee28244b0cfc5914c0c2
 
 import { ApiService } from '../../../../core/services/api.service';
 import JwtHelper from '../../../../core/helpers/jwtHelper';
 import { ENDPOINT } from '../../../../../config/endpoint';
 import { PostStatus } from '../../../../shared/components/PostList';
 import BlankPostImg from '../../../../../assets/images/blank-post.png';
-import { TypeUpload, UploadImageService } from '../../../../core/services/uploadImage.service';
+import {
+  TypeUpload,
+  UploadImageService,
+} from '../../../../core/services/uploadImage.service';
 import { ToastTypes } from '../../../../shared/components/Toast';
 
 import { isImageUrlValid } from '../../../../shared/utils/checkValidImage';
@@ -49,11 +48,17 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
     type === PostAction.UPDATE ? data.description : ''
   );
   const [descValue, setDescValue] = useState<string>('');
-  const [tagItems, setTagItems] = useState<string[]>(type === PostAction.UPDATE ? data.tags : []);
+  const [tagItems, setTagItems] = useState<string[]>(
+    type === PostAction.UPDATE ? data.tags : []
+  );
   const [tagItemValue, SetTagItemValue] = useState('');
   const [contentValue, setContentValue] = useState<string>('');
   const [isPublic, setIsPublic] = useState<boolean>(
-    type === PostAction.UPDATE ? (data.status === PostStatus.PUBLIC ? true : false) : true
+    type === PostAction.UPDATE
+      ? data.status === PostStatus.PUBLIC
+        ? true
+        : false
+      : true
   );
   const [unsavedChanges, setUnsavedChanges] = useState<boolean>(false);
 
@@ -280,7 +285,9 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
                 signUrl = res.signedRequest;
                 imgUrl = res.url;
               })
-              .then(() => axios.put(signUrl, file).then((err) => console.log(err)))
+              .then(() =>
+                axios.put(signUrl, file).then((err) => console.log(err))
+              )
               .then(() => resolve({ default: imgUrl }))
               .catch((err) => reject(err));
           });
@@ -290,7 +297,9 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
   }
 
   function uploadPlugin(editor: any) {
-    editor.plugins.get('FileRepository').createUploadAdapter = (loader: any) => {
+    editor.plugins.get('FileRepository').createUploadAdapter = (
+      loader: any
+    ) => {
       return uploadAdapter(loader);
     };
   }
@@ -299,7 +308,9 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
     <div className="article-editor">
       {!!error && (
         <div className="article-editor-error-wrapper">
-          <h3 className="article-editor-error-title">Whoops, something went wrong:</h3>
+          <h3 className="article-editor-error-title">
+            Whoops, something went wrong:
+          </h3>
           <p className="article-editor-error-message">{error}</p>
         </div>
       )}
@@ -329,7 +340,11 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
           {imageUrl ? (
             imageFile ? (
               <img
-                src={type === PostAction.UPDATE ? URL.createObjectURL(imageFile) : imageUrl}
+                src={
+                  type === PostAction.UPDATE
+                    ? URL.createObjectURL(imageFile)
+                    : imageUrl
+                }
                 alt="Uploaded"
                 onClick={handleImageClick}
                 className="article-editor-image"
@@ -350,7 +365,10 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
             )
           ) : null}
           {!imageFile && !imageUrl ? (
-            <p className="article-editor-drop-zone-text" onClick={handleImageClick}>
+            <p
+              className="article-editor-drop-zone-text"
+              onClick={handleImageClick}
+            >
               Drag and drop photo here or click to select photo
             </p>
           ) : (
@@ -397,7 +415,9 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
                 className="article-editor-tag-item"
                 onClick={() => handleDeleteTagItem(index)}
               >
-                <span className="badge badge-primary text-truncate">{item + ` ×`}</span>
+                <span className="badge badge-primary text-truncate">
+                  {item + ` ×`}
+                </span>
               </li>
             ))}
           </ul>
@@ -418,7 +438,6 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
           <div className="article-editor-post-status">
             <ToggleButton isPublic={isPublic} setIsPublic={setIsPublic} />
           </div>
-<<<<<<< HEAD
           <div className="article-editor-form-save-button-wrapper">
             <button
               className={`btn btn-outline ${
@@ -438,15 +457,6 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
               Save
             </button>
           </div>
-=======
-          <button
-            className={`btn btn-primary ${isLoading ? 'loading' : ''}`}
-            disabled={isLoading}
-            onClick={type === PostAction.CREATE ? handleSubmitData : handleUpdateData}
-          >
-            Save
-          </button>
->>>>>>> fddbd0026e15ba1b14edee28244b0cfc5914c0c2
         </div>
       </div>
     </div>
