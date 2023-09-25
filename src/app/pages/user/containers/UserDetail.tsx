@@ -11,6 +11,7 @@ import { ApiService } from '../../../core/services/api.service';
 import { ENDPOINT } from '../../../../config/endpoint';
 import { RootState } from '../../../app.reducers';
 import { PostListType } from '../../home/containers/components/PublicPost';
+import { Modal } from '../../../shared/components';
 
 const apiService = new ApiService();
 const jwtHelper = new JwtHelper();
@@ -20,12 +21,24 @@ const UserDetail = () => {
   const [userStatistic, setUserStatistic] = useState<any>({});
   const [userPosts, setUserPost] = useState<any>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [toggleDeletedPost, setToggleDeletedPost] = useState<boolean>(false);
+
+  const id = useSelector((state: RootState) => state.modalReducer.id);
+  const type = useSelector((state: RootState) => state.modalReducer.type);
   const isLogged = useSelector(
     (state: RootState) => state.authReducer.isLogged
   );
   const location = useLocation();
   const userId = location.pathname.slice(7);
   const isLoggedUser = isLogged ? jwtHelper.isCurrentUser(+userId) : false;
+
+  const handleSoftDelete = () => {
+    (async () => {
+      apiService.setHeaders(jwtHelper.getAuthHeader());
+      await apiService.delete([ENDPOINT.posts.index, `${id}`]);
+      setToggleDeletedPost(!toggleDeletedPost);
+    })();
+  };
 
   useEffect(() => {
     setIsLoading(true);
@@ -70,16 +83,19 @@ const UserDetail = () => {
         const newPostsArr = response.Posts.map((item: any) => {
           const newPost = { ...item, user: other };
           return newPost;
+        }).sort((a: any, b: any) => {
+          return (
+            (new Date(b.createdAt) as any) - (new Date(a.createdAt) as any)
+          );
         });
-
-        setUserPost(isLoggedUser ? newPostsArr.reverse() : newPostsArr);
+        setUserPost(newPostsArr);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
         setIsLoading(false);
       }
     })();
-  }, [location, isLoggedUser, userId]);
+  }, [location, isLoggedUser, userId, toggleDeletedPost]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -88,6 +104,7 @@ const UserDetail = () => {
   return (
     <div className="page-user">
       <div className="container">
+        <Modal action={type === 'delete' && handleSoftDelete} />
         {isLoading ? (
           <div className="skeleton skeleton-user-profile"></div>
         ) : (
@@ -109,7 +126,7 @@ const UserDetail = () => {
                 <PostList
                   posts={userPosts}
                   type={PostListType.LIST}
-                  isHasAction={true}
+                  isHasAction={!!isLoggedUser}
                 />
               )}
             </div>
