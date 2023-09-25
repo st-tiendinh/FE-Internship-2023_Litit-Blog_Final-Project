@@ -1,15 +1,18 @@
+import { ToastTypes } from '../../app/shared/components/Toast';
 import { SHOW_TOAST, HIDE_TOAST } from '../types/toast';
 
 export const setShowToast = ({
   message,
   type,
+  title,
 }: {
   message: string;
-  type: 'success' | 'error' | 'warning';
+  type: ToastTypes;
+  title: string;
 }) => {
   return {
     type: SHOW_TOAST,
-    payload: { message, type },
+    payload: { message, type, title },
   };
 };
 
