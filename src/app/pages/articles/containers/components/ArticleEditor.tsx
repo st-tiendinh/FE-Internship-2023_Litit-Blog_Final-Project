@@ -178,8 +178,8 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
         navigate('/');
       } catch (error: any) {
         setError(error.response.data.errors[0]);
-        window.scrollTo(0, 0);
         setIsLoading(false);
+        window.scrollTo(0, 0);
       }
     })();
   };
@@ -187,6 +187,7 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
   const handleUpdateData = () => {
     (async () => {
       try {
+        setIsLoading(true);
         const url = await handleUploadImage(TypeUpload.COVER_POST);
         const postUpdated = {
           title: titleValue,
@@ -201,8 +202,10 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
           [ENDPOINT.posts.index, `${location.pathname.split('/').pop()}`],
           postUpdated
         );
+        setIsLoading(true);
         navigate(-1);
       } catch (error) {
+        setIsLoading(false);
         console.log(error);
       }
     })();
