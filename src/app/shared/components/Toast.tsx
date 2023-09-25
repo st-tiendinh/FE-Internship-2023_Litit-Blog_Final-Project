@@ -15,6 +15,7 @@ export const Toast = () => {
   const message = useSelector((state: RootState) => state.toastReducer.message);
   const type = useSelector((state: RootState) => state.toastReducer.type);
   const isVisible = useSelector((state: RootState) => state.toastReducer.isVisible);
+  const title = useSelector((state: RootState) => state.toastReducer.title);
 
   const handleHideToast = () => {
     const action = setHideToast();
@@ -38,7 +39,7 @@ export const Toast = () => {
           <i className={`icon icon-${type}`}></i>
         </span>
         <div className="toast-message">
-          <span className="toast-title">{type}</span>
+          <span className="toast-title">{title}</span>
           <span className="toast-desc">{message}</span>
         </div>
       </div>
