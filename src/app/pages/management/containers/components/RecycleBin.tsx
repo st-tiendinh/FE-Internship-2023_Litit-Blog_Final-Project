@@ -42,6 +42,7 @@ export const RecycleBin = () => {
       try {
         apiService.setHeaders(jwtHelper.getAuthHeader());
         const response: any = await apiService.get([ENDPOINT.posts.recyclebin]);
+        console.log(response);
         setDeletedPosts(response.data);
         setIsLoading(false);
       } catch (error) {

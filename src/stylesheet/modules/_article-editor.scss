@@ -146,6 +146,11 @@
     align-items: center;
   }
 
+  &-form-save-button-wrapper {
+    display: flex;
+    gap: 4px;
+  }
+
   &-upload-error {
     font-weight: map-get($font-weights, md);
     font-size: map-get($font-sizes, lg);

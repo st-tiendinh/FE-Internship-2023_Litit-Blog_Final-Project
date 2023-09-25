@@ -5,6 +5,7 @@ import { Post } from './Post';
 export enum PostStatus {
   PUBLIC = 'public',
   PRIVATE = 'private',
+  DRAFT = 'draft',
 }
 
 export interface IPost {

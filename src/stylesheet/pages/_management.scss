@@ -26,6 +26,7 @@
         &:hover {
           cursor: pointer;
           background-color: #fffae6;
+
           .menu-label {
             color: map-get($colors, "dark-yellow");
           }
@@ -33,6 +34,7 @@
 
         &.active {
           background-color: #fffae6;
+
           .menu-label {
             color: map-get($colors, "dark-yellow");
           }
