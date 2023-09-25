@@ -8,13 +8,14 @@ import BlankPostImg from '../../../assets/images/blank-post.png';
 import BlankUserImg from '../../../assets/images/blank-user.webp';
 import { PostListType } from '../../pages/home/containers/components/PublicPost';
 import {
-  setConfirmModalId,
-  setConfirmModalType,
   setShowModal,
 } from '../../../redux/actions/modal';
 import JwtHelper from '../../core/helpers/jwtHelper';
 import { PostStatus } from './PostList';
 import { RootState } from '../../app.reducers';
+import { ModalType } from './Modal';
+import { ENDPOINT } from '../../../config/endpoint';
+import { ApiService } from '../../core/services/api.service';
 
 interface PostProps {
   id: number;
@@ -51,27 +52,51 @@ export const Post = ({
   isCanRestore,
 }: PostProps) => {
   const jwtHelper = new JwtHelper();
+  const apiService = new ApiService();
   const [isValidCover, setIsValidCover] = useState(false);
   const [isValidUserImg, setIsValidUserImg] = useState(false);
   const formattedDate = formatDate(postedDate);
   const dispatch = useDispatch();
-  const isLogged = useSelector(
-    (state: RootState) => state.authReducer.isLogged
-  );
-  const currentUserId = useSelector(
-    (state: RootState) => state.authReducer.userInfo.userId
-  );
+  const isLogged = useSelector((state: RootState) => state.authReducer.isLogged);
+  const currentUserId = useSelector((state: RootState) => state.authReducer.userInfo.userId);
 
-  const handleDelete = (id: number) => {
-    dispatch(setConfirmModalId(id));
-    dispatch(setConfirmModalType('delete'));
-    dispatch(setShowModal());
+  const handleDelete = () => {
+    dispatch(
+      setShowModal({
+        type: ModalType.DANGER,
+        message: 'Are you sure you want to delete this post?',
+        onConfirm: handleSoftDelete,
+      })
+    );
   };
 
-  const handleRestore = async (id: number) => {
-    dispatch(setConfirmModalId(id));
-    dispatch(setConfirmModalType('restore'));
-    dispatch(setShowModal());
+  
+  const handleSoftDelete = () => {
+    (async () => {
+      apiService.setHeaders(jwtHelper.getAuthHeader());
+      await apiService.delete([ENDPOINT.posts.index, `${id}`]);
+    })();
+  };
+
+  const handleRestorePost = () => {
+    (async () => {
+      try {
+        apiService.setHeaders(jwtHelper.getAuthHeader());
+        await apiService.put([ENDPOINT.posts.index, `${id}/restore`]);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  };
+
+  const handleRestore =  () => {
+    dispatch(
+      setShowModal({
+        type: ModalType.WARNING,
+        message: 'Are you sure you want to restore this post?',
+        onConfirm: handleRestorePost,
+      })
+    );
   };
 
   useEffect(() => {
@@ -86,20 +111,13 @@ export const Post = ({
     });
   }, [isValidCover, cover, authorImg]);
 
-  console.log(isLogged, isCanRestore,currentUserId, jwtHelper.isCurrentUser(+`${currentUserId}`))
+  console.log(isLogged, isCanRestore, currentUserId, jwtHelper.isCurrentUser(+`${currentUserId}`));
   return (
     <>
       {listType === PostListType.GRID && (
         <div className="post">
-          <Link
-            to={`/articles/${id.toString()}`}
-            className="post-image-wrapper"
-          >
-            <img
-              className="post-image"
-              src={isValidCover ? cover : BlankPostImg}
-              alt={title}
-            />
+          <Link to={`/articles/${id.toString()}`} className="post-image-wrapper">
+            <img className="post-image" src={isValidCover ? cover : BlankPostImg} alt={title} />
           </Link>
 
           <div className="post-content">
@@ -144,9 +162,7 @@ export const Post = ({
                         src={isValidUserImg ? authorImg : BlankUserImg}
                         alt="author image"
                       />
-                      <span className="post-author-name text-truncate">
-                        {authorName}
-                      </span>
+                      <span className="post-author-name text-truncate">{authorName}</span>
                     </div>
                   </Link>
                   <span className="post-dot-symbol">&#x2022;</span>
@@ -160,10 +176,7 @@ export const Post = ({
 
       {listType === PostListType.LIST && (
         <div className="personal-post">
-          <Link
-            to={`/articles/${id.toString()}`}
-            className="personal-post-image-link"
-          >
+          <Link to={`/articles/${id.toString()}`} className="personal-post-image-link">
             <div className="personal-post-image-wrapper">
               <img
                 src={isValidCover ? cover : BlankPostImg}
@@ -178,61 +191,43 @@ export const Post = ({
               <ul className="personal-post-tag-list">
                 {tags.slice(0, 2).map((tag: any, index: number) => (
                   <li key={index} className="personal-post-tag-item">
-                    <Link
-                      to={`/articles/tag/${tag}`}
-                      className="personal-post-tag-link"
-                    >
-                      <span className="badge badge-primary text-truncate">
-                        {tag}
-                      </span>
+                    <Link to={`/articles/tag/${tag}`} className="personal-post-tag-link">
+                      <span className="badge badge-primary text-truncate">{tag}</span>
                     </Link>
                   </li>
                 ))}
               </ul>
-              {isLogged &&
-                isHasAction &&
-                jwtHelper.isCurrentUser(+`${currentUserId}`) && (
-                  <div className="personal-post-options">
-                    <span className="btn btn-three-dots">
-                      <i className="icon icon-three-dots"></i>
-                      <div className="personal-post-action-popper">
-                        <Link
-                          to={`/articles/update/${id}`}
-                          className="btn btn-edit"
-                        >
-                          <i className="icon icon-pen"></i>
-                          Edit
-                        </Link>
-                        <span
-                          className="btn btn-delete"
-                          onClick={() => handleDelete(id)}
-                        >
-                          <i className="icon icon-bin"></i>
-                          Delete
-                        </span>
-                      </div>
-                    </span>
-                  </div>
-                )}
+              {isLogged && isHasAction && jwtHelper.isCurrentUser(+`${currentUserId}`) && (
+                <div className="personal-post-options">
+                  <span className="btn btn-three-dots">
+                    <i className="icon icon-three-dots"></i>
+                    <div className="personal-post-action-popper">
+                      <Link to={`/articles/update/${id}`} className="btn btn-edit">
+                        <i className="icon icon-pen"></i>
+                        Edit
+                      </Link>
+                      <span className="btn btn-delete" onClick={() => handleDelete()}>
+                        <i className="icon icon-bin"></i>
+                        Delete
+                      </span>
+                    </div>
+                  </span>
+                </div>
+              )}
               {/* button restore */}
-              {isLogged &&
-                isCanRestore &&
-                jwtHelper.isCurrentUser(+`${currentUserId}`) && (
-                  <div className="personal-post-action">
-                    <span className="btn btn-three-dots">
-                      <i className="icon icon-three-dots"></i>
-                      <div className="personal-post-action-popper">
-                        <span
-                          className="btn btn-restore"
-                          onClick={() => handleRestore(id)}
-                        >
-                          <i className="icon icon-restore"></i>
-                          Restore
-                        </span>
-                      </div>
-                    </span>
-                  </div>
-                )}
+              {isLogged && isCanRestore && jwtHelper.isCurrentUser(+`${currentUserId}`) && (
+                <div className="personal-post-action">
+                  <span className="btn btn-three-dots">
+                    <i className="icon icon-three-dots"></i>
+                    <div className="personal-post-action-popper">
+                      <span className="btn btn-restore" onClick={() => handleRestore()}>
+                        <i className="icon icon-restore"></i>
+                        Restore
+                      </span>
+                    </div>
+                  </span>
+                </div>
+              )}
             </div>
             <div className="personal-post-title-wrapper">
               <Link to={`/articles/${id.toString()}`}>
@@ -259,29 +254,21 @@ export const Post = ({
                       alt="author avatar"
                       className="short-info-author-avatar"
                     />
-                    <span className="short-info-author-name text-truncate">
-                      {authorName}
-                    </span>
+                    <span className="short-info-author-name text-truncate">{authorName}</span>
                   </div>
                 </Link>
                 <span className="short-info-dot-symbol">&#x2022;</span>
                 <span className="short-info-timestamp">{formattedDate}</span>
               </div>
-              {isLogged &&
-                isHasAction &&
-                jwtHelper.isCurrentUser(+`${currentUserId}`) && (
-                  <div className="short-info-status">
-                    <span className="badge badge-status">
-                      {(status === PostStatus.PUBLIC && (
-                        <i className="icon icon-earth"></i>
-                      )) ||
-                        (status === PostStatus.PRIVATE && (
-                          <i className="icon icon-lock"></i>
-                        ))}
-                      {status}
-                    </span>
-                  </div>
-                )}
+              {isLogged && isHasAction && jwtHelper.isCurrentUser(+`${currentUserId}`) && (
+                <div className="short-info-status">
+                  <span className="badge badge-status">
+                    {(status === PostStatus.PUBLIC && <i className="icon icon-earth"></i>) ||
+                      (status === PostStatus.PRIVATE && <i className="icon icon-lock"></i>)}
+                    {status}
+                  </span>
+                </div>
+              )}
             </div>
           </div>
         </div>
