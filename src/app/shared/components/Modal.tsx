@@ -5,8 +5,6 @@ import { ConfirmModal } from './ConfirmModal';
 
 import { RootState } from '../../app.reducers';
 import {
-  // setConfirmModalId,
-  // setConfirmModalType,
   setHideModal,
 } from '../../../redux/actions/modal';
 
@@ -16,24 +14,16 @@ export enum ModalType {
   INFO = 'INFO',
 }
 
-// interface ModalPropTypes {
-//   type?: ModalType;
-//   action?: any;
-//   button?: ReactElement;
-// }
 
-// export const Modal = ({ button, action }: ModalPropTypes) => {
 export const Modal = () => {
   const isShow = useSelector((state: RootState) => state.modalReducer.isShow);
   const dispatch = useDispatch();
   const type = useSelector((state: RootState) => state.modalReducer.type);
   const message = useSelector((state: RootState) => state.modalReducer.message);
-  // const action = useSelector((state: RootState) => state.modalReducer.confirmCallback);
+
 
   const handleClose = () => {
     dispatch(setHideModal());
-    // dispatch(setConfirmModalId(null));
-    // dispatch(setConfirmModalType(''));
   };
 
   return (
@@ -50,7 +40,6 @@ export const Modal = () => {
         <div className="modal-body">
           <ConfirmModal />
         </div>
-        {/* <div className="modal-footer">{button}</div> */}
       </div>
     </div>
   );

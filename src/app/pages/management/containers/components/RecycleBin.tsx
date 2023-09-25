@@ -16,6 +16,7 @@ export const RecycleBin = () => {
   const [deletedPosts, setDeletedPosts] = useState<any>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const isConfirm = useSelector((state: RootState) => state.modalReducer.isConfirm);
+  const [isRerender , setIsRerender] = useState<boolean>(false);
 
   const [visiblePosts, setVisiblePosts] = useState<any[]>([]);
   const [page, setPage] = useState(1);
@@ -35,6 +36,12 @@ export const RecycleBin = () => {
         }
       })();
     }, 1000);
+  }, [isRerender]);
+
+  useEffect(() => {
+    if (isConfirm) {
+      setIsRerender((prev) => !prev);
+    }
   }, [isConfirm]);
 
 

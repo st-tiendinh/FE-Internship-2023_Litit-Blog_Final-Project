@@ -28,7 +28,7 @@ const UserDetail = () => {
   const [userStatistic, setUserStatistic] = useState<any>({});
   const [userPosts, setUserPost] = useState<any>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [toggleDeletedPost, setToggleDeletedPost] = useState<boolean>(false);
+  const [isRerender, setIsRerender] = useState<boolean>(false);
 
   const [filter, setFilter] = useState<any>(FilterType.LATEST);
   const [search, setSearch] = useState<string>('');
@@ -98,7 +98,13 @@ const UserDetail = () => {
         }
       })();
     }, 1000);
-  }, [location, isLoggedUser, userId, isConfirm]);
+  }, [location, isLoggedUser, userId, isRerender]);
+
+  useEffect(() => {
+    if (isConfirm) {
+      setIsRerender((prev) => !prev);
+    }
+  }, [isConfirm]);
 
   useEffect(() => {
     if (debounceSearch.trim() === '') {
