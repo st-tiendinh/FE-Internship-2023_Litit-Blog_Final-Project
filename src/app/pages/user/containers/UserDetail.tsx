@@ -20,20 +20,19 @@ const UserDetail = () => {
   const [userStatistic, setUserStatistic] = useState<any>({});
   const [userPosts, setUserPost] = useState<any>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const isLogged = useSelector(
-    (state: RootState) => state.authReducer.isLogged
-  );
+  const isLogged = useSelector((state: RootState) => state.authReducer.isLogged);
   const location = useLocation();
   const userId = location.pathname.slice(7);
   const isLoggedUser = isLogged ? jwtHelper.isCurrentUser(+userId) : false;
+
+  const [visiblePosts, setVisiblePosts] = useState<any[]>([]);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     setIsLoading(true);
     (async () => {
       try {
-        const isCurrentUser = jwtHelper.isCurrentUser(
-          +`${location.pathname.split('/').pop()}`
-        );
+        const isCurrentUser = jwtHelper.isCurrentUser(+`${location.pathname.split('/').pop()}`);
         apiService.setHeaders(jwtHelper.getAuthHeader());
         const response: any = isCurrentUser
           ? await apiService.get([ENDPOINT.users.index, 'me/posts'])
@@ -73,6 +72,7 @@ const UserDetail = () => {
         });
 
         setUserPost(isLoggedUser ? newPostsArr.reverse() : newPostsArr);
+
         setIsLoading(false);
       } catch (error) {
         console.log(error);
@@ -84,6 +84,23 @@ const UserDetail = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  useEffect(() => {
+    if (userPosts.length > 0) {
+      setVisiblePosts(userPosts.slice(0, 5));
+    }
+  }, [userPosts]);
+
+  const handleLoadMore = () => {
+    const startIndex = page * 5;
+    let endIndex = startIndex + 5;
+    if (endIndex > userPosts.length) {
+      endIndex = startIndex + (Number(userPosts.length) - Number(startIndex));
+    }
+    const newPosts = userPosts.slice(startIndex, endIndex);
+    setVisiblePosts((prevPosts) => [...prevPosts, ...newPosts]);
+    setPage((prevPage) => prevPage + 1);
+  };
 
   return (
     <div className="page-user">
@@ -106,11 +123,14 @@ const UserDetail = () => {
               {isLoading ? (
                 <div className="skeleton skeleton-personal-list"></div>
               ) : (
-                <PostList
-                  posts={userPosts}
-                  type={PostListType.LIST}
-                  isHasAction={true}
-                />
+                <PostList posts={visiblePosts} type={PostListType.LIST} isHasAction={true} />
+              )}
+              {visiblePosts.length < userPosts.length && (
+                <div className="d-flex load-more-btn-wrap">
+                  <button className="btn btn-outline" onClick={handleLoadMore}>
+                    Load More
+                  </button>
+                </div>
               )}
             </div>
           </div>

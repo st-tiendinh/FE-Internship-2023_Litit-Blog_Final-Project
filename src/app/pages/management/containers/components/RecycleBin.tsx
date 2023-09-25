@@ -20,6 +20,9 @@ export const RecycleBin = () => {
   const [toggleRecycle, setToggleRecycle] = useState<boolean>(false);
   const id = useSelector((state: RootState) => state.modalReducer.id);
 
+  const [visiblePosts, setVisiblePosts] = useState<any[]>([]);
+  const [page, setPage] = useState(1);
+
   const handleSoftDelete = () => {
     (async () => {
       apiService.setHeaders(jwtHelper.getAuthHeader());
@@ -55,24 +58,41 @@ export const RecycleBin = () => {
     })();
   }, [toggleDeletedPost, toggleRecycle]);
 
+  useEffect(() => {
+    if (deletedPosts.length > 0) {
+      setVisiblePosts(deletedPosts.slice(0, 5));
+    }
+  }, [deletedPosts]);
+
+  const handleLoadMore = () => {
+    const startIndex = page * 5;
+    let endIndex = startIndex + 5;
+    if (endIndex > deletedPosts.length) {
+      endIndex = startIndex + (Number(deletedPosts.length) - Number(startIndex));
+    }
+    const newPosts = deletedPosts.slice(startIndex, endIndex);
+    setVisiblePosts((prevPosts) => [...prevPosts, ...newPosts]);
+    setPage((prevPage) => prevPage + 1);
+  };
+
   const type = useSelector((state: RootState) => state.modalReducer.type);
 
   return (
     <div className="section section-recycle-bin">
       <Modal
-        action={
-          (type === 'delete' && handleSoftDelete) ||
-          (type === 'restore' && handleRestore)
-        }
+        action={(type === 'delete' && handleSoftDelete) || (type === 'restore' && handleRestore)}
       />
       {isLoading ? (
         <div className="skeleton skeleton-personal-list"></div>
       ) : (
-        <PostList
-          posts={deletedPosts}
-          type={PostListType.LIST}
-          isCanRestore={true}
-        />
+        <PostList posts={visiblePosts} type={PostListType.LIST} isCanRestore={true} />
+      )}
+      {visiblePosts.length < deletedPosts.length && (
+        <div className="d-flex load-more-btn-wrap">
+          <button className="btn btn-outline" onClick={handleLoadMore}>
+            Load More
+          </button>
+        </div>
       )}
     </div>
   );
