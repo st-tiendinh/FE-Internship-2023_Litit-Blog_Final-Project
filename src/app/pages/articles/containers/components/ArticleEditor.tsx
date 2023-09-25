@@ -128,7 +128,7 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
         if (isContain) {
           dispatch(
             setShowToast({
-              type: ToastTypes.INFO, 
+              type: ToastTypes.ERROR, 
               title: 'Tag error',
               message: 'Tag already exists',
             })
