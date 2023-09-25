@@ -63,7 +63,7 @@ const PostList = ({
             key={post.id}
             className={`col col-${
               type === PostListType.GRID ? '4' : '12'
-            } col-md-6 col-sm-12`}
+            } col-md-6 col-sm-12 post-list-item`}
           >
             <div className="post-item">
               <Post
