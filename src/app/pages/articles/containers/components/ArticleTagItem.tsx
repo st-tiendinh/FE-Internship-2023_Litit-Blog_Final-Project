@@ -4,7 +4,7 @@ export const ArticleTagItem = ({ tag }: any) => {
   return (
     <li className="article-detail-tag-item">
       <Link to={`/articles/tag/${tag}`}>
-        <span className="badge badge-primary">{tag}</span>
+        <span className="badge badge-primary text-truncate">{tag}</span>
       </Link>
     </li>
   );

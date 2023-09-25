@@ -52,12 +52,19 @@
 
           &-tag-list {
             display: flex;
+            gap: 4px;
+            flex-wrap: wrap;
             margin-bottom: 16px;
           }
 
           &-tag-item {
+            max-width: 100%;
             margin-right: 4px;
             cursor: pointer;
+          }
+
+          .badge.text-truncate {
+            max-width: 100%;
           }
 
           &-title {
@@ -103,6 +110,12 @@
             font-weight: map-get($font-weights, normal);
             line-height: 1.5;
             word-wrap: break-word;
+
+            pre {
+              overflow-wrap: break-word;
+              white-space: pre-wrap;
+              margin-bottom: 14px;
+            }
 
             p {
               margin-bottom: 14px;
