@@ -128,7 +128,7 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
         if (isContain) {
           dispatch(
             setShowToast({
-              type: ToastTypes.ERROR, 
+              type: ToastTypes.ERROR,
               title: 'Tag error',
               message: 'Tag already exists',
             })
@@ -148,8 +148,7 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
       }
     }
   };
-  // console.log(tagInputRef.current.value);
-  // console.log(tagItems);
+
   const handleDeleteTagItem = (id: number) => {
     setTagItems(
       tagItems.filter((_, index) => {
@@ -360,7 +359,7 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
                 className="article-editor-tag-item"
                 onClick={() => handleDeleteTagItem(index)}
               >
-                <span className="badge badge-primary text-truncate">{item}</span>
+                <span className="badge badge-primary text-truncate">{item + ` ×`}</span>
               </li>
             ))}
           </ul>
