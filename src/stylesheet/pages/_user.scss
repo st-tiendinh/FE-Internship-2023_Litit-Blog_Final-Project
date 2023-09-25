@@ -30,6 +30,15 @@
           height: 100%;
           border-radius: 50%;
         }
+        &-dob{
+          line-height: 18px;
+        }
+        &-email{
+          line-height: 18px;
+        }
+        &-firstname{
+          line-height: 20px;
+        }
       }
 
       &-content {
@@ -59,6 +68,8 @@
           }
 
           &-about-item {
+            display: flex;
+            align-items: center;
             font-size: map-get($font-sizes, "sm");
             color: map-get($colors, "secondary-600");
             gap: 8px;
