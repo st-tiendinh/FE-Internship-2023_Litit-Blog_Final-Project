@@ -16,17 +16,9 @@ const jwtHelper = new JwtHelper();
 export const RecycleBin = () => {
   const [deletedPosts, setDeletedPosts] = useState<any>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [toggleDeletedPost, setToggleDeletedPost] = useState<boolean>(false);
   const [toggleRecycle, setToggleRecycle] = useState<boolean>(false);
   const id = useSelector((state: RootState) => state.modalReducer.id);
-
-  const handleSoftDelete = () => {
-    (async () => {
-      apiService.setHeaders(jwtHelper.getAuthHeader());
-      await apiService.delete([ENDPOINT.posts.index, `${id}`]);
-      setToggleDeletedPost(!toggleDeletedPost);
-    })();
-  };
+  const type = useSelector((state: RootState) => state.modalReducer.type);
 
   const handleRestore = () => {
     (async () => {
@@ -53,18 +45,11 @@ export const RecycleBin = () => {
         setIsLoading(false);
       }
     })();
-  }, [toggleDeletedPost, toggleRecycle]);
-
-  const type = useSelector((state: RootState) => state.modalReducer.type);
+  }, [toggleRecycle]);
 
   return (
     <div className="section section-recycle-bin">
-      <Modal
-        action={
-          (type === 'delete' && handleSoftDelete) ||
-          (type === 'restore' && handleRestore)
-        }
-      />
+      <Modal action={type === 'restore' && handleRestore} />
       {isLoading ? (
         <div className="skeleton skeleton-personal-list"></div>
       ) : (
