@@ -25,6 +25,7 @@ export const ChangePasswordManagement = () => {
     setValue,
     watch,
     setError,
+    trigger,
     formState: { errors },
   } = useForm<FormData>({ mode: 'onChange' });
 
@@ -85,18 +86,23 @@ export const ChangePasswordManagement = () => {
           error={errors.newPassword?.message}
           onBlur={(e) => handleTrimInput('newPassword', e.target.value)}
           onChange={(e) => {
+            const newPasswordValue = e.target.value;
             const confirmPasswordValue = watch('confirmPassword');
+
+            setValue('newPassword', newPasswordValue);
+            trigger('newPassword');
+
             if (
               confirmPasswordValue &&
-              e.target.value !== confirmPasswordValue
+              newPasswordValue !== confirmPasswordValue
             ) {
               setError('confirmPassword', {
-                type: 'custom',
+                type: 'manual',
                 message: 'Password and confirm password must match!',
               });
             } else {
               setError('confirmPassword', {
-                type: 'custom',
+                type: 'manual',
                 message: undefined,
               });
             }
