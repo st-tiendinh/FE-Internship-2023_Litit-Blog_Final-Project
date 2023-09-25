@@ -2,7 +2,7 @@ import axios from 'axios';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useState, useRef, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, unstable_usePrompt } from 'react-router-dom';
 
 import { ApiService } from '../../../../core/services/api.service';
 import JwtHelper from '../../../../core/helpers/jwtHelper';
@@ -33,6 +33,9 @@ interface ArticleEditorProps {
 export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
   const [error, setError] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isSaveDraftLoading, setIsSaveDraftLoading] = useState<boolean>(
+    JSON.parse(localStorage.getItem('is_draft') as string) || false
+  );
 
   const [titleInput, setTitleInput] = useState<string>(
     type === PostAction.UPDATE ? data.title : ''
@@ -54,6 +57,7 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
         : false
       : true
   );
+  const [unsavedChanges, setUnsavedChanges] = useState<boolean>(false);
 
   const [imageUrl, setImageUrl] = useState<string | undefined>(
     type === PostAction.UPDATE ? data.cover : undefined
@@ -92,6 +96,7 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files && e.target.files[0];
     handleImage(file);
+    setUnsavedChanges(true);
   };
 
   const handleImageClick = () => {
@@ -103,10 +108,12 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
 
   const handleChangeTitle = () => {
     setTitleInput(titleInputRef.current.value);
+    setUnsavedChanges(true);
   };
 
   const handleChangeDesc = () => {
     setDescInput(descInputRef.current.value);
+    setUnsavedChanges(true);
   };
 
   const handleSubmitTitle = () => {
@@ -123,6 +130,7 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
 
   const handleTagChange = () => {
     SetTagItemValue(tagInputRef.current.value);
+    setUnsavedChanges(true);
   };
 
   const handleTagEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -162,6 +170,7 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
   const handleSubmitData = () => {
     (async () => {
       try {
+        setUnsavedChanges(false);
         setIsLoading(true);
         const url = await handleUploadImage(TypeUpload.COVER_POST);
         const postData = {
@@ -202,11 +211,36 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
           [ENDPOINT.posts.index, `${location.pathname.split('/').pop()}`],
           postUpdated
         );
-        setIsLoading(true);
+        setIsLoading(false);
         navigate(-1);
       } catch (error) {
         setIsLoading(false);
         console.log(error);
+      }
+    })();
+  };
+
+  const handleSaveDraft = () => {
+    (async () => {
+      try {
+        setUnsavedChanges(false);
+        setIsSaveDraftLoading(true);
+        const url = await handleUploadImage(TypeUpload.COVER_POST);
+        const body = {
+          title: titleValue || '',
+          cover: url || '',
+          content: contentValue || '',
+          status: isPublic ? PostStatus.PUBLIC : PostStatus.PRIVATE,
+          description: descValue || '',
+          tags: tagItems || '',
+        };
+        apiService.setHeaders(jwt.getAuthHeader());
+        await apiService.post([ENDPOINT.posts.draft], body);
+        setIsSaveDraftLoading(false);
+        navigate(-1);
+      } catch (error) {
+        console.log(error);
+        setIsSaveDraftLoading(false);
       }
     })();
   };
@@ -381,15 +415,25 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
           <div className="article-editor-post-status">
             <ToggleButton isPublic={isPublic} setIsPublic={setIsPublic} />
           </div>
-          <button
-            className={`btn btn-primary ${isLoading ? 'loading' : ''}`}
-            disabled={isLoading}
-            onClick={
-              type === PostAction.CREATE ? handleSubmitData : handleUpdateData
-            }
-          >
-            Save
-          </button>
+          <div className="article-editor-form-save-button-wrapper">
+            <button
+              className={`btn btn-outline ${
+                isSaveDraftLoading ? 'loading' : ''
+              }`}
+              onClick={handleSaveDraft}
+            >
+              Save Draft
+            </button>
+            <button
+              className={`btn btn-primary ${isLoading ? 'loading' : ''}`}
+              disabled={isLoading}
+              onClick={
+                type === PostAction.CREATE ? handleSubmitData : handleUpdateData
+              }
+            >
+              Save
+            </button>
+          </div>
         </div>
       </div>
     </div>

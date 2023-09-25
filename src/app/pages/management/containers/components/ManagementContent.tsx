@@ -6,6 +6,7 @@ import { RecycleBin } from './RecycleBin';
 import { ListFollowers } from './ListFollowers';
 import { ListFollowings } from './ListFollowings';
 import { Bookmarks } from './Bookmarks';
+import { Draft } from './Draft';
 
 import {
   ManagementContext,
@@ -33,6 +34,9 @@ export const ManagementContent = () => {
 
     case ManagementType.BOOKMARKS:
       return <Bookmarks />;
+
+    case ManagementType.DRAFTS:
+      return <Draft />;
 
     default:
       return;

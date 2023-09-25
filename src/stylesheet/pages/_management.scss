@@ -24,6 +24,7 @@
         &:hover {
           cursor: pointer;
           background-color: #fffae6;
+
           .menu-label {
             color: map-get($colors, "dark-yellow");
           }
@@ -31,6 +32,7 @@
 
         &.active {
           background-color: #fffae6;
+
           .menu-label {
             color: map-get($colors, "dark-yellow");
           }
@@ -131,9 +133,6 @@
   .section-recycle-bin,
   .section-bookmarks {
     margin-block: -10px;
-    .post-item {
-      padding-block: 10px;
-    }
   }
 
   .followers-section,

@@ -276,6 +276,9 @@ export const Post = ({
                       )) ||
                         (status === PostStatus.PRIVATE && (
                           <i className="icon icon-lock"></i>
+                        )) ||
+                        (status === PostStatus.DRAFT && (
+                          <i className="icon icon-draft-small"></i>
                         ))}
                       {status}
                     </span>
