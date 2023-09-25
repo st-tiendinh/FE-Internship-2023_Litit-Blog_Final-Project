@@ -2,7 +2,7 @@ import axios from 'axios';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useState, useRef, useEffect } from 'react';
-import { useLocation, useNavigate, unstable_usePrompt } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
 import { ApiService } from '../../../../core/services/api.service';
@@ -61,6 +61,7 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
       : true
   );
   const [unsavedChanges, setUnsavedChanges] = useState<boolean>(false);
+  const [isRedirect, setIsRedirect] = useState<boolean>(false);
 
   const [imageUrl, setImageUrl] = useState<string | undefined>(
     type === PostAction.UPDATE ? data.cover : undefined
@@ -242,6 +243,44 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
       }
     })();
   };
+
+  useEffect(() => {
+    const handleBeforeUnload = (e: any) => {
+      if (unsavedChanges) {
+        e.preventDefault();
+        e.returnValue =
+          'You have unsaved changes. Are you sure you want to leave this page?';
+      }
+    };
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, [unsavedChanges]);
+
+  useEffect(() => {
+    const links = document.querySelectorAll('a');
+    const handleConfirm = (e: any) => {
+      setIsRedirect(true);
+      if (
+        unsavedChanges &&
+        !window.confirm(
+          'You have unsaved changes. Are you sure you want to leave this page?'
+        )
+      ) {
+        e.preventDefault();
+      }
+    };
+    links.forEach((link) => {
+      link.addEventListener('click', handleConfirm);
+    });
+
+    return () => {
+      links.forEach((link) => {
+        link.removeEventListener('click', handleConfirm);
+      });
+    };
+  }, [unsavedChanges]);
 
   const handleSaveDraft = () => {
     (async () => {
