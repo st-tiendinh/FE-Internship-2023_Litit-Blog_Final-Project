@@ -91,18 +91,6 @@
       padding: 8px 16px;
     }
 
-    .user-avatar {
-      &-wrapper {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        border: 1px solid #cfcfcf;
-        background-color: white;
-      }
-      border-radius: 50%;
-      height: 100%;
-    }
-
     .user-action {
       .user-name {
         font-weight: map-get($font-weights, "medium");
@@ -110,6 +98,13 @@
         padding: 8px;
         &:hover {
           cursor: pointer;
+        }
+      }
+
+      &:hover,
+      &.active {
+        > .user-name {
+          color: map-get($colors, "yellow");
         }
       }
     }
@@ -133,11 +128,15 @@
         .user-name {
           font-size: 17px;
           font-weight: map-get($font-weights, "medium");
+          -webkit-line-clamp: 1;
+          max-width: 152px;
         }
 
         .user-email {
           font-size: map-get($font-sizes, "sm");
           color: #808080;
+          -webkit-line-clamp: 1;
+          max-width: 152px;
         }
 
         &:first-child {
@@ -166,6 +165,18 @@
 
         .action-logout {
           color: #ef4444;
+        }
+
+        .user-avatar-wrapper {
+          .user-avatar {
+            border-radius: 50%;
+            height: 100%;
+          }
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          border: 1px solid #cfcfcf;
+          background-color: white;
         }
       }
     }
