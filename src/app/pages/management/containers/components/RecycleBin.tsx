@@ -49,7 +49,7 @@ export const RecycleBin = () => {
         setIsLoading(false);
       }
     })();
-  }, [ toggleRecycle]);
+  }, [toggleRecycle]);
 
   useEffect(() => {
     if (deletedPosts.length > 0) {
@@ -70,7 +70,7 @@ export const RecycleBin = () => {
 
   return (
     <div className="section section-recycle-bin">
-            <Modal action={type === 'restore' && handleRestore} />
+      <Modal action={type === 'restore' && handleRestore} />
 
       {isLoading ? (
         <div className="skeleton skeleton-personal-list"></div>
