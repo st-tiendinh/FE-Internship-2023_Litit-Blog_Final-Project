@@ -244,8 +244,6 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
     };
   }
 
-  console.log(imageFile && URL.createObjectURL(imageFile));
-
   return (
     <div className="article-editor">
       {!!error && (
