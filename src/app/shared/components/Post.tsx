@@ -59,7 +59,7 @@ export const Post = ({
     (state: RootState) => state.authReducer.isLogged
   );
   const currentUserId = useSelector(
-    (state: RootState) => state.authReducer.userInfo.id
+    (state: RootState) => state.authReducer.userInfo.userId
   );
 
   const handleDelete = (id: number) => {
@@ -86,6 +86,7 @@ export const Post = ({
     });
   }, [isValidCover, cover, authorImg]);
 
+  console.log(isLogged, isCanRestore,currentUserId, jwtHelper.isCurrentUser(+`${currentUserId}`))
   return (
     <>
       {listType === PostListType.GRID && (
