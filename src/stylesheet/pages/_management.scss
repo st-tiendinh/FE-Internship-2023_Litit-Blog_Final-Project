@@ -140,7 +140,7 @@
 
   .followers-section,
   .followings-section {
-    padding: 20px;
+    padding: 30px 20px;
     background-color: white;
     box-shadow: 0 0 0 1px rgba(23, 23, 23, 0.05);
     border-radius: 4px;
@@ -148,10 +148,9 @@
     &-title {
       margin-bottom: 28px;
       text-align: center;
-      font-size: map-get($font-sizes, "2xl");
-      font-weight: map-get($font-weights, bold);
-      text-transform: uppercase;
-      color: map-get($colors, "primary");
+      font-size: 22px;
+      font-weight: map-get($font-weights, medium);
+      color: map-get($colors, primary);
     }
   }
 
