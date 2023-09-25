@@ -1,15 +1,17 @@
 .management-page {
-  padding: 16px 0;
+  padding: 20px 0;
   background-color: rgb(245, 245, 245);
 
   .sidebar {
-    background-color: white !important;
-    box-shadow: 0 0 0 1px rgba(23, 23, 23, 0.05);
-    border-radius: 4px;
-
     .menu {
       &-list {
         padding: 10px;
+        background-color: white;
+        box-shadow: 0 0 0 1px rgba(23, 23, 23, 0.05);
+        border-radius: 4px;
+        height: fit-content;
+        position: sticky;
+        top: 92px;
       }
 
       &-item {

@@ -1,14 +1,20 @@
 .user-sidebar {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: 198px;
-  padding: 16px;
-  background: map-get($colors, "white");
-  border-radius: 8px;
-  box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.12);
+  height: 100%;
 
   .statistic {
+    &-list {
+      height: fit-content;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 16px;
+      background: map-get($colors, "white");
+      border-radius: 8px;
+      box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.12);
+      position: sticky;
+      top: 92px;
+    }
+
     &-item {
       display: flex;
       align-items: center;
