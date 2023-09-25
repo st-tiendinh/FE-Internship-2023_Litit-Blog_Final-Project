@@ -128,7 +128,9 @@ export const Header = () => {
                       <div
                         onClick={() => setIsOpenDropdown(!isOpenDropdown)}
                         ref={userActionRef}
-                        className="user-action"
+                        className={`user-action ${
+                          isOpenDropdown ? 'active' : null
+                        }`}
                       >
                         <p className="user-name">{userInfo.displayName}</p>
                       </div>
@@ -152,10 +154,12 @@ export const Header = () => {
                                   />
                                 </div>
                                 <div className="user-info">
-                                  <p className="user-name">
+                                  <p className="user-name text-truncate">
                                     {userInfo.displayName}
                                   </p>
-                                  <p className="user-email">{userInfo.email}</p>
+                                  <p className="user-email text-truncate">
+                                    {userInfo.email}
+                                  </p>
                                 </div>
                               </Link>
                             </li>

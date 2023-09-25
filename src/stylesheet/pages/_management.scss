@@ -1,15 +1,17 @@
 .management-page {
-  padding: 16px 0;
+  padding: 20px 0;
   background-color: rgb(245, 245, 245);
 
   .sidebar {
-    background-color: white !important;
-    box-shadow: 0 0 0 1px rgba(23, 23, 23, 0.05);
-    border-radius: 4px;
-
     .menu {
       &-list {
         padding: 10px;
+        background-color: white;
+        box-shadow: 0 0 0 1px rgba(23, 23, 23, 0.05);
+        border-radius: 4px;
+        height: fit-content;
+        position: sticky;
+        top: 92px;
       }
 
       &-item {
@@ -133,11 +135,14 @@
   .section-recycle-bin,
   .section-bookmarks {
     margin-block: -10px;
+    .post-list-item {
+      padding-block: 10px;
+    }
   }
 
   .followers-section,
   .followings-section {
-    padding: 20px;
+    padding: 30px 20px;
     background-color: white;
     box-shadow: 0 0 0 1px rgba(23, 23, 23, 0.05);
     border-radius: 4px;
@@ -145,10 +150,9 @@
     &-title {
       margin-bottom: 28px;
       text-align: center;
-      font-size: map-get($font-sizes, "2xl");
-      font-weight: map-get($font-weights, bold);
-      text-transform: uppercase;
-      color: map-get($colors, "primary");
+      font-size: 22px;
+      font-weight: map-get($font-weights, medium);
+      color: map-get($colors, primary);
     }
   }
 

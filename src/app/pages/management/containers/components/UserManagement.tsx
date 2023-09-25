@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { InputGroup, SelectGroup } from '../../../../shared/components';
@@ -10,9 +9,12 @@ import { isImageUrlValid } from '../../../../shared/utils/checkValidImage';
 import { formatDateToString } from '../../../../shared/utils/formatDate';
 import { ApiService } from '../../../../core/services/api.service';
 import JwtHelper from '../../../../core/helpers/jwtHelper';
-import { ENDPOINT } from '../../../../../config/endpoint';
 import { RootState } from '../../../../app.reducers';
 import { updateUser } from '../../../../core/auth/auth.actions';
+import {
+  TypeUpload,
+  UploadImageService,
+} from '../../../../core/services/uploadImage.service';
 
 interface FormData {
   firstName: string;
@@ -49,11 +51,8 @@ export const UserManagement = () => {
 
   const [isValidUserImg, setIsValidUserImg] = useState(false);
   const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [nameImage, setNameImage] = useState<string | undefined>(undefined);
-  const [fileExtension, setFileExtension] = useState<string | 0 | undefined>(
-    undefined
-  );
+  const [imageFile, setImageFile] = useState<any>(null);
+
   const isLoading = useSelector(
     (state: RootState) => state.authReducer.isLoading
   );
@@ -73,8 +72,9 @@ export const UserManagement = () => {
     setValue(fieldName, value.trim());
   };
 
-  const onSubmit = (data: FormData) => {
-    const newData = { ...data, picture: imageUrl };
+  const onSubmit = async (data: FormData) => {
+    const url = await handleUploadImage(TypeUpload.AVATAR);
+    const newData = { ...data, picture: url };
     dispatch(updateUser(newData));
   };
 
@@ -84,7 +84,19 @@ export const UserManagement = () => {
     });
   }, [isValidUserImg, userInfo?.picture]);
 
-  const handleClick = () => {
+  const handleImage = (file: File | null) => {
+    if (file) {
+      setImageFile(file);
+    }
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const file = e.dataTransfer.files[0];
+    handleImage(file);
+  };
+
+  const handleImageClick = () => {
     const inputElement = document.querySelector(
       '.avatar-uploader-input'
     ) as HTMLInputElement;
@@ -94,50 +106,36 @@ export const UserManagement = () => {
     }
   };
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file: File | null = event.target.files?.[0] || null;
-    setImageFile(file);
-    if (file) {
-      const filenameParts = file?.name.split('.');
-      const getExtension = filenameParts?.length && filenameParts.pop();
-      setFileExtension(getExtension);
-      const firstElement = filenameParts?.shift();
-      setNameImage(firstElement);
-    }
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files && e.target.files[0];
+    handleImage(file);
   };
 
-  useEffect(() => {
-    const getImage = async () => {
-      if (nameImage && fileExtension) {
-        try {
-          apiService.setHeaders(jwt.getAuthHeader());
-          const uploadType = 'avatar';
-          const params = `?type_upload=${uploadType}&file_name=${nameImage}&file_type=image/png}`;
-          const res: any = await apiService.get([
-            ENDPOINT.signatures.index,
-            `${params}`,
-          ]);
-          if (res && res.url && res.signedRequest) {
-            await axios
-              .put(res.signedRequest, imageFile)
-              .then((err) => console.log(err));
-            setImageUrl(res.url);
-          } else {
-            console.error('Invalid response from API:', res);
-          }
-        } catch (error) {
-          console.error('Error in API call:', error);
-        }
-      }
-    };
-    getImage();
-  }, [imageFile, fileExtension, nameImage]);
+  const handleUploadImage = async (typeUpload: TypeUpload) => {
+    const uploadImgService = new UploadImageService(apiService, jwt);
+    if (imageFile) {
+      const fileName = imageFile.name.split('.').shift();
+      const url: string = await uploadImgService.uploadImage(
+        typeUpload,
+        fileName,
+        'image/jpg',
+        imageFile
+      );
+      setImageUrl(url);
+      return url;
+    }
+    return imageUrl;
+  };
 
   return (
     <div className="update-profile-wrapper">
       <h4 className="update-profile-title">My Profile</h4>
       <div className="avatar-uploader">
-        <form className="avatar-uploader-form">
+        <form
+          className="avatar-uploader-form"
+          onDrop={handleDrop}
+          onDragOver={(e) => e.preventDefault()}
+        >
           <input
             className="avatar-uploader-input"
             type="file"
@@ -148,15 +146,15 @@ export const UserManagement = () => {
           <img
             className="avatar-uploader-image"
             src={
-              imageUrl
-                ? imageUrl
+              imageFile
+                ? URL.createObjectURL(imageFile)
                 : isValidUserImg
                 ? userInfo?.picture
                 : BlankUserImage
             }
             alt="User Avatar"
           />
-          <div className="avatar-uploader-icon" onClick={handleClick}>
+          <div className="avatar-uploader-icon" onClick={handleImageClick}>
             <i className="icon icon-avatar-uploader"></i>
           </div>
         </form>

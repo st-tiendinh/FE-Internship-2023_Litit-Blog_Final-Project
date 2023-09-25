@@ -31,6 +31,12 @@
     background-image: url("../assets/icons/ic-waring.svg");
   }
 
+  &-info {
+    width: 35px;
+    height: 35px;
+    background-image: url("../assets/icons/ic-info.svg");
+  }
+
   &-comment {
     width: 18px;
     height: 18px;
@@ -96,8 +102,8 @@
   }
 
   &-dob {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     background-image: url("../assets/icons/ic-dob.svg");
   }
 
