@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux';
 import { UserProfile } from './components/UserProfile';
 import { UserSideBar } from './components/UserSidebar';
 import PostList, { PostStatus } from '../../../shared/components/PostList';
-import { Modal } from '../../../shared/components';
 
 import JwtHelper from '../../../core/helpers/jwtHelper';
 import { ApiService } from '../../../core/services/api.service';
@@ -13,6 +12,7 @@ import { ENDPOINT } from '../../../../config/endpoint';
 import { RootState } from '../../../app.reducers';
 import { PostListType } from '../../home/containers/components/PublicPost';
 import { useDebounce } from '../../../shared/hooks/useDebounce';
+import { set } from 'react-hook-form';
 
 enum FilterType {
   LATEST = 'Latest',
@@ -28,32 +28,25 @@ const UserDetail = () => {
   const [userStatistic, setUserStatistic] = useState<any>({});
   const [userPosts, setUserPost] = useState<any>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [toggleDeletedPost, setToggleDeletedPost] = useState<boolean>(false);
 
   const [filter, setFilter] = useState<any>(FilterType.LATEST);
   const [search, setSearch] = useState<string>('');
   const [searchArr, setSearchArr] = useState<any>([]);
   const debounceSearch = useDebounce(search);
 
-  const id = useSelector((state: RootState) => state.modalReducer.id);
-  const type = useSelector((state: RootState) => state.modalReducer.type);
+  const isConfirm = useSelector(
+    (state: RootState) => state.modalReducer.isConfirm
+  );
   const isLogged = useSelector(
     (state: RootState) => state.authReducer.isLogged
   );
   const location = useLocation();
   const userId = location.pathname.slice(7);
   const isLoggedUser = isLogged ? jwtHelper.isCurrentUser(+userId) : false;
+  const modalId = useSelector((state: RootState) => state.modalReducer.id);
 
   const [visiblePosts, setVisiblePosts] = useState<any[]>([]);
   const [page, setPage] = useState(1);
-
-  const handleSoftDelete = () => {
-    (async () => {
-      apiService.setHeaders(jwtHelper.getAuthHeader());
-      await apiService.delete([ENDPOINT.posts.index, `${id}`]);
-      setToggleDeletedPost(!toggleDeletedPost);
-    })();
-  };
 
   useEffect(() => {
     setIsLoading(true);
@@ -111,7 +104,16 @@ const UserDetail = () => {
         setIsLoading(false);
       }
     })();
-  }, [location, isLoggedUser, userId, toggleDeletedPost]);
+  }, [location, isLoggedUser, userId]);
+
+  useEffect(() => {
+    if (isConfirm && modalId !== 0) {
+      setSearchArr((prevPosts: any) => {
+        const newPosts = prevPosts.filter((post: any) => post.id !== modalId);
+        return newPosts;
+      });
+    }
+  }, [isConfirm]);
 
   useEffect(() => {
     if (debounceSearch.trim() === '') {
@@ -177,7 +179,6 @@ const UserDetail = () => {
   return (
     <div className="page-user">
       <div className="container">
-        <Modal action={type === 'delete' && handleSoftDelete} />
         {isLoading ? (
           <div className="skeleton skeleton-user-profile"></div>
         ) : (
