@@ -30,13 +30,13 @@
           height: 100%;
           border-radius: 50%;
         }
-        &-dob{
+        &-dob {
           line-height: 18px;
         }
-        &-email{
+        &-email {
           line-height: 18px;
         }
-        &-firstname{
+        &-firstname {
           line-height: 20px;
         }
       }
@@ -59,7 +59,6 @@
           &-follow-amount {
             font-size: map-get($font-sizes, "xl");
             color: map-get($colors, "dark-yellow");
-            font-weight: map-get($font-weights, "medium");
             margin-left: 4px;
           }
 

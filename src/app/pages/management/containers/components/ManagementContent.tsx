@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 
 import { UserManagement } from './UserManagement';
 import { ChangePasswordManagement } from './ChangePasswordManagement';
@@ -14,6 +14,10 @@ import {
 
 export const ManagementContent = () => {
   const { managementType } = useContext(ManagementContext)!;
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [managementType]);
 
   switch (managementType) {
     case ManagementType.MY_PROFILE:
