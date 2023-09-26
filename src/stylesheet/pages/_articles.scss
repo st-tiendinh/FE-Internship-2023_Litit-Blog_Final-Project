@@ -1,6 +1,4 @@
 .page-articles {
-  margin-top: 32px;
-
   .section {
     &-public-post {
       .section-title {
@@ -159,8 +157,6 @@
 }
 
 .section-article-list {
-  padding: 25px 0;
-
   .section {
     &-tags-title {
       font-size: map-get($font-sizes, "2xl");
