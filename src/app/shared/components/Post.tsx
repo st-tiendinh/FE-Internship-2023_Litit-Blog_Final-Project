@@ -188,7 +188,11 @@ export const Post = ({
       {listType === PostListType.LIST && (
         <div className="personal-post">
           <Link
-            to={`/articles/${id.toString()}`}
+            to={
+              status === PostStatus.DRAFT
+                ? `/articles/update/${id.toString()}`
+                : `/articles/${id.toString()}`
+            }
             className="personal-post-image-link"
           >
             <div className="personal-post-image-wrapper">
@@ -203,7 +207,7 @@ export const Post = ({
           <div className="d-flex flex-column personal-post-content">
             <div className="personal-post-card-header">
               <ul className="personal-post-tag-list">
-                {tags.slice(0, 2).map((tag: any, index: number) => (
+                {tags.slice(0, 2).map((tag, index) => (
                   <li key={index} className="personal-post-tag-item">
                     <Link
                       to={`/articles/tag/${tag}`}
@@ -262,7 +266,13 @@ export const Post = ({
                 )}
             </div>
             <div className="personal-post-title-wrapper">
-              <Link to={`/articles/${id.toString()}`}>
+              <Link
+                to={
+                  status === PostStatus.DRAFT
+                    ? `/articles/update/${id.toString()}`
+                    : `/articles/${id.toString()}`
+                }
+              >
                 <h4 className="personal-post-title text-truncate">{title}</h4>
               </Link>
             </div>

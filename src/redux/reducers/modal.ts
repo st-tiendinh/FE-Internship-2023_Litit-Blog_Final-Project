@@ -1,4 +1,9 @@
-import { HIDE_MODAL, SET_CONFIRM, SHOW_MODAL } from '../types/confirmModal';
+import {
+  HIDE_MODAL,
+  SET_CONFIRM,
+  SET_CONFIRM_DATA,
+  SHOW_MODAL,
+} from '../types/confirmModal';
 
 export interface ConfirmModalStateProps {
   isShow: boolean;
@@ -19,7 +24,7 @@ const initialState = {
   message: '',
   onConfirm: undefined,
   id: 0,
-  content: undefined
+  content: undefined,
 };
 
 export const modalReducer = (state = initialState, action: any) => {
@@ -32,7 +37,7 @@ export const modalReducer = (state = initialState, action: any) => {
       type: action.payload.type,
       message: action.payload.message,
       onConfirm: action.payload.onConfirm,
-      content: action.payload.content
+      content: action.payload.content,
     }),
 
     [HIDE_MODAL]: () => ({
@@ -40,7 +45,7 @@ export const modalReducer = (state = initialState, action: any) => {
       isShow: false,
       isConfirm: false,
       onConfirm: undefined,
-      content: undefined
+      content: undefined,
     }),
 
     [SET_CONFIRM]: () => ({
@@ -52,5 +57,7 @@ export const modalReducer = (state = initialState, action: any) => {
     }),
   };
 
-  return typeof objReducer[action.type] === 'function' ? objReducer[action.type]() : state;
+  return typeof objReducer[action.type] === 'function'
+    ? objReducer[action.type]()
+    : state;
 };

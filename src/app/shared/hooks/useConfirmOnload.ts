@@ -1,33 +1,24 @@
 import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { setShowModal } from '../../../redux/actions/modal';
+import { ModalType } from '../components/Modal';
 
 export const useConfirmOnload = (unsavedChanges: any, handleSaveDraft: any) => {
-  useEffect(() => {
-    const handleBeforeUnload = (e: any) => {
-      if (unsavedChanges) {
-        e.preventDefault();
-        e.returnValue =
-          'You have unsaved changes. Are you sure you want to leave this page?';
-      }
-    };
-    window.addEventListener('beforeunload', handleBeforeUnload);
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-    };
-  }, [unsavedChanges]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const linkTags = document.querySelectorAll('a');
     const handleConfirm = (e: any) => {
       if (unsavedChanges) {
-        if (
-          window.confirm(
-            'You have unsaved changes. Are you sure you want to leave this page?'
-          )
-        ) {
-          handleSaveDraft();
-        } else {
-          e.preventDefault();
-        }
+        e.preventDefault();
+        dispatch(
+          setShowModal({
+            type: ModalType.INFO,
+            message:
+              'You have unsaved changes. Are you sure you want to leave this page?',
+            onConfirm: handleSaveDraft,
+          })
+        );
       }
       return;
     };
