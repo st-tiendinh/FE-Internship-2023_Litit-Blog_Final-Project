@@ -79,3 +79,26 @@
     }
   }
 }
+
+@include mobile {
+  .footer {
+    &-social-list {
+      margin-bottom: 20px;
+    }
+
+    &-logo-group {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    &-info-group {
+      text-align: center;
+    }
+
+    .copy-right {
+      text-align: center;
+    }
+  }
+}

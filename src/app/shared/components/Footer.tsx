@@ -7,90 +7,96 @@ export const Footer = () => {
       <div className="main-footer">
         <div className="container">
           <div className="row">
-            <div className="col col-6">
-              <Link to={'/'} className="logo-link">
-                <h1 className="logo">
-                  <img
-                    src={LogoImage}
-                    alt="Lit.it Blog"
-                    className="logo-image"
-                  />
-                </h1>
-              </Link>
-              <ul className="footer-social-list">
-                <li className="footer-social-item">
-                  <a href="" className="footer-social-link">
-                    <i className="icon icon-facebook"></i>
-                  </a>
-                </li>
-                <li className="footer-social-item">
-                  <a href="" className="footer-social-link">
-                    <i className="icon icon-twitter"></i>
-                  </a>
-                </li>
-                <li className="footer-social-item">
-                  <a href="" className="footer-social-link">
-                    <i className="icon icon-linkedin"></i>
-                  </a>
-                </li>
-                <li className="footer-social-item">
-                  <a href="" className="footer-social-link">
-                    <i className="icon icon-instagram"></i>
-                  </a>
-                </li>
-              </ul>
+            <div className="col col-6 col-sm-12">
+              <div className="footer-logo-group">
+                <Link to={'/'} className="logo-link">
+                  <h1 className="logo">
+                    <img
+                      src={LogoImage}
+                      alt="Lit.it Blog"
+                      className="logo-image"
+                    />
+                  </h1>
+                </Link>
+                <ul className="footer-social-list">
+                  <li className="footer-social-item">
+                    <a href="" className="footer-social-link">
+                      <i className="icon icon-facebook"></i>
+                    </a>
+                  </li>
+                  <li className="footer-social-item">
+                    <a href="" className="footer-social-link">
+                      <i className="icon icon-twitter"></i>
+                    </a>
+                  </li>
+                  <li className="footer-social-item">
+                    <a href="" className="footer-social-link">
+                      <i className="icon icon-linkedin"></i>
+                    </a>
+                  </li>
+                  <li className="footer-social-item">
+                    <a href="" className="footer-social-link">
+                      <i className="icon icon-instagram"></i>
+                    </a>
+                  </li>
+                </ul>
+              </div>
             </div>
-            <div className="col col-6">
+            <div className="col col-6 col-sm-12">
               <div className="row">
                 <div className="col col-6">
-                  <h4 className="footer-title">Tags</h4>
-                  <ul className="footer-reference-list">
-                    <li className="footer-reference-item">
-                      <a href="" className="footer-reference-link">
-                        Java
-                      </a>
-                    </li>
-                    <li className="footer-reference-item">
-                      <a href="" className="footer-reference-link">
-                        React
-                      </a>
-                    </li>
-                    <li className="footer-reference-item">
-                      <a href="" className="footer-reference-link">
-                        BunJS
-                      </a>
-                    </li>
-                    <li className="footer-reference-item">
-                      <a href="" className="footer-reference-link">
-                        Express
-                      </a>
-                    </li>
-                  </ul>
+                  <div className="footer-info-group">
+                    <h4 className="footer-title">Tags</h4>
+                    <ul className="footer-reference-list">
+                      <li className="footer-reference-item">
+                        <a href="" className="footer-reference-link">
+                          Java
+                        </a>
+                      </li>
+                      <li className="footer-reference-item">
+                        <a href="" className="footer-reference-link">
+                          React
+                        </a>
+                      </li>
+                      <li className="footer-reference-item">
+                        <a href="" className="footer-reference-link">
+                          BunJS
+                        </a>
+                      </li>
+                      <li className="footer-reference-item">
+                        <a href="" className="footer-reference-link">
+                          Express
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
                 <div className="col col-6">
-                  <h4 className="footer-title">Quick link</h4>
-                  <ul className="footer-reference-list">
-                    <li className="footer-reference-item">
-                      <a href="" className="footer-reference-link">
-                        About Us
-                      </a>
-                    </li>
-                    <li className="footer-reference-item">
-                      <a href="" className="footer-reference-link">
-                        Contact Us
-                      </a>
-                    </li>
-                    <li className="footer-reference-item">
-                      <a href="" className="footer-reference-link">
-                        Privacy Policy
-                      </a>
-                    </li>
-                    <li className="footer-reference-item">
-                      <a href="" className="footer-reference-link">
-                        Site Map
-                      </a>
-                    </li>
-                  </ul>
+                  <div className="footer-info-group">
+                    <h4 className="footer-title">Quick link</h4>
+                    <ul className="footer-reference-list">
+                      <li className="footer-reference-item">
+                        <a href="" className="footer-reference-link">
+                          About Us
+                        </a>
+                      </li>
+                      <li className="footer-reference-item">
+                        <a href="" className="footer-reference-link">
+                          Contact Us
+                        </a>
+                      </li>
+                      <li className="footer-reference-item">
+                        <a href="" className="footer-reference-link">
+                          Privacy Policy
+                        </a>
+                      </li>
+                      <li className="footer-reference-item">
+                        <a href="" className="footer-reference-link">
+                          Site Map
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
               </div>
             </div>
