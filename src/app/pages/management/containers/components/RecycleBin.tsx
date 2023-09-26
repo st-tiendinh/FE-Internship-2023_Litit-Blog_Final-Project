@@ -16,14 +16,13 @@ export const RecycleBin = () => {
   const [deletedPosts, setDeletedPosts] = useState<any>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const isConfirm = useSelector((state: RootState) => state.modalReducer.isConfirm);
-  const [isRerender , setIsRerender] = useState<boolean>(false);
+  const modalId = useSelector((state: RootState) => state.modalReducer.id);
 
   const [visiblePosts, setVisiblePosts] = useState<any[]>([]);
   const [page, setPage] = useState(1);
 
   useEffect(() => {
     setIsLoading(true);
-    setTimeout(() => {
       (async () => {
         try {
           apiService.setHeaders(jwtHelper.getAuthHeader());
@@ -35,15 +34,8 @@ export const RecycleBin = () => {
           setIsLoading(false);
         }
       })();
-    }, 1000);
-  }, [isRerender]);
-
-  useEffect(() => {
-    if (isConfirm) {
-      setIsRerender((prev) => !prev);
-    }
-  }, [isConfirm]);
-
+  
+  }, []);
 
   useEffect(() => {
     if (deletedPosts.length >= 0) {
@@ -61,6 +53,15 @@ export const RecycleBin = () => {
     setVisiblePosts((prevPosts) => [...prevPosts, ...newPosts]);
     setPage((prevPage) => prevPage + 1);
   };
+
+  useEffect(() => {
+    if (isConfirm && modalId !==0 ) {
+      setDeletedPosts((prevPosts: any) => {
+        const newPosts = prevPosts.filter((post: any) => post.id !== modalId);
+        return newPosts;
+      });
+    } 
+  }, [isConfirm]);
 
   return (
     <div className="section section-recycle-bin">

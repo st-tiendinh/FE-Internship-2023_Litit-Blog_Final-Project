@@ -7,9 +7,7 @@ import { isImageUrlValid } from '../utils/checkValidImage';
 import BlankPostImg from '../../../assets/images/blank-post.png';
 import BlankUserImg from '../../../assets/images/blank-user.webp';
 import { PostListType } from '../../pages/home/containers/components/PublicPost';
-import {
-  setShowModal,
-} from '../../../redux/actions/modal';
+import { setShowModal } from '../../../redux/actions/modal';
 import JwtHelper from '../../core/helpers/jwtHelper';
 import { PostStatus } from './PostList';
 import { RootState } from '../../app.reducers';
@@ -63,14 +61,14 @@ export const Post = ({
   const handleDelete = () => {
     dispatch(
       setShowModal({
-        type: ModalType.DANGER,
+        type: ModalType.INFO,
         message: 'Are you sure you want to delete this post?',
+        id: id,
         onConfirm: handleSoftDelete,
       })
     );
   };
 
-  
   const handleSoftDelete = () => {
     (async () => {
       apiService.setHeaders(jwtHelper.getAuthHeader());
@@ -89,12 +87,13 @@ export const Post = ({
     })();
   };
 
-  const handleRestore =  () => {
+  const handleRestore = () => {
     dispatch(
       setShowModal({
         type: ModalType.WARNING,
         message: 'Are you sure you want to restore this post?',
         onConfirm: handleRestorePost,
+        id: id,
       })
     );
   };
@@ -111,7 +110,6 @@ export const Post = ({
     });
   }, [isValidCover, cover, authorImg]);
 
-  console.log(isLogged, isCanRestore, currentUserId, jwtHelper.isCurrentUser(+`${currentUserId}`));
   return (
     <>
       {listType === PostListType.GRID && (

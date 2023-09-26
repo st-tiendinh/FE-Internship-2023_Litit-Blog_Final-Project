@@ -1,13 +1,22 @@
+import { ModalType } from '../../app/shared/components/Modal';
 import {
   HIDE_MODAL,
   SET_CONFIRM,
   SHOW_MODAL,
 } from '../types/confirmModal';
 
-export const setShowModal = ({ id, type, message, onConfirm }: any) => {
+export interface ModalPayload {
+  id?: number;
+  type?: ModalType;
+  message?: string;
+  onConfirm?: () => void;
+  content?: any;
+}
+
+export const setShowModal = ({ id, type, message, onConfirm,content }: ModalPayload) => {
   return {
     type: SHOW_MODAL,
-    payload: { id, type, message, onConfirm },
+    payload: { id, type, message, onConfirm,content },
   };
 };
 

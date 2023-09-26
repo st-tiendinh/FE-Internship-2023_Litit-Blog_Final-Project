@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux';
 import { UserProfile } from './components/UserProfile';
 import { UserSideBar } from './components/UserSidebar';
 import PostList, { PostStatus } from '../../../shared/components/PostList';
-import { Modal } from '../../../shared/components';
 
 import JwtHelper from '../../../core/helpers/jwtHelper';
 import { ApiService } from '../../../core/services/api.service';
@@ -13,6 +12,7 @@ import { ENDPOINT } from '../../../../config/endpoint';
 import { RootState } from '../../../app.reducers';
 import { PostListType } from '../../home/containers/components/PublicPost';
 import { useDebounce } from '../../../shared/hooks/useDebounce';
+import { set } from 'react-hook-form';
 
 enum FilterType {
   LATEST = 'Latest',
@@ -28,7 +28,6 @@ const UserDetail = () => {
   const [userStatistic, setUserStatistic] = useState<any>({});
   const [userPosts, setUserPost] = useState<any>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isRerender, setIsRerender] = useState<boolean>(false);
 
   const [filter, setFilter] = useState<any>(FilterType.LATEST);
   const [search, setSearch] = useState<string>('');
@@ -40,12 +39,12 @@ const UserDetail = () => {
   const location = useLocation();
   const userId = location.pathname.slice(7);
   const isLoggedUser = isLogged ? jwtHelper.isCurrentUser(+userId) : false;
+  const modalId = useSelector((state: RootState) => state.modalReducer.id);
 
   const [visiblePosts, setVisiblePosts] = useState<any[]>([]);
   const [page, setPage] = useState(1);
 
   useEffect(() => {
-    setTimeout(() => {
       setIsLoading(true);
       (async () => {
         try {
@@ -97,13 +96,15 @@ const UserDetail = () => {
           setIsLoading(false);
         }
       })();
-    }, 1000);
-  }, [location, isLoggedUser, userId, isRerender]);
+  }, [location, isLoggedUser, userId]);
 
   useEffect(() => {
-    if (isConfirm) {
-      setIsRerender((prev) => !prev);
-    }
+    if (isConfirm && modalId !==0 ) {
+      setSearchArr((prevPosts: any) => {
+        const newPosts = prevPosts.filter((post: any) => post.id !== modalId);
+        return newPosts;
+      });
+    } 
   }, [isConfirm]);
 
   useEffect(() => {
@@ -119,7 +120,6 @@ const UserDetail = () => {
     }
   }, [debounceSearch, filter]);
 
-  console.log(searchArr);
 
   useEffect(() => {
     window.scrollTo(0, 0);
