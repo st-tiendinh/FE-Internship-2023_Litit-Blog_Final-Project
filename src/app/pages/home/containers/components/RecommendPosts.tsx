@@ -55,66 +55,192 @@ export const RecommendPosts = () => {
 
   return (
     <section className="section recommend-section">
-      {isLoading
-        ? skeletonArray.map((item) => (
-            <div key={item} className="article skeleton"></div>
-          ))
-        : recommendPosts.map((post, index) => {
-            const isValidCover = isValidCovers[index];
-            const isValidAvatar = isValidAvatars[index];
-            return (
-              <div key={post.id} className="article">
-                <Link
-                  to={`/articles/${post.id}`}
-                  className="article-image-wrapper"
-                >
-                  <div className="overlay"></div>
-                  <img
-                    src={isValidCover ? post.cover : BlankPostImg}
-                    alt={post.description}
-                    className="article-image"
-                  />
-                </Link>
-                <div className="article-content">
-                  <ul className="d-flex tag-list">
-                    {post.tags.map((tag: any) => {
-                      return (
-                        <li className="tag-item">
-                          <Link to={`articles/tag/${tag}`} className="tag-link">
-                            <div className="badge badge-primary tag">{tag}</div>
-                          </Link>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                  <div className="d-flex article-about">
-                    <Link
-                      to={`/users/${post.user.id}`}
-                      className="d-flex article-author"
-                    >
-                      <div className="author-avatar-wrapper">
-                        <img
-                          src={isValidAvatar ? post.user.picture : BlankUserImg}
-                          alt={post.user.displayName + ' avatar'}
-                          className="author-avatar"
-                        />
-                      </div>
-                      <p className="author-name">{post?.user?.displayName}</p>
-                    </Link>
-                    <span className="dot-symbol">&#x2022;</span>
-                    <p className="article-date">{formatDate(post.createdAt)}</p>
-                  </div>
-                  <Link to={`/articles/${post.id}`}>
-                    <h3
-                      className={`article-title title-${index} text-truncate`}
-                    >
-                      {post.title}
-                    </h3>
+      {!isLoading ? (
+        skeletonArray.map((item) => (
+          <div key={item} className="article skeleton"></div>
+        ))
+      ) : (
+        <div className="row">
+          <div className="col col-6">
+            <div key={recommendPosts[1]?.id} className="article">
+              <Link
+                to={`/articles/${recommendPosts[0]?.id}`}
+                className="article-image-wrapper"
+              >
+                <div className="overlay"></div>
+                <img
+                  src={
+                    isValidCovers[0] ? recommendPosts[0]?.cover : BlankPostImg
+                  }
+                  alt={recommendPosts[0]?.description}
+                  className="article-image"
+                />
+              </Link>
+              <div className="article-content">
+                <ul className="d-flex tag-list">
+                  {recommendPosts[0]?.tags.map((tag: any) => {
+                    return (
+                      <li className="tag-item">
+                        <Link to={`articles/tag/${tag}`} className="tag-link">
+                          <div className="badge badge-primary tag">{tag}</div>
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
+                <div className="d-flex article-about">
+                  <Link
+                    to={`/users/${recommendPosts[0]?.user?.id}`}
+                    className="d-flex article-author"
+                  >
+                    <div className="author-avatar-wrapper">
+                      <img
+                        src={
+                          isValidAvatars[0]
+                            ? recommendPosts[0]?.user?.picture
+                            : BlankUserImg
+                        }
+                        alt={recommendPosts[0]?.user?.displayName + ' avatar'}
+                        className="author-avatar"
+                      />
+                    </div>
+                    <p className="author-name">
+                      {recommendPosts[0]?.user?.displayName}
+                    </p>
                   </Link>
+                  <span className="dot-symbol">&#x2022;</span>
+                  <p className="article-date">
+                    {formatDate(recommendPosts[0]?.createdAt)}
+                  </p>
                 </div>
+                <Link to={`/articles/${recommendPosts[0]?.id}`}>
+                  <h3 className={`article-title title-0 text-truncate`}>
+                    {recommendPosts[0]?.title}
+                  </h3>
+                </Link>
               </div>
-            );
-          })}
+            </div>
+          </div>
+          <div className="col col-6">
+            <div key={recommendPosts[1]?.id} className="article sm">
+              <Link
+                to={`/articles/${recommendPosts[1]?.id}`}
+                className="article-image-wrapper"
+              >
+                <div className="overlay"></div>
+                <img
+                  src={
+                    isValidCovers[1] ? recommendPosts[1]?.cover : BlankPostImg
+                  }
+                  alt={recommendPosts[1]?.description}
+                  className="article-image"
+                />
+              </Link>
+              <div className="article-content">
+                <ul className="d-flex tag-list">
+                  {recommendPosts[1]?.tags.map((tag: any) => {
+                    return (
+                      <li className="tag-item">
+                        <Link to={`articles/tag/${tag}`} className="tag-link">
+                          <div className="badge badge-primary tag">{tag}</div>
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
+                <div className="d-flex article-about">
+                  <Link
+                    to={`/users/${recommendPosts[1]?.user?.id}`}
+                    className="d-flex article-author"
+                  >
+                    <div className="author-avatar-wrapper">
+                      <img
+                        src={
+                          isValidAvatars[1]
+                            ? recommendPosts[1]?.user?.picture
+                            : BlankUserImg
+                        }
+                        alt={recommendPosts[1]?.user?.displayName + ' avatar'}
+                        className="author-avatar"
+                      />
+                    </div>
+                    <p className="author-name">
+                      {recommendPosts[1]?.user?.displayName}
+                    </p>
+                  </Link>
+                  <span className="dot-symbol">&#x2022;</span>
+                  <p className="article-date">
+                    {formatDate(recommendPosts[1]?.createdAt)}
+                  </p>
+                </div>
+                <Link to={`/articles/${recommendPosts[1]?.id}`}>
+                  <h3 className={`article-title text-truncate`}>
+                    {recommendPosts[1]?.title}
+                  </h3>
+                </Link>
+              </div>
+            </div>
+            <div key={recommendPosts[2]?.id} className="article sm">
+              <Link
+                to={`/articles/${recommendPosts[2]?.id}`}
+                className="article-image-wrapper"
+              >
+                <div className="overlay"></div>
+                <img
+                  src={
+                    isValidCovers[2] ? recommendPosts[2]?.cover : BlankPostImg
+                  }
+                  alt={recommendPosts[2]?.description}
+                  className="article-image"
+                />
+              </Link>
+              <div className="article-content">
+                <ul className="d-flex tag-list">
+                  {recommendPosts[2]?.tags.map((tag: any) => {
+                    return (
+                      <li className="tag-item">
+                        <Link to={`articles/tag/${tag}`} className="tag-link">
+                          <div className="badge badge-primary tag">{tag}</div>
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
+                <div className="d-flex article-about">
+                  <Link
+                    to={`/users/${recommendPosts[2]?.user?.id}`}
+                    className="d-flex article-author"
+                  >
+                    <div className="author-avatar-wrapper">
+                      <img
+                        src={
+                          isValidAvatars[2]
+                            ? recommendPosts[2]?.user?.picture
+                            : BlankUserImg
+                        }
+                        alt={recommendPosts[2]?.user?.displayName + ' avatar'}
+                        className="author-avatar"
+                      />
+                    </div>
+                    <p className="author-name">
+                      {recommendPosts[2]?.user?.displayName}
+                    </p>
+                  </Link>
+                  <span className="dot-symbol">&#x2022;</span>
+                  <p className="article-date">
+                    {formatDate(recommendPosts[2]?.createdAt)}
+                  </p>
+                </div>
+                <Link to={`/articles/${recommendPosts[2]?.id}`}>
+                  <h3 className={`article-title text-truncate`}>
+                    {recommendPosts[2]?.title}
+                  </h3>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 };
