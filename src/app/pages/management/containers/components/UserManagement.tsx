@@ -44,7 +44,7 @@ export const UserManagement = () => {
     lastName: userInfo.lastName,
     displayName: userInfo.displayName,
     phone: userInfo.phone,
-    dob: userInfo?.dob.split('/').reverse().join('-'),
+    dob: userInfo?.dob?.split('/').reverse().join('-'),
   };
 
   const {

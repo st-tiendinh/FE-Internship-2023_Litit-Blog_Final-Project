@@ -1,18 +1,23 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import Cookies from 'js-cookie';
 
 import LogoImage from '../../../assets/images/logo.png';
 import BlankUserImg from '../../../assets/images/blank-user.webp';
 
-import { signOut } from '../../core/auth/auth.actions';
+import { signInGoogleSuccess, signOut } from '../../core/auth/auth.actions';
 import { RootState } from '../../app.reducers';
 import JwtHelper from '../../core/helpers/jwtHelper';
 import { useEffect, useRef, useState } from 'react';
 import { isImageUrlValid } from '../utils/checkValidImage';
-
-const jwtHelper = new JwtHelper();
+import JwtDecode from 'jwt-decode';
+import { KEYS, removeLS, setLS } from '../../core/helpers/storageHelper';
+import { ApiService } from '../../core/services/api.service';
+import { ENDPOINT } from '../../../config/endpoint';
 
 export const Header = () => {
+  const jwtHelper = new JwtHelper();
+  const apiService = new ApiService();
   const location = useLocation();
   const dispatch = useDispatch();
 
@@ -21,27 +26,70 @@ export const Header = () => {
   const [isOpenDropdown, setIsOpenDropdown] = useState(false);
   const [filter, setFilter] = useState<string | undefined>('');
 
+  const isLogged = useSelector((state: RootState) => state.authReducer.isLogged);
+  const userInfo = useSelector((state: RootState) => state.authReducer.userInfo);
+  console.log(userInfo, userInfo?.lastName, userInfo?.displayName);
+
+  useEffect(() => {
+    function getAccessTokenFromUrl(): string | null {
+      const urlParams = new URLSearchParams(window.location.search);
+      const accessToken = urlParams.get('accessToken');
+      return accessToken;
+    }
+
+    function decodeAccessToken(accessToken: string): any {
+      const decodedToken = JwtDecode(accessToken);
+      return decodedToken;
+    }
+
+    async function fetchUserData(userId: number) {
+      apiService.setHeaders(jwtHelper.getAuthHeader());
+      const response: any = await apiService.get([ENDPOINT.users.index, `${userId}`]);
+      // console.log(response);
+
+      setLS(KEYS.USER_INFO, response);
+
+      dispatch(
+        signInGoogleSuccess({
+          accessToken: `${accessToken}`,
+          userInfo: response,
+        })
+      );
+    }
+
+    const accessToken = getAccessTokenFromUrl();
+
+    if (accessToken) {
+      const decodedToken = decodeAccessToken(accessToken);
+      const userId = decodedToken.userId;
+
+      Cookies.set(KEYS.ACCESS_TOKEN, accessToken, {
+        expires: (decodedToken.exp - decodedToken.iat) / 86400,
+      });
+
+      setLS(KEYS.ACCESS_TOKEN, accessToken);
+
+      fetchUserData(userId);
+    }
+  }, []);
+
   useEffect(() => {
     setFilter(location.pathname.split('/').pop());
   }, [location]);
-
-  const isLogged = useSelector(
-    (state: RootState) => state.authReducer.isLogged
-  );
-  const userInfo = useSelector(
-    (state: RootState) => state.authReducer.userInfo
-  );
 
   useEffect(() => {
     isImageUrlValid(userInfo?.picture).then((isValid) => {
       isValid ? setIsValidUserImg(true) : setIsValidUserImg(false);
     });
-  }, [isImageUrlValid, userInfo?.picture]);
+  }, [isImageUrlValid, userInfo?.picture, userInfo]);
 
   const navigate = useNavigate();
 
   const handleSignOut = () => {
     dispatch(signOut());
+    Cookies.remove(KEYS.ACCESS_TOKEN);
+    removeLS(KEYS.ACCESS_TOKEN);
+    removeLS(KEYS.USER_INFO);
     closeDropdown();
     navigate('/');
   };
@@ -77,11 +125,7 @@ export const Header = () => {
               <div className="header-logo">
                 <Link to={'/'} className="logo-link">
                   <h1 className="logo">
-                    <img
-                      className="logo-image"
-                      src={LogoImage}
-                      alt="Lit.it Blog"
-                    />
+                    <img className="logo-image" src={LogoImage} alt="Lit.it Blog" />
                   </h1>
                 </Link>
               </div>
@@ -90,19 +134,14 @@ export const Header = () => {
               <nav className="nav">
                 <ul className="d-flex nav-list">
                   <li className="nav-item">
-                    <Link
-                      to={'/'}
-                      className={`nav-link ${filter === '' ? 'active' : null}`}
-                    >
+                    <Link to={'/'} className={`nav-link ${filter === '' ? 'active' : null}`}>
                       Home
                     </Link>
                   </li>
                   <li className="nav-item">
                     <Link
                       to={'articles'}
-                      className={`nav-link ${
-                        filter === 'articles' ? 'active' : null
-                      }`}
+                      className={`nav-link ${filter === 'articles' ? 'active' : null}`}
                     >
                       Articles
                     </Link>
@@ -110,9 +149,7 @@ export const Header = () => {
                   <li className="nav-item">
                     <Link
                       to={'/articles/new'}
-                      className={`nav-link ${
-                        filter === 'new' ? 'active' : null
-                      }`}
+                      className={`nav-link ${filter === 'new' ? 'active' : null}`}
                     >
                       Write
                     </Link>
@@ -128,11 +165,13 @@ export const Header = () => {
                       <div
                         onClick={() => setIsOpenDropdown(!isOpenDropdown)}
                         ref={userActionRef}
-                        className={`user-action ${
-                          isOpenDropdown ? 'active' : null
-                        }`}
+                        className={`user-action ${isOpenDropdown ? 'active' : null}`}
                       >
-                        <p className="user-name">{userInfo.displayName}</p>
+                        <p className="user-name">
+                          {userInfo?.displayName === null
+                            ? userInfo?.firstName
+                            : userInfo?.displayName}
+                        </p>
                       </div>
                       {isOpenDropdown && (
                         <div className="dropdown-menu">
@@ -145,36 +184,25 @@ export const Header = () => {
                                 <div className="user-avatar-wrapper">
                                   <img
                                     className="user-avatar"
-                                    src={
-                                      isValidUserImg
-                                        ? userInfo.picture
-                                        : BlankUserImg
-                                    }
+                                    src={isValidUserImg ? userInfo.picture : BlankUserImg}
                                     alt="User Image"
                                   />
                                 </div>
                                 <div className="user-info">
                                   <p className="user-name text-truncate">
-                                    {userInfo.displayName}
+                                    {userInfo?.displayName === null
+                                      ? userInfo?.firstName
+                                      : userInfo?.displayName}
                                   </p>
-                                  <p className="user-email text-truncate">
-                                    {userInfo.email}
-                                  </p>
+                                  <p className="user-email text-truncate">{userInfo.email}</p>
                                 </div>
                               </Link>
                             </li>
-                            <Link
-                              to={'/management'}
-                              className="menu-item"
-                              onClick={closeDropdown}
-                            >
+                            <Link to={'/management'} className="menu-item" onClick={closeDropdown}>
                               <div className="menu-action">Management</div>
                             </Link>
                             <li className="menu-item">
-                              <div
-                                onClick={handleSignOut}
-                                className="menu-action action-logout"
-                              >
+                              <div onClick={handleSignOut} className="menu-action action-logout">
                                 <p className="logout-label">Sign out</p>
                               </div>
                             </li>
@@ -186,10 +214,7 @@ export const Header = () => {
 
                   {location.pathname === '/auth/login' && !isLogged && (
                     <li className="action-item">
-                      <Link
-                        to={'auth/register'}
-                        className="btn btn-secondary action-link"
-                      >
+                      <Link to={'auth/register'} className="btn btn-secondary action-link">
                         Sign up
                       </Link>
                     </li>
@@ -197,10 +222,7 @@ export const Header = () => {
 
                   {!isLogged && location.pathname !== '/auth/login' && (
                     <li className="action-item">
-                      <Link
-                        to={'auth/login'}
-                        className="btn btn-secondary action-link"
-                      >
+                      <Link to={'auth/login'} className="btn btn-secondary action-link">
                         Sign in
                       </Link>
                     </li>

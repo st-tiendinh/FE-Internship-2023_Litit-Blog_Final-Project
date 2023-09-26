@@ -23,6 +23,15 @@ const signInSuccess = (state: any, payload: any) => ({
   userInfo: payload.userInfo,
 });
 
+const signInGoogleSuccess = (state: any, payload: any) => ({
+  ...state,
+  data: payload,
+  isLoading: false,
+  error: null,
+  isLogged: true,
+  userInfo: payload.userInfo,
+});
+
 const signInError = (state: any, payload: any) => ({
   ...state,
   isLoading: false,
@@ -48,8 +57,11 @@ const signOutSuccess = (state: any, payload: any) => ({
 const signOutError = (state: any, payload: any) => ({
   ...state,
   isLoading: false,
-  hasError: true,
-  error: payload,
+  //fix hasError and error later because not have anything to check right now
+  hasError:true,
+    // payload.response.data.errors[0] === 'You can not logout with this account.' ? false : true,
+  error:payload,
+    // payload.response.data.errors[0] === 'You can not logout with this account.' ? null : payload,
 });
 
 const signOut = (state: any, payload: any) => ({
@@ -87,6 +99,7 @@ const updateUserError = (state: any, payload: any) => ({
 const strategies = {
   [ACTION_TYPES.SIGN_IN]: signIn,
   [ACTION_TYPES.SIGN_IN_SUCCESS]: signInSuccess,
+  [ACTION_TYPES.SIGN_IN_GOOGLE_SUCCESS]: signInGoogleSuccess,
   [ACTION_TYPES.SIGN_IN_ERROR]: signInError,
   [ACTION_TYPES.SIGN_OUT]: signOut,
   [ACTION_TYPES.SIGN_OUT_SUCCESS]: signOutSuccess,
