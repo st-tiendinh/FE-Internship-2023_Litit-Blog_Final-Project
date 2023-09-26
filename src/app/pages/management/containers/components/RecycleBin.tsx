@@ -15,7 +15,9 @@ const jwtHelper = new JwtHelper();
 export const RecycleBin = () => {
   const [deletedPosts, setDeletedPosts] = useState<any>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const isConfirm = useSelector((state: RootState) => state.modalReducer.isConfirm);
+  const isConfirm = useSelector(
+    (state: RootState) => state.modalReducer.isConfirm
+  );
   const modalId = useSelector((state: RootState) => state.modalReducer.id);
 
   const [visiblePosts, setVisiblePosts] = useState<any[]>([]);
@@ -23,18 +25,17 @@ export const RecycleBin = () => {
 
   useEffect(() => {
     setIsLoading(true);
-      (async () => {
-        try {
-          apiService.setHeaders(jwtHelper.getAuthHeader());
-          const response: any = await apiService.get([ENDPOINT.posts.recyclebin]);
-          setDeletedPosts(response.data);
-          setIsLoading(false);
-        } catch (error) {
-          console.log(error);
-          setIsLoading(false);
-        }
-      })();
-  
+    (async () => {
+      try {
+        apiService.setHeaders(jwtHelper.getAuthHeader());
+        const response: any = await apiService.get([ENDPOINT.posts.recyclebin]);
+        setDeletedPosts(response.data);
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+        setIsLoading(false);
+      }
+    })();
   }, []);
 
   useEffect(() => {
@@ -47,7 +48,8 @@ export const RecycleBin = () => {
     const startIndex = page * 5;
     let endIndex = startIndex + 5;
     if (endIndex > deletedPosts.length) {
-      endIndex = startIndex + (Number(deletedPosts.length) - Number(startIndex));
+      endIndex =
+        startIndex + (Number(deletedPosts.length) - Number(startIndex));
     }
     const newPosts = deletedPosts.slice(startIndex, endIndex);
     setVisiblePosts((prevPosts) => [...prevPosts, ...newPosts]);
@@ -55,12 +57,12 @@ export const RecycleBin = () => {
   };
 
   useEffect(() => {
-    if (isConfirm && modalId !==0 ) {
+    if (isConfirm && modalId !== 0) {
       setDeletedPosts((prevPosts: any) => {
         const newPosts = prevPosts.filter((post: any) => post.id !== modalId);
         return newPosts;
       });
-    } 
+    }
   }, [isConfirm]);
 
   return (
@@ -68,7 +70,11 @@ export const RecycleBin = () => {
       {isLoading ? (
         <div className="skeleton skeleton-personal-list"></div>
       ) : (
-        <PostList posts={visiblePosts} type={PostListType.LIST} isCanRestore={true} />
+        <PostList
+          posts={visiblePosts}
+          type={PostListType.LIST}
+          isCanRestore={true}
+        />
       )}
       {visiblePosts.length < deletedPosts.length && (
         <div className="d-flex load-more-btn-wrap">

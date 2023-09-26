@@ -147,6 +147,12 @@
     background-image: url("../assets/icons/ic-lock.svg");
   }
 
+  &-draft-small {
+    width: 14px;
+    height: 14px;
+    background-image: url("../assets/icons/ic-draft.svg");
+  }
+
   &-pen {
     width: 16px;
     height: 16px;
@@ -273,5 +279,11 @@
     &.active {
       background-image: url("../assets/icons/ic-following-highlight.svg");
     }
+  }
+
+  &-cover-uploader {
+    width: 30px;
+    height: 30px;
+    background-image: url("../assets/icons/ic-upload.svg");
   }
 }
