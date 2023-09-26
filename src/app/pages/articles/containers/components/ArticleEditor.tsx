@@ -4,6 +4,7 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useState, useRef, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { useConfirmOnload } from '../../../../shared/hooks/useConfirmOnload';
 
 import { ApiService } from '../../../../core/services/api.service';
 import JwtHelper from '../../../../core/helpers/jwtHelper';
@@ -36,9 +37,7 @@ interface ArticleEditorProps {
 export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
   const [error, setError] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isSaveDraftLoading, setIsSaveDraftLoading] = useState<boolean>(
-    JSON.parse(localStorage.getItem('is_draft') as string) || false
-  );
+  const [isSaveDraftLoading, setIsSaveDraftLoading] = useState<boolean>(false);
 
   const [titleInput, setTitleInput] = useState<string>(
     type === PostAction.UPDATE ? data.title : ''
@@ -61,7 +60,6 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
       : true
   );
   const [unsavedChanges, setUnsavedChanges] = useState<boolean>(false);
-  const [isRedirect, setIsRedirect] = useState<boolean>(false);
 
   const [imageUrl, setImageUrl] = useState<string | undefined>(
     type === PostAction.UPDATE ? data.cover : undefined
@@ -244,44 +242,6 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
     })();
   };
 
-  useEffect(() => {
-    const handleBeforeUnload = (e: any) => {
-      if (unsavedChanges) {
-        e.preventDefault();
-        e.returnValue =
-          'You have unsaved changes. Are you sure you want to leave this page?';
-      }
-    };
-    window.addEventListener('beforeunload', handleBeforeUnload);
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-    };
-  }, [unsavedChanges]);
-
-  useEffect(() => {
-    const links = document.querySelectorAll('a');
-    const handleConfirm = (e: any) => {
-      setIsRedirect(true);
-      if (
-        unsavedChanges &&
-        !window.confirm(
-          'You have unsaved changes. Are you sure you want to leave this page?'
-        )
-      ) {
-        e.preventDefault();
-      }
-    };
-    links.forEach((link) => {
-      link.addEventListener('click', handleConfirm);
-    });
-
-    return () => {
-      links.forEach((link) => {
-        link.removeEventListener('click', handleConfirm);
-      });
-    };
-  }, [unsavedChanges]);
-
   const handleSaveDraft = () => {
     (async () => {
       try {
@@ -299,13 +259,15 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
         apiService.setHeaders(jwt.getAuthHeader());
         await apiService.post([ENDPOINT.posts.draft], body);
         setIsSaveDraftLoading(false);
-        navigate(-1);
+        navigate('/');
       } catch (error) {
         console.log(error);
         setIsSaveDraftLoading(false);
       }
     })();
   };
+
+  useConfirmOnload(unsavedChanges, handleSaveDraft);
 
   function uploadAdapter(loader: any) {
     return {
@@ -366,53 +328,60 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
             accept="image/*"
             onChange={handleInputChange}
           />
-          {imageFile && type === PostAction.CREATE ? (
-            <img
-              src={URL.createObjectURL(imageFile)}
-              alt="Uploaded"
-              onClick={handleImageClick}
-              className="article-editor-image"
-            />
-          ) : (
-            ''
-          )}
-          {imageUrl ? (
-            imageFile ? (
-              <img
-                src={
-                  type === PostAction.UPDATE
-                    ? URL.createObjectURL(imageFile)
-                    : imageUrl
-                }
-                alt="Uploaded"
-                onClick={handleImageClick}
-                className="article-editor-image"
-              />
-            ) : (
-              <img
-                src={
-                  type === PostAction.UPDATE
-                    ? isValidCover
-                      ? imageUrl
-                      : BlankPostImg
-                    : URL.createObjectURL(imageFile)
-                }
-                alt="Uploaded"
-                onClick={handleImageClick}
-                className="article-editor-image"
-              />
-            )
-          ) : null}
-          {!imageFile && !imageUrl ? (
-            <p
-              className="article-editor-drop-zone-text"
-              onClick={handleImageClick}
-            >
-              Drag and drop photo here or click to select photo
-            </p>
-          ) : (
-            ''
-          )}
+          {type === PostAction.CREATE
+            ? (!!imageFile && (
+                <img
+                  src={URL.createObjectURL(imageFile)}
+                  alt="Uploaded"
+                  className="article-editor-image"
+                  onClick={handleImageClick}
+                />
+              )) || (
+                <div
+                  className="article-editor-drop-zone-wrapper"
+                  onClick={handleImageClick}
+                >
+                  <i className="icon icon-cover-uploader"></i>
+                  <h4 className="article-editor-drop-zone-title">
+                    DROP FILE HERE
+                  </h4>
+                  <p className="article-editor-drop-zone-text">
+                    Drag and drop photo here or click to select photo
+                  </p>
+                </div>
+              )
+            : ''}
+          {type === PostAction.UPDATE
+            ? (!!imageFile && (
+                <img
+                  src={URL.createObjectURL(imageFile)}
+                  alt="Uploaded"
+                  className="article-editor-image"
+                  onClick={handleImageClick}
+                />
+              )) ||
+              (!!imageUrl && (
+                <img
+                  src={isValidCover ? imageUrl : BlankPostImg}
+                  alt="Uploaded"
+                  className="article-editor-image"
+                  onClick={handleImageClick}
+                />
+              )) || (
+                <div
+                  className="article-editor-drop-zone-wrapper"
+                  onClick={handleImageClick}
+                >
+                  <i className="icon icon-cover-uploader"></i>
+                  <h4 className="article-editor-drop-zone-title">
+                    DROP FILE HERE
+                  </h4>
+                  <p className="article-editor-drop-zone-text">
+                    Drag and drop photo here or click to select photo
+                  </p>
+                </div>
+              )
+            : ''}
         </div>
 
         <textarea
@@ -479,7 +448,7 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
           </div>
           <div className="article-editor-form-save-button-wrapper">
             <button
-              className={`btn btn-outline ${
+              className={`btn btn-secondary ${
                 isSaveDraftLoading ? 'loading' : ''
               }`}
               onClick={handleSaveDraft}

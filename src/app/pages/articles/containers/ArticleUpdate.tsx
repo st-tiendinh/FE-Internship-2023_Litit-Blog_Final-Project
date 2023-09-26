@@ -32,26 +32,49 @@ const ArticleUpdate = () => {
 
   useEffect(() => {
     (async () => {
-      apiService.setHeaders(jwt.getAuthHeader());
-      const response: any = await apiService.get([
-        ENDPOINT.users.index,
-        '/me/posts',
-      ]);
-      const currentPostId = location.pathname.split('/').pop();
+      try {
+        apiService.setHeaders(jwt.getAuthHeader());
+        const response: any = await apiService.get([
+          ENDPOINT.users.index,
+          '/me/posts',
+        ]);
+        const currentPostId = location.pathname.split('/').pop();
 
-      const filterPost = response.Posts.filter(
-        (post: any) => post.id.toString() === currentPostId
-      )[0];
+        const filterPost = response.Posts.filter(
+          (post: any) => post.id.toString() === currentPostId
+        )[0];
 
-      setPostData({
-        cover: filterPost.cover,
-        title: filterPost.title,
-        description: filterPost.description,
-        tags: filterPost.tags,
-        status: filterPost.status,
-        content: filterPost.content,
-      });
-      setIsLoading(false);
+        setPostData({
+          cover: filterPost.cover,
+          title: filterPost.title,
+          description: filterPost.description,
+          tags: filterPost.tags,
+          status: filterPost.status,
+          content: filterPost.content,
+        });
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+        try {
+          const currentPostId = location.pathname.split('/').pop();
+          apiService.setHeaders(jwt.getAuthHeader());
+          const response: any = await apiService.get([
+            ENDPOINT.posts.index,
+            `${currentPostId}`,
+          ]);
+          setPostData({
+            cover: response.cover,
+            title: response.title,
+            description: response.description,
+            tags: response.tags,
+            status: response.status,
+            content: response.content,
+          });
+          setIsLoading(false);
+        } catch (error) {
+          console.log(error);
+        }
+      }
     })();
   }, []);
 
