@@ -90,47 +90,44 @@
     margin-bottom: 20px;
 
     .select-container {
-      position: relative;
+      width: 250px;
 
-      .icon-arrow {
-        position: absolute;
-        right: 10px;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 14px;
-        height: 14px;
-        background-image: url("../assets/icons/ic-arrow-up-1.svg");
+      .dropdown {
+        font-size: map-get($font-sizes, "sm");
+
+        &-select {
+          padding: 8px 10px;
+        }
       }
-    }
-
-    .select-box {
-      appearance: none;
-      min-width: 240px;
-      padding: 12px 16px;
-      font-family: "Montserrat", sans-serif;
-      font-size: map-get($font-sizes, "md");
-      background-color: #ffffff;
-      border: 0.5px solid #d6d6d6;
-      border-radius: 4px;
-      box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.12);
     }
 
     .search-box {
       width: 300px;
-      padding: 12px 15px;
-      background-color: #ffffff;
-      border: 0.5px solid #d6d6d6;
-      border-radius: 4px;
-      box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.12);
+      padding: 4px 10px;
+      align-items: center;
+
+      background-color: white;
+      color: map-get($colors, "secondary-800");
+      border-radius: 5px;
+      border: 1px solid map-get($colors, "secondary-600");
     }
 
     .search-input {
       font-family: "Montserrat", sans-serif;
-      font-size: map-get($font-sizes, "md");
+      font-size: map-get($font-sizes, "sm");
+      flex: 1;
+      padding: 6px 0px;
+
+      &:focus + .search-box {
+        border-color: map-get($colors, "primary");
+      }
     }
 
     .icon-search {
-      margin-right: 8px;
+      margin-top: 3px;
+      margin-right: 6px;
+      width: 20px;
+      height: 20px;
       background-image: url("../assets/icons/ic-search.svg");
     }
   }

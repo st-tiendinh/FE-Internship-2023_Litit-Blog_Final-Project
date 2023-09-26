@@ -1,0 +1,73 @@
+.dropdown {
+  width: 100%;
+  height: 100%;
+  color: map-get($colors, "secondary-800");
+  position: relative;
+  background-color: white;
+
+  &-select {
+    padding: 10px;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 5px;
+    border: 1px solid map-get($colors, "secondary-600");
+    cursor: pointer;
+    transition: none;
+
+    .icon-arrow {
+      width: 20px;
+      height: 20px;
+      transition: none;
+      background-image: url("../assets/icons/ic-arrow-down-1.svg");
+    }
+
+    &.active {
+      border: 1px solid map-get($colors, "primary");
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+
+      .icon-arrow {
+        transition: none;
+        background-image: url("../assets/icons/ic-arrow-up-1.svg");
+      }
+    }
+  }
+
+  .select-label {
+    position: absolute;
+    padding: 0 5px;
+    line-height: 100%;
+    top: 0;
+    left: 14px;
+    transform: translateY(-50%);
+
+    font-size: map-get($font-sizes, "xs");
+    color: map-get($colors, "secondary-600");
+    background: map-get($colors, "white");
+
+    &.active {
+      color: map-get($colors, "primary");
+    }
+  }
+
+  &-list {
+    width: 100%;
+    position: absolute;
+    z-index: 10;
+    background-color: white;
+    border: 1px solid map-get($colors, "secondary-600");
+    border-top: none;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+  }
+
+  &-item {
+    padding: 9px 10px;
+    cursor: pointer;
+    user-select: none;
+
+    &:hover {
+      background-color: map-get($colors, "secondary-100");
+    }
+  }
+}

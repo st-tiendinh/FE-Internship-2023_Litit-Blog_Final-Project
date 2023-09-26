@@ -7,6 +7,7 @@
     .form-control {
       width: 100%;
       padding: 10px;
+      font-family: "Montserrat", sans-serif;
       font-size: map-get($font-sizes, "md");
       border-radius: 5px;
       border: 1px solid map-get($colors, "secondary-600");
