@@ -22,8 +22,10 @@ export const Header = () => {
   const dispatch = useDispatch();
 
   const [isValidUserImg, setIsValidUserImg] = useState(false);
+  const menuRef = useRef<HTMLElement | null>(null);
   const userActionRef = useRef<HTMLDivElement | null>(null);
   const [isOpenDropdown, setIsOpenDropdown] = useState(false);
+  const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
   const [filter, setFilter] = useState<string | undefined>('');
 
   const isLogged = useSelector((state: RootState) => state.authReducer.isLogged);
@@ -111,6 +113,24 @@ export const Header = () => {
       window.removeEventListener('click', handleOutsideClick);
     };
   }, [setIsOpenDropdown]);
+
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (
+        menuRef.current &&
+        event.target instanceof Node &&
+        !menuRef.current.contains(event.target)
+      ) {
+        setIsOpenMenu(false);
+      }
+    };
+
+    window.addEventListener('click', handleOutsideClick);
+
+    return () => {
+      window.removeEventListener('click', handleOutsideClick);
+    };
+  }, [setIsOpenMenu]);
 
   const closeDropdown = () => {
     setIsOpenDropdown(false);
