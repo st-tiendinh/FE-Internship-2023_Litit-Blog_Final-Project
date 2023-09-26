@@ -23,7 +23,7 @@
     &-name {
       font-size: map-get($font-sizes, "sm");
       font-weight: map-get($font-weights, "medium");
-      margin-bottom: 8px;
+      margin-bottom: 6px;
 
       &:hover {
         color: map-get($colors, "dark-yellow");

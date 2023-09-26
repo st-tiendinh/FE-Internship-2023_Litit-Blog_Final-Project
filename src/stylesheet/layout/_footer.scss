@@ -14,6 +14,7 @@
 
     .logo {
       width: 110px;
+      margin-bottom: 30px;
 
       &-image {
         width: 100%;
@@ -42,12 +43,12 @@
   }
 
   .sub-footer {
+    padding: 20px;
     .container {
       display: flex;
       align-items: center;
     }
 
-    padding: 20px 0;
     border-top: 1px solid map-get($colors, "dark-yellow");
 
     .container {

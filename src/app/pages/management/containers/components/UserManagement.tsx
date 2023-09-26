@@ -255,13 +255,15 @@ export const UserManagement = () => {
             />
           </div>
         </div>
-        <button
-          className={`btn btn-primary ${isLoading ? 'loading' : null}`}
-          disabled={isLoading}
-          type="submit"
-        >
-          <span className="btn-text">Save Profile Information</span>
-        </button>
+        <div className="d-flex button-wrapper">
+          <button
+            className={`btn btn-primary ${isLoading ? 'loading' : null}`}
+            disabled={isLoading}
+            type="submit"
+          >
+            <span className="btn-text">Save</span>
+          </button>
+        </div>
       </form>
       <p className={`update-profile-error text-danger text-center`}>
         {hasError && !isLoading && error?.response?.data?.errors}

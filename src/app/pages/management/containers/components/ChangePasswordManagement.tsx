@@ -125,13 +125,15 @@ export const ChangePasswordManagement = () => {
           onBlur={(e) => handleTrimInput('confirmPassword', e.target.value)}
         />
 
-        <button
-          className={`btn btn-primary ${isLoading ? 'loading' : null}`}
-          disabled={isLoading}
-          type="submit"
-        >
-          <span className="btn-text">Change password</span>
-        </button>
+        <div className="d-flex button-wrapper">
+          <button
+            className={`btn btn-primary ${isLoading ? 'loading' : null}`}
+            disabled={isLoading}
+            type="submit"
+          >
+            <span className="btn-text">Change password</span>
+          </button>
+        </div>
       </form>
       <p className="signin-error text-center text-danger">
         {error && !isLoading && error}
