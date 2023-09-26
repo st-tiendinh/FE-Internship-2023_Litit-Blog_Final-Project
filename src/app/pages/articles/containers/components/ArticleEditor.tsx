@@ -3,7 +3,7 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useState, useRef, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useConfirmOnload } from '../../../../shared/hooks/useConfirmOnload';
 
 import { ApiService } from '../../../../core/services/api.service';
@@ -20,8 +20,6 @@ import { ToastTypes } from '../../../../shared/components/Toast';
 import { isImageUrlValid } from '../../../../shared/utils/checkValidImage';
 import { ToggleButton } from '../../../../shared/components';
 import { setShowToast } from '../../../../../redux/actions/toast';
-import { RootState } from '../../../../app.reducers';
-import { setConfirmData } from '../../../../../redux/actions/modal';
 import { KEYS, getLS, setLS } from '../../../../core/helpers/storageHelper';
 
 const apiService = new ApiService();
@@ -247,10 +245,9 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
 
   useEffect(() => {
     (async () => {
-      const url = await handleUploadImage(TypeUpload.COVER_POST);
       const body = {
         title: titleValue || '',
-        cover: url || '',
+        cover: URL.createObjectURL(imageFile) || '',
         content: contentValue || '',
         status: isPublic ? PostStatus.PUBLIC : PostStatus.PRIVATE,
         description: descValue || '',
@@ -258,14 +255,21 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
       };
       setLS(KEYS.DRAFT_DATA, body);
     })();
-  }, [titleValue, descValue, imageUrl, imageFile, tagItems, contentValue]);
+  }, [
+    titleValue,
+    descValue,
+    isPublic,
+    imageUrl,
+    imageFile,
+    tagItems,
+    contentValue,
+  ]);
 
   const handleSaveDraft = () => {
     (async () => {
       try {
         setIsSaveDraftLoading(true);
         const body = JSON.parse(getLS(KEYS.DRAFT_DATA) as string);
-        console.log('body data: ', body);
         apiService.setHeaders(jwt.getAuthHeader());
         await apiService.post([ENDPOINT.posts.draft], body);
         setIsSaveDraftLoading(false);

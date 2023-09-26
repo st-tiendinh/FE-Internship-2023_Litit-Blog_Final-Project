@@ -1,5 +1,4 @@
 .article-editor {
-  margin: 32px 0;
   background-color: map-get($colors, "white");
   border-radius: 8px;
 
@@ -21,13 +20,10 @@
     flex-direction: column;
     background: map-get($colors, "white");
     border-radius: 8px;
-    padding: 32px;
+    padding: 14px;
   }
 
   &-drop-zone {
-    // display: flex;
-    // justify-content: center;
-    // align-items: center;
     text-align: center;
     border-radius: 8px;
     cursor: pointer;

@@ -1,24 +1,20 @@
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import DOMPurify from 'dompurify';
 
+import Like from '../../../shared/components/Like';
+import Bookmark from '../../../shared/components/Bookmark';
 import { Sidebar } from '../../../shared/components';
 import { ListComments } from '../../../shared/components/ListComments';
-import { ArticleTagList } from './components/ArticleTagList';
-
-import BlankPostImg from '../../../../assets/images/blank-post.png';
-import BlankUserImg from '../../../../assets/images/blank-user.webp';
-
 import { isImageUrlValid } from '../../../shared/utils/checkValidImage';
-import { formatDate } from '../../../shared/utils/formatDate';
+import { ScrollToTopButton } from '../../home/containers/components/ScrollToTopButton';
+import { ArticleContent } from './components/ArticleContent';
+
+import JwtHelper from '../../../core/helpers/jwtHelper';
 import { ApiService } from '../../../core/services/api.service';
 import { ENDPOINT } from '../../../../config/endpoint';
-import Like from '../../../shared/components/Like';
-import { ScrollToTopButton } from '../../home/containers/components/ScrollToTopButton';
-import JwtHelper from '../../../core/helpers/jwtHelper';
-import { useSelector } from 'react-redux';
 import { RootState } from '../../../app.reducers';
-import Bookmark from '../../../shared/components/Bookmark';
 
 const ArticleDetail = () => {
   const apiService = new ApiService();
@@ -145,71 +141,16 @@ const ArticleDetail = () => {
           </div>
 
           <div className="col col-7">
-            <article className="article article-detail">
-              {post.tags && <ArticleTagList tags={post.tags} />}
-              <h2 className="article-detail-title">{post.title}</h2>
-              <div className="article-detail-content">
-                <div className="article-detail-header">
-                  <div className="short-info">
-                    <div className="short-info-author">
-                      <Link
-                        className="d-flex author-link"
-                        to={'/users/' + post.user?.id}
-                      >
-                        <div className="post-author">
-                          <img
-                            src={
-                              isValidUserImg
-                                ? userShortInfo.picture
-                                : BlankUserImg
-                            }
-                            alt="author avatar"
-                            className="short-info-author-avatar"
-                          />
-                          <span className="short-info-author-name">
-                            {userShortInfo.displayName}
-                          </span>
-                        </div>
-                      </Link>
-                    </div>
-                    <span className="short-info-dot-symbol">&#x2022;</span>
-                    <span className="short-info-timestamp">
-                      {formatDate(post.updatedAt)}
-                    </span>
-                  </div>
-                  {isShowButtonEdit && (
-                    <Link
-                      to={`/articles/update/${location.pathname
-                        .split('/')
-                        .pop()}`}
-                      className="btn btn-edit"
-                    >
-                      <i className="icon icon-pen"></i>
-                      Edit
-                    </Link>
-                  )}
-                </div>
-                <div
-                  className="article-detail-desc"
-                  dangerouslySetInnerHTML={{ __html: postDesc }}
-                ></div>
-                {isLoading ? (
-                  <div className="article-detail-cover-wrapper skeleton"></div>
-                ) : (
-                  <div className="article-detail-cover-wrapper">
-                    <img
-                      src={isValidCover ? post.cover : BlankPostImg}
-                      alt="article cover"
-                      className="article-detail-cover"
-                    />
-                  </div>
-                )}
-                <div
-                  className="article-detail-paragraph"
-                  dangerouslySetInnerHTML={{ __html: clean }}
-                ></div>
-              </div>
-            </article>
+            <ArticleContent
+              postItem={post}
+              user={userShortInfo}
+              isShowButtonEdit={isShowButtonEdit}
+              isValidUserImg={isValidUserImg}
+              isLoading={isLoading}
+              isValidCover={isValidCover}
+              cleanContent={clean}
+              cleanDescription={postDesc}
+            />
             <div ref={commentRef}>
               {post.id && <ListComments postId={post.id} />}
             </div>
