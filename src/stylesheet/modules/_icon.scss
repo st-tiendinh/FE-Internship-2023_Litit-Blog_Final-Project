@@ -203,41 +203,69 @@
     width: 30px;
     height: 30px;
     background-image: url("../assets/icons/ic-profile.svg");
+
+    &.active {
+      background-image: url("../assets/icons/ic-profile-highlight.svg");
+    }
   }
 
   &-change-pw {
     width: 30px;
     height: 30px;
     background-image: url("../assets/icons/ic-change-pw.svg");
+
+    &.active {
+      background-image: url("../assets/icons/ic-change-pw-highlight.svg");
+    }
   }
 
   &-bookmarks {
     width: 30px;
     height: 30px;
     background-image: url("../assets/icons/ic-bookmarks.svg");
+
+    &.active {
+      background-image: url("../assets/icons/ic-bookmarks-highlight.svg");
+    }
   }
 
   &-draft {
     width: 30px;
     height: 30px;
     background-image: url("../assets/icons/ic-draft.svg");
+
+    &.active {
+      background-image: url("../assets/icons/ic-draft-highlight.svg");
+    }
   }
 
   &-recycle-bin {
     width: 30px;
     height: 30px;
     background-image: url("../assets/icons/ic-recycle-bin.svg");
+
+    &.active {
+      background-image: url("../assets/icons/ic-recycle-bin-highlight.svg");
+    }
   }
 
   &-follower {
     width: 30px;
     height: 30px;
     background-image: url("../assets/icons/ic-follower.svg");
+
+    &.active {
+      background-image: url("../assets/icons/ic-follower-highlight.svg");
+    }
   }
 
   &-following {
     width: 30px;
     height: 30px;
     background-image: url("../assets/icons/ic-following.svg");
+
+    &.active {
+      background-image: url("../assets/icons/ic-following-highlight.svg");
+    }
   }
 }

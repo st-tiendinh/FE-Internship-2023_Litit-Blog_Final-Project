@@ -3,14 +3,14 @@
 
   &-title {
     color: map-get($colors, "yellow");
-    font-size: map-get($font-sizes, "xl");
+    font-size: map-get($font-sizes, "sm");
     font-weight: map-get($font-weights, "bold");
     text-transform: uppercase;
     margin-bottom: 14px;
   }
 
   .main-footer {
-    padding: 50px 0;
+    padding: 30px 0;
 
     .logo {
       width: 110px;
@@ -26,7 +26,8 @@
   &-reference {
     &-item {
       &:not(:last-child) {
-        margin-bottom: 14px;
+        margin-bottom: 12px;
+        font-size: map-get($font-sizes, "sm");
       }
     }
 
@@ -55,7 +56,8 @@
     }
 
     .copy-right {
-      color: map-get($colors, "white");
+      color: map-get($colors, "secondary-400");
+      font-size: map-get($font-sizes, "sm");
     }
   }
 
@@ -75,5 +77,4 @@
       }
     }
   }
-
 }

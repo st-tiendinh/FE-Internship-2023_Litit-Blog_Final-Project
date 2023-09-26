@@ -145,13 +145,13 @@
       .list-comments {
         &-title {
           margin-bottom: 24px;
-
-          font-size: map-get($font-sizes, "lg");
           font-weight: map-get($font-weights, "medium");
         }
 
         .comment-input {
           resize: none;
+          font-family: "Montserrat", sans-serif;
+          font-size: map-get($font-sizes, "sm");
         }
       }
     }

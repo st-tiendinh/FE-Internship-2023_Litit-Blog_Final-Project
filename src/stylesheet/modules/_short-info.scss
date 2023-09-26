@@ -12,6 +12,12 @@
   &-author {
     display: flex;
     align-items: center;
+
+    &:hover {
+      .short-info-author-name {
+        color: map-get($colors, "dark-yellow");
+      }
+    }
   }
 
   &-author-avatar {
@@ -31,12 +37,6 @@
     color: map-get($colors, secondary-500);
   }
 
-  &:hover {
-    .short-info-author-name {
-      color: map-get($colors, "dark-yellow");
-    }
-  }
-
   &-dot-symbol {
     font-size: 10px;
   }
@@ -46,5 +46,4 @@
     font-weight: map-get($font-weights, normal);
     color: map-get($colors, secondary-500);
   }
-
 }

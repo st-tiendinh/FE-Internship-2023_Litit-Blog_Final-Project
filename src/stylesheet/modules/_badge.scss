@@ -11,8 +11,6 @@
   font-weight: map-get($font-weights, "medium");
   line-height: 16px;
 
-  border: 0.5px solid #7f8080;
-
   &.badge-primary {
     color: #7f8080;
     background-color: #f2f2f2;
