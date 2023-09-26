@@ -61,7 +61,7 @@ export const Post = ({
   const handleDelete = () => {
     dispatch(
       setShowModal({
-        type: ModalType.INFO,
+        type: ModalType.DANGER,
         message: 'Are you sure you want to delete this post?',
         id: id,
         onConfirm: handleSoftDelete,
