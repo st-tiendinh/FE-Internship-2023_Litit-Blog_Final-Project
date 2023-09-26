@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux';
 import { UserProfile } from './components/UserProfile';
 import { UserSideBar } from './components/UserSidebar';
 import PostList, { PostStatus } from '../../../shared/components/PostList';
-import { Modal } from '../../../shared/components';
 
 import JwtHelper from '../../../core/helpers/jwtHelper';
 import { ApiService } from '../../../core/services/api.service';
@@ -13,6 +12,7 @@ import { ENDPOINT } from '../../../../config/endpoint';
 import { RootState } from '../../../app.reducers';
 import { PostListType } from '../../home/containers/components/PublicPost';
 import { useDebounce } from '../../../shared/hooks/useDebounce';
+import { set } from 'react-hook-form';
 
 enum FilterType {
   LATEST = 'Latest',
@@ -28,90 +28,84 @@ const UserDetail = () => {
   const [userStatistic, setUserStatistic] = useState<any>({});
   const [userPosts, setUserPost] = useState<any>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [toggleDeletedPost, setToggleDeletedPost] = useState<boolean>(false);
 
   const [filter, setFilter] = useState<any>(FilterType.LATEST);
   const [search, setSearch] = useState<string>('');
   const [searchArr, setSearchArr] = useState<any>([]);
   const debounceSearch = useDebounce(search);
 
-  const id = useSelector((state: RootState) => state.modalReducer.id);
-  const type = useSelector((state: RootState) => state.modalReducer.type);
-  const isLogged = useSelector(
-    (state: RootState) => state.authReducer.isLogged
-  );
+  const isConfirm = useSelector((state: RootState) => state.modalReducer.isConfirm);
+  const isLogged = useSelector((state: RootState) => state.authReducer.isLogged);
   const location = useLocation();
   const userId = location.pathname.slice(7);
   const isLoggedUser = isLogged ? jwtHelper.isCurrentUser(+userId) : false;
+  const modalId = useSelector((state: RootState) => state.modalReducer.id);
 
   const [visiblePosts, setVisiblePosts] = useState<any[]>([]);
   const [page, setPage] = useState(1);
 
-  const handleSoftDelete = () => {
-    (async () => {
-      apiService.setHeaders(jwtHelper.getAuthHeader());
-      await apiService.delete([ENDPOINT.posts.index, `${id}`]);
-      setToggleDeletedPost(!toggleDeletedPost);
-    })();
-  };
+  useEffect(() => {
+      setIsLoading(true);
+      (async () => {
+        try {
+          const isCurrentUser = jwtHelper.isCurrentUser(+`${location.pathname.split('/').pop()}`);
+          apiService.setHeaders(jwtHelper.getAuthHeader());
+          const response: any = isCurrentUser
+            ? await apiService.get([ENDPOINT.users.index, 'me/posts'])
+            : await apiService.get([ENDPOINT.users.index, `${userId}/posts`]);
+          setUser(response);
+          const postPublicQuantity = await response.Posts.filter(
+            (post: any) => post.status === PostStatus.PUBLIC
+          ).length;
+
+          const commentQuantity = await response.Posts.reduce(
+            (acc: any, curr: any) => acc + curr.comments,
+            0
+          );
+
+          const likeQuantity = await response.Posts.reduce(
+            (acc: any, curr: any) => acc + curr.likes,
+            0
+          );
+
+          const tagQuantity = await response.Posts.reduce(
+            (acc: any, curr: any) => acc + curr.tags.length,
+            0
+          );
+
+          setUserStatistic({
+            postPublicQuantity: postPublicQuantity,
+            commentQuantity: commentQuantity,
+            tagQuantity: tagQuantity,
+            likeQuantity: likeQuantity,
+          });
+
+          const { Posts, ...other } = response;
+
+          const newPostsArr = response.Posts.map((item: any) => {
+            const newPost = { ...item, user: other };
+            return newPost;
+          }).sort((a: any, b: any) => {
+            return (new Date(b.createdAt) as any) - (new Date(a.createdAt) as any);
+          });
+          setUserPost(newPostsArr);
+          setSearchArr(newPostsArr);
+          setIsLoading(false);
+        } catch (error) {
+          console.log(error);
+          setIsLoading(false);
+        }
+      })();
+  }, [location, isLoggedUser, userId]);
 
   useEffect(() => {
-    setIsLoading(true);
-    (async () => {
-      try {
-        const isCurrentUser = jwtHelper.isCurrentUser(
-          +`${location.pathname.split('/').pop()}`
-        );
-        apiService.setHeaders(jwtHelper.getAuthHeader());
-        const response: any = isCurrentUser
-          ? await apiService.get([ENDPOINT.users.index, 'me/posts'])
-          : await apiService.get([ENDPOINT.users.index, `${userId}/posts`]);
-        setUser(response);
-        const postPublicQuantity = await response.Posts.filter(
-          (post: any) => post.status === PostStatus.PUBLIC
-        ).length;
-
-        const commentQuantity = await response.Posts.reduce(
-          (acc: any, curr: any) => acc + curr.comments,
-          0
-        );
-
-        const likeQuantity = await response.Posts.reduce(
-          (acc: any, curr: any) => acc + curr.likes,
-          0
-        );
-
-        const tagQuantity = await response.Posts.reduce(
-          (acc: any, curr: any) => acc + curr.tags.length,
-          0
-        );
-
-        setUserStatistic({
-          postPublicQuantity: postPublicQuantity,
-          commentQuantity: commentQuantity,
-          tagQuantity: tagQuantity,
-          likeQuantity: likeQuantity,
-        });
-
-        const { Posts, ...other } = response;
-
-        const newPostsArr = response.Posts.map((item: any) => {
-          const newPost = { ...item, user: other };
-          return newPost;
-        }).sort((a: any, b: any) => {
-          return (
-            (new Date(b.createdAt) as any) - (new Date(a.createdAt) as any)
-          );
-        });
-        setUserPost(newPostsArr);
-        setSearchArr(newPostsArr);
-        setIsLoading(false);
-      } catch (error) {
-        console.log(error);
-        setIsLoading(false);
-      }
-    })();
-  }, [location, isLoggedUser, userId, toggleDeletedPost]);
+    if (isConfirm && modalId !==0 ) {
+      setSearchArr((prevPosts: any) => {
+        const newPosts = prevPosts.filter((post: any) => post.id !== modalId);
+        return newPosts;
+      });
+    } 
+  }, [isConfirm]);
 
   useEffect(() => {
     if (debounceSearch.trim() === '') {
@@ -126,7 +120,6 @@ const UserDetail = () => {
     }
   }, [debounceSearch, filter]);
 
-  console.log(searchArr);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -149,17 +142,13 @@ const UserDetail = () => {
     switch (filterType) {
       case FilterType.LATEST:
         data.sort((a: any, b: any) => {
-          return (
-            (new Date(b.createdAt) as any) - (new Date(a.createdAt) as any)
-          );
+          return (new Date(b.createdAt) as any) - (new Date(a.createdAt) as any);
         });
         break;
 
       case FilterType.OLDEST:
         data.sort((a: any, b: any) => {
-          return (
-            (new Date(a.createdAt) as any) - (new Date(b.createdAt) as any)
-          );
+          return (new Date(a.createdAt) as any) - (new Date(b.createdAt) as any);
         });
         break;
 
@@ -179,7 +168,6 @@ const UserDetail = () => {
   return (
     <div className="page-user">
       <div className="container">
-        <Modal action={type === 'delete' && handleSoftDelete} />
         {isLoading ? (
           <div className="skeleton skeleton-user-profile"></div>
         ) : (
@@ -197,19 +185,10 @@ const UserDetail = () => {
             <div className="col col-8">
               <div className="d-flex filter-container">
                 <div className="select-container">
-                  <select
-                    onChange={(e) => setFilter(e.target.value)}
-                    className="select-box"
-                  >
-                    <option className="select-option">
-                      {FilterType.LATEST}
-                    </option>
-                    <option className="select-option">
-                      {FilterType.OLDEST}
-                    </option>
-                    <option className="select-option">
-                      {FilterType.MORE_POPULAR}
-                    </option>
+                  <select onChange={(e) => setFilter(e.target.value)} className="select-box">
+                    <option className="select-option">{FilterType.LATEST}</option>
+                    <option className="select-option">{FilterType.OLDEST}</option>
+                    <option className="select-option">{FilterType.MORE_POPULAR}</option>
                   </select>
                   <i className="icon icon-arrow"></i>
                 </div>
