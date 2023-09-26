@@ -63,7 +63,6 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
       : true
   );
   const [unsavedChanges, setUnsavedChanges] = useState<boolean>(false);
-
   const [imageUrl, setImageUrl] = useState<string | undefined>(
     type === PostAction.UPDATE ? data.cover : undefined
   );
