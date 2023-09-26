@@ -11,7 +11,7 @@ import AppSuspense from './AppSuspense';
 import appReducer from './app/app.reducers';
 import appMiddleware from './app/app.middleware';
 
-import { Header, Footer } from './app/shared/components';
+import { Header, Footer, Modal } from './app/shared/components';
 import { Toast } from './app/shared/components/Toast';
 
 const middleware = createSagaMiddleware();
@@ -25,6 +25,7 @@ function App() {
       <BrowserRouter>
         <div className="app">
           <AppSuspense fallback={<></>}>
+            <Modal />
             <Toast />
             <Header />
             <RouterOutlet routes={appRoutes} />

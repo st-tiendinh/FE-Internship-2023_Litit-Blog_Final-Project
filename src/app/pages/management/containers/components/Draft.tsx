@@ -39,14 +39,13 @@ export const Draft = () => {
       const sortedDraft = draftData.sort((a: IPost, b: IPost) => {
         return (new Date(b.createdAt) as any) - (new Date(a.createdAt) as any);
       });
-      console.log(sortedDraft);
       setDraftList(sortedDraft);
     })();
   }, [toggleDeletedPost]);
 
   return (
     <section className="section section-draft">
-      <Modal action={type === 'delete' && handleSoftDelete} />
+      {/* <Modal action={type === 'delete' && handleSoftDelete} /> */}
       <PostList posts={draftList} type={PostListType.LIST} isHasAction={true} />
     </section>
   );

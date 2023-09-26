@@ -7,14 +7,13 @@ import { isImageUrlValid } from '../utils/checkValidImage';
 import BlankPostImg from '../../../assets/images/blank-post.png';
 import BlankUserImg from '../../../assets/images/blank-user.webp';
 import { PostListType } from '../../pages/home/containers/components/PublicPost';
-import {
-  setConfirmModalId,
-  setConfirmModalType,
-  setShowModal,
-} from '../../../redux/actions/modal';
+import { setShowModal } from '../../../redux/actions/modal';
 import JwtHelper from '../../core/helpers/jwtHelper';
 import { PostStatus } from './PostList';
 import { RootState } from '../../app.reducers';
+import { ModalType } from './Modal';
+import { ENDPOINT } from '../../../config/endpoint';
+import { ApiService } from '../../core/services/api.service';
 
 interface PostProps {
   id: number;
@@ -51,6 +50,7 @@ export const Post = ({
   isCanRestore,
 }: PostProps) => {
   const jwtHelper = new JwtHelper();
+  const apiService = new ApiService();
   const [isValidCover, setIsValidCover] = useState(false);
   const [isValidUserImg, setIsValidUserImg] = useState(false);
   const formattedDate = formatDate(postedDate);
@@ -62,16 +62,44 @@ export const Post = ({
     (state: RootState) => state.authReducer.userInfo?.userId
   );
 
-  const handleDelete = (id: number) => {
-    dispatch(setConfirmModalId(id));
-    dispatch(setConfirmModalType('delete'));
-    dispatch(setShowModal());
+  const handleDelete = () => {
+    dispatch(
+      setShowModal({
+        type: ModalType.DANGER,
+        message: 'Are you sure you want to delete this post?',
+        id: id,
+        onConfirm: handleSoftDelete,
+      })
+    );
   };
 
-  const handleRestore = async (id: number) => {
-    dispatch(setConfirmModalId(id));
-    dispatch(setConfirmModalType('restore'));
-    dispatch(setShowModal());
+  const handleSoftDelete = () => {
+    (async () => {
+      apiService.setHeaders(jwtHelper.getAuthHeader());
+      await apiService.delete([ENDPOINT.posts.index, `${id}`]);
+    })();
+  };
+
+  const handleRestorePost = () => {
+    (async () => {
+      try {
+        apiService.setHeaders(jwtHelper.getAuthHeader());
+        await apiService.put([ENDPOINT.posts.index, `${id}/restore`]);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  };
+
+  const handleRestore = () => {
+    dispatch(
+      setShowModal({
+        type: ModalType.WARNING,
+        message: 'Are you sure you want to restore this post?',
+        onConfirm: handleRestorePost,
+        id: id,
+      })
+    );
   };
 
   useEffect(() => {
@@ -204,7 +232,7 @@ export const Post = ({
                         </Link>
                         <span
                           className="btn btn-delete"
-                          onClick={() => handleDelete(id)}
+                          onClick={() => handleDelete()}
                         >
                           <i className="icon icon-bin"></i>
                           Delete
@@ -223,7 +251,7 @@ export const Post = ({
                       <div className="personal-post-action-popper">
                         <span
                           className="btn btn-restore"
-                          onClick={() => handleRestore(id)}
+                          onClick={() => handleRestore()}
                         >
                           <i className="icon icon-restore"></i>
                           Restore
