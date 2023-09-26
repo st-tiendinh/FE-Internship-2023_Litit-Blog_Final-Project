@@ -188,6 +188,7 @@
   .section-recycle-bin,
   .section-bookmarks {
     margin-block: -10px;
+
     .post-list-item {
       padding-block: 10px;
     }
@@ -264,6 +265,14 @@
     &-message {
       text-align: center;
       width: 100%;
+    }
+  }
+
+  .section-draft {
+    .post-list-item {
+      &:not(:last-child) {
+        margin-bottom: 20px;
+      }
     }
   }
 
