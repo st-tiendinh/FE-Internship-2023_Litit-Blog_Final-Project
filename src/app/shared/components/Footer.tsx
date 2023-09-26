@@ -17,6 +17,28 @@ export const Footer = () => {
                   />
                 </h1>
               </Link>
+              <ul className="footer-social-list">
+                <li className="footer-social-item">
+                  <a href="" className="footer-social-link">
+                    <i className="icon icon-facebook"></i>
+                  </a>
+                </li>
+                <li className="footer-social-item">
+                  <a href="" className="footer-social-link">
+                    <i className="icon icon-twitter"></i>
+                  </a>
+                </li>
+                <li className="footer-social-item">
+                  <a href="" className="footer-social-link">
+                    <i className="icon icon-linkedin"></i>
+                  </a>
+                </li>
+                <li className="footer-social-item">
+                  <a href="" className="footer-social-link">
+                    <i className="icon icon-instagram"></i>
+                  </a>
+                </li>
+              </ul>
             </div>
             <div className="col col-6">
               <div className="row">
@@ -80,28 +102,6 @@ export const Footer = () => {
           <p className="copy-right">
             Copyright © 2023 All Rights Reserved by Litit
           </p>
-          <ul className="footer-social-list">
-            <li className="footer-social-item">
-              <a href="" className="footer-social-link">
-                <i className="icon icon-facebook"></i>
-              </a>
-            </li>
-            <li className="footer-social-item">
-              <a href="" className="footer-social-link">
-                <i className="icon icon-twitter"></i>
-              </a>
-            </li>
-            <li className="footer-social-item">
-              <a href="" className="footer-social-link">
-                <i className="icon icon-linkedin"></i>
-              </a>
-            </li>
-            <li className="footer-social-item">
-              <a href="" className="footer-social-link">
-                <i className="icon icon-instagram"></i>
-              </a>
-            </li>
-          </ul>
         </div>
       </div>
     </footer>

@@ -171,7 +171,10 @@ export const Post = ({
                         src={isValidUserImg ? authorImg : BlankUserImg}
                         alt="author image"
                       />
-                      <span className="post-author-name text-truncate">
+                      <span
+                        className="post-author-name text-truncate"
+                        title={authorName}
+                      >
                         {authorName}
                       </span>
                     </div>
@@ -296,7 +299,10 @@ export const Post = ({
                       alt="author avatar"
                       className="short-info-author-avatar"
                     />
-                    <span className="short-info-author-name text-truncate">
+                    <span
+                      className="short-info-author-name text-truncate"
+                      title={authorName}
+                    >
                       {authorName}
                     </span>
                   </div>

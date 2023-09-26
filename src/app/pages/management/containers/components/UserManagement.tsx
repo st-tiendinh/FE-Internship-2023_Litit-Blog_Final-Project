@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { InputGroup, SelectGroup } from '../../../../shared/components';
+import { InputGroup } from '../../../../shared/components';
+import { Dropdown } from '../../../../shared/components/Dropdown';
 import BlankUserImage from '../../../../../assets/images/blank-user.webp';
 
 import { isImageUrlValid } from '../../../../shared/utils/checkValidImage';
@@ -16,11 +17,16 @@ import {
   UploadImageService,
 } from '../../../../core/services/uploadImage.service';
 
+export enum GenderType {
+  MALE = 'male',
+  FEMALE = 'female',
+  OTHER = 'other',
+}
+
 interface FormData {
   firstName: string;
   lastName: string;
   displayName: string;
-  gender: 'male' | 'female' | 'other';
   dob: string;
   phone: string;
 }
@@ -37,7 +43,6 @@ export const UserManagement = () => {
     firstName: userInfo.firstName,
     lastName: userInfo.lastName,
     displayName: userInfo.displayName,
-    gender: userInfo.gender,
     phone: userInfo.phone,
     dob: userInfo?.dob.split('/').reverse().join('-'),
   };
@@ -48,6 +53,8 @@ export const UserManagement = () => {
     setValue,
     formState: { errors },
   } = useForm<FormData>({ mode: 'onChange', defaultValues: user });
+
+  const [gender, setGender] = useState(userInfo.gender);
 
   const [isValidUserImg, setIsValidUserImg] = useState(false);
   const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
@@ -74,7 +81,7 @@ export const UserManagement = () => {
 
   const onSubmit = async (data: FormData) => {
     const url = await handleUploadImage(TypeUpload.AVATAR);
-    const newData = { ...data, picture: url };
+    const newData = { ...data, gender: gender, picture: url };
     dispatch(updateUser(newData));
   };
 
@@ -208,19 +215,11 @@ export const UserManagement = () => {
             />
           </div>
           <div className="col col-12">
-            <SelectGroup
-              label="Gender*"
-              id="gender"
-              options={[
-                { value: 'male', label: 'Male' },
-                { value: 'female', label: 'Female' },
-                { value: 'other', label: 'Other' },
-              ]}
-              {...register('gender', {
-                required: 'Gender is required!',
-              })}
-              error={errors.gender?.message}
-              onBlur={(e: any) => handleTrimInput('gender', e.target.value)}
+            <Dropdown
+              label="Gender"
+              options={Object.values(GenderType)}
+              option={gender}
+              setOption={setGender}
             />
           </div>
           <div className="col col-12">
@@ -255,13 +254,15 @@ export const UserManagement = () => {
             />
           </div>
         </div>
-        <button
-          className={`btn btn-primary ${isLoading ? 'loading' : null}`}
-          disabled={isLoading}
-          type="submit"
-        >
-          <span className="btn-text">Save Profile Information</span>
-        </button>
+        <div className="d-flex button-wrapper">
+          <button
+            className={`btn btn-primary ${isLoading ? 'loading' : null}`}
+            disabled={isLoading}
+            type="submit"
+          >
+            <span className="btn-text">Save</span>
+          </button>
+        </div>
       </form>
       <p className={`update-profile-error text-danger text-center`}>
         {hasError && !isLoading && error?.response?.data?.errors}

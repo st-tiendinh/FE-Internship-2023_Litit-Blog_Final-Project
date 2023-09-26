@@ -10,17 +10,21 @@ const jwtHelper = new JwtHelper();
 
 export const FollowUser = (user: any) => {
   const [isFollowed, setIsFollowed] = useState(user.isFollowed);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleFollow = () => {
     (async () => {
       try {
+        setIsLoading(true);
         apiService.setHeaders(jwtHelper.getAuthHeader());
         await apiService.post([ENDPOINT.friends.follow], {
           followingId: user.id,
         });
         setIsFollowed(!isFollowed);
+        setIsLoading(false);
       } catch (error) {
         console.log(error);
+        setIsLoading(false);
       }
     })();
   };
@@ -45,8 +49,11 @@ export const FollowUser = (user: any) => {
         </div>
       </Link>
       <div className="follow-user-action">
-        <button className="btn btn-primary" onClick={handleFollow}>
-          {isFollowed ? 'Followed' : 'Follow'}
+        <button
+          className={`btn btn-primary ${isLoading ? 'loading' : null}`}
+          onClick={handleFollow}
+        >
+          <span className="btn-text">{isFollowed ? 'Followed' : 'Follow'}</span>
         </button>
       </div>
     </div>

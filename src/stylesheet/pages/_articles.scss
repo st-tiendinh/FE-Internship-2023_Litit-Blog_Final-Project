@@ -1,6 +1,4 @@
 .page-articles {
-  margin-top: 32px;
-
   .section {
     &-public-post {
       .section-title {
@@ -145,13 +143,13 @@
       .list-comments {
         &-title {
           margin-bottom: 24px;
-
-          font-size: map-get($font-sizes, "lg");
           font-weight: map-get($font-weights, "medium");
         }
 
         .comment-input {
           resize: none;
+          font-family: "Montserrat", sans-serif;
+          font-size: map-get($font-sizes, "sm");
         }
       }
     }
@@ -159,8 +157,6 @@
 }
 
 .section-article-list {
-  padding: 25px 0;
-
   .section {
     &-tags-title {
       font-size: map-get($font-sizes, "2xl");
