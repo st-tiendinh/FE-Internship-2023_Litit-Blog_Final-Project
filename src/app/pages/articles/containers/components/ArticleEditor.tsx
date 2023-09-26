@@ -186,6 +186,7 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
         imageFile
       );
       setImageUrl(url);
+      setUnsavedChanges(true);
       return url;
     }
     return imageUrl;
@@ -264,6 +265,7 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
       try {
         setIsSaveDraftLoading(true);
         const body = JSON.parse(getLS(KEYS.DRAFT_DATA) as string);
+        console.log('body data: ', body);
         apiService.setHeaders(jwt.getAuthHeader());
         await apiService.post([ENDPOINT.posts.draft], body);
         setIsSaveDraftLoading(false);
@@ -281,6 +283,7 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
   function uploadAdapter(loader: any) {
     return {
       upload: () => {
+        setUnsavedChanges(true);
         return new Promise((resolve, reject) => {
           let signUrl: any;
           let imgUrl: any;

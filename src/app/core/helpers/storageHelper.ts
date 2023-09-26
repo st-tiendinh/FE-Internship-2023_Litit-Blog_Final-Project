@@ -5,7 +5,7 @@ export const KEYS = {
   ID_TOKEN: 'id_token',
   EXPIRES_IN: 'expires_in',
   USER_INFO: 'user_info',
-  DRAFT_DATA: 'draft-data'
+  DRAFT_DATA: 'draft_data'
 };
 
 export const getLS = (key: string) => {
