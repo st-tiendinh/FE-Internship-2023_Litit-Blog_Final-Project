@@ -29,9 +29,10 @@ const Register = () => {
     register,
     handleSubmit,
     setValue,
-    setError,
-    formState: { errors },
     watch,
+    setError,
+    trigger,
+    formState: { errors },
   } = useForm<FormData>({ mode: 'onChange' });
 
   const [isLoading, setIsLoading] = useState(false);
@@ -194,7 +195,10 @@ const Register = () => {
                 error={errors.password?.message}
                 onBlur={(e) => handleTrimInput('password', e.target.value)}
                 onChange={(e) => {
+                  const passwordValue = e.target.value;
                   const confirmPasswordValue = watch('confirmPassword');
+                  setValue('password', passwordValue);
+                  trigger('password');
                   if (
                     confirmPasswordValue &&
                     e.target.value !== confirmPasswordValue

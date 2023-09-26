@@ -59,7 +59,7 @@ export const Post = ({
     (state: RootState) => state.authReducer.isLogged
   );
   const currentUserId = useSelector(
-    (state: RootState) => state.authReducer.userInfo?.id
+    (state: RootState) => state.authReducer.userInfo?.userId
   );
 
   const handleDelete = (id: number) => {

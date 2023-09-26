@@ -5,13 +5,20 @@ import { useSelector } from 'react-redux';
 import { UserProfile } from './components/UserProfile';
 import { UserSideBar } from './components/UserSidebar';
 import PostList, { PostStatus } from '../../../shared/components/PostList';
+import { Modal } from '../../../shared/components';
 
 import JwtHelper from '../../../core/helpers/jwtHelper';
 import { ApiService } from '../../../core/services/api.service';
 import { ENDPOINT } from '../../../../config/endpoint';
 import { RootState } from '../../../app.reducers';
 import { PostListType } from '../../home/containers/components/PublicPost';
-import { Modal } from '../../../shared/components';
+import { useDebounce } from '../../../shared/hooks/useDebounce';
+
+enum FilterType {
+  LATEST = 'Latest',
+  OLDEST = 'Oldest',
+  MORE_POPULAR = 'More popular',
+}
 
 const apiService = new ApiService();
 const jwtHelper = new JwtHelper();
@@ -22,6 +29,11 @@ const UserDetail = () => {
   const [userPosts, setUserPost] = useState<any>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [toggleDeletedPost, setToggleDeletedPost] = useState<boolean>(false);
+
+  const [filter, setFilter] = useState<any>(FilterType.LATEST);
+  const [search, setSearch] = useState<string>('');
+  const [searchArr, setSearchArr] = useState<any>([]);
+  const debounceSearch = useDebounce(search);
 
   const id = useSelector((state: RootState) => state.modalReducer.id);
   const type = useSelector((state: RootState) => state.modalReducer.type);
@@ -34,6 +46,7 @@ const UserDetail = () => {
 
   const [visiblePosts, setVisiblePosts] = useState<any[]>([]);
   const [page, setPage] = useState(1);
+
   const handleSoftDelete = () => {
     (async () => {
       apiService.setHeaders(jwtHelper.getAuthHeader());
@@ -46,7 +59,9 @@ const UserDetail = () => {
     setIsLoading(true);
     (async () => {
       try {
-        const isCurrentUser = jwtHelper.isCurrentUser(+`${location.pathname.split('/').pop()}`);
+        const isCurrentUser = jwtHelper.isCurrentUser(
+          +`${location.pathname.split('/').pop()}`
+        );
         apiService.setHeaders(jwtHelper.getAuthHeader());
         const response: any = isCurrentUser
           ? await apiService.get([ENDPOINT.users.index, 'me/posts'])
@@ -89,6 +104,7 @@ const UserDetail = () => {
           );
         });
         setUserPost(newPostsArr);
+        setSearchArr(newPostsArr);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
@@ -98,24 +114,64 @@ const UserDetail = () => {
   }, [location, isLoggedUser, userId, toggleDeletedPost]);
 
   useEffect(() => {
+    if (debounceSearch.trim() === '') {
+      const filteredData = filterData(userPosts, filter);
+      setSearchArr(filteredData);
+    } else {
+      const resultData = userPosts.filter((item: any) =>
+        item.title.toLowerCase().includes(debounceSearch.toLowerCase())
+      );
+      const filteredData = filterData(resultData, filter);
+      setSearchArr(filteredData);
+    }
+  }, [debounceSearch, filter]);
+
+  useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   useEffect(() => {
-    if (userPosts.length > 0) {
-      setVisiblePosts(userPosts.slice(0, 5));
-    }
-  }, [userPosts]);
+    setPage(1);
+    setVisiblePosts(searchArr.slice(0, 5));
+  }, [searchArr, filter, search]);
 
   const handleLoadMore = () => {
     const startIndex = page * 5;
-    let endIndex = startIndex + 5;
-    if (endIndex > userPosts.length) {
-      endIndex = startIndex + (Number(userPosts.length) - Number(startIndex));
-    }
-    const newPosts = userPosts.slice(startIndex, endIndex);
+    const endIndex = startIndex + 5;
+    const newPosts = searchArr.slice(startIndex, endIndex);
     setVisiblePosts((prevPosts) => [...prevPosts, ...newPosts]);
     setPage((prevPage) => prevPage + 1);
+  };
+
+  const filterData = (data: any, filterType: FilterType) => {
+    switch (filterType) {
+      case FilterType.LATEST:
+        data.sort((a: any, b: any) => {
+          return (
+            (new Date(b.createdAt) as any) - (new Date(a.createdAt) as any)
+          );
+        });
+        break;
+
+      case FilterType.OLDEST:
+        data.sort((a: any, b: any) => {
+          return (
+            (new Date(a.createdAt) as any) - (new Date(b.createdAt) as any)
+          );
+        });
+        break;
+
+      case FilterType.MORE_POPULAR:
+        data.sort((a: any, b: any) => {
+          return b.likes - a.likes;
+        });
+        break;
+
+      default:
+        break;
+    }
+
+    return data;
   };
 
   return (
@@ -137,12 +193,46 @@ const UserDetail = () => {
               )}
             </div>
             <div className="col col-8">
+              <div className="d-flex filter-container">
+                <div className="select-container">
+                  <select
+                    onChange={(e) => setFilter(e.target.value)}
+                    className="select-box"
+                  >
+                    <option className="select-option">
+                      {FilterType.LATEST}
+                    </option>
+                    <option className="select-option">
+                      {FilterType.OLDEST}
+                    </option>
+                    <option className="select-option">
+                      {FilterType.MORE_POPULAR}
+                    </option>
+                  </select>
+                  <i className="icon icon-arrow"></i>
+                </div>
+
+                <div className="d-flex search-box">
+                  <i className="icon icon-search"></i>
+                  <input
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    autoFocus
+                    className="search-input"
+                    type="text"
+                  />
+                </div>
+              </div>
               {isLoading ? (
                 <div className="skeleton skeleton-personal-list"></div>
               ) : (
-                <PostList posts={visiblePosts} type={PostListType.LIST} isHasAction={!!isLoggedUser} />
+                <PostList
+                  posts={visiblePosts}
+                  type={PostListType.LIST}
+                  isHasAction={!!isLoggedUser}
+                />
               )}
-              {visiblePosts.length < userPosts.length && (
+              {visiblePosts.length < searchArr.length && (
                 <div className="d-flex load-more-btn-wrap">
                   <button className="btn btn-outline" onClick={handleLoadMore}>
                     Load More

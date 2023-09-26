@@ -7,6 +7,7 @@ import { isImageUrlValid } from '../../../../shared/utils/checkValidImage';
 import { ApiService } from '../../../../core/services/api.service';
 import JwtHelper from '../../../../core/helpers/jwtHelper';
 import { ENDPOINT } from '../../../../../config/endpoint';
+import { formatDate } from '../../../../shared/utils/formatDate';
 
 const apiService = new ApiService();
 const jwtHelper = new JwtHelper();
@@ -19,12 +20,8 @@ export const UserProfile = ({ isLoggedUser, user }: any) => {
     apiService.setHeaders(jwtHelper.getAuthHeader());
     (async () => {
       try {
-        const response: any = await apiService.get([
-          ENDPOINT.friends.followings,
-        ]);
-        setIsFollowed(
-          response.filter((item: any) => item.id === user.id).length
-        );
+        const response: any = await apiService.get([ENDPOINT.friends.followings]);
+        setIsFollowed(response.filter((item: any) => item.id === user.id).length);
       } catch (error) {
         console.log(error);
       }
@@ -79,24 +76,22 @@ export const UserProfile = ({ isLoggedUser, user }: any) => {
                 <li className="user-follow-item">
                   <div className="user-follow">
                     <span className="user-follow-title">Followings: </span>
-                    <span className="user-follow-amount">
-                      {user.followings}
-                    </span>
+                    <span className="user-follow-amount">{user.followings}</span>
                   </div>
                 </li>
               </ul>
               <ul className="d-flex user-about-list">
                 <li className="d-flex user-about-item">
                   <i className="icon icon-person"></i>
-                  <p>{user.firstName}</p>
+                  <p className="user-firstname">{user.firstName}</p>
                 </li>
                 <li className="d-flex user-about-item">
                   <i className="icon icon-mail"></i>
-                  <p>{user.email}</p>
+                  <p className="user-email">{user.email}</p>
                 </li>
                 <li className="d-flex user-about-item">
                   <i className="icon icon-dob"></i>
-                  <p>{user.dob?.split('/').reverse().join('-')}</p>
+                  <p className="user-dob">{formatDate(user.dob)}</p>
                 </li>
               </ul>
             </div>
