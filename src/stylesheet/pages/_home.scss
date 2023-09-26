@@ -152,3 +152,20 @@
     }
   }
 }
+
+@include mobile {
+  .recommend-section {
+    .article {
+      height: 300px !important;
+      margin-bottom: 20px;
+
+      &.sm {
+        height: 180px !important;
+
+        .article-title {
+          font-size: map-get($font-sizes, "xl") !important;
+        }
+      }
+    }
+  }
+}

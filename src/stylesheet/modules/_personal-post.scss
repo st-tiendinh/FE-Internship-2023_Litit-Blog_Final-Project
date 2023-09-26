@@ -165,3 +165,23 @@
     }
   }
 }
+
+@include mobile {
+  .personal-post {
+    flex-direction: column;
+    &-image-wrapper {
+      width: 100%;
+      min-width: unset;
+    }
+
+    &-image {
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+      border-bottom-left-radius: unset;
+    }
+
+    &-tag-list {
+      height: 24px;
+    }
+  }
+}

@@ -50,13 +50,18 @@ export const Sidebar = () => {
       <section className="section section-popular-post">
         <h3 className="section-title">Popular Post</h3>
         <ul className="popular-post-list">
-          {isLoading
-            ? skeletonArray.map((item) => {
-                return <PopularPostSkeleton key={item} />;
-              })
-            : popularPost.map((post: any) => {
+          {isLoading ? (
+            skeletonArray.map((item) => {
+              return <PopularPostSkeleton key={item} />;
+            })
+          ) : (
+            <div className="row">
+              {popularPost.map((post: any) => {
                 return (
-                  <li key={post.id} className="popular-post-item">
+                  <li
+                    key={post.id}
+                    className="col col-12 col-md-6 col-sm-12 popular-post-item"
+                  >
                     <Link to={`/articles/${post.id}`}>
                       <div className="d-flex popular-post">
                         <div className="popular-post-image-wrapper">
@@ -79,6 +84,8 @@ export const Sidebar = () => {
                   </li>
                 );
               })}
+            </div>
+          )}
         </ul>
       </section>
 
