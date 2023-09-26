@@ -15,13 +15,18 @@ const jwtHelper = new JwtHelper();
 export const UserProfile = ({ isLoggedUser, user }: any) => {
   const [isValidUserImg, setIsValidUserImg] = useState(false);
   const [isFollowed, setIsFollowed] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     apiService.setHeaders(jwtHelper.getAuthHeader());
     (async () => {
       try {
-        const response: any = await apiService.get([ENDPOINT.friends.followings]);
-        setIsFollowed(response.filter((item: any) => item.id === user.id).length);
+        const response: any = await apiService.get([
+          ENDPOINT.friends.followings,
+        ]);
+        setIsFollowed(
+          response.filter((item: any) => item.id === user.id).length
+        );
       } catch (error) {
         console.log(error);
       }
@@ -37,13 +42,16 @@ export const UserProfile = ({ isLoggedUser, user }: any) => {
   const handleFollow = () => {
     (async () => {
       try {
+        setIsLoading(true);
         apiService.setHeaders(jwtHelper.getAuthHeader());
         await apiService.post([ENDPOINT.friends.follow], {
           followingId: user.id,
         });
+        setIsLoading(false);
         setIsFollowed(!isFollowed);
       } catch (error) {
         console.log(error);
+        setIsLoading(false);
       }
     })();
   };
@@ -76,7 +84,9 @@ export const UserProfile = ({ isLoggedUser, user }: any) => {
                 <li className="user-follow-item">
                   <div className="user-follow">
                     <span className="user-follow-title">Followings: </span>
-                    <span className="user-follow-amount">{user.followings}</span>
+                    <span className="user-follow-amount">
+                      {user.followings}
+                    </span>
                   </div>
                 </li>
               </ul>
@@ -103,8 +113,14 @@ export const UserProfile = ({ isLoggedUser, user }: any) => {
               Update Profile
             </Link>
           ) : (
-            <button onClick={handleFollow} className="btn btn-primary">
-              {isFollowed ? 'Followed' : 'Follow'}
+            <button
+              onClick={handleFollow}
+              disabled={isLoading}
+              className={`btn btn-primary ${isLoading ? 'loading' : null}`}
+            >
+              <span className="btn-text">
+                {isFollowed ? 'Followed' : 'Follow'}
+              </span>
             </button>
           )}
         </div>

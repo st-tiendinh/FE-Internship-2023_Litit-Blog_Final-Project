@@ -55,10 +55,16 @@ export const RecommendPosts = () => {
 
   return (
     <section className="section recommend-section">
-      {!isLoading ? (
-        skeletonArray.map((item) => (
-          <div key={item} className="article skeleton"></div>
-        ))
+      {isLoading ? (
+        <div className="row">
+          <div className="col col-6">
+            <div className="skeleton"></div>
+          </div>
+          <div className="col col-6">
+            <div className="skeleton sm"></div>
+            <div className="skeleton sm"></div>
+          </div>
+        </div>
       ) : (
         <div className="row">
           <div className="col col-6">

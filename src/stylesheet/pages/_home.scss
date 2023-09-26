@@ -119,9 +119,19 @@
         font-size: 10px;
         color: white;
       }
+    }
 
-      &.skeleton {
-        border-radius: 12px;
+    .skeleton {
+      width: 100%;
+      height: 580px;
+      border-radius: 8px;
+
+      &.sm {
+        height: 280px;
+
+        &:first-child {
+          margin-bottom: 20px;
+        }
       }
     }
 
