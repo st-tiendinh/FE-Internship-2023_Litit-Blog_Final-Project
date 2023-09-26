@@ -1,8 +1,13 @@
 import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import DOMPurify from 'dompurify';
 
 import { ArticleEditor, PostAction } from './components/ArticleEditor';
+import { ArticleContent } from './components/ArticleContent';
+import { isImageUrlValid } from '../../../shared/utils/checkValidImage';
+import { TogglePreview } from '../../../shared/components';
+
 import { ApiService } from '../../../core/services/api.service';
-import { useLocation } from 'react-router-dom';
 import { ENDPOINT } from '../../../../config/endpoint';
 import JwtHelper from '../../../core/helpers/jwtHelper';
 
@@ -28,7 +33,17 @@ const ArticleUpdate = () => {
     status: '',
     content: '',
   });
+  const [isShowPreview, setIsShowPreview] = useState<boolean>(false);
+  const [isValidCover, setIsValidCover] = useState(false);
+  const clean = DOMPurify.sanitize(postData.content);
+  const postDesc = DOMPurify.sanitize(postData.description);
   const location = useLocation();
+
+  useEffect(() => {
+    isImageUrlValid(postData?.cover).then((isValid) => {
+      isValid ? setIsValidCover(true) : setIsValidCover(false);
+    });
+  }, [isValidCover, postData?.cover]);
 
   useEffect(() => {
     (async () => {
@@ -82,11 +97,31 @@ const ArticleUpdate = () => {
     <div className="page-write-article">
       <div className="container">
         <div className="row">
-          <div className="col col-9">
-            {!isLoading && (
-              <ArticleEditor type={PostAction.UPDATE} data={postData} />
-            )}
-          </div>
+          {!isLoading && (
+            <>
+              <div className="col col-9">
+                <div className="editor-header">
+                  <TogglePreview
+                    isShowPreview={isShowPreview}
+                    setIsShowPreview={setIsShowPreview}
+                  />
+                </div>
+                <div className={`${!isShowPreview ? '' : 'd-none'}`}>
+                  <ArticleEditor type={PostAction.UPDATE} data={postData} />
+                </div>
+              </div>
+              <div className="col col-7">
+                <div className={`${isShowPreview ? '' : 'd-none'}`}>
+                  <ArticleContent
+                    postItem={postData}
+                    isValidCover={isValidCover}
+                    cleanContent={clean}
+                    cleanDescription={postDesc}
+                  />
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>
