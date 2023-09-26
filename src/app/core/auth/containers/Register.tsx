@@ -3,19 +3,20 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 
-import { InputGroup, SelectGroup } from '../../../shared/components';
+import { InputGroup } from '../../../shared/components';
 
 import { ENDPOINT } from '../../../../config/endpoint';
 import { ApiService } from '../../services/api.service';
 import { RootState } from '../../../app.reducers';
 import { formatDateToString } from '../../../shared/utils/formatDate';
+import { GenderType } from '../../../pages/management/containers/components/UserManagement';
+import { Dropdown } from '../../../shared/components/Dropdown';
 
 interface FormData {
   firstName: string;
   lastName: string;
   email: string;
   displayName: string;
-  gender: 'male' | 'female' | 'other';
   dob: string;
   phone: string;
   password: string;
@@ -37,6 +38,7 @@ const Register = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [resError, setResError] = useState();
+  const [gender, setGender] = useState(GenderType.MALE);
 
   const isLogged = useSelector(
     (state: RootState) => state.authReducer.isLogged
@@ -51,9 +53,9 @@ const Register = () => {
     const userData = {
       ...other,
       dob: other.dob.split('-').reverse().join('/'),
+      gender: gender,
       picture: 'null',
     };
-
     try {
       await apiService.post([ENDPOINT.auth.register], userData);
       setIsLoading(false);
@@ -134,19 +136,11 @@ const Register = () => {
               />
             </div>
             <div className="col col-6">
-              <SelectGroup
-                label="Gender*"
-                id="gender"
-                options={[
-                  { value: 'male', label: 'Male' },
-                  { value: 'female', label: 'Female' },
-                  { value: 'other', label: 'Other' },
-                ]}
-                {...register('gender', {
-                  required: 'Gender is required!',
-                })}
-                error={errors.gender?.message}
-                onBlur={(e) => handleTrimInput('gender', e.target.value)}
+              <Dropdown
+                label="Gender"
+                options={Object.values(GenderType)}
+                option={gender}
+                setOption={setGender}
               />
             </div>
             <div className="col col-6">

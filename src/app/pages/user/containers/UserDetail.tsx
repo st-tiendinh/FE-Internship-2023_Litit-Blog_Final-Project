@@ -12,9 +12,9 @@ import { ENDPOINT } from '../../../../config/endpoint';
 import { RootState } from '../../../app.reducers';
 import { PostListType } from '../../home/containers/components/PublicPost';
 import { useDebounce } from '../../../shared/hooks/useDebounce';
-import { set } from 'react-hook-form';
+import { Dropdown } from '../../../shared/components';
 
-enum FilterType {
+export enum FilterType {
   LATEST = 'Latest',
   OLDEST = 'Oldest',
   MORE_POPULAR = 'More popular',
@@ -196,26 +196,19 @@ const UserDetail = () => {
             <div className="col col-8">
               <div className="d-flex filter-container">
                 <div className="select-container">
-                  <select
-                    onChange={(e) => setFilter(e.target.value)}
-                    className="select-box"
-                  >
-                    <option className="select-option">
-                      {FilterType.LATEST}
-                    </option>
-                    <option className="select-option">
-                      {FilterType.OLDEST}
-                    </option>
-                    <option className="select-option">
-                      {FilterType.MORE_POPULAR}
-                    </option>
-                  </select>
-                  <i className="icon icon-arrow"></i>
+                  <Dropdown
+                    options={Object.values(FilterType)}
+                    option={filter}
+                    setOption={setFilter}
+                  />
                 </div>
 
                 <div className="d-flex search-box">
-                  <i className="icon icon-search"></i>
+                  <label htmlFor="search-input">
+                    <i className="icon icon-search"></i>
+                  </label>
                   <input
+                    id="search-input"
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                     autoFocus
