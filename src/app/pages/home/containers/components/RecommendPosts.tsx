@@ -67,7 +67,7 @@ export const RecommendPosts = () => {
         </div>
       ) : (
         <div className="row">
-          <div className="col col-6">
+          <div className="col col-6 col-sm-12">
             <div key={recommendPosts[1]?.id} className="article">
               <Link
                 to={`/articles/${recommendPosts[0]?.id}`}
@@ -127,7 +127,7 @@ export const RecommendPosts = () => {
               </div>
             </div>
           </div>
-          <div className="col col-6">
+          <div className="col col-6 col-sm-12">
             <div key={recommendPosts[1]?.id} className="article sm">
               <Link
                 to={`/articles/${recommendPosts[1]?.id}`}
