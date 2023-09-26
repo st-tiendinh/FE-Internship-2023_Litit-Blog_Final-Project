@@ -5,7 +5,7 @@
 }
 
 .scroll-button {
-  background-color: RGBA(233, 184, 36, 0.5);
+  background-color: RGBA(233, 184, 36, 0.8);
   color: #fff;
   border: none;
   border-radius: 50%;
@@ -15,6 +15,6 @@
   cursor: pointer;
 
   &:hover {
-    background-color: RGBA(233, 184, 36, 0.8);
+    background-color: RGBA(233, 184, 36);
   }
 }

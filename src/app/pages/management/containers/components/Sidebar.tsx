@@ -53,7 +53,11 @@ export const Sidebar = () => {
             onClick={() => handleChangeManagementType(menuItem.type)}
           >
             <div className="d-flex menu">
-              <i className={`icon ${menuItem.icon}`}></i>
+              <i
+                className={`icon ${menuItem.icon} ${
+                  managementType === menuItem.type ? 'active' : ''
+                }`}
+              ></i>
               <span className="menu-label">{menuItem.label}</span>
             </div>
           </li>

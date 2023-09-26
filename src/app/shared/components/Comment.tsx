@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import BlankUserImage from '../../../assets/images/blank-user.webp';
 
 import { isImageUrlValid } from '../utils/checkValidImage';
-import { formatDate } from '../utils/formatDate';
+import { formatDateComment } from '../utils/formatDate';
 
 interface CommentProps {
   id: number;
@@ -47,7 +47,7 @@ export const Comment = ({
             <p className="user-name">{userName}</p>
           </Link>
           <span className="comment-dot-symbol">&#x2022;</span>
-          <span className="comment-date">{formatDate(createdAt)}</span>
+          <span className="comment-date">{formatDateComment(createdAt)}</span>
         </div>
         <p className="comment-text">{comment}</p>
       </div>

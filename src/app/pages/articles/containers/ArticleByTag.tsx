@@ -49,7 +49,6 @@ const ArticleByTag = () => {
     <section className="section section-article-list">
       <div className="container">
         <div className="article-list-header">
-          <i className="icon icon-tag"></i>
           <h3 className="section-tags-title">Tag: {encodedTag}</h3>
         </div>
         <div className="article-list-content">
