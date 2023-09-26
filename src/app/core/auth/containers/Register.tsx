@@ -82,7 +82,7 @@ const Register = () => {
         <h2 className="signup-title">Sign up</h2>
         <form className="signup-form" onSubmit={handleSubmit(onSubmit)}>
           <div className="row">
-            <div className="col col-6">
+            <div className="col col-6 col-sm-12">
               <InputGroup
                 label="First Name*"
                 id="first-name"
@@ -93,7 +93,7 @@ const Register = () => {
                 onBlur={(e) => handleTrimInput('firstName', e.target.value)}
               />
             </div>
-            <div className="col col-6">
+            <div className="col col-6 col-sm-12">
               <InputGroup
                 label="Last Name*"
                 id="last-name"
@@ -104,7 +104,7 @@ const Register = () => {
                 onBlur={(e) => handleTrimInput('lastName', e.target.value)}
               />
             </div>
-            <div className="col col-12">
+            <div className="col col-12 col-sm-12">
               <InputGroup
                 label="Email*"
                 id="email"
@@ -120,7 +120,7 @@ const Register = () => {
                 onBlur={(e) => handleTrimInput('email', e.target.value)}
               />
             </div>
-            <div className="col col-6">
+            <div className="col col-6 col-sm-12">
               <InputGroup
                 label="Display Name*"
                 id="display-name"
@@ -135,7 +135,7 @@ const Register = () => {
                 onBlur={(e) => handleTrimInput('displayName', e.target.value)}
               />
             </div>
-            <div className="col col-6">
+            <div className="col col-6 col-sm-12">
               <Dropdown
                 label="Gender"
                 options={Object.values(GenderType)}
@@ -143,7 +143,7 @@ const Register = () => {
                 setOption={setGender}
               />
             </div>
-            <div className="col col-6">
+            <div className="col col-6 col-sm-12">
               <InputGroup
                 label="Date of Birth*"
                 type="date"
@@ -158,7 +158,7 @@ const Register = () => {
                 }}
               />
             </div>
-            <div className="col col-6">
+            <div className="col col-6 col-sm-12">
               <InputGroup
                 label="Phone*"
                 type="text"
@@ -174,7 +174,7 @@ const Register = () => {
                 onBlur={(e) => handleTrimInput('phone', e.target.value)}
               />
             </div>
-            <div className="col col-6">
+            <div className="col col-6 col-sm-12">
               <InputGroup
                 label="Password*"
                 type="password"
@@ -210,7 +210,7 @@ const Register = () => {
                 }}
               />
             </div>
-            <div className="col col-6">
+            <div className="col col-6 col-sm-12">
               <InputGroup
                 label="Confirm Password*"
                 type="password"
@@ -229,7 +229,7 @@ const Register = () => {
                 }
               />
             </div>
-            <div className="col col-12">
+            <div className="col col-12 col-sm-12">
               <div className="d-flex signup-action">
                 <button
                   className={`btn btn-primary ${isLoading ? 'loading' : null}`}
