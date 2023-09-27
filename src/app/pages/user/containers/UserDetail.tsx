@@ -186,14 +186,14 @@ const UserDetail = () => {
         )}
         <section className="section section-wrapper">
           <div className="row">
-            <div className="col col-4">
+            <div className="col col-4 col-md-12">
               {isLoading ? (
                 <div className="skeleton skeleton-user-sidebar"></div>
               ) : (
                 <UserSideBar userStatistic={userStatistic} />
               )}
             </div>
-            <div className="col col-8">
+            <div className="col col-8 col-md-12">
               <div className="d-flex filter-container">
                 <div className="select-container">
                   <Dropdown
