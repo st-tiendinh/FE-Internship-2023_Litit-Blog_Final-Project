@@ -14,7 +14,7 @@ import { ToastTypes } from '../../../../shared/components/Toast';
 const apiService = new ApiService();
 const jwtHelper = new JwtHelper();
 
-export const RecycleBin = () => {
+const RecycleBin = () => {
   const [deletedPosts, setDeletedPosts] = useState<any>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const isConfirm = useSelector(
@@ -88,3 +88,5 @@ export const RecycleBin = () => {
     </div>
   );
 };
+
+export default RecycleBin;

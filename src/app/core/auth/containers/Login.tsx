@@ -41,7 +41,7 @@ const Login = () => {
       http
         .get([ENDPOINT.users.index, jwtHelper.getUserInfo().userId.toString()])
         .then((res: any) => {
-          const userData = { ...res, id: jwtHelper.getUserInfo().userId };
+          const userData = { ...res, id: jwtHelper.getUserInfo().userId, isSocial: false };
           setLS(KEYS.USER_INFO, userData);
         });
       navigate('/');

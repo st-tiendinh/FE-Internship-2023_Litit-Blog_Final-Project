@@ -1,45 +1,45 @@
-import { useContext } from 'react';
-import {
-  ManagementContext,
-  ManagementType,
-} from '../../../../../context/ManagementContext';
+import { Link, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
+
+import { SettingsType } from '../Settings';
+import { KEYS, getLS } from '../../../../core/helpers/storageHelper';
 
 export const Sidebar = () => {
-  const { managementType, setManagementType } = useContext(ManagementContext)!;
+  const location = useLocation();
+  const userInfo = getLS(KEYS.USER_INFO);
+  const isSocial = userInfo !== null ? JSON.parse(userInfo).isSocial : false;
 
   const menuItems = [
-    { type: ManagementType.MY_PROFILE, label: 'Profile', icon: 'icon-profile' },
+    { type: SettingsType.MY_PROFILE, label: 'Profile', icon: 'icon-profile' },
     {
-      type: ManagementType.LIST_FOLLOWERS,
+      type: SettingsType.LIST_FOLLOWERS,
       label: 'Followers',
       icon: 'icon-follower',
     },
     {
-      type: ManagementType.LIST_FOLLOWINGS,
+      type: SettingsType.LIST_FOLLOWINGS,
       label: 'Followings',
       icon: 'icon-following',
     },
     {
-      type: ManagementType.CHANGE_PASSWORD,
+      type: SettingsType.CHANGE_PASSWORD,
       label: 'Change Password',
       icon: 'icon-change-pw',
     },
     {
-      type: ManagementType.BOOKMARKS,
+      type: SettingsType.BOOKMARKS,
       label: 'Bookmarks',
       icon: 'icon-bookmarks',
     },
-    { type: ManagementType.DRAFTS, label: 'Drafts', icon: 'icon-draft' },
+    { type: SettingsType.DRAFTS, label: 'Drafts', icon: 'icon-draft' },
     {
-      type: ManagementType.RECYCLE_BIN,
+      type: SettingsType.RECYCLE_BIN,
       label: 'Recycle Bin',
       icon: 'icon-recycle-bin',
     },
   ];
 
-  const handleChangeManagementType = (type: ManagementType) => {
-    setManagementType(type);
-  };
+  console.log(isSocial);
 
   return (
     <div className="sidebar">
@@ -47,19 +47,20 @@ export const Sidebar = () => {
         {menuItems.map((menuItem) => (
           <li
             className={`menu-item ${
-              managementType === menuItem.type ? 'active' : ''
-            }`}
+              location.pathname.split('/').pop() === menuItem.type ? 'active' : ''
+            } ${isSocial && menuItem.type === SettingsType.CHANGE_PASSWORD ? 'd-none' : ''}`}
             key={menuItem.type}
-            onClick={() => handleChangeManagementType(menuItem.type)}
           >
-            <div className="d-flex menu">
-              <i
-                className={`icon ${menuItem.icon} ${
-                  managementType === menuItem.type ? 'active' : ''
-                }`}
-              ></i>
-              <span className="menu-label">{menuItem.label}</span>
-            </div>
+            <Link to={`/settings/${menuItem.type}`}>
+              <div className="d-flex menu">
+                <i
+                  className={`icon ${menuItem.icon} ${
+                    location.pathname.split('/').pop() === menuItem.type ? 'active' : ''
+                  }`}
+                ></i>
+                <span className="menu-label">{menuItem.label}</span>
+              </div>
+            </Link>
           </li>
         ))}
       </ul>

@@ -7,7 +7,7 @@ import { ENDPOINT } from '../../../../../config/endpoint';
 const apiService = new ApiService();
 const jwtHelper = new JwtHelper();
 
-export const ListFollowings = () => {
+const ListFollowings = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [listFollowings, setListFollowings] = useState<any>([]);
 
@@ -51,3 +51,5 @@ export const ListFollowings = () => {
     </div>
   );
 };
+
+export default ListFollowings;

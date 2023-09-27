@@ -33,7 +33,7 @@ interface FormData {
 const apiService = new ApiService();
 const jwt = new JwtHelper();
 
-export const UserManagement = () => {
+const UserProfile = () => {
   const userInfo = useSelector((state: RootState) => state.authReducer.userInfo);
 
   const user = {
@@ -82,7 +82,7 @@ export const UserManagement = () => {
         setShowToast({
           type: ToastTypes.SUCCESS,
           title: 'Change successfully!',
-          message: "Your profile have been changed!",
+          message: 'Your profile have been changed!',
         })
       );
     } catch (error) {
@@ -279,3 +279,5 @@ export const UserManagement = () => {
     </div>
   );
 };
+
+export default UserProfile;

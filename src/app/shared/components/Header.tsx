@@ -49,12 +49,12 @@ export const Header = () => {
       try {
         apiService.setHeaders(jwtHelper.getAuthHeader());
         const response: any = await apiService.get([ENDPOINT.users.index, `${userId}`]);
-        setLS(KEYS.USER_INFO, { ...response, id: userId });
+        setLS(KEYS.USER_INFO, { ...response, id: userId, isSocial: true });
 
         dispatch(
           signInGoogleSuccess({
             accessToken: `${accessToken}`,
-            userInfo: { ...response, id: userId },
+            userInfo: { ...response, id: userId, isSocial: true },
           })
         );
 
@@ -244,8 +244,8 @@ export const Header = () => {
                                 </div>
                               </Link>
                             </li>
-                            <Link to={'/management'} className="menu-item" onClick={closeDropdown}>
-                              <div className="menu-action">Management</div>
+                            <Link to={'/settings'} className="menu-item" onClick={closeDropdown}>
+                              <div className="menu-action">Settings</div>
                             </Link>
                             <li className="menu-item">
                               <div onClick={handleSignOut} className="menu-action action-logout">

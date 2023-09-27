@@ -1,16 +1,25 @@
 import { useEffect } from 'react';
 
-import { ManagementProvider } from '../../../../context/ManagementContext';
-import { ManagementContent } from './components/ManagementContent';
+// import  ManagementContent  from './components/ManagementContent';
 import { Sidebar } from './components/Sidebar';
+import { Outlet } from 'react-router-dom';
+
+export enum SettingsType {
+  MY_PROFILE = 'my-profile',
+  LIST_FOLLOWERS = 'list-followers',
+  LIST_FOLLOWINGS = 'list-followings',
+  CHANGE_PASSWORD = 'change-password',
+  BOOKMARKS = 'bookmarks',
+  DRAFTS = 'drafts',
+  RECYCLE_BIN = 'recycle-bin',
+}
 
 const Management = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
+  
   return (
-    <ManagementProvider>
       <div className="management-page">
         <div className="container">
           <div className="row">
@@ -18,12 +27,11 @@ const Management = () => {
               <Sidebar />
             </div>
             <div className="col col-8">
-              <ManagementContent />
+              <Outlet/>
             </div>
           </div>
         </div>
       </div>
-    </ManagementProvider>
   );
 };
 

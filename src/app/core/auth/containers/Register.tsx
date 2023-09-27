@@ -9,7 +9,7 @@ import { ENDPOINT } from '../../../../config/endpoint';
 import { ApiService } from '../../services/api.service';
 import { RootState } from '../../../app.reducers';
 import { formatDateToString } from '../../../shared/utils/formatDate';
-import { GenderType } from '../../../pages/management/containers/components/UserManagement';
+import { GenderType } from '../../../pages/management/containers/components/UserProfile';
 import { Dropdown } from '../../../shared/components/Dropdown';
 
 interface FormData {

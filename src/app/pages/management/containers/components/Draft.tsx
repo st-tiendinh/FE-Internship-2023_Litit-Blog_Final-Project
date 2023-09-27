@@ -11,7 +11,7 @@ import { RootState } from '../../../../app.reducers';
 const apiService = new ApiService();
 const jwtHelper = new JwtHelper();
 
-export const Draft = () => {
+const Draft = () => {
   const [draftList, setDraftList] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [page, setPage] = useState(1);
@@ -93,3 +93,5 @@ export const Draft = () => {
     </section>
   );
 };
+
+export default Draft;
