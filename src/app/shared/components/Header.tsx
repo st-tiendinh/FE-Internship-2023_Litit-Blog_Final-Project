@@ -49,12 +49,12 @@ export const Header = () => {
       try {
         apiService.setHeaders(jwtHelper.getAuthHeader());
         const response: any = await apiService.get([ENDPOINT.users.index, `${userId}`]);
-        setLS(KEYS.USER_INFO, response);
+        setLS(KEYS.USER_INFO, {...response, id: userId});
 
         dispatch(
           signInGoogleSuccess({
             accessToken: `${accessToken}`,
-            userInfo: response,
+            userInfo: { ...response, id: userId },
           })
         );
 
@@ -203,7 +203,7 @@ export const Header = () => {
                       >
                         <p className="user-name">
                           {userInfo?.displayName === null
-                            ? userInfo?.firstName
+                            ? `${userInfo?.firstName} ${userInfo?.lastName}`
                             : userInfo?.displayName}
                         </p>
                       </div>
@@ -225,7 +225,7 @@ export const Header = () => {
                                 <div className="user-info">
                                   <p className="user-name text-truncate">
                                     {userInfo?.displayName === null
-                                      ? userInfo?.firstName
+                                      ? `${userInfo?.firstName} ${userInfo?.lastName}`
                                       : userInfo?.displayName}
                                   </p>
                                   <p className="user-email text-truncate">{userInfo.email}</p>

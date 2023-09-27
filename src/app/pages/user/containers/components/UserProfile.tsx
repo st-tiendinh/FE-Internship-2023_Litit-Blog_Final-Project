@@ -21,12 +21,8 @@ export const UserProfile = ({ isLoggedUser, user }: any) => {
     apiService.setHeaders(jwtHelper.getAuthHeader());
     (async () => {
       try {
-        const response: any = await apiService.get([
-          ENDPOINT.friends.followings,
-        ]);
-        setIsFollowed(
-          response.filter((item: any) => item.id === user.id).length
-        );
+        const response: any = await apiService.get([ENDPOINT.friends.followings]);
+        setIsFollowed(response.filter((item: any) => item.id === user.id).length);
       } catch (error) {
         console.log(error);
       }
@@ -73,7 +69,11 @@ export const UserProfile = ({ isLoggedUser, user }: any) => {
           </div>
           <div className="col col-8">
             <div className="d-flex flex-column profile-content">
-              <p className="user-name">{user.displayName}</p>
+              <p className="user-name">
+                {user.displayName === null
+                  ? `${user?.firstName} ${user?.lastName}`
+                  : user.displayName}
+              </p>
               <ul className="d-flex user-follow-list">
                 <li className="user-follow-item">
                   <div className="user-follow">
@@ -84,16 +84,14 @@ export const UserProfile = ({ isLoggedUser, user }: any) => {
                 <li className="user-follow-item">
                   <div className="user-follow">
                     <span className="user-follow-title">Followings: </span>
-                    <span className="user-follow-amount">
-                      {user.followings}
-                    </span>
+                    <span className="user-follow-amount">{user.followings}</span>
                   </div>
                 </li>
               </ul>
               <ul className="d-flex user-about-list">
                 <li className="d-flex user-about-item">
                   <i className="icon icon-person"></i>
-                  <p className="user-firstname">{user.firstName}</p>
+                  <p className="user-firstname">{`${user?.firstName} ${user?.lastName}`}</p>
                 </li>
                 <li className="d-flex user-about-item">
                   <i className="icon icon-mail"></i>
@@ -118,9 +116,7 @@ export const UserProfile = ({ isLoggedUser, user }: any) => {
               disabled={isLoading}
               className={`btn btn-primary ${isLoading ? 'loading' : null}`}
             >
-              <span className="btn-text">
-                {isFollowed ? 'Followed' : 'Follow'}
-              </span>
+              <span className="btn-text">{isFollowed ? 'Followed' : 'Follow'}</span>
             </button>
           )}
         </div>
