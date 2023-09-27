@@ -10,6 +10,11 @@ export const signInSuccess = (payload: any) => ({
   payload,
 });
 
+export const signInGoogleSuccess = (payload: any) => ({
+  type: ACTION_TYPES.SIGN_IN_GOOGLE_SUCCESS,
+  payload,
+});
+
 export const signInError = (payload: any) => ({
   type: ACTION_TYPES.SIGN_IN_ERROR,
   payload,
@@ -25,8 +30,12 @@ export const signOutSuccess = (payload: any) => ({
 });
 
 export const signOutError = (payload: any) => ({
-  type: ACTION_TYPES.SIGN_OUT_ERROR,
-  payload,
+  type:
+    payload.response.data.errors[0] === 'You can not logout with this account.'
+      ? ACTION_TYPES.SIGN_OUT_SUCCESS
+      : ACTION_TYPES.SIGN_OUT_ERROR,
+  payload:
+    payload.response.data.errors[0] === 'You can not logout with this account.' ? null : payload,
 });
 
 export const updateUser = (account: object) => ({

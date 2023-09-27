@@ -21,16 +21,12 @@ interface FormData {
 const Login = () => {
   const jwtHelper = useMemo(() => new JwtHelper(), []);
   const http = useMemo(() => new ApiService(), []);
-  const isLoading = useSelector(
-    (state: RootState) => state.authReducer.isLoading
-  );
-  const hasError = useSelector(
-    (state: RootState) => state.authReducer.hasError
-  );
+  const isLoading = useSelector((state: RootState) => state.authReducer.isLoading);
+  const hasError = useSelector((state: RootState) => state.authReducer.hasError);
   const error = useSelector((state: RootState) => state.authReducer.error);
-  const isLogged = useSelector(
-    (state: RootState) => state.authReducer.isLogged
-  );
+  const isLogged = useSelector((state: RootState) => state.authReducer.isLogged);
+  const loginWithGoogleDomain = import.meta.env.VITE_WEBSITE_DOMAIN
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {
@@ -101,6 +97,16 @@ const Login = () => {
               >
                 <span className="btn-text">Sign in</span>
               </button>
+
+              <Link
+                to={
+                  `http://ec2-18-143-176-131.ap-southeast-1.compute.amazonaws.com:3000/api/v1/auth/google?redirect_to=${loginWithGoogleDomain}`
+                }
+                className="btn btn-sign-in-with-google"
+              >
+                <i className="icon icon-google"></i>
+                <span className="sign-in-with-google-title">Sign in with google</span>
+              </Link>
             </form>
             <p className="signin-error text-center text-danger">
               {hasError && !isLoading && error?.response?.data?.errors}
