@@ -21,8 +21,12 @@ export const UserProfile = ({ isLoggedUser, user }: any) => {
     apiService.setHeaders(jwtHelper.getAuthHeader());
     (async () => {
       try {
-        const response: any = await apiService.get([ENDPOINT.friends.followings]);
-        setIsFollowed(response.filter((item: any) => item.id === user.id).length);
+        const response: any = await apiService.get([
+          ENDPOINT.friends.followings,
+        ]);
+        setIsFollowed(
+          response.filter((item: any) => item.id === user.id).length
+        );
       } catch (error) {
         console.log(error);
       }
@@ -56,7 +60,12 @@ export const UserProfile = ({ isLoggedUser, user }: any) => {
     <section className="section profile-section">
       <div className="profile">
         <div className="row">
-          <div className="col col-4">
+          <div className="col col-4 col-sm-4">
+            <p className="user-name-sm">
+              {user.displayName === null
+                ? `${user?.firstName} ${user?.lastName}`
+                : user.displayName}
+            </p>
             <div className="d-flex profile-image">
               <div className="user-avatar-wrapper">
                 <img
@@ -67,7 +76,7 @@ export const UserProfile = ({ isLoggedUser, user }: any) => {
               </div>
             </div>
           </div>
-          <div className="col col-8">
+          <div className="col col-8 col-sm-8">
             <div className="d-flex flex-column profile-content">
               <p className="user-name">
                 {user.displayName === null
@@ -77,14 +86,16 @@ export const UserProfile = ({ isLoggedUser, user }: any) => {
               <ul className="d-flex user-follow-list">
                 <li className="user-follow-item">
                   <div className="user-follow">
-                    <span className="user-follow-title">Followers: </span>
+                    <span className="user-follow-title">Followers </span>
                     <span className="user-follow-amount">{user.followers}</span>
                   </div>
                 </li>
                 <li className="user-follow-item">
                   <div className="user-follow">
-                    <span className="user-follow-title">Followings: </span>
-                    <span className="user-follow-amount">{user.followings}</span>
+                    <span className="user-follow-title">Followings </span>
+                    <span className="user-follow-amount">
+                      {user.followings}
+                    </span>
                   </div>
                 </li>
               </ul>
@@ -107,16 +118,26 @@ export const UserProfile = ({ isLoggedUser, user }: any) => {
         </div>
         <div className="profile-button">
           {isLoggedUser ? (
-            <Link to="/management" className="btn btn-primary">
-              Update Profile
-            </Link>
+            <>
+              <Link
+                to="/management"
+                className="btn btn-primary edit-profile-button"
+              >
+                Update Profile
+              </Link>
+              <Link to="/management" className="edit-profile-button-sm">
+                <i className="icon icon-screw"></i>
+              </Link>
+            </>
           ) : (
             <button
               onClick={handleFollow}
               disabled={isLoading}
               className={`btn btn-primary ${isLoading ? 'loading' : null}`}
             >
-              <span className="btn-text">{isFollowed ? 'Followed' : 'Follow'}</span>
+              <span className="btn-text">
+                {isFollowed ? 'Followed' : 'Follow'}
+              </span>
             </button>
           )}
         </div>
