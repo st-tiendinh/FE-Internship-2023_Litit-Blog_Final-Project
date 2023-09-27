@@ -1,10 +1,9 @@
+import DOMPurify from 'dompurify';
 import { useEffect, useState } from 'react';
 
 import { ArticleContent } from './components/ArticleContent';
 import { ArticleEditor, PostAction } from './components/ArticleEditor';
-import { KEYS, getLS } from '../../../core/helpers/storageHelper';
 import { isImageUrlValid } from '../../../shared/utils/checkValidImage';
-import DOMPurify from 'dompurify';
 import { TogglePreview } from '../../../shared/components';
 
 const ArticleNew = () => {
@@ -13,10 +12,6 @@ const ArticleNew = () => {
   const [isValidCover, setIsValidCover] = useState(false);
   const clean = DOMPurify.sanitize(articleData?.content);
   const postDesc = DOMPurify.sanitize(articleData?.description);
-
-  const handlePreview = () => {
-    setArticleData(JSON.parse(getLS(KEYS.DRAFT_DATA) as string));
-  };
 
   useEffect(() => {
     isImageUrlValid(articleData?.cover).then((isValid) => {
@@ -33,11 +28,13 @@ const ArticleNew = () => {
               <TogglePreview
                 isShowPreview={isShowPreview}
                 setIsShowPreview={setIsShowPreview}
-                handlePreview={handlePreview}
               />
             </div>
             <div className={`${!isShowPreview ? '' : 'd-none'}`}>
-              <ArticleEditor type={PostAction.CREATE} />
+              <ArticleEditor
+                type={PostAction.CREATE}
+                setArticleData={setArticleData}
+              />
             </div>
           </div>
           <div className="col col-7">
