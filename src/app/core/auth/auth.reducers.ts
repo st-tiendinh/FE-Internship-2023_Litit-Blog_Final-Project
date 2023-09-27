@@ -57,11 +57,8 @@ const signOutSuccess = (state: any, payload: any) => ({
 const signOutError = (state: any, payload: any) => ({
   ...state,
   isLoading: false,
-  //fix hasError and error later because not have anything to check right now
   hasError:true,
-    // payload.response.data.errors[0] === 'You can not logout with this account.' ? false : true,
   error:payload,
-    // payload.response.data.errors[0] === 'You can not logout with this account.' ? null : payload,
 });
 
 const signOut = (state: any, payload: any) => ({

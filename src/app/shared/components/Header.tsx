@@ -14,6 +14,8 @@ import JwtDecode from 'jwt-decode';
 import { KEYS, removeLS, setLS } from '../../core/helpers/storageHelper';
 import { ApiService } from '../../core/services/api.service';
 import { ENDPOINT } from '../../../config/endpoint';
+import { setShowToast } from '../../../redux/actions/toast';
+import { ToastTypes } from './Toast';
 
 export const Header = () => {
   const jwtHelper = new JwtHelper();
@@ -30,7 +32,6 @@ export const Header = () => {
 
   const isLogged = useSelector((state: RootState) => state.authReducer.isLogged);
   const userInfo = useSelector((state: RootState) => state.authReducer.userInfo);
-  console.log(userInfo, userInfo?.lastName, userInfo?.displayName);
 
   useEffect(() => {
     function getAccessTokenFromUrl(): string | null {
@@ -45,18 +46,31 @@ export const Header = () => {
     }
 
     async function fetchUserData(userId: number) {
-      apiService.setHeaders(jwtHelper.getAuthHeader());
-      const response: any = await apiService.get([ENDPOINT.users.index, `${userId}`]);
-      // console.log(response);
+      try {
+        apiService.setHeaders(jwtHelper.getAuthHeader());
+        const response: any = await apiService.get([ENDPOINT.users.index, `${userId}`]);
+        setLS(KEYS.USER_INFO, response);
 
-      setLS(KEYS.USER_INFO, response);
+        dispatch(
+          signInGoogleSuccess({
+            accessToken: `${accessToken}`,
+            userInfo: response,
+          })
+        );
 
-      dispatch(
-        signInGoogleSuccess({
-          accessToken: `${accessToken}`,
-          userInfo: response,
-        })
-      );
+        navigate('/');
+
+        dispatch(
+          setShowToast({
+            type: ToastTypes.SUCCESS,
+            title: 'Login successfully!',
+            message: 'Welcome to Lit.it Blog!',
+          })
+        );
+      } catch (error) {
+        console.log(error);
+        navigate('/auth/login');
+      }
     }
 
     const accessToken = getAccessTokenFromUrl();
