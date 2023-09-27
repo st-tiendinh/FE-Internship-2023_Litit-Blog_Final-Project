@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+
 import { FollowUser } from './FollowUser';
 import { ApiService } from '../../../../core/services/api.service';
 import JwtHelper from '../../../../core/helpers/jwtHelper';
@@ -7,7 +8,7 @@ import { ENDPOINT } from '../../../../../config/endpoint';
 const apiService = new ApiService();
 const jwtHelper = new JwtHelper();
 
-export const ListFollowings = () => {
+const ListFollowings = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [listFollowings, setListFollowings] = useState<any>([]);
 
@@ -51,3 +52,5 @@ export const ListFollowings = () => {
     </div>
   );
 };
+
+export default ListFollowings;

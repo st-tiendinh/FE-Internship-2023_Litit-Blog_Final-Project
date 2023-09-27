@@ -9,7 +9,7 @@ import { PostListType } from '../../../home/containers/components/PublicPost';
 const apiService = new ApiService();
 const jwtHelper = new JwtHelper();
 
-export const Bookmarks = () => {
+const Bookmarks = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [articlesBookmark, setArticlesBookmark] = useState<any>([]);
 
@@ -77,3 +77,5 @@ export const Bookmarks = () => {
     </div>
   );
 };
+
+export default Bookmarks;

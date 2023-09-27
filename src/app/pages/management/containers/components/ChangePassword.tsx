@@ -15,7 +15,7 @@ interface FormData {
   confirmPassword: string;
 }
 
-export const ChangePasswordManagement = () => {
+const ChangePassword = () => {
   const apiService = new ApiService();
   const jwtHelper = new JwtHelper();
   
@@ -159,3 +159,5 @@ export const ChangePasswordManagement = () => {
     </div>
   );
 };
+
+export default ChangePassword;

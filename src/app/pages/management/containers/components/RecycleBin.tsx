@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import PostList from '../../../../shared/components/PostList';
 
@@ -12,7 +12,7 @@ import { PostListType } from '../../../home/containers/components/PublicPost';
 const apiService = new ApiService();
 const jwtHelper = new JwtHelper();
 
-export const RecycleBin = () => {
+const RecycleBin = () => {
   const [deletedPosts, setDeletedPosts] = useState<any>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const isConfirm = useSelector(
@@ -86,3 +86,5 @@ export const RecycleBin = () => {
     </div>
   );
 };
+
+export default RecycleBin;
