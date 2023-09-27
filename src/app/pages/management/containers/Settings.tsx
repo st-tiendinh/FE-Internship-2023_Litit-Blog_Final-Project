@@ -26,10 +26,8 @@ const Management = () => {
           <div className="col col-4 col-sm-12">
             <Sidebar />
           </div>
-          <div className="col col-8">
-            <div className="management-content">
-              <Outlet />
-            </div>
+          <div className="col col-8 col-sm-12">
+            <Outlet />
           </div>
         </div>
       </div>

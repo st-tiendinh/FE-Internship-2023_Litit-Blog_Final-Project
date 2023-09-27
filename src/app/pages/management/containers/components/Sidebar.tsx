@@ -57,8 +57,8 @@ export const Sidebar = () => {
   return (
     <div className="sidebar">
       <div className="d-flex menu-active" onClick={() => setIsOpen(!isOpen)}>
-        <i className={`icon ${activeType.icon}`}></i>
-        <p className="menu-active-label">{activeType.label}</p>
+        <i className={`icon ${activeType?.icon}`}></i>
+        <p className="menu-active-label">{activeType?.label}</p>
         <i className={`icon ${isOpen ? 'icon-close-black' : 'icon-arrow-down'}`}></i>
       </div>
       <ul className={`menu-list ${isOpen ? 'active' : ''}`}>
@@ -68,6 +68,7 @@ export const Sidebar = () => {
               location.pathname.split('/').pop() === menuItem.type ? 'active' : ''
             } ${isSocial && menuItem.type === SettingsType.CHANGE_PASSWORD ? 'd-none' : ''}`}
             key={menuItem.type}
+            onClick = {() => setIsOpen(false)}
           >
             <Link to={`/settings/${menuItem.type}`}>
               <div className="d-flex menu">
