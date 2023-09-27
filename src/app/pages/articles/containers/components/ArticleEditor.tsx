@@ -265,7 +265,9 @@ export const ArticleEditor = ({
     })();
   }, [
     titleValue,
+    titleInput,
     descValue,
+    descInput,
     isPublic,
     imageUrl,
     imageFile,

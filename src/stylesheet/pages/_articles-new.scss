@@ -11,3 +11,13 @@
     justify-content: center;
   }
 }
+
+@include tablet {
+  .page-write-article {
+    min-height: auto;
+
+    .article-detail {
+      padding: 10px;
+    }
+  }
+}
