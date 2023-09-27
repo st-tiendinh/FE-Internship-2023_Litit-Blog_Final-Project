@@ -1,10 +1,9 @@
-import axios from 'axios';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useState, useRef, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { useConfirmOnload } from '../../../../shared/hooks/useConfirmOnload';
+import { uploadPlugin } from '../../../../../config/ckEditorConfig';
 
 import { ApiService } from '../../../../core/services/api.service';
 import JwtHelper from '../../../../core/helpers/jwtHelper';
@@ -15,12 +14,13 @@ import {
   TypeUpload,
   UploadImageService,
 } from '../../../../core/services/uploadImage.service';
-import { ToastTypes } from '../../../../shared/components/Toast';
+import { setShowToast } from '../../../../../redux/actions/toast';
+import { setShowModal } from '../../../../../redux/actions/modal';
 
+import { ModalType } from '../../../../shared/components/Modal';
+import { ToastTypes } from '../../../../shared/components/Toast';
 import { isImageUrlValid } from '../../../../shared/utils/checkValidImage';
 import { ToggleButton } from '../../../../shared/components';
-import { setShowToast } from '../../../../../redux/actions/toast';
-import { KEYS, getLS, setLS } from '../../../../core/helpers/storageHelper';
 
 const apiService = new ApiService();
 const jwt = new JwtHelper();
@@ -33,9 +33,14 @@ export enum PostAction {
 interface ArticleEditorProps {
   type: PostAction;
   data?: any;
+  setArticleData: any;
 }
 
-export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
+export const ArticleEditor = ({
+  type,
+  data,
+  setArticleData,
+}: ArticleEditorProps) => {
   const [error, setError] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isSaveDraftLoading, setIsSaveDraftLoading] = useState<boolean>(false);
@@ -67,6 +72,7 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
 
   const [imageFile, setImageFile] = useState<any>(null);
   const [isValidCover, setIsValidCover] = useState(false);
+  const [body, setBody] = useState<any>({});
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -121,7 +127,7 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
 
   const handleSubmitTitle = () => {
     if (titleInputRef.current.value.trim()) {
-      setTitleValue(titleInputRef.current.value);
+      setTitleValue(titleInputRef.current.value.trim());
     }
   };
 
@@ -139,7 +145,7 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
   const handleTagEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
     e.preventDefault();
     if (e.key === 'Enter') {
-      if (tagInputRef.current.value.trim().length > 0) {
+      if (tagInputRef.current.value.trim()) {
         const isContain = tagItems.includes(tagInputRef.current.value.trim());
         if (isContain) {
           dispatch(
@@ -245,15 +251,17 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
 
   useEffect(() => {
     (async () => {
+      const coverUrl = imageFile ? URL.createObjectURL(imageFile) : imageUrl;
       const body = {
         title: titleValue || '',
-        cover: URL.createObjectURL(imageFile) || '',
+        cover: coverUrl || '',
         content: contentValue || '',
         status: isPublic ? PostStatus.PUBLIC : PostStatus.PRIVATE,
         description: descValue || '',
         tags: tagItems || '',
       };
-      setLS(KEYS.DRAFT_DATA, body);
+      setBody(body);
+      setArticleData(body);
     })();
   }, [
     titleValue,
@@ -262,14 +270,15 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
     imageUrl,
     imageFile,
     tagItems,
+    tagItemValue,
     contentValue,
+    setArticleData,
   ]);
 
   const handleSaveDraft = () => {
     (async () => {
       try {
         setIsSaveDraftLoading(true);
-        const body = JSON.parse(getLS(KEYS.DRAFT_DATA) as string);
         apiService.setHeaders(jwt.getAuthHeader());
         await apiService.post([ENDPOINT.posts.draft], body);
         setIsSaveDraftLoading(false);
@@ -282,44 +291,34 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
     })();
   };
 
-  useConfirmOnload(unsavedChanges, handleSaveDraft);
+  useEffect(() => {
+    if (type === PostAction.CREATE) {
+      const linkTags = document.querySelectorAll('a');
+      const handleConfirm = (e: any) => {
+        if (unsavedChanges) {
+          e.preventDefault();
+          dispatch(
+            setShowModal({
+              type: ModalType.INFO,
+              message:
+                'You have unsaved changes. Are you sure you want to leave this page?',
+              onConfirm: handleSaveDraft,
+            })
+          );
+        }
+        return;
+      };
+      linkTags.forEach((link) => {
+        link.addEventListener('click', handleConfirm);
+      });
 
-  function uploadAdapter(loader: any) {
-    return {
-      upload: () => {
-        setUnsavedChanges(true);
-        return new Promise((resolve, reject) => {
-          let signUrl: any;
-          let imgUrl: any;
-          loader.file.then((file: any) => {
-            const filenameParts = file?.name.split('.');
-            const firstNameElement = filenameParts?.shift();
-            const params = `?type_upload=content-post&file_name=${firstNameElement}&file_type=image/png}`;
-            apiService.setHeaders(jwt.getAuthHeader());
-            apiService
-              .get([ENDPOINT.signatures.index, `${params}`])
-              .then((res: any) => {
-                signUrl = res.signedRequest;
-                imgUrl = res.url;
-              })
-              .then(() =>
-                axios.put(signUrl, file).then((err) => console.log(err))
-              )
-              .then(() => resolve({ default: imgUrl }))
-              .catch((err) => reject(err));
-          });
+      return () => {
+        linkTags.forEach((link) => {
+          link.removeEventListener('click', handleConfirm);
         });
-      },
-    };
-  }
-
-  function uploadPlugin(editor: any) {
-    editor.plugins.get('FileRepository').createUploadAdapter = (
-      loader: any
-    ) => {
-      return uploadAdapter(loader);
-    };
-  }
+      };
+    }
+  }, [body]);
 
   return (
     <div className="article-editor">
@@ -455,6 +454,7 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
           }}
           data={type === PostAction.CREATE ? '' : data.content}
           onBlur={(_, editor) => {
+            setUnsavedChanges(true);
             setContentValue(editor.getData());
           }}
         />
@@ -463,14 +463,16 @@ export const ArticleEditor = ({ type, data }: ArticleEditorProps) => {
             <ToggleButton isPublic={isPublic} setIsPublic={setIsPublic} />
           </div>
           <div className="article-editor-form-save-button-wrapper">
-            <button
-              className={`btn btn-secondary ${
-                isSaveDraftLoading ? 'loading' : ''
-              }`}
-              onClick={handleSaveDraft}
-            >
-              Save Draft
-            </button>
+            {type === PostAction.CREATE && (
+              <button
+                className={`btn btn-secondary ${
+                  isSaveDraftLoading ? 'loading' : ''
+                }`}
+                onClick={handleSaveDraft}
+              >
+                Save Draft
+              </button>
+            )}
             <button
               className={`btn btn-primary ${isLoading ? 'loading' : ''}`}
               disabled={isLoading}

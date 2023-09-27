@@ -1,10 +1,5 @@
 import { ModalType } from '../../app/shared/components/Modal';
-import {
-  HIDE_MODAL,
-  SET_CONFIRM,
-  SET_CONFIRM_DATA,
-  SHOW_MODAL,
-} from '../types/confirmModal';
+import { HIDE_MODAL, SET_CONFIRM, SHOW_MODAL } from '../types/confirmModal';
 
 export interface ModalPayload {
   id?: number;
@@ -37,12 +32,5 @@ export const setConfirmModal = (confirmCallback: any) => {
   return {
     type: SET_CONFIRM,
     payload: { confirmCallback },
-  };
-};
-
-export const setConfirmData = (confirmData: any) => {
-  return {
-    type: SET_CONFIRM_DATA,
-    payload: { confirmData },
   };
 };

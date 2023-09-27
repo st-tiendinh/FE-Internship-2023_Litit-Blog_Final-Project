@@ -107,7 +107,11 @@ const ArticleUpdate = () => {
                   />
                 </div>
                 <div className={`${!isShowPreview ? '' : 'd-none'}`}>
-                  <ArticleEditor type={PostAction.UPDATE} data={postData} />
+                  <ArticleEditor
+                    type={PostAction.UPDATE}
+                    data={postData}
+                    setArticleData={setPostData}
+                  />
                 </div>
               </div>
               <div className="col col-7">
