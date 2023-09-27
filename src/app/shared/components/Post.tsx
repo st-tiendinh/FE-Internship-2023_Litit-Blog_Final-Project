@@ -131,8 +131,6 @@ export const Post = ({
     );
   };
 
-  console.log(isCanRestore, isLogged, currentUserId);
-
   useEffect(() => {
     isImageUrlValid(cover).then((isValid) => {
       isValid ? setIsValidCover(true) : setIsValidCover(false);
