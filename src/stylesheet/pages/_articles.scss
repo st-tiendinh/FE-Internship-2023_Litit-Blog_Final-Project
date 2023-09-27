@@ -40,10 +40,6 @@
         }
       }
 
-      .sidebar {
-        padding-left: 6px;
-      }
-
       .list-comments {
         &-title {
           margin-bottom: 24px;
@@ -79,6 +75,53 @@
     display: flex;
     align-items: center;
     gap: 10px;
+  }
+}
+
+@include tablet {
+  .page-articles {
+    .section-article-detail {
+      margin-top: 0;
+      margin-bottom: 24px;
+
+      .article-action-list {
+        flex-direction: row;
+        gap: 20px;
+        padding: 20px 10px 10px;
+
+        .article-action-item {
+          flex-direction: row;
+        }
+      }
+
+    }
+
+    .list-comments-section {
+      margin-bottom: 20px;
+    }
+  }
+}
+
+@include mobile {
+  .page-articles {
+    .section-article-detail {
+      margin-top: 0;
+      margin-bottom: 24px;
+
+      .article-detail {
+        &-title {
+          font-size: 22px;
+        }
+
+        &-desc {
+          font-size: map-get($font-sizes, "md");
+        }
+
+        &-paragraph {
+          font-size: map-get($font-sizes, "sm");
+        }
+      }
+    }
   }
 }
 

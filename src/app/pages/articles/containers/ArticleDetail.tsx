@@ -118,7 +118,7 @@ const ArticleDetail = () => {
     <section className="section section-article-detail">
       <div className="container">
         <div className="row">
-          <div className="col col-1 col-md-1 col-sm-12">
+          <div className="col col-1 col-md-12 col-sm-12">
             <ul className="article-action-list position-sticky">
               <Like
                 postId={location.pathname.slice(10).toString()}
