@@ -1,7 +1,6 @@
 import {
   HIDE_MODAL,
   SET_CONFIRM,
-  SET_CONFIRM_DATA,
   SHOW_MODAL,
 } from '../types/confirmModal';
 

@@ -20,7 +20,7 @@
         align-items: center;
 
         &-label {
-          font-size: map-get($font-sizes, "2xl");
+          font-size: map-get($font-sizes, "xl");
           font-weight: map-get($font-weights, "medium");
         }
       }
@@ -308,7 +308,7 @@
 
 @include mobile {
   .management-page {
-    padding: 16px 0px;
+    padding: 12px 0px;
 
     .menu-list {
       display: none;
@@ -316,8 +316,8 @@
       &.active {
         display: block;
         position: absolute;
-        top: 86px;
-        width: calc(100% - 32px);
+        top: 82px;
+        width: calc(100% - 24px);
         height: calc(100vh - 160px);
         background-color: white;
         z-index: 11;

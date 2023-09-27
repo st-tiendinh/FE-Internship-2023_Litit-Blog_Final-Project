@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { ApiService } from '../../../../core/services/api.service';
 import JwtHelper from '../../../../core/helpers/jwtHelper';
@@ -25,7 +25,9 @@ export const Bookmarks = () => {
         const response: any = await apiService.get([ENDPOINT.bookmarks.index]);
         const filterPost = response.filter((item: any) => item.post !== null);
         const newArr = filterPost.map((item: any) => item.post);
-        const publicPosts = newArr.filter((item: any) => item.status !== 'private');
+        const publicPosts = newArr.filter(
+          (item: any) => item.status !== 'private'
+        );
 
         if (publicPosts) {
           setArticlesBookmark(publicPosts);
@@ -49,7 +51,8 @@ export const Bookmarks = () => {
     const startIndex = page * 5;
     let endIndex = startIndex + 5;
     if (endIndex > articlesBookmark.length) {
-      endIndex = startIndex + (Number(articlesBookmark.length) - Number(startIndex));
+      endIndex =
+        startIndex + (Number(articlesBookmark.length) - Number(startIndex));
     }
     const newPosts = articlesBookmark.slice(startIndex, endIndex);
     setVisiblePosts((prevPosts) => [...prevPosts, ...newPosts]);

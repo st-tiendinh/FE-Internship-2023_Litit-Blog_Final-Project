@@ -20,19 +20,19 @@
   }
 
   &-error {
-    width: 35px;
+    min-width: 35px;
     height: 35px;
     background-image: url("../assets/icons/ic-error.svg");
   }
 
   &-warning {
-    width: 35px;
+    min-width: 35px;
     height: 35px;
     background-image: url("../assets/icons/ic-waring.svg");
   }
 
   &-info {
-    width: 35px;
+    min-width: 35px;
     height: 35px;
     background-image: url("../assets/icons/ic-info.svg");
   }
@@ -199,6 +199,12 @@
     width: 28px;
     height: 28px;
     background-image: url("../assets/icons/ic-instagram.svg");
+  }
+
+  &-google {
+    width: 20px;
+    height: 20px;
+    background-image: url("../assets/icons/ic-google.svg");
   }
 
   &-restore {

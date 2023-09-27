@@ -118,7 +118,7 @@ const ArticleDetail = () => {
     <section className="section section-article-detail">
       <div className="container">
         <div className="row">
-          <div className="col col-1">
+          <div className="col col-1 col-md-12 col-sm-12">
             <ul className="article-action-list position-sticky">
               <Like
                 postId={location.pathname.slice(10).toString()}
@@ -140,7 +140,7 @@ const ArticleDetail = () => {
             </ul>
           </div>
 
-          <div className="col col-7">
+          <div className="col col-7 col-md-12 col-sm-12">
             <ArticleContent
               postItem={post}
               user={userShortInfo}
@@ -155,7 +155,7 @@ const ArticleDetail = () => {
               {post.id && <ListComments postId={post.id} />}
             </div>
           </div>
-          <div className="col col-4">
+          <div className="col col-4 col-md-12">
             <Sidebar />
           </div>
         </div>
