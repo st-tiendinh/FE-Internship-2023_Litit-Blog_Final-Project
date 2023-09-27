@@ -167,5 +167,14 @@
         }
       }
     }
+
+    .skeleton {
+      margin-bottom: 20px;
+      height: 300px !important;
+
+      &.sm {
+        height: 180px !important;
+      }
+    }
   }
 }

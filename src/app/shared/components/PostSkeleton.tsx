@@ -1,6 +1,6 @@
 export const PostSkeleton = () => {
   return (
-    <li className="col col-4">
+    <li className="col col-4 col-md-6 col-sm-12">
       <div className="post-item">
         <div className="post post-skeleton">
           <div className="post-image skeleton"></div>

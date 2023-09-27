@@ -13,7 +13,7 @@ const jwtHelper = new JwtHelper();
 
 export const Draft = () => {
   const [draftList, setDraftList] = useState<any[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [page, setPage] = useState(1);
   const [visiblePosts, setVisiblePosts] = useState<any[]>([]);
 
