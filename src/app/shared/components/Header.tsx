@@ -193,7 +193,11 @@ export const Header = () => {
                   onClick={() => setIsOpenMenu(!isOpenMenu)}
                   className={`icon ${isOpenMenu ? 'icon-close' : 'icon-menu'}`}
                 ></i>
-                <Link to={'/'} className="logo-link">
+                <Link
+                  to={'/'}
+                  className="logo-link"
+                  onClick={() => setIsOpenMenu(false)}
+                >
                   <h1 className="logo">
                     <img
                       className="logo-image"
@@ -211,6 +215,7 @@ export const Header = () => {
                     <Link
                       to={'/'}
                       className={`nav-link ${filter === '' ? 'active' : null}`}
+                      onClick={() => setIsOpenMenu(false)}
                     >
                       Home
                     </Link>
@@ -221,6 +226,7 @@ export const Header = () => {
                       className={`nav-link ${
                         filter === 'articles' ? 'active' : null
                       }`}
+                      onClick={() => setIsOpenMenu(false)}
                     >
                       Articles
                     </Link>
@@ -231,6 +237,7 @@ export const Header = () => {
                       className={`nav-link ${
                         filter === 'new' ? 'active' : null
                       }`}
+                      onClick={() => setIsOpenMenu(false)}
                     >
                       Write
                     </Link>
