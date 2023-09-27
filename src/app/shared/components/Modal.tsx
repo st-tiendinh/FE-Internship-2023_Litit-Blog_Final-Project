@@ -1,4 +1,3 @@
-import { ReactElement } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { ConfirmModal } from './ConfirmModal';
@@ -17,7 +16,9 @@ export const Modal = () => {
   const dispatch = useDispatch();
   const type = useSelector((state: RootState) => state.modalReducer.type);
   const message = useSelector((state: RootState) => state.modalReducer.message);
-  const onConfirm = useSelector((state: RootState) => state.modalReducer.onConfirm);
+  const onConfirm = useSelector(
+    (state: RootState) => state.modalReducer.onConfirm
+  );
   const content = useSelector((state: RootState) => state.modalReducer.content);
 
   const handleClose = () => {

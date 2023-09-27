@@ -15,7 +15,6 @@ export const RecommendPosts = () => {
   const [isValidCovers, setIsValidCovers] = useState<boolean[]>([]);
   const [isValidAvatars, setIsValidAvatars] = useState<boolean[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const skeletonArray = Array.from({ length: 3 }, (_, index) => index + 1);
 
   useEffect(() => {
     setIsLoading(true);

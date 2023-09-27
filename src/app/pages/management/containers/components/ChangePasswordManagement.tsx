@@ -37,10 +37,7 @@ export const ChangePasswordManagement = () => {
     setIsLoading(true);
     try {
       apiService.setHeaders(jwtHelper.getAuthHeader());
-      const res: any = await apiService.put(
-        [ENDPOINT.users.changePassword],
-        data
-      );
+      await apiService.put([ENDPOINT.users.changePassword], data);
       setIsLoading(false);
     } catch (error: any) {
       setErrors(error.response.data.errors);
