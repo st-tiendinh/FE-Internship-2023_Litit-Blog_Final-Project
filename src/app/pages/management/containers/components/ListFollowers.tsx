@@ -9,7 +9,7 @@ import { ENDPOINT } from '../../../../../config/endpoint';
 const apiService = new ApiService();
 const jwtHelper = new JwtHelper();
 
-export const ListFollowers = () => {
+const ListFollowers = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [listFollowers, setListFollowers] = useState<any>([]);
 
