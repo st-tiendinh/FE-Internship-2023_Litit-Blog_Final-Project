@@ -88,10 +88,11 @@ const ArticleUpdate = () => {
           setIsLoading(false);
         } catch (error) {
           console.log(error);
+          setIsLoading(false);
         }
       }
     })();
-  }, []);
+  }, [postData?.cover, postData?.content]);
 
   return (
     <div className="page-write-article">
@@ -99,7 +100,7 @@ const ArticleUpdate = () => {
         <div className="row">
           {!isLoading && (
             <>
-              <div className="col col-9">
+              <div className="col col-9 col-md-12">
                 <div className="editor-header">
                   <TogglePreview
                     isShowPreview={isShowPreview}
@@ -114,7 +115,7 @@ const ArticleUpdate = () => {
                   />
                 </div>
               </div>
-              <div className="col col-7">
+              <div className="col col-7 col-md-12">
                 <div className={`${isShowPreview ? '' : 'd-none'}`}>
                   <ArticleContent
                     postItem={postData}
