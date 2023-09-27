@@ -14,11 +14,13 @@ const Management = () => {
       <div className="management-page">
         <div className="container">
           <div className="row">
-            <div className="col col-4">
+            <div className="col col-4 col-sm-12">
               <Sidebar />
             </div>
-            <div className="col col-8">
-              <ManagementContent />
+            <div className="col col-8 col-sm-12">
+              <div className="management-content">
+                <ManagementContent />
+              </div>
             </div>
           </div>
         </div>

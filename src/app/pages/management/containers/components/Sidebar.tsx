@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   ManagementContext,
   ManagementType,
@@ -6,6 +6,7 @@ import {
 
 export const Sidebar = () => {
   const { managementType, setManagementType } = useContext(ManagementContext)!;
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const menuItems = [
     { type: ManagementType.MY_PROFILE, label: 'Profile', icon: 'icon-profile' },
@@ -37,13 +38,35 @@ export const Sidebar = () => {
     },
   ];
 
+  const activeType = menuItems.filter(
+    (item) => item.type === managementType
+  )[0];
+
   const handleChangeManagementType = (type: ManagementType) => {
     setManagementType(type);
+    setIsOpen(false);
   };
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [isOpen]);
 
   return (
     <div className="sidebar">
-      <ul className="menu-list">
+      <div className="d-flex menu-active" onClick={() => setIsOpen(!isOpen)}>
+        <i className={`icon ${activeType.icon}`}></i>
+        <p className="menu-active-label">{activeType.label}</p>
+        <i className="icon icon-arrow-down"></i>
+      </div>
+      <ul className={`menu-list ${isOpen ? 'active' : ''}`}>
         {menuItems.map((menuItem) => (
           <li
             className={`menu-item ${

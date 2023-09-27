@@ -35,7 +35,7 @@
   .recommend-section {
     padding-bottom: 20px;
 
-    .article {
+    .recommend-article {
       position: relative;
       height: 580px;
 
@@ -155,14 +155,14 @@
 
 @include mobile {
   .recommend-section {
-    .article {
+    .recommend-article {
       height: 300px !important;
       margin-bottom: 20px;
 
       &.sm {
         height: 180px !important;
 
-        .article-title {
+        .recommend-article-title {
           font-size: map-get($font-sizes, "xl") !important;
         }
       }
