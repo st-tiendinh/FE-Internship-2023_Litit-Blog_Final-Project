@@ -18,20 +18,22 @@ const Management = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  
+
   return (
-      <div className="management-page">
-        <div className="container">
-          <div className="row">
-            <div className="col col-4">
-              <Sidebar />
-            </div>
-            <div className="col col-8">
-              <Outlet/>
+    <div className="management-page">
+      <div className="container">
+        <div className="row">
+          <div className="col col-4 col-sm-12">
+            <Sidebar />
+          </div>
+          <div className="col col-8">
+            <div className="management-content">
+              <Outlet />
             </div>
           </div>
         </div>
       </div>
+    </div>
   );
 };
 

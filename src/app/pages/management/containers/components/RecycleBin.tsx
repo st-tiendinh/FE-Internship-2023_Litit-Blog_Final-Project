@@ -14,7 +14,7 @@ const jwtHelper = new JwtHelper();
 
 const RecycleBin = () => {
   const [deletedPosts, setDeletedPosts] = useState<any>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const isConfirm = useSelector(
     (state: RootState) => state.modalReducer.isConfirm
   );

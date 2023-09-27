@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { SettingsType } from '../Settings';
 import { KEYS, getLS } from '../../../../core/helpers/storageHelper';
@@ -7,6 +7,7 @@ import { KEYS, getLS } from '../../../../core/helpers/storageHelper';
 export const Sidebar = () => {
   const location = useLocation();
   const userInfo = getLS(KEYS.USER_INFO);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const isSocial = userInfo !== null ? JSON.parse(userInfo).isSocial : false;
 
   const menuItems = [
@@ -40,10 +41,33 @@ export const Sidebar = () => {
   ];
 
   console.log(isSocial);
+  const activeType = menuItems.filter((item) => item.type === location.pathname.split('/').pop())[0];
+
+  // const handleChangeManagementType = (type: ManagementType) => {
+  //   setManagementType(type);
+  //   setIsOpen(false);
+  // };
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [isOpen]);
 
   return (
     <div className="sidebar">
-      <ul className="menu-list">
+      <div className="d-flex menu-active" onClick={() => setIsOpen(!isOpen)}>
+        <i className={`icon ${activeType.icon}`}></i>
+        <p className="menu-active-label">{activeType.label}</p>
+        <i className={`icon ${isOpen ? 'icon-close-black' : 'icon-arrow-down'}`}></i>
+      </div>
+      <ul className={`menu-list ${isOpen ? 'active' : ''}`}>
         {menuItems.map((menuItem) => (
           <li
             className={`menu-item ${

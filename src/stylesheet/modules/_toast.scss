@@ -37,9 +37,9 @@
   }
 
   &-info {
-    border: 1px solid #2196F3;
-    border-left: 6px solid #2196F3;
-  } 
+    border: 1px solid #2196f3;
+    border-left: 6px solid #2196f3;
+  }
 
   &-content {
     display: flex;
@@ -97,5 +97,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+}
+
+@include mobile {
+  .toast {
+    right: -30px;
   }
 }

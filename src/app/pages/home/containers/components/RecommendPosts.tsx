@@ -56,10 +56,10 @@ export const RecommendPosts = () => {
     <section className="section recommend-section">
       {isLoading ? (
         <div className="row">
-          <div className="col col-6">
+          <div className="col col-6 col-sm-12">
             <div className="skeleton"></div>
           </div>
-          <div className="col col-6">
+          <div className="col col-6 col-sm-12">
             <div className="skeleton sm"></div>
             <div className="skeleton sm"></div>
           </div>
@@ -67,10 +67,10 @@ export const RecommendPosts = () => {
       ) : (
         <div className="row">
           <div className="col col-6 col-sm-12">
-            <div key={recommendPosts[1]?.id} className="article">
+            <div key={recommendPosts[1]?.id} className="recommend-article">
               <Link
                 to={`/articles/${recommendPosts[0]?.id}`}
-                className="article-image-wrapper"
+                className="recommend-article-image-wrapper"
               >
                 <div className="overlay"></div>
                 <img
@@ -78,10 +78,10 @@ export const RecommendPosts = () => {
                     isValidCovers[0] ? recommendPosts[0]?.cover : BlankPostImg
                   }
                   alt={recommendPosts[0]?.description}
-                  className="article-image"
+                  className="recommend-article-image"
                 />
               </Link>
-              <div className="article-content">
+              <div className="recommend-article-content">
                 <ul className="d-flex tag-list">
                   {recommendPosts[0]?.tags.map((tag: any) => {
                     return (
@@ -93,10 +93,10 @@ export const RecommendPosts = () => {
                     );
                   })}
                 </ul>
-                <div className="d-flex article-about">
+                <div className="d-flex recommend-article-about">
                   <Link
                     to={`/users/${recommendPosts[0]?.user?.id}`}
-                    className="d-flex article-author"
+                    className="d-flex recommend-article-author"
                   >
                     <div className="author-avatar-wrapper">
                       <img
@@ -114,12 +114,14 @@ export const RecommendPosts = () => {
                     </p>
                   </Link>
                   <span className="dot-symbol">&#x2022;</span>
-                  <p className="article-date">
+                  <p className="recommend-article-date">
                     {formatDate(recommendPosts[0]?.createdAt)}
                   </p>
                 </div>
                 <Link to={`/articles/${recommendPosts[0]?.id}`}>
-                  <h3 className={`article-title title-0 text-truncate`}>
+                  <h3
+                    className={`recommend-article-title title-0 text-truncate`}
+                  >
                     {recommendPosts[0]?.title}
                   </h3>
                 </Link>
@@ -127,10 +129,10 @@ export const RecommendPosts = () => {
             </div>
           </div>
           <div className="col col-6 col-sm-12">
-            <div key={recommendPosts[1]?.id} className="article sm">
+            <div key={recommendPosts[1]?.id} className="recommend-article sm">
               <Link
                 to={`/articles/${recommendPosts[1]?.id}`}
-                className="article-image-wrapper"
+                className="recommend-article-image-wrapper"
               >
                 <div className="overlay"></div>
                 <img
@@ -138,10 +140,10 @@ export const RecommendPosts = () => {
                     isValidCovers[1] ? recommendPosts[1]?.cover : BlankPostImg
                   }
                   alt={recommendPosts[1]?.description}
-                  className="article-image"
+                  className="recommend-article-image"
                 />
               </Link>
-              <div className="article-content">
+              <div className="recommend-article-content">
                 <ul className="d-flex tag-list">
                   {recommendPosts[1]?.tags.map((tag: any) => {
                     return (
@@ -153,10 +155,10 @@ export const RecommendPosts = () => {
                     );
                   })}
                 </ul>
-                <div className="d-flex article-about">
+                <div className="d-flex recommend-article-about">
                   <Link
                     to={`/users/${recommendPosts[1]?.user?.id}`}
-                    className="d-flex article-author"
+                    className="d-flex recommend-article-author"
                   >
                     <div className="author-avatar-wrapper">
                       <img
@@ -174,21 +176,21 @@ export const RecommendPosts = () => {
                     </p>
                   </Link>
                   <span className="dot-symbol">&#x2022;</span>
-                  <p className="article-date">
+                  <p className="recommend-article-date">
                     {formatDate(recommendPosts[1]?.createdAt)}
                   </p>
                 </div>
                 <Link to={`/articles/${recommendPosts[1]?.id}`}>
-                  <h3 className={`article-title text-truncate`}>
+                  <h3 className={`recommend-article-title text-truncate`}>
                     {recommendPosts[1]?.title}
                   </h3>
                 </Link>
               </div>
             </div>
-            <div key={recommendPosts[2]?.id} className="article sm">
+            <div key={recommendPosts[2]?.id} className="recommend-article sm">
               <Link
                 to={`/articles/${recommendPosts[2]?.id}`}
-                className="article-image-wrapper"
+                className="recommend-article-image-wrapper"
               >
                 <div className="overlay"></div>
                 <img
@@ -196,10 +198,10 @@ export const RecommendPosts = () => {
                     isValidCovers[2] ? recommendPosts[2]?.cover : BlankPostImg
                   }
                   alt={recommendPosts[2]?.description}
-                  className="article-image"
+                  className="recommend-article-image"
                 />
               </Link>
-              <div className="article-content">
+              <div className="recommend-article-content">
                 <ul className="d-flex tag-list">
                   {recommendPosts[2]?.tags.map((tag: any) => {
                     return (
@@ -211,10 +213,10 @@ export const RecommendPosts = () => {
                     );
                   })}
                 </ul>
-                <div className="d-flex article-about">
+                <div className="d-flex recommend-article-about">
                   <Link
                     to={`/users/${recommendPosts[2]?.user?.id}`}
-                    className="d-flex article-author"
+                    className="d-flex recommend-article-author"
                   >
                     <div className="author-avatar-wrapper">
                       <img
@@ -232,12 +234,12 @@ export const RecommendPosts = () => {
                     </p>
                   </Link>
                   <span className="dot-symbol">&#x2022;</span>
-                  <p className="article-date">
+                  <p className="recommend-article-date">
                     {formatDate(recommendPosts[2]?.createdAt)}
                   </p>
                 </div>
                 <Link to={`/articles/${recommendPosts[2]?.id}`}>
-                  <h3 className={`article-title text-truncate`}>
+                  <h3 className={`recommend-article-title text-truncate`}>
                     {recommendPosts[2]?.title}
                   </h3>
                 </Link>

@@ -41,7 +41,9 @@ export const FollowUser = (user: any) => {
             />
           </div>
           <div className="follow-user-info">
-            <p className="follow-user-name text-truncate">{user.firstName}</p>
+            <p className="follow-user-name text-truncate">
+              {user.firstName + ' ' + user.lastName}
+            </p>
             <p className="follow-user-display-name text-truncate">
               @{user.displayName}
             </p>

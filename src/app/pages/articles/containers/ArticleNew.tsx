@@ -23,7 +23,7 @@ const ArticleNew = () => {
     <div className="page-write-article">
       <div className="container">
         <div className="row">
-          <div className="col col-9">
+          <div className="col col-9 col-md-12">
             <div className="editor-header">
               <TogglePreview
                 isShowPreview={isShowPreview}
@@ -37,7 +37,7 @@ const ArticleNew = () => {
               />
             </div>
           </div>
-          <div className="col col-7">
+          <div className="col col-7 col-md-12">
             <div className={`${isShowPreview ? '' : 'd-none'}`}>
               <ArticleContent
                 postItem={articleData}

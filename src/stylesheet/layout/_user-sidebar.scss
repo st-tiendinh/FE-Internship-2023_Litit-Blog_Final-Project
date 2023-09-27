@@ -31,3 +31,33 @@
     }
   }
 }
+
+
+@include tablet {
+  .user-sidebar {
+    .statistic {
+      &-list {
+        margin-bottom: 20px;
+      }
+
+      &-item {
+        justify-content: center;
+      }
+    }
+  }
+}
+
+@include mobile {
+  .user-sidebar {
+    .statistic {
+      &-list {
+        padding-bottom: 6px;
+      }
+
+      &-item {
+        justify-content: unset;
+        margin-bottom: 10px;
+      }
+    }
+  }
+}

@@ -1,11 +1,27 @@
 .management-page {
+  position: relative;
   padding: 20px 0;
   background-color: rgb(245, 245, 245);
 
   .sidebar {
     height: 100%;
-    min-height: calc(100vh - 100px);
+    min-height: calc(100vh - 380px);
+
     .menu {
+      &-active {
+        background-color: white;
+        box-shadow: 0 0 0 1px rgba(23, 23, 23, 0.05);
+        padding: 10px;
+        justify-content: space-between;
+        align-items: center;
+        display: none;
+
+        &-label {
+          font-size: map-get($font-sizes, "xl");
+          font-weight: map-get($font-weights, "medium");
+        }
+      }
+
       &-list {
         padding: 10px;
         background-color: white;
@@ -187,10 +203,8 @@
 
   .section-recycle-bin,
   .section-bookmarks {
-    margin-block: -10px;
-
     .post-list-item {
-      padding-block: 10px;
+      margin-bottom: 20px;
     }
   }
 
@@ -285,6 +299,81 @@
       width: 100%;
       height: 176px;
       border-radius: 8px;
+    }
+  }
+}
+
+@include tablet {
+  .management-page {
+    .update-profile,
+    .change-password {
+      &-wrapper {
+        .form-group {
+          width: 100%;
+        }
+      }
+    }
+
+    .follow-user-name {
+      max-width: 250px;
+    }
+
+    .personal-post-image-wrapper {
+      min-width: 240px;
+    }
+
+    .followers-section,
+    .followings-section {
+      padding: 30px;
+    }
+  }
+}
+
+@include mobile {
+  .management-page {
+    padding: 12px 0px;
+
+    .sidebar {
+      min-height: unset;
+      margin-bottom: 16px;
+
+      .menu-active {
+        display: flex;
+      }
+
+      .menu-list {
+        display: none;
+
+        &.active {
+          display: block;
+          position: absolute;
+          top: 82px;
+          width: calc(100% - 24px);
+          height: calc(100vh - 150px);
+          background-color: white;
+          z-index: 11;
+        }
+      }
+    }
+
+    .follow-user-skeleton {
+      margin-bottom: 20px;
+    }
+
+    .update-profile,
+    .change-password {
+      &-wrapper {
+        padding: 16px;
+
+        .form-group {
+          width: 100%;
+        }
+      }
+    }
+
+    .skeleton-personal-list {
+      height: 398px !important;
+      margin-bottom: 20px;
     }
   }
 }
