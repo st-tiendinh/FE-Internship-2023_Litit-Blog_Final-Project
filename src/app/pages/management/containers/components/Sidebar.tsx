@@ -40,13 +40,7 @@ export const Sidebar = () => {
     },
   ];
 
-  console.log(isSocial);
   const activeType = menuItems.filter((item) => item.type === location.pathname.split('/').pop())[0];
-
-  // const handleChangeManagementType = (type: ManagementType) => {
-  //   setManagementType(type);
-  //   setIsOpen(false);
-  // };
 
   useEffect(() => {
     if (isOpen) {
