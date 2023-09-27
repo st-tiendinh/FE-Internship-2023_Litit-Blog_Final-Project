@@ -10,7 +10,7 @@ const apiService = new ApiService();
 const jwtHelper = new JwtHelper();
 
 const Bookmarks = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [articlesBookmark, setArticlesBookmark] = useState<any>([]);
 
   const [visiblePosts, setVisiblePosts] = useState<any[]>([]);

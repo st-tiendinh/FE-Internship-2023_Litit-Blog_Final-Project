@@ -12,7 +12,10 @@ import { ApiService } from '../../../../core/services/api.service';
 import JwtHelper from '../../../../core/helpers/jwtHelper';
 import { RootState } from '../../../../app.reducers';
 import { updateUser } from '../../../../core/auth/auth.actions';
-import { TypeUpload, UploadImageService } from '../../../../core/services/uploadImage.service';
+import {
+  TypeUpload,
+  UploadImageService,
+} from '../../../../core/services/uploadImage.service';
 import { ToastTypes } from '../../../../shared/components/Toast';
 import { setShowToast } from '../../../../../redux/actions/toast';
 
@@ -34,7 +37,9 @@ const apiService = new ApiService();
 const jwt = new JwtHelper();
 
 const UserProfile = () => {
-  const userInfo = useSelector((state: RootState) => state.authReducer.userInfo);
+  const userInfo = useSelector(
+    (state: RootState) => state.authReducer.userInfo
+  );
 
   const user = {
     firstName: userInfo.firstName,
@@ -57,8 +62,12 @@ const UserProfile = () => {
   const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
   const [imageFile, setImageFile] = useState<any>(null);
 
-  const isLoading = useSelector((state: RootState) => state.authReducer.isLoading);
-  const hasError = useSelector((state: RootState) => state.authReducer.hasError);
+  const isLoading = useSelector(
+    (state: RootState) => state.authReducer.isLoading
+  );
+  const hasError = useSelector(
+    (state: RootState) => state.authReducer.hasError
+  );
   const error = useSelector((state: RootState) => state.authReducer.error);
   const dispatch = useDispatch();
 
@@ -115,7 +124,9 @@ const UserProfile = () => {
   };
 
   const handleImageClick = () => {
-    const inputElement = document.querySelector('.avatar-uploader-input') as HTMLInputElement;
+    const inputElement = document.querySelector(
+      '.avatar-uploader-input'
+    ) as HTMLInputElement;
 
     if (inputElement) {
       inputElement.click();

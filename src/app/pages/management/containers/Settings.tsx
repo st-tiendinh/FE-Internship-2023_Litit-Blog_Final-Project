@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 
-// import  ManagementContent  from './components/ManagementContent';
 import { Sidebar } from './components/Sidebar';
 import { Outlet } from 'react-router-dom';
 
