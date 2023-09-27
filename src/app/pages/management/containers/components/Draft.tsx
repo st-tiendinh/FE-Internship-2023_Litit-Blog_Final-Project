@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+
 import PostList, { IPost } from '../../../../shared/components/PostList';
 
 import { PostListType } from '../../../home/containers/components/PublicPost';
