@@ -202,17 +202,21 @@
       border-top: 0.5px solid lightgray;
       top: 72.64px;
       left: 0;
-      height: unset;
       background-color: map-get($colors, "primary");
       z-index: 11;
       display: none;
 
       &.active {
-        display: block;
+        display: flex;
+        height: calc(100vh - 72.64px);
+        align-items: center;
+        justify-content: center;
       }
 
       &-list {
         width: 100%;
+        height: fit-content;
+        transform: translateY(-20px);
         flex-direction: column;
         gap: 0;
       }
