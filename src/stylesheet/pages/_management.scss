@@ -322,6 +322,10 @@
       min-width: 240px;
     }
 
+    .follow-user-skeleton {
+      margin-bottom: 20px;
+    }
+
     .followers-section,
     .followings-section {
       padding: 30px;
@@ -347,7 +351,7 @@
         &.active {
           display: block;
           position: absolute;
-          top: 82px;
+          top: 78px;
           width: calc(100% - 24px);
           height: calc(100vh - 150px);
           background-color: white;
@@ -363,7 +367,7 @@
     .update-profile,
     .change-password {
       &-wrapper {
-        padding: 16px;
+        padding: 30px;
 
         .form-group {
           width: 100%;
@@ -374,6 +378,13 @@
     .skeleton-personal-list {
       height: 398px !important;
       margin-bottom: 20px;
+    }
+
+    .update-profile-title,
+    .followers-section-title,
+    .followings-section-title,
+    .change-password-title {
+      display: none;
     }
   }
 }
