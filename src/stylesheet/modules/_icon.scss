@@ -305,9 +305,11 @@
     background-image: url("../assets/icons/ic-close.svg");
   }
 
+  &-close-black {
+    background-image: url("../assets/icons/ic-close-black.svg");
+  }
+
   &-arrow-down {
-    width: 34px;
-    height: 34px;
     background-image: url("../assets/icons/ic-arrow-down-1.svg");
   }
 

@@ -64,7 +64,9 @@ export const Sidebar = () => {
       <div className="d-flex menu-active" onClick={() => setIsOpen(!isOpen)}>
         <i className={`icon ${activeType.icon}`}></i>
         <p className="menu-active-label">{activeType.label}</p>
-        <i className="icon icon-arrow-down"></i>
+        <i
+          className={`icon ${isOpen ? 'icon-close-black' : 'icon-arrow-down'}`}
+        ></i>
       </div>
       <ul className={`menu-list ${isOpen ? 'active' : ''}`}>
         {menuItems.map((menuItem) => (
