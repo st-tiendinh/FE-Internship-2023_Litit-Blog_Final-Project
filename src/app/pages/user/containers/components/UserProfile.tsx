@@ -120,12 +120,12 @@ export const UserProfile = ({ isLoggedUser, user }: any) => {
           {isLoggedUser ? (
             <>
               <Link
-                to="/management"
+                to="/settings"
                 className="btn btn-primary edit-profile-button"
               >
                 Update Profile
               </Link>
-              <Link to="/management" className="edit-profile-button-sm">
+              <Link to="/settings" className="edit-profile-button-sm">
                 <i className="icon icon-screw"></i>
               </Link>
             </>
