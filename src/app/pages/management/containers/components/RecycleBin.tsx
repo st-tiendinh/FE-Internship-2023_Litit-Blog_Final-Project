@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import PostList from '../../../../shared/components/PostList';
 
@@ -8,6 +8,8 @@ import { ApiService } from '../../../../core/services/api.service';
 import JwtHelper from '../../../../core/helpers/jwtHelper';
 import { ENDPOINT } from '../../../../../config/endpoint';
 import { PostListType } from '../../../home/containers/components/PublicPost';
+import { setShowToast } from '../../../../../redux/actions/toast';
+import { ToastTypes } from '../../../../shared/components/Toast';
 
 const apiService = new ApiService();
 const jwtHelper = new JwtHelper();

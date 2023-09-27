@@ -89,11 +89,15 @@
     padding: 6px;
 
     .icon.icon-restore {
-      background-image: url("../assets/icons/ic-restore-highlight.svg");
+      background-image: url("../assets/icons/ic-restore.svg");
     }
 
     &:hover {
       color: map-get($colors, "dark-yellow");
+
+      .icon.icon-restore{
+        background-image: url("../assets/icons/ic-restore-highlight.svg");
+      }
     }
   }
 

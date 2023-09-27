@@ -14,6 +14,8 @@ import { RootState } from '../../app.reducers';
 import { ModalType } from './Modal';
 import { ENDPOINT } from '../../../config/endpoint';
 import { ApiService } from '../../core/services/api.service';
+import { setShowToast } from '../../../redux/actions/toast';
+import { ToastTypes } from './Toast';
 
 interface PostProps {
   id: number;
@@ -55,12 +57,8 @@ export const Post = ({
   const [isValidUserImg, setIsValidUserImg] = useState(false);
   const formattedDate = formatDate(postedDate);
   const dispatch = useDispatch();
-  const isLogged = useSelector(
-    (state: RootState) => state.authReducer.isLogged
-  );
-  const currentUserId = useSelector(
-    (state: RootState) => state.authReducer.userInfo?.id
-  );
+  const isLogged = useSelector((state: RootState) => state.authReducer.isLogged);
+  const currentUserId = useSelector((state: RootState) => state.authReducer.userInfo?.id);
 
   const handleDelete = () => {
     dispatch(
@@ -75,8 +73,27 @@ export const Post = ({
 
   const handleSoftDelete = () => {
     (async () => {
-      apiService.setHeaders(jwtHelper.getAuthHeader());
-      await apiService.delete([ENDPOINT.posts.index, `${id}`]);
+      try {
+        apiService.setHeaders(jwtHelper.getAuthHeader());
+        await apiService.delete([ENDPOINT.posts.index, `${id}`]);
+
+        dispatch(
+          setShowToast({
+            type: ToastTypes.SUCCESS,
+            title: 'Delete successfully!',
+            message: 'Your post have been deleted!',
+          })
+        );
+      } catch (error) {
+        console.log(error);
+        dispatch(
+          setShowToast({
+            type: ToastTypes.ERROR,
+            title: 'Delete failed!!',
+            message: 'Something went wrong!',
+          })
+        );
+      }
     })();
   };
 
@@ -85,6 +102,14 @@ export const Post = ({
       try {
         apiService.setHeaders(jwtHelper.getAuthHeader());
         await apiService.put([ENDPOINT.posts.index, `${id}/restore`]);
+
+        dispatch(
+          setShowToast({
+            type: ToastTypes.SUCCESS,
+            title: 'Restore successfully!',
+            message: 'Your post have been restored!',
+          })
+        );
       } catch (error) {
         console.log(error);
       }
@@ -94,7 +119,7 @@ export const Post = ({
   const handleRestore = () => {
     dispatch(
       setShowModal({
-        type: ModalType.WARNING,
+        type: ModalType.INFO,
         message: 'Are you sure you want to restore this post?',
         onConfirm: handleRestorePost,
         id: id,
@@ -118,15 +143,8 @@ export const Post = ({
     <>
       {listType === PostListType.GRID && (
         <div className="post">
-          <Link
-            to={`/articles/${id.toString()}`}
-            className="post-image-wrapper"
-          >
-            <img
-              className="post-image"
-              src={isValidCover ? cover : BlankPostImg}
-              alt={title}
-            />
+          <Link to={`/articles/${id.toString()}`} className="post-image-wrapper">
+            <img className="post-image" src={isValidCover ? cover : BlankPostImg} alt={title} />
           </Link>
 
           <div className="post-content">
@@ -171,9 +189,7 @@ export const Post = ({
                         src={isValidUserImg ? authorImg : BlankUserImg}
                         alt="author image"
                       />
-                      <span className="post-author-name text-truncate">
-                        {authorName}
-                      </span>
+                      <span className="post-author-name text-truncate">{authorName}</span>
                     </div>
                   </Link>
                   <span className="post-dot-symbol">&#x2022;</span>
@@ -209,61 +225,43 @@ export const Post = ({
               <ul className="personal-post-tag-list">
                 {tags.slice(0, 2).map((tag, index) => (
                   <li key={index} className="personal-post-tag-item">
-                    <Link
-                      to={`/articles/tag/${tag}`}
-                      className="personal-post-tag-link"
-                    >
-                      <span className="badge badge-primary text-truncate">
-                        {tag}
-                      </span>
+                    <Link to={`/articles/tag/${tag}`} className="personal-post-tag-link">
+                      <span className="badge badge-primary text-truncate">{tag}</span>
                     </Link>
                   </li>
                 ))}
               </ul>
-              {isLogged &&
-                isHasAction &&
-                jwtHelper.isCurrentUser(+`${currentUserId}`) && (
-                  <div className="personal-post-options">
-                    <span className="btn btn-three-dots">
-                      <i className="icon icon-three-dots"></i>
-                      <div className="personal-post-action-popper">
-                        <Link
-                          to={`/articles/update/${id}`}
-                          className="btn btn-edit"
-                        >
-                          <i className="icon icon-pen"></i>
-                          Edit
-                        </Link>
-                        <span
-                          className="btn btn-delete"
-                          onClick={() => handleDelete()}
-                        >
-                          <i className="icon icon-bin"></i>
-                          Delete
-                        </span>
-                      </div>
-                    </span>
-                  </div>
-                )}
+              {isLogged && isHasAction && jwtHelper.isCurrentUser(+`${currentUserId}`) && (
+                <div className="personal-post-options">
+                  <span className="btn btn-three-dots">
+                    <i className="icon icon-three-dots"></i>
+                    <div className="personal-post-action-popper">
+                      <Link to={`/articles/update/${id}`} className="btn btn-edit">
+                        <i className="icon icon-pen"></i>
+                        Edit
+                      </Link>
+                      <span className="btn btn-delete" onClick={() => handleDelete()}>
+                        <i className="icon icon-bin"></i>
+                        Delete
+                      </span>
+                    </div>
+                  </span>
+                </div>
+              )}
               {/* button restore */}
-              {isLogged &&
-                isCanRestore &&
-                jwtHelper.isCurrentUser(+`${currentUserId}`) && (
-                  <div className="personal-post-action">
-                    <span className="btn btn-three-dots">
-                      <i className="icon icon-three-dots"></i>
-                      <div className="personal-post-action-popper">
-                        <span
-                          className="btn btn-restore"
-                          onClick={() => handleRestore()}
-                        >
-                          <i className="icon icon-restore"></i>
-                          Restore
-                        </span>
-                      </div>
-                    </span>
-                  </div>
-                )}
+              {isLogged && isCanRestore && jwtHelper.isCurrentUser(+`${currentUserId}`) && (
+                <div className="personal-post-action">
+                  <span className="btn btn-three-dots">
+                    <i className="icon icon-three-dots"></i>
+                    <div className="personal-post-action-popper">
+                      <span className="btn btn-restore" onClick={() => handleRestore()}>
+                        <i className="icon icon-restore"></i>
+                        Restore
+                      </span>
+                    </div>
+                  </span>
+                </div>
+              )}
             </div>
             <div className="personal-post-title-wrapper">
               <Link
@@ -296,32 +294,22 @@ export const Post = ({
                       alt="author avatar"
                       className="short-info-author-avatar"
                     />
-                    <span className="short-info-author-name text-truncate">
-                      {authorName}
-                    </span>
+                    <span className="short-info-author-name text-truncate">{authorName}</span>
                   </div>
                 </Link>
                 <span className="short-info-dot-symbol">&#x2022;</span>
                 <span className="short-info-timestamp">{formattedDate}</span>
               </div>
-              {isLogged &&
-                isHasAction &&
-                jwtHelper.isCurrentUser(+`${currentUserId}`) && (
-                  <div className="short-info-status">
-                    <span className="badge badge-status">
-                      {(status === PostStatus.PUBLIC && (
-                        <i className="icon icon-earth"></i>
-                      )) ||
-                        (status === PostStatus.PRIVATE && (
-                          <i className="icon icon-lock"></i>
-                        )) ||
-                        (status === PostStatus.DRAFT && (
-                          <i className="icon icon-draft-small"></i>
-                        ))}
-                      {status}
-                    </span>
-                  </div>
-                )}
+              {isLogged && isHasAction && jwtHelper.isCurrentUser(+`${currentUserId}`) && (
+                <div className="short-info-status">
+                  <span className="badge badge-status">
+                    {(status === PostStatus.PUBLIC && <i className="icon icon-earth"></i>) ||
+                      (status === PostStatus.PRIVATE && <i className="icon icon-lock"></i>) ||
+                      (status === PostStatus.DRAFT && <i className="icon icon-draft-small"></i>)}
+                    {status}
+                  </span>
+                </div>
+              )}
             </div>
           </div>
         </div>

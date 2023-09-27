@@ -49,7 +49,7 @@ export const Header = () => {
       try {
         apiService.setHeaders(jwtHelper.getAuthHeader());
         const response: any = await apiService.get([ENDPOINT.users.index, `${userId}`]);
-        setLS(KEYS.USER_INFO, {...response, id: userId});
+        setLS(KEYS.USER_INFO, { ...response, id: userId });
 
         dispatch(
           signInGoogleSuccess({
@@ -102,12 +102,24 @@ export const Header = () => {
   const navigate = useNavigate();
 
   const handleSignOut = () => {
-    dispatch(signOut());
-    Cookies.remove(KEYS.ACCESS_TOKEN);
-    removeLS(KEYS.ACCESS_TOKEN);
-    removeLS(KEYS.USER_INFO);
-    closeDropdown();
-    navigate('/');
+    try {
+      dispatch(signOut());
+      Cookies.remove(KEYS.ACCESS_TOKEN);
+      removeLS(KEYS.ACCESS_TOKEN);
+      removeLS(KEYS.USER_INFO);
+      closeDropdown();
+      navigate('/');
+
+      dispatch(
+        setShowToast({
+          type: ToastTypes.SUCCESS,
+          title: 'Logout successfully!',
+          message: "See you later Litit'user ",
+        })
+      );
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {

@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
 
 import { InputGroup } from '../../../../shared/components';
 import { ApiService } from '../../../../core/services/api.service';
 import JwtHelper from '../../../../core/helpers/jwtHelper';
 import { ENDPOINT } from '../../../../../config/endpoint';
+import { setShowToast } from '../../../../../redux/actions/toast';
+import { ToastTypes } from '../../../../shared/components/Toast';
 
 interface FormData {
   oldPassword: string;
@@ -15,6 +18,8 @@ interface FormData {
 export const ChangePasswordManagement = () => {
   const apiService = new ApiService();
   const jwtHelper = new JwtHelper();
+  
+  const dispatch = useDispatch();
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setErrors] = useState();
@@ -39,9 +44,25 @@ export const ChangePasswordManagement = () => {
       apiService.setHeaders(jwtHelper.getAuthHeader());
       await apiService.put([ENDPOINT.users.changePassword], data);
       setIsLoading(false);
+
+      dispatch(
+        setShowToast({
+          type: ToastTypes.SUCCESS,
+          title: 'Update successfully!',
+          message: 'Your password has been updated!',
+        })
+      );
     } catch (error: any) {
       setErrors(error.response.data.errors);
       setIsLoading(false);
+
+      dispatch( 
+        setShowToast({
+          type: ToastTypes.ERROR,
+          title: 'Update Failed!',
+          message: 'Something went wrong!',
+        })
+      );
     }
   };
 
