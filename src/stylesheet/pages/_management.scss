@@ -355,6 +355,10 @@
       }
     }
 
+    .follow-user-skeleton {
+      margin-bottom: 20px;
+    }
+
     .update-profile,
     .change-password {
       &-wrapper {
@@ -364,6 +368,11 @@
           width: 100%;
         }
       }
+    }
+
+    .skeleton-personal-list {
+      height: 398px !important;
+      margin-bottom: 20px;
     }
   }
 }

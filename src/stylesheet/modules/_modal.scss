@@ -40,7 +40,6 @@
       margin-bottom: 16px;
     }
 
-
     &-message {
       display: flex;
       align-items: center;
@@ -64,6 +63,14 @@
       font-size: 16px;
       color: map-get($colors, secondary-800);
       font-weight: map-get($font-weights, medium);
+    }
+  }
+}
+
+@include mobile {
+  .modal-wrapper {
+    .modal-confirm {
+      max-width: 320px;
     }
   }
 }

@@ -8,7 +8,7 @@ const apiService = new ApiService();
 const jwtHelper = new JwtHelper();
 
 export const ListFollowings = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [listFollowings, setListFollowings] = useState<any>([]);
 
   useEffect(() => {

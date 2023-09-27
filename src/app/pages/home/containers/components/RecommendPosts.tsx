@@ -56,10 +56,10 @@ export const RecommendPosts = () => {
     <section className="section recommend-section">
       {isLoading ? (
         <div className="row">
-          <div className="col col-6">
+          <div className="col col-6 col-sm-12">
             <div className="skeleton"></div>
           </div>
-          <div className="col col-6">
+          <div className="col col-6 col-sm-12">
             <div className="skeleton sm"></div>
             <div className="skeleton sm"></div>
           </div>
