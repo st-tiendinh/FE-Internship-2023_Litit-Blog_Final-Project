@@ -18,6 +18,7 @@
         padding: 10px;
         justify-content: space-between;
         align-items: center;
+        display: none;
 
         &-label {
           font-size: map-get($font-sizes, "xl");
@@ -306,27 +307,57 @@
   }
 }
 
+@include tablet {
+  .management-page {
+    .update-profile,
+    .change-password {
+      &-wrapper {
+        .form-group {
+          width: 100%;
+        }
+      }
+    }
+
+    .follow-user-name {
+      max-width: 250px;
+    }
+
+    .personal-post-image-wrapper {
+      min-width: 240px;
+    }
+
+    .followers-section,
+    .followings-section {
+      padding: 30px;
+    }
+  }
+}
+
 @include mobile {
   .management-page {
     padding: 12px 0px;
 
-    .menu-list {
-      display: none;
-
-      &.active {
-        display: block;
-        position: absolute;
-        top: 82px;
-        width: calc(100% - 24px);
-        height: calc(100vh - 160px);
-        background-color: white;
-        z-index: 11;
-      }
-    }
-
     .sidebar {
       min-height: unset;
       margin-bottom: 16px;
+
+      .menu-active {
+        display: flex;
+      }
+
+      .menu-list {
+        display: none;
+
+        &.active {
+          display: block;
+          position: absolute;
+          top: 82px;
+          width: calc(100% - 24px);
+          height: calc(100vh - 160px);
+          background-color: white;
+          z-index: 11;
+        }
+      }
     }
 
     .update-profile,

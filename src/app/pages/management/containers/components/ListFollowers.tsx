@@ -36,13 +36,13 @@ export const ListFollowers = () => {
       <div className="row">
         {isLoading ? (
           [1, 2].map((item: number) => (
-            <div key={item} className="col col-6 col-sm-12">
+            <div key={item} className="col col-6 col-md-12 col-sm-12">
               <div className="skeleton follow-user-skeleton"></div>
             </div>
           ))
         ) : listFollowers.length ? (
           listFollowers.map((item: any) => (
-            <div key={item.id} className="col col-6 col-sm-12">
+            <div key={item.id} className="col col-6 col-md-12 col-sm-12">
               <FollowUser {...item} isFollowed={false} />
             </div>
           ))
