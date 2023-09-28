@@ -7,7 +7,7 @@ import userRoutes from './user/user.routes';
 import settingsRoutes from './management/settings.routes';
 
 const Page = React.lazy(() => import('./Page'));
-const NotFound = React.lazy(() => import('./../shared/components/NotFound'));
+const NotFoundSection = React.lazy(() => import('./../shared/components/NotFoundSection'));
 
 const pageRoutes: PageRoute[] = [
   {
@@ -22,7 +22,7 @@ const pageRoutes: PageRoute[] = [
   },
   {
     path: '/404',
-    element: NotFound,
+    element: NotFoundSection,
   },
 ];
 

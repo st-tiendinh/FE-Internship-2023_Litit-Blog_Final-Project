@@ -80,6 +80,8 @@
 }
 
 .section-article-list {
+  padding: 20px 0;
+
   .section {
     &-tags-title {
       font-size: map-get($font-sizes, "2xl");

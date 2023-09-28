@@ -37,10 +37,9 @@ const ArticleByTag = () => {
       <div className="container">
         <div className="article-list-content">
           <div className="row">
-            <div className="col col-8 col-sm-12">
+            <div className="col col-8 col-md-12">
               <div className="article-list-header">
                 <h3 className="section-tags-title">Tag: {encodedTag}</h3>
-                {/* <p className="section-tags-content">{encodedTag}</p> */}
               </div>
               {isLoading ? (
                 <PostSkeleton />
@@ -48,7 +47,7 @@ const ArticleByTag = () => {
                 <PostList posts={allPost} type={PostListType.LIST} />
               )}
             </div>
-            <div className="col col-4 col-sm-12">
+            <div className="col col-4 col-md-12">
               <Sidebar />
             </div>
           </div>

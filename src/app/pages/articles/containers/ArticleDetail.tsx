@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import DOMPurify from 'dompurify';
@@ -31,7 +31,6 @@ const ArticleDetail = () => {
     (state: RootState) => state.authReducer.isLogged
   );
 
-  const navigate = useNavigate();
   const location = useLocation();
   const commentRef = useRef<HTMLDivElement>(null);
   const clean = DOMPurify.sanitize(post?.content);
