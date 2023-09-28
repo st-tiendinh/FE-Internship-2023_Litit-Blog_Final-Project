@@ -12,6 +12,7 @@ const jwtHelper = new JwtHelper();
 const ListFollowers = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [listFollowers, setListFollowers] = useState<any>([]);
+  const [listFollowings, setListFollowings] = useState<any>([]);
 
   useEffect(() => {
     apiService.setHeaders(jwtHelper.getAuthHeader());
@@ -22,6 +23,8 @@ const ListFollowers = () => {
           ENDPOINT.friends.followers,
         ]);
         setListFollowers(response);
+        const data: any = await apiService.get([ENDPOINT.friends.followings]);
+        setListFollowings(data);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
@@ -41,11 +44,17 @@ const ListFollowers = () => {
             </div>
           ))
         ) : listFollowers.length ? (
-          listFollowers.map((item: any) => (
-            <div key={item.id} className="col col-6 col-md-12 col-sm-12">
-              <FollowUser {...item} isFollowed={false} />
-            </div>
-          ))
+          listFollowers.map((item: any) => {
+            const isFollowed = listFollowings.filter(
+              (user: any) => user.id === item.id
+            ).length;
+
+            return (
+              <div key={item.id} className="col col-6 col-md-12 col-sm-12">
+                <FollowUser {...item} isFollowed={isFollowed} />
+              </div>
+            );
+          })
         ) : (
           <p className="follow-user-message">No one is following you.</p>
         )}

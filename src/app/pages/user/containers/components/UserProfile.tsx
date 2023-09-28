@@ -34,10 +34,10 @@ export const UserProfile = ({ isLoggedUser, user }: any) => {
   }, []);
 
   useEffect(() => {
-    isImageUrlValid(user.picture).then((isValid) => {
+    isImageUrlValid(user?.picture).then((isValid) => {
       isValid ? setIsValidUserImg(true) : setIsValidUserImg(false);
     });
-  }, [isValidUserImg, user.picture]);
+  }, [isValidUserImg, user?.picture]);
 
   const handleFollow = () => {
     (async () => {

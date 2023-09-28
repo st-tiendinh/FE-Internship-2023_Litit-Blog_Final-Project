@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
@@ -33,6 +33,7 @@ const UserDetail = () => {
   const [search, setSearch] = useState<string>('');
   const [searchArr, setSearchArr] = useState<any>([]);
   const debounceSearch = useDebounce(search);
+  const navigate = useNavigate();
 
   const isConfirm = useSelector(
     (state: RootState) => state.modalReducer.isConfirm
@@ -70,7 +71,7 @@ const UserDetail = () => {
         );
 
         const likeQuantity = await response.Posts.reduce(
-          (acc: any, curr: any) => acc + curr.likes,
+          (acc: any, curr: any) => acc + curr?.likes,
           0
         );
 
@@ -102,6 +103,7 @@ const UserDetail = () => {
       } catch (error) {
         console.log(error);
         setIsLoading(false);
+        navigate('/404');
       }
     })();
   }, [location, isLoggedUser, userId]);
@@ -165,7 +167,7 @@ const UserDetail = () => {
 
       case FilterType.MORE_POPULAR:
         data.sort((a: any, b: any) => {
-          return b.likes - a.likes;
+          return b?.likes - a?.likes;
         });
         break;
 
@@ -194,37 +196,40 @@ const UserDetail = () => {
               )}
             </div>
             <div className="col col-8 col-md-12">
-              <div className="d-flex filter-container">
-                <div className="select-container">
-                  <Dropdown
-                    options={Object.values(FilterType)}
-                    option={filter}
-                    setOption={setFilter}
-                  />
-                </div>
-
-                <div className="d-flex search-box">
-                  <label htmlFor="search-input">
-                    <i className="icon icon-search"></i>
-                  </label>
-                  <input
-                    id="search-input"
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                    autoFocus
-                    className="search-input"
-                    type="text"
-                  />
-                </div>
-              </div>
               {isLoading ? (
                 <div className="skeleton skeleton-personal-list"></div>
               ) : (
-                <PostList
-                  posts={visiblePosts}
-                  type={PostListType.LIST}
-                  isHasAction={!!isLoggedUser}
-                />
+                <>
+                  {visiblePosts.length ? (
+                    <div className="d-flex filter-container">
+                      <div className="select-container">
+                        <Dropdown
+                          options={Object.values(FilterType)}
+                          option={filter}
+                          setOption={setFilter}
+                        />
+                      </div>
+
+                      <div className="d-flex search-box">
+                        <label htmlFor="search-input">
+                          <i className="icon icon-search"></i>
+                        </label>
+                        <input
+                          id="search-input"
+                          value={search}
+                          onChange={(e) => setSearch(e.target.value)}
+                          className="search-input"
+                          type="text"
+                        />
+                      </div>
+                    </div>
+                  ) : null}
+                  <PostList
+                    posts={visiblePosts}
+                    type={PostListType.LIST}
+                    isHasAction={!!isLoggedUser}
+                  />
+                </>
               )}
               {visiblePosts.length < searchArr.length && (
                 <div className="d-flex load-more-btn-wrap">

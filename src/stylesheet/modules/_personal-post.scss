@@ -48,6 +48,10 @@
     }
   }
 
+  .short-info-author-name {
+    max-width: 300px;
+  }
+
   &-image-link {
     &:hover {
       cursor: pointer;
@@ -78,6 +82,10 @@
     display: flex;
     gap: 8px;
     margin-bottom: 10px;
+
+    .badge {
+      max-width: 150px;
+    }
   }
 
   &-title {
@@ -182,6 +190,10 @@
 
     &-tag-list {
       height: 24px;
+    }
+
+    .short-info-author-name {
+      max-width: 120px;
     }
   }
 }

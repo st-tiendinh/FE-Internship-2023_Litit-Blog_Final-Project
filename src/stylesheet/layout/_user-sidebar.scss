@@ -19,6 +19,7 @@
       display: flex;
       align-items: center;
       gap: 12px;
+      margin-bottom: 12px;
 
       &:not(:last-child) {
         margin-bottom: 16px;
@@ -31,7 +32,6 @@
     }
   }
 }
-
 
 @include tablet {
   .user-sidebar {

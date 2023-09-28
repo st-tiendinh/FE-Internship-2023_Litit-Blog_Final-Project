@@ -32,8 +32,8 @@ const ArticleDetail = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const commentRef = useRef<HTMLDivElement>(null);
-  const clean = DOMPurify.sanitize(post.content);
-  const postDesc = DOMPurify.sanitize(post.description);
+  const clean = DOMPurify.sanitize(post?.content);
+  const postDesc = DOMPurify.sanitize(post?.description);
 
   const [isEnoughSpaceForToolTip, setIsEnoughSpaceForToolTip] = useState(
     window.innerWidth <= 1250
@@ -71,6 +71,7 @@ const ArticleDetail = () => {
           setIsShowButtonEdit(jwtHelper.isCurrentUser(response.userId));
         setIsLoading(false);
       } catch (error: any) {
+        console.log(error);
         try {
           apiService.setHeaders(jwtHelper.getAuthHeader());
           const res: any = await apiService.get([
@@ -81,10 +82,14 @@ const ArticleDetail = () => {
             (item: any) =>
               item.id.toString() === location.pathname.split('/').pop()
           );
-          setPost(filterPost);
-          setUserShortInfo(res);
-          isLogged && setIsShowButtonEdit(jwtHelper.isCurrentUser(res.id));
-          setIsLoading(false);
+          if (filterPost) {
+            setPost(filterPost);
+            setUserShortInfo(res);
+            isLogged && setIsShowButtonEdit(jwtHelper.isCurrentUser(res.id));
+            setIsLoading(false);
+          } else {
+            navigate('/404');
+          }
         } catch (error) {
           navigate('/404');
           console.log(error);
@@ -103,10 +108,10 @@ const ArticleDetail = () => {
   }, [isLoading]);
 
   useEffect(() => {
-    isImageUrlValid(post.cover).then((isValid) => {
+    isImageUrlValid(post?.cover).then((isValid) => {
       isValid ? setIsValidCover(true) : setIsValidCover(false);
     });
-  }, [isValidCover, post.cover]);
+  }, [isValidCover, post?.cover]);
 
   useEffect(() => {
     isImageUrlValid(userShortInfo.picture).then((isValid) => {
@@ -134,7 +139,7 @@ const ArticleDetail = () => {
                   Comments
                 </span>
                 <i className="icon icon-comment-normal"></i>
-                {post.comments}
+                {post?.comments}
               </li>
               <Bookmark tooltip={isEnoughSpaceForToolTip} />
             </ul>
@@ -152,7 +157,7 @@ const ArticleDetail = () => {
               cleanDescription={postDesc}
             />
             <div ref={commentRef}>
-              {post.id && <ListComments postId={post.id} />}
+              {post?.id && <ListComments postId={post?.id} />}
             </div>
           </div>
           <div className="col col-4 col-md-12">
