@@ -19,6 +19,9 @@ export const Modal = () => {
   const onConfirm = useSelector(
     (state: RootState) => state.modalReducer.onConfirm
   );
+  const onCancel = useSelector(
+    (state: RootState) => state.modalReducer.onCancel
+  );
   const content = useSelector((state: RootState) => state.modalReducer.content);
 
   const handleClose = () => {
@@ -35,7 +38,7 @@ export const Modal = () => {
             {content}
           </>
         )}
-        {onConfirm !== undefined ? (
+        {onConfirm !== undefined || onCancel !== undefined ? (
           <>
             <div className="modal-header">
               <div className="modal-message">

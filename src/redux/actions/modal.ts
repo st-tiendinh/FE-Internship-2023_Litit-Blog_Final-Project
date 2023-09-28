@@ -1,11 +1,17 @@
 import { ModalType } from '../../app/shared/components/Modal';
-import { HIDE_MODAL, SET_CONFIRM, SHOW_MODAL } from '../types/confirmModal';
+import {
+  HIDE_MODAL,
+  SET_CANCEL,
+  SET_CONFIRM,
+  SHOW_MODAL,
+} from '../types/confirmModal';
 
 export interface ModalPayload {
   id?: number;
   type?: ModalType;
   message?: string;
   onConfirm?: () => void;
+  onCancel?: () => void;
   content?: any;
 }
 
@@ -14,11 +20,12 @@ export const setShowModal = ({
   type,
   message,
   onConfirm,
+  onCancel,
   content,
 }: ModalPayload) => {
   return {
     type: SHOW_MODAL,
-    payload: { id, type, message, onConfirm, content },
+    payload: { id, type, message, onConfirm, onCancel, content },
   };
 };
 
@@ -32,5 +39,12 @@ export const setConfirmModal = (confirmCallback: any) => {
   return {
     type: SET_CONFIRM,
     payload: { confirmCallback },
+  };
+};
+
+export const setCancelModal = (cancelCallback: any) => {
+  return {
+    type: SET_CANCEL,
+    payload: { cancelCallback },
   };
 };

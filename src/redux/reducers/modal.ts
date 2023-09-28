@@ -1,5 +1,6 @@
 import {
   HIDE_MODAL,
+  SET_CANCEL,
   SET_CONFIRM,
   SHOW_MODAL,
 } from '../types/confirmModal';
@@ -8,9 +9,11 @@ export interface ConfirmModalStateProps {
   isShow: boolean;
   isConfirm: boolean;
   confirmCallback: any;
+  cancelCallback: any;
   type: string;
   message: string;
   onConfirm: any;
+  onCancel: any;
   id: number;
   content: any;
 }
@@ -19,9 +22,11 @@ const initialState = {
   isShow: false,
   isConfirm: false,
   confirmCallback: () => {},
+  cancelCallback: () => {},
   type: '',
   message: '',
   onConfirm: undefined,
+  onCancel: undefined,
   id: 0,
   content: undefined,
 };
@@ -36,6 +41,7 @@ export const modalReducer = (state = initialState, action: any) => {
       type: action.payload.type,
       message: action.payload.message,
       onConfirm: action.payload.onConfirm,
+      onCancel: action.payload.onCancel,
       content: action.payload.content,
     }),
 
@@ -44,6 +50,7 @@ export const modalReducer = (state = initialState, action: any) => {
       isShow: false,
       isConfirm: false,
       onConfirm: undefined,
+      onCancel: undefined,
       content: undefined,
     }),
 
@@ -53,6 +60,14 @@ export const modalReducer = (state = initialState, action: any) => {
       confirmCallback: action.payload.confirmCallback,
       onConfirm: () => {},
       isConfirm: true,
+    }),
+
+    [SET_CANCEL]: () => ({
+      ...state,
+      isShow: false,
+      cancelCallback: action.payload.cancelCallback,
+      onCancel: () => {},
+      isConfirm: false,
     }),
   };
 
