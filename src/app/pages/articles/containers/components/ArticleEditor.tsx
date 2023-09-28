@@ -293,6 +293,11 @@ export const ArticleEditor = ({
     })();
   };
 
+  const handleCancelSaveDraft = () => {
+    setUnsavedChanges(false);
+    navigate('/');
+  };
+
   useEffect(() => {
     if (type === PostAction.CREATE) {
       const linkTags = document.querySelectorAll('a');
@@ -305,6 +310,7 @@ export const ArticleEditor = ({
               message:
                 'You have unsaved changes. Are you sure you want to leave this page?',
               onConfirm: handleSaveDraft,
+              onCancel: handleCancelSaveDraft,
             })
           );
         }
