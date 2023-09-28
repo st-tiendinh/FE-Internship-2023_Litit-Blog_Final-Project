@@ -11,9 +11,7 @@ const NotFound = ({ message, typeError }: NotFoundProps) => {
     <div className="notfound-page">
       <div className="notfound-page-header">
         <span className="notfound-page-error">404</span>
-        <h3 className="notfound-page-title">
-          {typeError ? typeError : 'Page'} Not Found
-        </h3>
+        <h3 className="notfound-page-title">{typeError} Not Found</h3>
       </div>
       <img
         className="notfound-page-image"
