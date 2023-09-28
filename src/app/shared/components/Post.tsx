@@ -238,33 +238,18 @@ export const Post = ({
           </Link>
 
           <div className="d-flex flex-column personal-post-content">
-            <div className="personal-post-title-wrapper">
-              <Link
-                to={
-                  status === PostStatus.DRAFT
-                    ? `/articles/update/${id.toString()}`
-                    : `/articles/${id.toString()}`
-                }
-              >
-                <h4 className="personal-post-title text-truncate">{title}</h4>
-              </Link>
-            </div>
             <div className="personal-post-card-header">
-              <ul className="personal-post-tag-list">
-                {tags.slice(0, 2).map((tag, index) => (
-                  <li key={index} className="personal-post-tag-item">
-                    <Link
-                      to={`/articles/tag/${tag}`}
-                      className="personal-post-tag-link"
-                      title={tag}
-                    >
-                      <span className="badge badge-primary text-truncate">
-                        {tag}
-                      </span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+              <div className="personal-post-title-wrapper">
+                <Link
+                  to={
+                    status === PostStatus.DRAFT
+                      ? `/articles/update/${id.toString()}`
+                      : `/articles/${id.toString()}`
+                  }
+                >
+                  <h4 className="personal-post-title text-truncate">{title}</h4>
+                </Link>
+              </div>
               {isLogged &&
                 isHasAction &&
                 jwtHelper.isCurrentUser(+`${currentUserId}`) && (
@@ -290,11 +275,10 @@ export const Post = ({
                     </span>
                   </div>
                 )}
-              {/* button restore */}
               {isLogged &&
                 isCanRestore &&
                 jwtHelper.isCurrentUser(+`${currentUserId}`) && (
-                  <div className="personal-post-action">
+                  <div className="personal-post-options">
                     <span className="btn btn-three-dots">
                       <i className="icon icon-three-dots"></i>
                       <div className="personal-post-action-popper">
@@ -310,6 +294,21 @@ export const Post = ({
                   </div>
                 )}
             </div>
+            <ul className="personal-post-tag-list">
+              {tags.slice(0, 2).map((tag, index) => (
+                <li key={index} className="personal-post-tag-item">
+                  <Link
+                    to={`/articles/tag/${tag}`}
+                    className="personal-post-tag-link"
+                    title={tag}
+                  >
+                    <span className="badge badge-primary text-truncate">
+                      {tag}
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
             <div className="personal-post-action">
               <span className="personal-post-action-group">
                 <i className="icon icon-unlike"></i>
