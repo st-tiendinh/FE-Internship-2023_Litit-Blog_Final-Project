@@ -1,9 +1,7 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import image404 from '../../../assets/images/notfound404.gif';
 
 const NotFound = () => {
-  const navigate = useNavigate();
-
   return (
     <div className="notfound-page">
       <div className="notfound-page-header">
@@ -18,9 +16,6 @@ const NotFound = () => {
         <div className="notfound-page-action">
           <button className="btn btn-primary">
             <Link to={'/'}>Back To Home</Link>
-          </button>
-          <button onClick={() => navigate(-1)} className="btn btn-outline">
-            Previous page
           </button>
         </div>
       </div>
