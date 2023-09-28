@@ -11,3 +11,4 @@ export { Modal } from './Modal';
 export { ConfirmModal } from './ConfirmModal';
 export { ToggleButton } from './ToggleButton';
 export { TogglePreview } from './TogglePreview';
+export { ScrollToTopButton } from './ScrollToTopButton';

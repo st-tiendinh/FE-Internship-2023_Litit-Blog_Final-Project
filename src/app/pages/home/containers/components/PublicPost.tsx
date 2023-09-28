@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { ScrollToTopButton } from './ScrollToTopButton';
+import { ScrollToTopButton } from '../../../../shared/components';
 
 import { ApiService } from '../../../../core/services/api.service';
 import { ENDPOINT } from '../../../../../config/endpoint';
