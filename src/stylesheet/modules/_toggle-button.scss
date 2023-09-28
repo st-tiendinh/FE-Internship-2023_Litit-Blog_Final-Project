@@ -20,7 +20,7 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    font-weight: map-get($font-weights, bold);
+    font-weight: map-get($font-weights, "medium");
   }
 
   &::before {

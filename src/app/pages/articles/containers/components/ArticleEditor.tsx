@@ -317,7 +317,7 @@ export const ArticleEditor = ({
           dispatch(
             setShowModal({
               type: ModalType.INFO,
-              message: `You haven't saved your post yet, do you want to save your draft?`,
+              message: `You have not saved your post. Would you like to save a draft before leaving?`,
               onConfirm: handleSaveDraft,
               onCancel: handleCancelSaveDraft,
             })

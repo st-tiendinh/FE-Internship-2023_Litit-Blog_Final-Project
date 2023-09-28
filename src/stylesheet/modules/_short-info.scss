@@ -44,6 +44,7 @@
   &-timestamp {
     font-size: map-get($font-sizes, sm);
     font-weight: map-get($font-weights, normal);
+    line-height: 16px;
     color: map-get($colors, secondary-500);
     display: flex;
     align-items: center;
