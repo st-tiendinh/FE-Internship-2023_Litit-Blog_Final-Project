@@ -309,30 +309,32 @@ export const ArticleEditor = ({
   };
 
   useEffect(() => {
-    const linkTags = document.querySelectorAll('a');
-    const handleConfirm = (e: any) => {
-      if (unsavedChanges) {
-        e.preventDefault();
-        dispatch(
-          setShowModal({
-            type: ModalType.INFO,
-            message: `You haven't saved your post yet, do you want to save your draft?`,
-            onConfirm: handleSaveDraft,
-            onCancel: handleCancelSaveDraft,
-          })
-        );
-      }
-      return;
-    };
-    linkTags.forEach((link) => {
-      link.addEventListener('click', handleConfirm);
-    });
-
-    return () => {
+    if (type === PostAction.CREATE) {
+      const linkTags = document.querySelectorAll('a');
+      const handleConfirm = (e: any) => {
+        if (unsavedChanges) {
+          e.preventDefault();
+          dispatch(
+            setShowModal({
+              type: ModalType.INFO,
+              message: `You haven't saved your post yet, do you want to save your draft?`,
+              onConfirm: handleSaveDraft,
+              onCancel: handleCancelSaveDraft,
+            })
+          );
+        }
+        return;
+      };
       linkTags.forEach((link) => {
-        link.removeEventListener('click', handleConfirm);
+        link.addEventListener('click', handleConfirm);
       });
-    };
+
+      return () => {
+        linkTags.forEach((link) => {
+          link.removeEventListener('click', handleConfirm);
+        });
+      };
+    }
   }, [body]);
 
   return (
@@ -479,7 +481,7 @@ export const ArticleEditor = ({
             <ToggleButton isPublic={isPublic} setIsPublic={setIsPublic} />
           </div>
           <div className="article-editor-form-save-button-wrapper">
-            {/* {type === PostAction.CREATE && (
+            {type === PostAction.CREATE && (
               <button
                 className={`btn btn-secondary ${
                   isSaveDraftLoading ? 'loading' : ''
@@ -488,15 +490,7 @@ export const ArticleEditor = ({
               >
                 Save Draft
               </button>
-            )} */}
-            <button
-              className={`btn btn-secondary ${
-                isSaveDraftLoading ? 'loading' : ''
-              }`}
-              onClick={handleSaveDraft}
-            >
-              Save Draft
-            </button>
+            )}
             <button
               className={`btn btn-primary ${isLoading ? 'loading' : ''}`}
               disabled={isLoading}
