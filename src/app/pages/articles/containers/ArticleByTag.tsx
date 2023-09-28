@@ -35,18 +35,19 @@ const ArticleByTag = () => {
   return (
     <section className="section section-article-list">
       <div className="container">
-        <div className="article-list-header">
-          <h3 className="section-tags-title">Tag: {encodedTag}</h3>
-        </div>
         <div className="article-list-content">
           <div className="row">
-            {isLoading ? (
-              <PostSkeleton />
-            ) : (
-              <div className="col col-8 col-sm-12">
-                <PostList posts={allPost} type={PostListType.LIST} />
+            <div className="col col-8 col-sm-12">
+              <div className="article-list-header">
+                <h3 className="section-tags-title">Tag: {encodedTag}</h3>
+                {/* <p className="section-tags-content">{encodedTag}</p> */}
               </div>
-            )}
+              {isLoading ? (
+                <PostSkeleton />
+              ) : (
+                <PostList posts={allPost} type={PostListType.LIST} />
+              )}
+            </div>
             <div className="col col-4 col-sm-12">
               <Sidebar />
             </div>
