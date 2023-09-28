@@ -32,8 +32,8 @@ export const ArticleContent = ({
 }: ArticleContentProps) => {
   return (
     <article className="article article-detail">
-      {postItem?.tags && <ArticleTagList tags={postItem?.tags} />}
       <h2 className="article-detail-title">{postItem?.title}</h2>
+      {postItem?.tags && <ArticleTagList tags={postItem?.tags} />}
       <div className="article-detail-content">
         <div className="article-detail-header">
           {user && (

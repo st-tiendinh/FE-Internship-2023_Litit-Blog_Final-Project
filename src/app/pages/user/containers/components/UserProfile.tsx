@@ -120,7 +120,7 @@ export const UserProfile = ({ isLoggedUser, user }: any) => {
           {isLoggedUser ? (
             <>
               <Link
-                to="/settings"
+                to="/settings/my-profile"
                 className="btn btn-primary edit-profile-button"
               >
                 Update Profile
@@ -136,7 +136,7 @@ export const UserProfile = ({ isLoggedUser, user }: any) => {
               className={`btn btn-primary ${isLoading ? 'loading' : null}`}
             >
               <span className="btn-text">
-                {isFollowed ? 'Followed' : 'Follow'}
+                {isFollowed ? 'Unfollow' : 'Follow'}
               </span>
             </button>
           )}
