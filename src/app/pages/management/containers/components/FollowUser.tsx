@@ -55,7 +55,7 @@ export const FollowUser = (user: any) => {
           className={`btn btn-primary ${isLoading ? 'loading' : null}`}
           onClick={handleFollow}
         >
-          <span className="btn-text">{isFollowed ? 'Followed' : 'Follow'}</span>
+          <span className="btn-text">{isFollowed ? 'Unfollow' : 'Follow'}</span>
         </button>
       </div>
     </div>

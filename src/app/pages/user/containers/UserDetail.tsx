@@ -208,7 +208,7 @@ const UserDetail = () => {
                     <div className="skeleton skeleton-personal-list"></div>
                   ) : (
                     <>
-                      {visiblePosts.length ? (
+                      {userPosts.length ? (
                         <div className="d-flex filter-container">
                           <div className="select-container">
                             <Dropdown

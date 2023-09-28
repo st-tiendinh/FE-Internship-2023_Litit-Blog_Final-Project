@@ -49,6 +49,7 @@
   &-text {
     font-size: map-get($font-sizes, "sm");
     color: map-get($colors, "secondary-600");
+    white-space: pre-line;
   }
 
   &-form {

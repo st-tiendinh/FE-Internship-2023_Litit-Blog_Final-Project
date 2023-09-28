@@ -238,6 +238,17 @@ export const Post = ({
           </Link>
 
           <div className="d-flex flex-column personal-post-content">
+            <div className="personal-post-title-wrapper">
+              <Link
+                to={
+                  status === PostStatus.DRAFT
+                    ? `/articles/update/${id.toString()}`
+                    : `/articles/${id.toString()}`
+                }
+              >
+                <h4 className="personal-post-title text-truncate">{title}</h4>
+              </Link>
+            </div>
             <div className="personal-post-card-header">
               <ul className="personal-post-tag-list">
                 {tags.slice(0, 2).map((tag, index) => (
@@ -298,17 +309,6 @@ export const Post = ({
                     </span>
                   </div>
                 )}
-            </div>
-            <div className="personal-post-title-wrapper">
-              <Link
-                to={
-                  status === PostStatus.DRAFT
-                    ? `/articles/update/${id.toString()}`
-                    : `/articles/${id.toString()}`
-                }
-              >
-                <h4 className="personal-post-title text-truncate">{title}</h4>
-              </Link>
             </div>
             <div className="personal-post-action">
               <span className="personal-post-action-group">
