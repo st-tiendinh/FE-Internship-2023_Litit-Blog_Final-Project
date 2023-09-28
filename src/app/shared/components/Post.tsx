@@ -222,7 +222,9 @@ export const Post = ({
         <div className="personal-post">
           <Link
             to={
-              status === PostStatus.DRAFT
+              location.pathname.split('/').pop() === 'recycle-bin'
+                ? ''
+                : status === PostStatus.DRAFT
                 ? `/articles/update/${id.toString()}`
                 : `/articles/${id.toString()}`
             }
@@ -242,7 +244,9 @@ export const Post = ({
               <div className="personal-post-title-wrapper">
                 <Link
                   to={
-                    status === PostStatus.DRAFT
+                    location.pathname.split('/').pop() === 'recycle-bin'
+                      ? ''
+                      : status === PostStatus.DRAFT
                       ? `/articles/update/${id.toString()}`
                       : `/articles/${id.toString()}`
                   }
