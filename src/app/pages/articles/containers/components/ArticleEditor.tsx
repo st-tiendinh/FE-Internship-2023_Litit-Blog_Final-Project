@@ -48,16 +48,22 @@ export const ArticleEditor = ({
   const [titleInput, setTitleInput] = useState<string>(
     type === PostAction.UPDATE ? data.title : ''
   );
-  const [titleValue, setTitleValue] = useState<string>('');
+  const [titleValue, setTitleValue] = useState<string>(
+    type === PostAction.UPDATE ? data.title : ''
+  );
   const [descInput, setDescInput] = useState<string>(
     type === PostAction.UPDATE ? data.description : ''
   );
-  const [descValue, setDescValue] = useState<string>('');
+  const [descValue, setDescValue] = useState<string>(
+    type === PostAction.UPDATE ? data.description : ''
+  );
   const [tagItems, setTagItems] = useState<string[]>(
     type === PostAction.UPDATE ? data.tags : []
   );
   const [tagItemValue, SetTagItemValue] = useState('');
-  const [contentValue, setContentValue] = useState<string>('');
+  const [contentValue, setContentValue] = useState<string>(
+    type === PostAction.UPDATE ? data.content : ''
+  );
   const [isPublic, setIsPublic] = useState<boolean>(
     type === PostAction.UPDATE
       ? data.status === PostStatus.PUBLIC
@@ -142,32 +148,36 @@ export const ArticleEditor = ({
     setUnsavedChanges(true);
   };
 
+  const handleTagBlur = () => {
+    if (tagInputRef.current.value.trim()) {
+      const isContain = tagItems.includes(tagInputRef.current.value.trim());
+      if (isContain) {
+        dispatch(
+          setShowToast({
+            type: ToastTypes.ERROR,
+            title: 'Tag error',
+            message: 'Tag already exists',
+          })
+        );
+      } else {
+        setTagItems((prev) => [...prev, tagInputRef.current.value.trim()]);
+        SetTagItemValue('');
+      }
+    } else {
+      dispatch(
+        setShowToast({
+          type: ToastTypes.WARNING,
+          title: 'Provide tag name',
+          message: 'Please provide tag name',
+        })
+      );
+    }
+  };
+
   const handleTagEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
     e.preventDefault();
     if (e.key === 'Enter') {
-      if (tagInputRef.current.value.trim()) {
-        const isContain = tagItems.includes(tagInputRef.current.value.trim());
-        if (isContain) {
-          dispatch(
-            setShowToast({
-              type: ToastTypes.ERROR,
-              title: 'Tag error',
-              message: 'Tag already exists',
-            })
-          );
-        } else {
-          setTagItems((prev) => [...prev, tagInputRef.current.value.trim()]);
-          SetTagItemValue('');
-        }
-      } else {
-        dispatch(
-          setShowToast({
-            type: ToastTypes.WARNING,
-            title: 'Provide tag name',
-            message: 'Please provide tag name',
-          })
-        );
-      }
+      handleTagBlur();
     }
   };
 
@@ -299,33 +309,30 @@ export const ArticleEditor = ({
   };
 
   useEffect(() => {
-    if (type === PostAction.CREATE) {
-      const linkTags = document.querySelectorAll('a');
-      const handleConfirm = (e: any) => {
-        if (unsavedChanges) {
-          e.preventDefault();
-          dispatch(
-            setShowModal({
-              type: ModalType.INFO,
-              message:
-                'You have unsaved changes. Are you sure you want to leave this page?',
-              onConfirm: handleSaveDraft,
-              onCancel: handleCancelSaveDraft,
-            })
-          );
-        }
-        return;
-      };
-      linkTags.forEach((link) => {
-        link.addEventListener('click', handleConfirm);
-      });
+    const linkTags = document.querySelectorAll('a');
+    const handleConfirm = (e: any) => {
+      if (unsavedChanges) {
+        e.preventDefault();
+        dispatch(
+          setShowModal({
+            type: ModalType.INFO,
+            message: `You haven't saved your post yet, do you want to save your draft?`,
+            onConfirm: handleSaveDraft,
+            onCancel: handleCancelSaveDraft,
+          })
+        );
+      }
+      return;
+    };
+    linkTags.forEach((link) => {
+      link.addEventListener('click', handleConfirm);
+    });
 
-      return () => {
-        linkTags.forEach((link) => {
-          link.removeEventListener('click', handleConfirm);
-        });
-      };
-    }
+    return () => {
+      linkTags.forEach((link) => {
+        link.removeEventListener('click', handleConfirm);
+      });
+    };
   }, [body]);
 
   return (
@@ -435,6 +442,7 @@ export const ArticleEditor = ({
               ref={tagInputRef}
               onChange={handleTagChange}
               onKeyUp={handleTagEnter}
+              onBlur={handleTagBlur}
               onSubmit={(e) => e.preventDefault()}
             />
           )}
@@ -460,7 +468,7 @@ export const ArticleEditor = ({
             extraPlugins: [uploadPlugin],
             placeholder: 'Write your post here...',
           }}
-          data={type === PostAction.CREATE ? '' : data.content}
+          data={contentValue}
           onBlur={(_, editor) => {
             setUnsavedChanges(true);
             setContentValue(editor.getData());
@@ -471,7 +479,7 @@ export const ArticleEditor = ({
             <ToggleButton isPublic={isPublic} setIsPublic={setIsPublic} />
           </div>
           <div className="article-editor-form-save-button-wrapper">
-            {type === PostAction.CREATE && (
+            {/* {type === PostAction.CREATE && (
               <button
                 className={`btn btn-secondary ${
                   isSaveDraftLoading ? 'loading' : ''
@@ -480,7 +488,15 @@ export const ArticleEditor = ({
               >
                 Save Draft
               </button>
-            )}
+            )} */}
+            <button
+              className={`btn btn-secondary ${
+                isSaveDraftLoading ? 'loading' : ''
+              }`}
+              onClick={handleSaveDraft}
+            >
+              Save Draft
+            </button>
             <button
               className={`btn btn-primary ${isLoading ? 'loading' : ''}`}
               disabled={isLoading}

@@ -5,7 +5,7 @@ import DOMPurify from 'dompurify';
 import { ArticleEditor, PostAction } from './components/ArticleEditor';
 import { ArticleContent } from './components/ArticleContent';
 import { isImageUrlValid } from '../../../shared/utils/checkValidImage';
-import { TogglePreview } from '../../../shared/components';
+import { ScrollToTopButton, TogglePreview } from '../../../shared/components';
 
 import { ApiService } from '../../../core/services/api.service';
 import { ENDPOINT } from '../../../../config/endpoint';
@@ -92,7 +92,7 @@ const ArticleUpdate = () => {
         }
       }
     })();
-  }, [postData?.cover, postData?.content]);
+  }, [postData?.cover]);
 
   return (
     <div className="page-write-article">
@@ -129,6 +129,7 @@ const ArticleUpdate = () => {
           )}
         </div>
       </div>
+      <ScrollToTopButton />
     </div>
   );
 };
