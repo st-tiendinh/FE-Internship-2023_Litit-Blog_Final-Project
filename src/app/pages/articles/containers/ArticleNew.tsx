@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { ArticleContent } from './components/ArticleContent';
 import { ArticleEditor, PostAction } from './components/ArticleEditor';
 import { isImageUrlValid } from '../../../shared/utils/checkValidImage';
-import { TogglePreview } from '../../../shared/components';
+import { ScrollToTopButton, TogglePreview } from '../../../shared/components';
 
 const ArticleNew = () => {
   const [articleData, setArticleData] = useState<any>();
@@ -49,6 +49,7 @@ const ArticleNew = () => {
           </div>
         </div>
       </div>
+      <ScrollToTopButton />
     </div>
   );
 };
