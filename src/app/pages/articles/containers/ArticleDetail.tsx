@@ -15,6 +15,7 @@ import JwtHelper from '../../../core/helpers/jwtHelper';
 import { ApiService } from '../../../core/services/api.service';
 import { ENDPOINT } from '../../../../config/endpoint';
 import { RootState } from '../../../app.reducers';
+import NotFound from '../../../shared/components/NotFound';
 
 const ArticleDetail = () => {
   const apiService = new ApiService();
@@ -24,6 +25,7 @@ const ArticleDetail = () => {
   const [isValidCover, setIsValidCover] = useState(false);
   const [isValidUserImg, setIsValidUserImg] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isError, setIsError] = useState<boolean>(false);
   const [isShowButtonEdit, setIsShowButtonEdit] = useState<boolean>(false);
   const isLogged = useSelector(
     (state: RootState) => state.authReducer.isLogged
@@ -88,10 +90,10 @@ const ArticleDetail = () => {
             isLogged && setIsShowButtonEdit(jwtHelper.isCurrentUser(res.id));
             setIsLoading(false);
           } else {
-            navigate('/404');
+            setIsError(true);
           }
         } catch (error) {
-          navigate('/404');
+          setIsError(true);
           console.log(error);
         }
       }
@@ -120,53 +122,65 @@ const ArticleDetail = () => {
   }, [isValidCover, userShortInfo.picture]);
 
   return (
-    <section className="section section-article-detail">
-      <div className="container">
-        <div className="row">
-          <div className="col col-1 col-md-12 col-sm-12">
-            <ul className="article-action-list position-sticky">
-              <Like
-                postId={location.pathname.slice(10).toString()}
-                tooltip={isEnoughSpaceForToolTip}
-                userId={userShortInfo.id}
-              />
-              <li onClick={handleCommentClick} className="article-action-item">
-                <span
-                  className={`tooltip tooltip-${
-                    isEnoughSpaceForToolTip ? 'bottom' : 'left'
-                  }`}
-                >
-                  Comments
-                </span>
-                <i className="icon icon-comment-normal"></i>
-                {post?.comments}
-              </li>
-              <Bookmark tooltip={isEnoughSpaceForToolTip} />
-            </ul>
-          </div>
+    <>
+      {isError ? (
+        <NotFound
+          typeError="Post"
+          message="The post you are looking for does not exist."
+        />
+      ) : (
+        <section className="section section-article-detail">
+          <div className="container">
+            <div className="row">
+              <div className="col col-1 col-md-12 col-sm-12">
+                <ul className="article-action-list position-sticky">
+                  <Like
+                    postId={location.pathname.slice(10).toString()}
+                    tooltip={isEnoughSpaceForToolTip}
+                    userId={userShortInfo.id}
+                  />
+                  <li
+                    onClick={handleCommentClick}
+                    className="article-action-item"
+                  >
+                    <span
+                      className={`tooltip tooltip-${
+                        isEnoughSpaceForToolTip ? 'bottom' : 'left'
+                      }`}
+                    >
+                      Comments
+                    </span>
+                    <i className="icon icon-comment-normal"></i>
+                    {post?.comments}
+                  </li>
+                  <Bookmark tooltip={isEnoughSpaceForToolTip} />
+                </ul>
+              </div>
 
-          <div className="col col-7 col-md-12 col-sm-12">
-            <ArticleContent
-              postItem={post}
-              user={userShortInfo}
-              isShowButtonEdit={isShowButtonEdit}
-              isValidUserImg={isValidUserImg}
-              isLoading={isLoading}
-              isValidCover={isValidCover}
-              cleanContent={clean}
-              cleanDescription={postDesc}
-            />
-            <div ref={commentRef}>
-              {post?.id && <ListComments postId={post?.id} />}
+              <div className="col col-7 col-md-12 col-sm-12">
+                <ArticleContent
+                  postItem={post}
+                  user={userShortInfo}
+                  isShowButtonEdit={isShowButtonEdit}
+                  isValidUserImg={isValidUserImg}
+                  isLoading={isLoading}
+                  isValidCover={isValidCover}
+                  cleanContent={clean}
+                  cleanDescription={postDesc}
+                />
+                <div ref={commentRef}>
+                  {post?.id && <ListComments postId={post?.id} />}
+                </div>
+              </div>
+              <div className="col col-4 col-md-12">
+                <Sidebar />
+              </div>
             </div>
+            <ScrollToTopButton />
           </div>
-          <div className="col col-4 col-md-12">
-            <Sidebar />
-          </div>
-        </div>
-        <ScrollToTopButton />
-      </div>
-    </section>
+        </section>
+      )}
+    </>
   );
 };
 
