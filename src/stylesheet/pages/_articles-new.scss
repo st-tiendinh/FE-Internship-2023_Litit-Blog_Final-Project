@@ -3,6 +3,12 @@
   padding: 20px 0;
   background: #eee;
 
+  .article {
+    &.article-detail {
+      background-color: unset;
+    }
+  }
+
   .editor-header {
     margin-bottom: 20px;
   }

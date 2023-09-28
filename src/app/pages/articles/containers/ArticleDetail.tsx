@@ -8,7 +8,7 @@ import Bookmark from '../../../shared/components/Bookmark';
 import { Sidebar } from '../../../shared/components';
 import { ListComments } from '../../../shared/components/ListComments';
 import { isImageUrlValid } from '../../../shared/utils/checkValidImage';
-import { ScrollToTopButton } from '../../home/containers/components/ScrollToTopButton';
+import { ScrollToTopButton } from '../../../shared/components';
 import { ArticleContent } from './components/ArticleContent';
 
 import JwtHelper from '../../../core/helpers/jwtHelper';
