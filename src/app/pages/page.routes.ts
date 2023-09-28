@@ -5,9 +5,9 @@ import articleRoutes from './articles/article.routes';
 import homeRoutes from './home/home.routes';
 import userRoutes from './user/user.routes';
 import settingsRoutes from './management/settings.routes';
+import notFoundRoutes from './notFound/notFound.routes';
 
 const Page = React.lazy(() => import('./Page'));
-const NotFoundSection = React.lazy(() => import('./../shared/components/NotFoundSection'));
 
 const pageRoutes: PageRoute[] = [
   {
@@ -18,11 +18,8 @@ const pageRoutes: PageRoute[] = [
       ...articleRoutes,
       ...userRoutes,
       ...settingsRoutes,
+      ...notFoundRoutes,
     ],
-  },
-  {
-    path: '/404',
-    element: NotFoundSection,
   },
 ];
 

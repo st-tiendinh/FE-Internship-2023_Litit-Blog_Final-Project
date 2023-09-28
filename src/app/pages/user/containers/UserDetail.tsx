@@ -19,6 +19,8 @@ export enum FilterType {
   LATEST = 'Latest',
   OLDEST = 'Oldest',
   MORE_POPULAR = 'More popular',
+  PUBLIC = 'Public',
+  PRIVATE = 'Private',
 }
 
 const apiService = new ApiService();
@@ -169,6 +171,18 @@ const UserDetail = () => {
       case FilterType.MORE_POPULAR:
         data.sort((a: any, b: any) => {
           return b?.likes - a?.likes;
+        });
+        break;
+
+      case FilterType.PUBLIC:
+        data = data.filter((post: any) => {
+          return post.status === 'public';
+        });
+        break;
+
+      case FilterType.PRIVATE:
+        data = data.filter((post: any) => {
+          return post.status === 'private';
         });
         break;
 

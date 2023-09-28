@@ -8,18 +8,19 @@
   &-card-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
   }
 
-  .btn.btn-three-dots {
-    position: relative;
-    padding: 6px 0 6px 14px;
-
+  &-options {
     &:hover {
       .personal-post-action-popper {
         display: flex;
       }
     }
+  }
+
+  .btn.btn-three-dots {
+    position: relative;
+    padding: 6px 0 6px 14px;
   }
 
   &-action-popper {
@@ -43,7 +44,7 @@
     right: 20px;
     transform: translateY(-4px);
 
-    > .btn {
+    >.btn {
       padding: 4px 8px;
     }
   }
@@ -177,6 +178,7 @@
 @include mobile {
   .personal-post {
     flex-direction: column;
+
     &-image-wrapper {
       width: 100%;
       min-width: unset;
