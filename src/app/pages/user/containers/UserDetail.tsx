@@ -13,6 +13,7 @@ import { RootState } from '../../../app.reducers';
 import { PostListType } from '../../home/containers/components/PublicPost';
 import { useDebounce } from '../../../shared/hooks/useDebounce';
 import { Dropdown } from '../../../shared/components';
+import NotFound from '../../../shared/components/NotFound';
 
 export enum FilterType {
   LATEST = 'Latest',
@@ -32,6 +33,7 @@ const UserDetail = () => {
   const [filter, setFilter] = useState<any>(FilterType.LATEST);
   const [search, setSearch] = useState<string>('');
   const [searchArr, setSearchArr] = useState<any>([]);
+  const [isError, setIsError] = useState<boolean>(false);
   const debounceSearch = useDebounce(search);
 
   const isConfirm = useSelector(
@@ -70,7 +72,7 @@ const UserDetail = () => {
         );
 
         const likeQuantity = await response.Posts.reduce(
-          (acc: any, curr: any) => acc + curr.likes,
+          (acc: any, curr: any) => acc + curr?.likes,
           0
         );
 
@@ -102,6 +104,7 @@ const UserDetail = () => {
       } catch (error) {
         console.log(error);
         setIsLoading(false);
+        setIsError(true);
       }
     })();
   }, [location, isLoggedUser, userId]);
@@ -165,7 +168,7 @@ const UserDetail = () => {
 
       case FilterType.MORE_POPULAR:
         data.sort((a: any, b: any) => {
-          return b.likes - a.likes;
+          return b?.likes - a?.likes;
         });
         break;
 
@@ -177,67 +180,82 @@ const UserDetail = () => {
   };
 
   return (
-    <div className="page-user">
-      <div className="container">
-        {isLoading ? (
-          <div className="skeleton skeleton-user-profile"></div>
-        ) : (
-          <UserProfile isLoggedUser={isLoggedUser} user={user} />
-        )}
-        <section className="section section-wrapper">
-          <div className="row">
-            <div className="col col-4 col-md-12">
-              {isLoading ? (
-                <div className="skeleton skeleton-user-sidebar"></div>
-              ) : (
-                <UserSideBar userStatistic={userStatistic} />
-              )}
-            </div>
-            <div className="col col-8 col-md-12">
-              <div className="d-flex filter-container">
-                <div className="select-container">
-                  <Dropdown
-                    options={Object.values(FilterType)}
-                    option={filter}
-                    setOption={setFilter}
-                  />
+    <>
+      {isError ? (
+        <NotFound
+          typeError="User"
+          message="The user you are looking for does not exist."
+        />
+      ) : (
+        <div className="page-user">
+          <div className="container">
+            {isLoading ? (
+              <div className="skeleton skeleton-user-profile"></div>
+            ) : (
+              <UserProfile isLoggedUser={isLoggedUser} user={user} />
+            )}
+            <section className="section section-wrapper">
+              <div className="row">
+                <div className="col col-4 col-md-12">
+                  {isLoading ? (
+                    <div className="skeleton skeleton-user-sidebar"></div>
+                  ) : (
+                    <UserSideBar userStatistic={userStatistic} />
+                  )}
                 </div>
+                <div className="col col-8 col-md-12">
+                  {isLoading ? (
+                    <div className="skeleton skeleton-personal-list"></div>
+                  ) : (
+                    <>
+                      {visiblePosts.length ? (
+                        <div className="d-flex filter-container">
+                          <div className="select-container">
+                            <Dropdown
+                              options={Object.values(FilterType)}
+                              option={filter}
+                              setOption={setFilter}
+                            />
+                          </div>
 
-                <div className="d-flex search-box">
-                  <label htmlFor="search-input">
-                    <i className="icon icon-search"></i>
-                  </label>
-                  <input
-                    id="search-input"
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                    autoFocus
-                    className="search-input"
-                    type="text"
-                  />
+                          <div className="d-flex search-box">
+                            <label htmlFor="search-input">
+                              <i className="icon icon-search"></i>
+                            </label>
+                            <input
+                              id="search-input"
+                              value={search}
+                              onChange={(e) => setSearch(e.target.value)}
+                              className="search-input"
+                              type="text"
+                            />
+                          </div>
+                        </div>
+                      ) : null}
+                      <PostList
+                        posts={visiblePosts}
+                        type={PostListType.LIST}
+                        isHasAction={!!isLoggedUser}
+                      />
+                    </>
+                  )}
+                  {visiblePosts.length < searchArr.length && (
+                    <div className="d-flex load-more-btn-wrap">
+                      <button
+                        className="btn btn-outline"
+                        onClick={handleLoadMore}
+                      >
+                        Load More
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
-              {isLoading ? (
-                <div className="skeleton skeleton-personal-list"></div>
-              ) : (
-                <PostList
-                  posts={visiblePosts}
-                  type={PostListType.LIST}
-                  isHasAction={!!isLoggedUser}
-                />
-              )}
-              {visiblePosts.length < searchArr.length && (
-                <div className="d-flex load-more-btn-wrap">
-                  <button className="btn btn-outline" onClick={handleLoadMore}>
-                    Load More
-                  </button>
-                </div>
-              )}
-            </div>
+            </section>
           </div>
-        </section>
-      </div>
-    </div>
+        </div>
+      )}
+    </>
   );
 };
 

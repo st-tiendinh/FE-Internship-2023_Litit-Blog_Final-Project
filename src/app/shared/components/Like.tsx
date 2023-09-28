@@ -41,7 +41,7 @@ const Like = ({ postId, tooltip }: any) => {
           ENDPOINT.posts.index,
           postId,
         ]);
-        setLikeNumber(response.likes);
+        setLikeNumber(response?.likes);
         return response;
       } catch (error) {
         apiService.setHeaders(jwt.getAuthHeader());
@@ -53,7 +53,7 @@ const Like = ({ postId, tooltip }: any) => {
           (item: any) =>
             item.id.toString() === location.pathname.split('/').pop()
         );
-        setLikeNumber(filterPost.likes);
+        setLikeNumber(filterPost?.likes);
         console.log(error);
       }
     })();

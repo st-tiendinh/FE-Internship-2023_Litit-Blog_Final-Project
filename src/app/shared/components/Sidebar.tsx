@@ -40,7 +40,7 @@ export const Sidebar = () => {
     } else {
       setIsLoading(false);
       setPopularPost(
-        allPost.sort((a: any, b: any) => b.likes - a.likes).slice(0, 6)
+        allPost.sort((a: any, b: any) => b?.likes - a?.likes).slice(0, 6)
       );
     }
   }, [allPost]);

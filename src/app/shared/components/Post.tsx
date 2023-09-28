@@ -177,6 +177,7 @@ export const Post = ({
                     to={`/articles/tag/${tag}`}
                     key={index}
                     className="badge badge-primary text-truncate"
+                    title={tag}
                   >
                     {tag}
                   </Link>
@@ -200,7 +201,10 @@ export const Post = ({
                         src={isValidUserImg ? authorImg : BlankUserImg}
                         alt="author image"
                       />
-                      <span className="post-author-name text-truncate">
+                      <span
+                        title={authorName}
+                        className="post-author-name text-truncate"
+                      >
                         {authorName}
                       </span>
                     </div>
@@ -241,6 +245,7 @@ export const Post = ({
                     <Link
                       to={`/articles/tag/${tag}`}
                       className="personal-post-tag-link"
+                      title={tag}
                     >
                       <span className="badge badge-primary text-truncate">
                         {tag}
@@ -325,7 +330,10 @@ export const Post = ({
                       alt="author avatar"
                       className="short-info-author-avatar"
                     />
-                    <span className="short-info-author-name text-truncate">
+                    <span
+                      title={authorName}
+                      className="short-info-author-name text-truncate"
+                    >
                       {authorName}
                     </span>
                   </div>

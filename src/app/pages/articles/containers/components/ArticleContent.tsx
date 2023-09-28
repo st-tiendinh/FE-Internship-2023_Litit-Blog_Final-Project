@@ -7,6 +7,7 @@ import { UserDetailProps } from '../../../../core/models/user';
 import { formatDate } from '../../../../shared/utils/formatDate';
 import BlankPostImg from '../../../../../assets/images/blank-post.png';
 import BlankUserImg from '../../../../../assets/images/blank-user.webp';
+import { PostStatus } from '../../../../shared/components/PostList';
 
 export interface ArticleContentProps {
   postItem: PostItemWithIdProps;
@@ -39,24 +40,38 @@ export const ArticleContent = ({
             <div className="short-info">
               <div className="short-info-author">
                 {user && (
-                  <Link className="d-flex author-link" to={'/users/' + user.id}>
-                    <div className="post-author">
+                  <div className="post-author">
+                    <Link
+                      className="d-flex author-link"
+                      to={'/users/' + user.id}
+                    >
                       <img
                         src={isValidUserImg ? user.picture : BlankUserImg}
                         alt="author avatar"
                         className="short-info-author-avatar"
                       />
-                      <span className="short-info-author-name">
-                        {user.displayName}
+                    </Link>
+                    <div className="d-flex flex-column">
+                      <Link
+                        className="d-flex author-link"
+                        to={'/users/' + user.id}
+                      >
+                        <span className="short-info-author-name">
+                          {user.displayName}
+                        </span>
+                      </Link>
+                      <span className="short-info-timestamp">
+                        {formatDate(postItem?.updatedAt)}
+                        {postItem?.status === PostStatus.PRIVATE ? (
+                          <i className="icon icon-lock"></i>
+                        ) : (
+                          <i className="icon icon-earth"></i>
+                        )}
                       </span>
                     </div>
-                  </Link>
+                  </div>
                 )}
               </div>
-              <span className="short-info-dot-symbol">&#x2022;</span>
-              <span className="short-info-timestamp">
-                {formatDate(postItem.updatedAt)}
-              </span>
             </div>
           )}
           {isShowButtonEdit && (

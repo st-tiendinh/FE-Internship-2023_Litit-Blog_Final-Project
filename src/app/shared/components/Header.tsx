@@ -52,7 +52,10 @@ export const Header = () => {
     async function fetchUserData(userId: number) {
       try {
         apiService.setHeaders(jwtHelper.getAuthHeader());
-        const response: any = await apiService.get([ENDPOINT.users.index, `${userId}`]);
+        const response: any = await apiService.get([
+          ENDPOINT.users.index,
+          `${userId}`,
+        ]);
         setLS(KEYS.USER_INFO, { ...response, id: userId, isSocial: true });
 
         dispatch(
@@ -113,14 +116,6 @@ export const Header = () => {
       removeLS(KEYS.USER_INFO);
       closeDropdown();
       navigate('/');
-
-      dispatch(
-        setShowToast({
-          type: ToastTypes.SUCCESS,
-          title: 'Logout successfully!',
-          message: "See you later Litit'user ",
-        })
-      );
     } catch (error) {
       console.log(error);
     }
@@ -291,7 +286,11 @@ export const Header = () => {
                                 </div>
                               </Link>
                             </li>
-                            <Link to={'/settings'} className="menu-item" onClick={closeDropdown}>
+                            <Link
+                              to={'/settings'}
+                              className="menu-item"
+                              onClick={closeDropdown}
+                            >
                               <div className="menu-action">Settings</div>
                             </Link>
                             <li className="menu-item">

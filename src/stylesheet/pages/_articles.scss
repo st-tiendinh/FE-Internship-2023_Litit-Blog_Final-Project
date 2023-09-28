@@ -15,6 +15,29 @@
     &-article-detail {
       margin: 32px 0;
 
+      .short-info-author-name {
+        font-size: map-get($font-sizes, "md");
+        margin-bottom: 2px;
+      }
+
+      .short-info-author-avatar {
+        width: 34px;
+        height: 34px;
+      }
+
+      .short-info {
+        .icon {
+          margin-left: 4px;
+          width: 16px;
+          height: 16px;
+        }
+      }
+
+      .article-detail-status {
+        display: flex;
+        justify-content: flex-end;
+      }
+
       .article-action-list {
         display: flex;
         flex-direction: column;
@@ -93,7 +116,6 @@
           flex-direction: row;
         }
       }
-
     }
 
     .list-comments-section {

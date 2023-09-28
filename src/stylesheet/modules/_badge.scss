@@ -36,5 +36,10 @@
     color: map-get($colors, "primary");
     border: 1px solid map-get($colors, "primary");
     user-select: none;
+
+    &-primary {
+      color: map-get($colors, "white");
+      background-color: map-get($colors, "primary");
+    }
   }
 }
