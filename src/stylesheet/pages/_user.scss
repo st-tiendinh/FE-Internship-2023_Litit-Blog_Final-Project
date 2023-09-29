@@ -133,7 +133,7 @@
       flex: 1;
       padding: 6px 0px;
 
-      &:focus + .search-box {
+      &:focus+.search-box {
         border-color: map-get($colors, "primary");
       }
     }
@@ -163,6 +163,18 @@
   }
 }
 
+@include tablet {
+  .page-user {
+    .profile-section {
+      .profile-content {
+        .user-about-list {
+          gap: 18px;
+        }
+      }
+    }
+  }
+}
+
 @include mobile {
   .page-user {
     .filter-container {
@@ -181,7 +193,6 @@
         &-content {
           .user-about-list {
             flex-direction: column;
-            gap: 18px;
           }
         }
 
