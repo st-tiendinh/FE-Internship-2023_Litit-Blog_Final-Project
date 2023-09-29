@@ -14,7 +14,17 @@ import { ENDPOINT } from '../../../config/endpoint';
 const apiService = new ApiService();
 const jwtHelper = new JwtHelper();
 
-export const ListComments = ({ postId }: { postId: number }) => {
+interface ListCommentsProp {
+  postId: number;
+  isCommented: boolean;
+  setIsCommented: (isCommented: boolean) => void;
+}
+
+export const ListComments = ({
+  postId,
+  isCommented,
+  setIsCommented,
+}: ListCommentsProp) => {
   const [comments, setComments] = useState<any>([]);
   const [isValidUserImg, setIsValidUserImg] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -60,6 +70,7 @@ export const ListComments = ({ postId }: { postId: number }) => {
         });
         getListComments();
         textAreaRef.current!.value = '';
+        setIsCommented(!isCommented);
       } catch (error) {
         console.log(error);
       } finally {

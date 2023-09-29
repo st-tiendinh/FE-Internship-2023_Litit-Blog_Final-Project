@@ -27,6 +27,7 @@ const ArticleDetail = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
   const [isShowButtonEdit, setIsShowButtonEdit] = useState<boolean>(false);
+  const [isCommented, setIsCommented] = useState<boolean>(false);
   const isLogged = useSelector(
     (state: RootState) => state.authReducer.isLogged
   );
@@ -97,7 +98,7 @@ const ArticleDetail = () => {
         }
       }
     })();
-  }, [location]);
+  }, [location, isCommented]);
 
   useEffect(() => {
     const pTags = document.querySelectorAll('.article-detail-paragraph p');
@@ -168,7 +169,13 @@ const ArticleDetail = () => {
                   cleanDescription={postDesc}
                 />
                 <div ref={commentRef}>
-                  {post?.id && <ListComments postId={post?.id} />}
+                  {post?.id && (
+                    <ListComments
+                      postId={post?.id}
+                      isCommented={isCommented}
+                      setIsCommented={setIsCommented}
+                    />
+                  )}
                 </div>
               </div>
               <div className="col col-4 col-md-12">
