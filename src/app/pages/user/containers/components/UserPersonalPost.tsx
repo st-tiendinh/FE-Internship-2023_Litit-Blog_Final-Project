@@ -4,7 +4,6 @@ import { useLocation } from 'react-router-dom';
 
 import { Dropdown } from '../../../../shared/components';
 import PostList from '../../../../shared/components/PostList';
-import { UserSideBar } from './UserSidebar';
 
 import JwtHelper from '../../../../core/helpers/jwtHelper';
 import { PostListType } from '../../../home/containers/components/PublicPost';
@@ -41,12 +40,8 @@ export const UserPersonalPost = () => {
   const isLogged = useSelector(
     (state: RootState) => state.authReducer.isLogged
   );
-  const isModalLoading = useSelector(
-    (state: RootState) => state.modalReducer.isLoading
-  );
   const isLoggedUser = isLogged ? jwtHelper.isCurrentUser(+userId) : false;
   const modalId = useSelector((state: RootState) => state.modalReducer.id);
-  console.log(modalId);
   const [visiblePosts, setVisiblePosts] = useState<any[]>([]);
   const [page, setPage] = useState(1);
 
