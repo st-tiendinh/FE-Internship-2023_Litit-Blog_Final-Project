@@ -3,13 +3,14 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { UserProfile } from './components/UserProfile';
-import { UserHighLight } from './components/UserHighlight';
+import { UserPersonalPost } from './components/UserPersonalPost';
 import NotFound from '../../../shared/components/NotFound';
 
 import JwtHelper from '../../../core/helpers/jwtHelper';
 import { ApiService } from '../../../core/services/api.service';
 import { ENDPOINT } from '../../../../config/endpoint';
 import { RootState } from '../../../app.reducers';
+import { UserSideBar } from './components/UserSidebar';
 
 export enum FilterType {
   LATEST = 'Latest',
@@ -74,7 +75,16 @@ const UserDetail = () => {
             ) : (
               <UserProfile isLoggedUser={isLoggedUser} user={user} />
             )}
-            <UserHighLight />
+            <section className="section section-wrapper">
+              <div className="row">
+                <div className="col col-4 col-md-12">
+                  <UserSideBar />
+                </div>
+                <div className="col col-8 col-md-12">
+                  <UserPersonalPost />
+                </div>
+              </div>
+            </section>
           </div>
         </div>
       )}

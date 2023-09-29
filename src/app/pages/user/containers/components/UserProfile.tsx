@@ -55,7 +55,6 @@ export const UserProfile = ({ isLoggedUser, user }: any) => {
       }
     })();
   };
-  console.log(user.dob);
 
   return (
     <section className="section profile-section">

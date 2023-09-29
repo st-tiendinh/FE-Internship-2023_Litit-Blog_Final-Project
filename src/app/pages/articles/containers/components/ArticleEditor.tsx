@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { uploadPlugin } from '../../../../../config/ckEditorConfig';
+import history from '../../../../core/modules/custom-router-dom/history';
 
 import { ApiService } from '../../../../core/services/api.service';
 import JwtHelper from '../../../../core/helpers/jwtHelper';
@@ -299,48 +300,43 @@ export const ArticleEditor = ({
         await apiService.post([ENDPOINT.posts.draft], body);
         setIsSaveDraftLoading(false);
         setUnsavedChanges(false);
-        navigate(-1);
       } catch (error) {
         console.log(error);
         setIsSaveDraftLoading(false);
+        setUnsavedChanges(false);
       }
     })();
   };
 
-  const handleCancelSaveDraft = (historyRoute: string) => {
-    setUnsavedChanges(false);
-    navigate(`/${historyRoute}`);
-  };
-  console.log(location);
-
   useEffect(() => {
-    if (type === PostAction.CREATE) {
-      const linkTags = document.querySelectorAll('a');
-      const handleConfirm = (e: any) => {
-        if (unsavedChanges) {
-          e.preventDefault();
-          const historyRoute = e.target.href.split('/').pop();
-          dispatch(
-            setShowModal({
-              type: ModalType.INFO,
-              message: `You have not saved your post. Would you like to save a draft before leaving?`,
-              onConfirm: handleSaveDraft,
-              onCancel: () => handleCancelSaveDraft(historyRoute),
-            })
-          );
-        }
-        return;
-      };
-      linkTags.forEach((link) => {
-        link.addEventListener('click', handleConfirm);
+    let unblock: any;
+    if (unsavedChanges) {
+      unblock = history.block((tx: any) => {
+        const confirmFunc = () => {
+          handleSaveDraft();
+          unblock();
+          tx.retry();
+        };
+        const cancelFunc = () => {
+          unblock();
+          tx.retry();
+        };
+        dispatch(
+          setShowModal({
+            type: ModalType.INFO,
+            message: `You have not saved your post. Would you like to save a draft before leaving?`,
+            onConfirm: confirmFunc,
+            onCancel: cancelFunc,
+          })
+        );
       });
-
-      return () => {
-        linkTags.forEach((link) => {
-          link.removeEventListener('click', handleConfirm);
-        });
-      };
     }
+
+    return () => {
+      if (typeof unblock === 'function') {
+        unblock();
+      }
+    };
   }, [body]);
 
   return (
