@@ -287,7 +287,7 @@ export const Header = () => {
                               </Link>
                             </li>
                             <Link
-                              to={'/settings'}
+                              to={'/settings/my-profile'}
                               className="menu-item"
                               onClick={closeDropdown}
                             >

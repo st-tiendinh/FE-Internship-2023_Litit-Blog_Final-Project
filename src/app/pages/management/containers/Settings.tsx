@@ -13,7 +13,7 @@ export enum SettingsType {
   RECYCLE_BIN = 'recycle-bin',
 }
 
-const Management = () => {
+const Settings = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -34,4 +34,4 @@ const Management = () => {
   );
 };
 
-export default Management;
+export default Settings;

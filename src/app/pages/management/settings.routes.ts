@@ -24,14 +24,10 @@ const RecycleBin = React.lazy(
 const settingsRoutes: PageRoute[] = [
   {
     path: 'settings',
+    isProtected: true,
     element: Settings,
 
     children: [
-      {
-        path: '',
-        redirect: 'my-profile',
-      },
-
       {
         path: 'my-profile',
         element: UserProfile,
