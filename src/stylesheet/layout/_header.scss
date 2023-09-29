@@ -2,7 +2,7 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  background-color: #214252;
+  background-color: map-get($colors, "primary");
   box-shadow: 0px 8px 24px rgba(149, 157, 165, 0.1);
 
   &-inner {
@@ -50,6 +50,7 @@
 
       &.active {
         color: map-get($colors, "yellow");
+
         &::after {
           content: "";
           position: absolute;
@@ -75,6 +76,7 @@
 
       &:hover {
         color: map-get($colors, "yellow");
+
         &::after {
           width: 100%;
         }
@@ -101,6 +103,7 @@
         font-weight: map-get($font-weights, "medium");
         color: map-get($colors, "white");
         padding: 8px;
+
         &:hover {
           cursor: pointer;
         }
@@ -108,7 +111,7 @@
 
       &:hover,
       &.active {
-        > .user-name {
+        >.user-name {
           color: map-get($colors, "yellow");
         }
       }
@@ -177,6 +180,7 @@
             border-radius: 50%;
             height: 100%;
           }
+
           width: 40px;
           height: 40px;
           border-radius: 50%;
