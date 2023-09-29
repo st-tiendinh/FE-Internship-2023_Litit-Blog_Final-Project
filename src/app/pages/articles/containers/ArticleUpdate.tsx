@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import DOMPurify from 'dompurify';
 
 import { ArticleEditor, PostAction } from './components/ArticleEditor';
@@ -38,6 +38,7 @@ const ArticleUpdate = () => {
   const clean = DOMPurify.sanitize(postData.content);
   const postDesc = DOMPurify.sanitize(postData.description);
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     isImageUrlValid(postData?.cover).then((isValid) => {
@@ -77,6 +78,9 @@ const ArticleUpdate = () => {
             ENDPOINT.posts.index,
             `${currentPostId}`,
           ]);
+          if(response?.user?.id !== jwt.getUserInfo().userId) {
+            navigate('/404')
+          }
           setPostData({
             cover: response.cover,
             title: response.title,
