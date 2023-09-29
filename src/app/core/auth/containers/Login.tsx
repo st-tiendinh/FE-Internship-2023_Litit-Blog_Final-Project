@@ -6,7 +6,7 @@ import { InputGroup } from '../../../shared/components/InputGroup';
 
 import { signIn } from '../auth.actions';
 import { RootState } from '../../../app.reducers';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation,useSearchParams } from 'react-router-dom';
 import { setLS } from '../../helpers/storageHelper';
 import JwtHelper from '../../helpers/jwtHelper';
 import { ApiService } from '../../services/api.service';
@@ -35,6 +35,7 @@ const Login = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -43,6 +44,9 @@ const Login = () => {
   } = useForm<FormData>();
 
   useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const callbackUrl = urlParams.get('callback');
+
     if (isLogged) {
       http
         .get([ENDPOINT.users.index, jwtHelper.getUserInfo().userId.toString()])
@@ -54,7 +58,7 @@ const Login = () => {
           };
           setLS(KEYS.USER_INFO, userData);
         });
-      navigate('/');
+      navigate(callbackUrl ? callbackUrl : '/');
     }
   }, [isLogged, http, jwtHelper, navigate]);
 

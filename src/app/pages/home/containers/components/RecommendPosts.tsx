@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 import { ApiService } from '../../../../core/services/api.service';
 import { ENDPOINT } from '../../../../../config/endpoint';
@@ -15,6 +16,7 @@ export const RecommendPosts = () => {
   const [isValidCovers, setIsValidCovers] = useState<boolean[]>([]);
   const [isValidAvatars, setIsValidAvatars] = useState<boolean[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const isLogged = useSelector((state: any) => state.authReducer.isLogged);
 
   useEffect(() => {
     setIsLoading(true);
@@ -41,9 +43,7 @@ export const RecommendPosts = () => {
   }, [recommendPosts]);
 
   useEffect(() => {
-    Promise.all(
-      recommendPosts.map((post) => isImageUrlValid(post.user.picture))
-    )
+    Promise.all(recommendPosts.map((post) => isImageUrlValid(post.user.picture)))
       .then((validities) => {
         setIsValidAvatars(validities);
       })
@@ -74,9 +74,7 @@ export const RecommendPosts = () => {
               >
                 <div className="overlay"></div>
                 <img
-                  src={
-                    isValidCovers[0] ? recommendPosts[0]?.cover : BlankPostImg
-                  }
+                  src={isValidCovers[0] ? recommendPosts[0]?.cover : BlankPostImg}
                   alt={recommendPosts[0]?.description}
                   className="recommend-article-image"
                 />
@@ -95,23 +93,21 @@ export const RecommendPosts = () => {
                 </ul>
                 <div className="d-flex recommend-article-about">
                   <Link
-                    to={`/users/${recommendPosts[0]?.user?.id}`}
+                    to={
+                      isLogged
+                        ? `/users/${recommendPosts[0]?.user?.id}`
+                        : '/auth/login?callback=/users/' + recommendPosts[0]?.user?.id
+                    }
                     className="d-flex recommend-article-author"
                   >
                     <div className="author-avatar-wrapper">
                       <img
-                        src={
-                          isValidAvatars[0]
-                            ? recommendPosts[0]?.user?.picture
-                            : BlankUserImg
-                        }
+                        src={isValidAvatars[0] ? recommendPosts[0]?.user?.picture : BlankUserImg}
                         alt={recommendPosts[0]?.user?.displayName + ' avatar'}
                         className="author-avatar"
                       />
                     </div>
-                    <p className="author-name">
-                      {recommendPosts[0]?.user?.displayName}
-                    </p>
+                    <p className="author-name">{recommendPosts[0]?.user?.displayName}</p>
                   </Link>
                   <span className="dot-symbol">&#x2022;</span>
                   <p className="recommend-article-date">
@@ -119,9 +115,7 @@ export const RecommendPosts = () => {
                   </p>
                 </div>
                 <Link to={`/articles/${recommendPosts[0]?.id}`}>
-                  <h3
-                    className={`recommend-article-title title-0 text-truncate`}
-                  >
+                  <h3 className={`recommend-article-title title-0 text-truncate`}>
                     {recommendPosts[0]?.title}
                   </h3>
                 </Link>
@@ -136,9 +130,7 @@ export const RecommendPosts = () => {
               >
                 <div className="overlay"></div>
                 <img
-                  src={
-                    isValidCovers[1] ? recommendPosts[1]?.cover : BlankPostImg
-                  }
+                  src={isValidCovers[1] ? recommendPosts[1]?.cover : BlankPostImg}
                   alt={recommendPosts[1]?.description}
                   className="recommend-article-image"
                 />
@@ -157,23 +149,21 @@ export const RecommendPosts = () => {
                 </ul>
                 <div className="d-flex recommend-article-about">
                   <Link
-                    to={`/users/${recommendPosts[1]?.user?.id}`}
+                    to={
+                      isLogged
+                        ? `/users/${recommendPosts[1]?.user?.id}`
+                        : '/auth/login?callback=/users/' + recommendPosts[1]?.user?.id
+                    }
                     className="d-flex recommend-article-author"
                   >
                     <div className="author-avatar-wrapper">
                       <img
-                        src={
-                          isValidAvatars[1]
-                            ? recommendPosts[1]?.user?.picture
-                            : BlankUserImg
-                        }
+                        src={isValidAvatars[1] ? recommendPosts[1]?.user?.picture : BlankUserImg}
                         alt={recommendPosts[1]?.user?.displayName + ' avatar'}
                         className="author-avatar"
                       />
                     </div>
-                    <p className="author-name">
-                      {recommendPosts[1]?.user?.displayName}
-                    </p>
+                    <p className="author-name">{recommendPosts[1]?.user?.displayName}</p>
                   </Link>
                   <span className="dot-symbol">&#x2022;</span>
                   <p className="recommend-article-date">
@@ -194,9 +184,7 @@ export const RecommendPosts = () => {
               >
                 <div className="overlay"></div>
                 <img
-                  src={
-                    isValidCovers[2] ? recommendPosts[2]?.cover : BlankPostImg
-                  }
+                  src={isValidCovers[2] ? recommendPosts[2]?.cover : BlankPostImg}
                   alt={recommendPosts[2]?.description}
                   className="recommend-article-image"
                 />
@@ -215,23 +203,21 @@ export const RecommendPosts = () => {
                 </ul>
                 <div className="d-flex recommend-article-about">
                   <Link
-                    to={`/users/${recommendPosts[2]?.user?.id}`}
+                    to={
+                      isLogged
+                        ? `/users/${recommendPosts[2]?.user?.id}`
+                        : '/auth/login?callback=/users/' + recommendPosts[2]?.user?.id
+                    }
                     className="d-flex recommend-article-author"
                   >
                     <div className="author-avatar-wrapper">
                       <img
-                        src={
-                          isValidAvatars[2]
-                            ? recommendPosts[2]?.user?.picture
-                            : BlankUserImg
-                        }
+                        src={isValidAvatars[2] ? recommendPosts[2]?.user?.picture : BlankUserImg}
                         alt={recommendPosts[2]?.user?.displayName + ' avatar'}
                         className="author-avatar"
                       />
                     </div>
-                    <p className="author-name">
-                      {recommendPosts[2]?.user?.displayName}
-                    </p>
+                    <p className="author-name">{recommendPosts[2]?.user?.displayName}</p>
                   </Link>
                   <span className="dot-symbol">&#x2022;</span>
                   <p className="recommend-article-date">

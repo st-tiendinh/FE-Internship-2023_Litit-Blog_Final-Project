@@ -1,3 +1,4 @@
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { ArticleTagList } from './ArticleTagList';
@@ -8,6 +9,7 @@ import { formatDate } from '../../../../shared/utils/formatDate';
 import BlankPostImg from '../../../../../assets/images/blank-post.png';
 import BlankUserImg from '../../../../../assets/images/blank-user.webp';
 import { PostStatus } from '../../../../shared/components/PostList';
+import { RootState } from '../../../../app.reducers';
 
 export interface ArticleContentProps {
   postItem: PostItemWithIdProps;
@@ -30,6 +32,8 @@ export const ArticleContent = ({
   cleanContent,
   cleanDescription,
 }: ArticleContentProps) => {
+  const isLogged = useSelector((state: RootState) => state.authReducer.isLogged);
+
   return (
     <article className="article article-detail">
       <h2 className="article-detail-title">{postItem?.title}</h2>
@@ -43,7 +47,11 @@ export const ArticleContent = ({
                   <div className="post-author">
                     <Link
                       className="d-flex author-link"
-                      to={'/users/' + user.id}
+                      to={
+                        isLogged
+                          ? '/users/' + user.id
+                          : '/auth/login?callback=' + '/users/' + user.id
+                      }
                     >
                       <img
                         src={isValidUserImg ? user.picture : BlankUserImg}
@@ -54,11 +62,13 @@ export const ArticleContent = ({
                     <div className="d-flex flex-column">
                       <Link
                         className="d-flex author-link"
-                        to={'/users/' + user.id}
+                        to={
+                          isLogged
+                            ? '/users/' + user.id
+                            : '/auth/login?callback=' + '/users/' + user.id
+                        }
                       >
-                        <span className="short-info-author-name">
-                          {user.displayName}
-                        </span>
+                        <span className="short-info-author-name">{user.displayName}</span>
                       </Link>
                       <span className="short-info-timestamp">
                         {formatDate(postItem?.updatedAt)}

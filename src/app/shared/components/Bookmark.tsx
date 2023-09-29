@@ -3,26 +3,37 @@ import { useState, useEffect } from 'react';
 import { ApiService } from '../../core/services/api.service';
 import JwtHelper from '../../core/helpers/jwtHelper';
 import { ENDPOINT } from '../../../config/endpoint';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../app.reducers';
 
 const Bookmark = ({ tooltip }: any) => {
   const [isBookmarked, setIsBookmarked] = useState(false);
 
-  const postId = location.pathname.split('/').pop();
-
   const apiService = new ApiService();
   const jwt = new JwtHelper();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const postId = location.pathname.split('/').pop();
+
+  const isLogged = useSelector((state: RootState) => state.authReducer.isLogged);
 
   const handleBookmark = async () => {
-    try {
-      apiService.setHeaders(jwt.getAuthHeader());
-      const response: any = await apiService.post([ENDPOINT.bookmarks.index], { postId });
-      if (response.isInBookmark) {
-        setIsBookmarked(true);
-      } else {
-        setIsBookmarked(false);
+    if (!isLogged) {
+      navigate(`/auth/login?callback=${location.pathname}`);
+    } else {
+      try {
+        apiService.setHeaders(jwt.getAuthHeader());
+        const response: any = await apiService.post([ENDPOINT.bookmarks.index], { postId });
+        if (response.isInBookmark) {
+          setIsBookmarked(true);
+        } else {
+          setIsBookmarked(false);
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
     }
   };
 
@@ -43,7 +54,7 @@ const Bookmark = ({ tooltip }: any) => {
       }
     })();
   }, [isBookmarked, location.pathname, postId]);
-  
+
   return (
     <>
       <li onClick={handleBookmark} className="article-action-item">
