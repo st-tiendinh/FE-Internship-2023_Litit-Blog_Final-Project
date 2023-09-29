@@ -7,7 +7,7 @@ import { isImageUrlValid } from '../utils/checkValidImage';
 import BlankPostImg from '../../../assets/images/blank-post.png';
 import BlankUserImg from '../../../assets/images/blank-user.webp';
 import { PostListType } from '../../pages/home/containers/components/PublicPost';
-import { setShowModal } from '../../../redux/actions/modal';
+import { setIsLoading, setShowModal } from '../../../redux/actions/modal';
 import JwtHelper from '../../core/helpers/jwtHelper';
 import { PostStatus } from './PostList';
 import { RootState } from '../../app.reducers';
@@ -78,6 +78,7 @@ export const Post = ({
   const handleSoftDelete = () => {
     (async () => {
       try {
+        dispatch(setIsLoading(true));
         apiService.setHeaders(jwtHelper.getAuthHeader());
         await apiService.delete([ENDPOINT.posts.index, `${id}`]);
 
@@ -88,6 +89,7 @@ export const Post = ({
             message: 'Your post have been deleted!',
           })
         );
+        dispatch(setIsLoading(false));
       } catch (error) {
         console.log(error);
         dispatch(
@@ -97,6 +99,7 @@ export const Post = ({
             message: 'Something went wrong!',
           })
         );
+        dispatch(setIsLoading(false));
       }
     })();
   };
@@ -104,9 +107,9 @@ export const Post = ({
   const handleRestorePost = () => {
     (async () => {
       try {
+        dispatch(setIsLoading(true));
         apiService.setHeaders(jwtHelper.getAuthHeader());
         await apiService.put([ENDPOINT.posts.index, `${id}/restore`]);
-
         dispatch(
           setShowToast({
             type: ToastTypes.SUCCESS,
@@ -114,8 +117,10 @@ export const Post = ({
             message: 'Your post have been restored!',
           })
         );
+        dispatch(setIsLoading(false));
       } catch (error) {
         console.log(error);
+        dispatch(setIsLoading(false));
       }
     })();
   };

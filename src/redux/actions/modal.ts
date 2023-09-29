@@ -3,6 +3,7 @@ import {
   HIDE_MODAL,
   SET_CANCEL,
   SET_CONFIRM,
+  SET_IS_LOADING,
   SHOW_MODAL,
 } from '../types/confirmModal';
 
@@ -46,5 +47,12 @@ export const setCancelModal = (cancelCallback: any) => {
   return {
     type: SET_CANCEL,
     payload: { cancelCallback },
+  };
+};
+
+export const setIsLoading = (isLoading: boolean) => {
+  return {
+    type: SET_IS_LOADING,
+    payload: { isLoading },
   };
 };

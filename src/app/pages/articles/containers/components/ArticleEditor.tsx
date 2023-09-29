@@ -2,7 +2,7 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useState, useRef, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { uploadPlugin } from '../../../../../config/ckEditorConfig';
 
 import { ApiService } from '../../../../core/services/api.service';
@@ -21,6 +21,7 @@ import { ModalType } from '../../../../shared/components/Modal';
 import { ToastTypes } from '../../../../shared/components/Toast';
 import { isImageUrlValid } from '../../../../shared/utils/checkValidImage';
 import { ToggleButton } from '../../../../shared/components';
+import { RootState } from '../../../../app.reducers';
 
 const apiService = new ApiService();
 const jwt = new JwtHelper();
@@ -87,6 +88,9 @@ export const ArticleEditor = ({
   const tagInputRef = useRef<any>(null);
   const titleInputRef = useRef<any>(null);
   const descInputRef = useRef<any>(null);
+  const currentUserId = useSelector(
+    (state: RootState) => state.authReducer.userInfo?.id
+  );
 
   useEffect(() => {
     if (type === PostAction.UPDATE) {
@@ -223,7 +227,7 @@ export const ArticleEditor = ({
         apiService.setHeaders(jwt.getAuthHeader());
         await apiService.post([ENDPOINT.posts.index], postData);
         setIsLoading(false);
-        navigate('/');
+        navigate(`/users/${currentUserId}`);
       } catch (error: any) {
         setError(error.response.data.errors[0]);
         setIsLoading(false);
@@ -295,7 +299,7 @@ export const ArticleEditor = ({
         await apiService.post([ENDPOINT.posts.draft], body);
         setIsSaveDraftLoading(false);
         setUnsavedChanges(false);
-        navigate('/');
+        navigate(-1);
       } catch (error) {
         console.log(error);
         setIsSaveDraftLoading(false);
@@ -303,10 +307,11 @@ export const ArticleEditor = ({
     })();
   };
 
-  const handleCancelSaveDraft = () => {
+  const handleCancelSaveDraft = (historyRoute: string) => {
     setUnsavedChanges(false);
-    navigate('/');
+    navigate(`/${historyRoute}`);
   };
+  console.log(location);
 
   useEffect(() => {
     if (type === PostAction.CREATE) {
@@ -314,12 +319,13 @@ export const ArticleEditor = ({
       const handleConfirm = (e: any) => {
         if (unsavedChanges) {
           e.preventDefault();
+          const historyRoute = e.target.href.split('/').pop();
           dispatch(
             setShowModal({
               type: ModalType.INFO,
               message: `You have not saved your post. Would you like to save a draft before leaving?`,
               onConfirm: handleSaveDraft,
-              onCancel: handleCancelSaveDraft,
+              onCancel: () => handleCancelSaveDraft(historyRoute),
             })
           );
         }
@@ -478,17 +484,19 @@ export const ArticleEditor = ({
         />
         <div className="article-editor-form-action">
           <div className="article-editor-post-status">
-            <ToggleButton isPublic={isPublic} setIsPublic={setIsPublic} />
+            {type === PostAction.UPDATE && (
+              <ToggleButton isPublic={isPublic} setIsPublic={setIsPublic} />
+            )}
           </div>
           <div className="article-editor-form-save-button-wrapper">
             {type === PostAction.CREATE && (
               <button
-                className={`btn btn-secondary ${
+                className={`btn btn-default ${
                   isSaveDraftLoading ? 'loading' : ''
                 }`}
                 onClick={handleSaveDraft}
               >
-                Save Draft
+                Save As Draft
               </button>
             )}
             <button
@@ -498,7 +506,7 @@ export const ArticleEditor = ({
                 type === PostAction.CREATE ? handleSubmitData : handleUpdateData
               }
             >
-              Save
+              {type == PostAction.CREATE ? 'Publish' : 'Update'}
             </button>
           </div>
         </div>

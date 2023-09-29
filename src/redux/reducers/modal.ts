@@ -2,6 +2,7 @@ import {
   HIDE_MODAL,
   SET_CANCEL,
   SET_CONFIRM,
+  SET_IS_LOADING,
   SHOW_MODAL,
 } from '../types/confirmModal';
 
@@ -16,6 +17,7 @@ export interface ConfirmModalStateProps {
   onCancel: any;
   id: number;
   content: any;
+  isLoading: boolean;
 }
 
 const initialState = {
@@ -29,6 +31,7 @@ const initialState = {
   onCancel: undefined,
   id: 0,
   content: undefined,
+  isLoading: false,
 };
 
 export const modalReducer = (state = initialState, action: any) => {
@@ -68,6 +71,11 @@ export const modalReducer = (state = initialState, action: any) => {
       cancelCallback: action.payload.cancelCallback,
       onCancel: () => {},
       isConfirm: false,
+    }),
+
+    [SET_IS_LOADING]: () => ({
+      ...state,
+      isLoading: action.payload.isLoading,
     }),
   };
 

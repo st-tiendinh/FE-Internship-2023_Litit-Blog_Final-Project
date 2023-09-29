@@ -55,6 +55,7 @@ export const UserProfile = ({ isLoggedUser, user }: any) => {
       }
     })();
   };
+  console.log(user.dob);
 
   return (
     <section className="section profile-section">
@@ -110,7 +111,9 @@ export const UserProfile = ({ isLoggedUser, user }: any) => {
                 </li>
                 <li className="d-flex user-about-item">
                   <i className="icon icon-dob"></i>
-                  <p className="user-dob">{formatDate(user.dob)}</p>
+                  <p className="user-dob">
+                    {formatDate(user?.dob?.split('/').reverse().join('-'))}
+                  </p>
                 </li>
               </ul>
             </div>
