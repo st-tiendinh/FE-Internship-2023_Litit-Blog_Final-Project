@@ -168,14 +168,6 @@ export const ArticleEditor = ({
         setTagItems((prev) => [...prev, tagInputRef.current.value.trim()]);
         SetTagItemValue('');
       }
-    } else {
-      dispatch(
-        setShowToast({
-          type: ToastTypes.WARNING,
-          title: 'Provide tag name',
-          message: 'Please provide tag name',
-        })
-      );
     }
   };
 
