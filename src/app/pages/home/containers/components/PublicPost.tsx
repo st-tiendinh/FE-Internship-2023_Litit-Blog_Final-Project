@@ -47,9 +47,6 @@ const PublicPost = ({ type, sectionTitle }: PublicPostProps) => {
       {type === PostListType.LIST && sectionTitle ? (
         <div className="section-header">
           <h3 className="section-title">{sectionTitle}</h3>
-          <Link to={'/articles'} className="btn btn-outline">
-            Show more
-          </Link>
         </div>
       ) : sectionTitle ? (
         <h3 className="section-title">{sectionTitle}</h3>
@@ -83,6 +80,11 @@ const PublicPost = ({ type, sectionTitle }: PublicPostProps) => {
           </button>
         </div>
       )}
+      <div className="section-footer">
+        <Link to={'/articles'} className="btn btn-outline">
+          Show more
+        </Link>
+      </div>
       <ScrollToTopButton />
     </section>
   );
