@@ -225,7 +225,7 @@ export const Header = () => {
                   </li>
                   <li className="nav-item">
                     <Link
-                      to={'/articles/new'}
+                      to={isLogged ? 'articles/new' : 'auth/login?callback=/articles/new'}
                       className={`nav-link ${
                         filter === 'new' ? 'active' : null
                       }`}
