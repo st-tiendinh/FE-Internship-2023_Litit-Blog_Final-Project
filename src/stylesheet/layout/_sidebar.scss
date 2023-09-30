@@ -139,3 +139,15 @@
     }
   }
 }
+
+@include mobile {
+  .sidebar {
+    .section-popular-post {
+      .popular-post {
+        &-item:not(:last-child) {
+          margin-bottom: 12px;
+        }
+      }
+    }
+  }
+}

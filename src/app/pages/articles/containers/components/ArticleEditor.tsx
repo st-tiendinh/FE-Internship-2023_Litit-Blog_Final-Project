@@ -302,7 +302,7 @@ export const ArticleEditor = ({
 
   useEffect(() => {
     let unblock: any;
-    if (unsavedChanges) {
+    if (unsavedChanges && type === PostAction.CREATE) {
       unblock = history.block((tx: any) => {
         const confirmFunc = () => {
           handleSaveDraft();
@@ -310,6 +310,7 @@ export const ArticleEditor = ({
           tx.retry();
         };
         const cancelFunc = () => {
+          setUnsavedChanges(false);
           unblock();
           tx.retry();
         };

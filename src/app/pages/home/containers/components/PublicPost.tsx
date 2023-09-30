@@ -81,9 +81,11 @@ const PublicPost = ({ type, sectionTitle }: PublicPostProps) => {
         </div>
       )}
       <div className="section-footer">
-        <Link to={'/articles'} className="btn btn-outline">
-          Show more
-        </Link>
+        {location.pathname === '/' && (
+          <Link to={'/articles'} className="btn btn-outline">
+            Show more
+          </Link>
+        )}
       </div>
       <ScrollToTopButton />
     </section>

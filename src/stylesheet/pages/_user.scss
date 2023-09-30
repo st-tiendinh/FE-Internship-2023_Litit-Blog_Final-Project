@@ -166,17 +166,27 @@
 @include tablet {
   .page-user {
     .profile-section {
+      margin: 20px 0 10px;
+
       .profile-content {
         .user-about-list {
           gap: 18px;
         }
       }
     }
+
+    .filter-container {
+      margin-bottom: 10px;
+    }
   }
 }
 
 @include mobile {
   .page-user {
+    .profile-section {
+      margin: 12px 0;
+    }
+
     .filter-container {
       .select-container {
         margin-right: 8px;
