@@ -54,7 +54,7 @@ const UserDetail = () => {
         setIsError(true);
       }
     })();
-  }, []);
+  }, [location.pathname]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
