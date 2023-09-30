@@ -129,7 +129,10 @@ export const UserProfile = ({ isLoggedUser, user }: any) => {
               >
                 Update Profile
               </Link>
-              <Link to="/settings" className="edit-profile-button-sm">
+              <Link
+                to="/settings/my-profile"
+                className="edit-profile-button-sm"
+              >
                 <i className="icon icon-screw"></i>
               </Link>
             </>
