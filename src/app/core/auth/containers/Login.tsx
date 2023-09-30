@@ -6,7 +6,7 @@ import { InputGroup } from '../../../shared/components/InputGroup';
 
 import { signIn } from '../auth.actions';
 import { RootState } from '../../../app.reducers';
-import { Link, useNavigate, useLocation,useSearchParams } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { setLS } from '../../helpers/storageHelper';
 import JwtHelper from '../../helpers/jwtHelper';
 import { ApiService } from '../../services/api.service';

@@ -78,8 +78,8 @@ const ArticleUpdate = () => {
             ENDPOINT.posts.index,
             `${currentPostId}`,
           ]);
-          if(response?.user?.id !== jwt.getUserInfo().userId) {
-            navigate('/404')
+          if (response?.user?.id !== jwt.getUserInfo().userId) {
+            navigate('/404');
           }
           setPostData({
             cover: response.cover,
@@ -93,10 +93,11 @@ const ArticleUpdate = () => {
         } catch (error) {
           console.log(error);
           setIsLoading(false);
+          navigate('/404');
         }
       }
     })();
-  }, [postData?.cover]);
+  }, [postData?.cover, location.pathname]);
 
   return (
     <div className="page-write-article">

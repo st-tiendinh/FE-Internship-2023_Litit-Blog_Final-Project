@@ -56,10 +56,6 @@ const ArticleDetail = () => {
   }, []);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
-  useEffect(() => {
     (async () => {
       try {
         setIsLoading(true);

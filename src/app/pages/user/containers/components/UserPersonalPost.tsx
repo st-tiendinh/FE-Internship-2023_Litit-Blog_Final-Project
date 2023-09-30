@@ -124,7 +124,7 @@ export const UserPersonalPost = () => {
         setIsFetchDataLoading(false);
       }
     })();
-  }, []);
+  }, [location.pathname]);
 
   useEffect(() => {
     setUserPost(
@@ -132,7 +132,7 @@ export const UserPersonalPost = () => {
         return post.id !== modalId;
       })
     );
-  }, [modalId]);
+  }, [modalId, location.pathname]);
 
   useEffect(() => {
     if (isConfirm && modalId !== 0) {

@@ -54,7 +54,7 @@ const UserDetail = () => {
         setIsError(true);
       }
     })();
-  }, []);
+  }, [location.pathname]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -62,7 +62,7 @@ const UserDetail = () => {
 
   return (
     <>
-      {isError ? (
+      {!user || isError ? (
         <NotFound
           typeError="User"
           message="The user you are looking for does not exist."

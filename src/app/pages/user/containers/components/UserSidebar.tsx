@@ -57,7 +57,8 @@ export const UserSideBar = () => {
         setIsFetchDataLoading(false);
       }
     })();
-  }, [isModalLoading]);
+  }, [isModalLoading, location.pathname]);
+
   return (
     <aside className="user-sidebar">
       {isFetchDataLoading ? (

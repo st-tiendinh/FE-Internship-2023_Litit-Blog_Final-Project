@@ -32,12 +32,14 @@ export const ArticleContent = ({
   cleanContent,
   cleanDescription,
 }: ArticleContentProps) => {
-  const isLogged = useSelector((state: RootState) => state.authReducer.isLogged);
+  const isLogged = useSelector(
+    (state: RootState) => state.authReducer.isLogged
+  );
 
   return (
     <article className="article article-detail">
       <h2 className="article-detail-title">{postItem?.title}</h2>
-      {postItem?.tags && <ArticleTagList tags={postItem?.tags} />}
+      {postItem?.tags?.length ? <ArticleTagList tags={postItem?.tags} /> : null}
       <div className="article-detail-content">
         <div className="article-detail-header">
           {user && (
@@ -68,7 +70,9 @@ export const ArticleContent = ({
                             : '/auth/login?callback=' + '/users/' + user.id
                         }
                       >
-                        <span className="short-info-author-name">{user.displayName}</span>
+                        <span className="short-info-author-name">
+                          {user.displayName}
+                        </span>
                       </Link>
                       <span className="short-info-timestamp">
                         {formatDate(postItem?.updatedAt)}

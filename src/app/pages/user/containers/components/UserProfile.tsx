@@ -31,7 +31,7 @@ export const UserProfile = ({ isLoggedUser, user }: any) => {
         console.log(error);
       }
     })();
-  }, []);
+  }, [location.pathname]);
 
   useEffect(() => {
     isImageUrlValid(user?.picture).then((isValid) => {
@@ -108,12 +108,14 @@ export const UserProfile = ({ isLoggedUser, user }: any) => {
                   <i className="icon icon-mail"></i>
                   <p className="user-email">{user.email}</p>
                 </li>
-                <li className="d-flex user-about-item">
-                  <i className="icon icon-dob"></i>
-                  <p className="user-dob">
-                    {formatDate(user?.dob?.split('/').reverse().join('-'))}
-                  </p>
-                </li>
+                {user.dob?.split('/')?.pop() !== 'NaN' && (
+                  <li className="d-flex user-about-item">
+                    <i className="icon icon-dob"></i>
+                    <p className="user-dob">
+                      {formatDate(user?.dob?.split('/').reverse().join('-'))}
+                    </p>
+                  </li>
+                )}
               </ul>
             </div>
           </div>
@@ -127,7 +129,10 @@ export const UserProfile = ({ isLoggedUser, user }: any) => {
               >
                 Update Profile
               </Link>
-              <Link to="/settings" className="edit-profile-button-sm">
+              <Link
+                to="/settings/my-profile"
+                className="edit-profile-button-sm"
+              >
                 <i className="icon icon-screw"></i>
               </Link>
             </>
