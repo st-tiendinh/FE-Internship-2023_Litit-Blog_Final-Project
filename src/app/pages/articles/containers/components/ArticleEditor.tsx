@@ -73,6 +73,13 @@ export const ArticleEditor = ({
         : false
       : true
   );
+  const [isDraft, setIsDraft] = useState<boolean>(
+    type === PostAction.UPDATE
+      ? data.status === PostStatus.DRAFT
+        ? true
+        : false
+      : false
+  );
   const [unsavedChanges, setUnsavedChanges] = useState<boolean>(false);
   const [imageUrl, setImageUrl] = useState<string | undefined>(
     type === PostAction.UPDATE ? data.cover : undefined
@@ -213,7 +220,10 @@ export const ArticleEditor = ({
           title: titleValue,
           cover: url,
           content: contentValue,
-          status: isPublic ? PostStatus.PUBLIC : PostStatus.PRIVATE,
+          status:
+            isPublic || data.status === PostStatus.DRAFT
+              ? PostStatus.PUBLIC
+              : PostStatus.PRIVATE,
           description: descValue,
           tags: tagItems,
         };
@@ -238,7 +248,11 @@ export const ArticleEditor = ({
           title: titleValue,
           cover: url,
           content: contentValue,
-          status: isPublic ? PostStatus.PUBLIC : PostStatus.PRIVATE,
+          status: isPublic
+            ? PostStatus.PUBLIC
+            : data.status === PostStatus.PRIVATE
+            ? PostStatus.PRIVATE
+            : PostStatus.DRAFT,
           description: descValue,
           tags: tagItems,
         };
@@ -257,19 +271,21 @@ export const ArticleEditor = ({
   };
 
   useEffect(() => {
-    (async () => {
-      const coverUrl = imageFile ? URL.createObjectURL(imageFile) : imageUrl;
-      const body = {
-        title: titleValue || '',
-        cover: coverUrl || '',
-        content: contentValue || '',
-        status: isPublic ? PostStatus.PUBLIC : PostStatus.PRIVATE,
-        description: descValue || '',
-        tags: tagItems || '',
-      };
-      setBody(body);
-      setArticleData(body);
-    })();
+    const coverUrl = imageFile ? URL.createObjectURL(imageFile) : imageUrl;
+    const body = {
+      title: titleValue || '',
+      cover: coverUrl || '',
+      content: contentValue || '',
+      status: isPublic
+        ? PostStatus.PUBLIC
+        : data.status === PostStatus.PRIVATE
+        ? PostStatus.PRIVATE
+        : PostStatus.DRAFT,
+      description: descValue || '',
+      tags: tagItems || '',
+    };
+    setBody(body);
+    setArticleData(body);
   }, [
     titleValue,
     titleInput,
@@ -282,6 +298,7 @@ export const ArticleEditor = ({
     tagItemValue,
     contentValue,
     setArticleData,
+    data?.status,
   ]);
 
   const handleSaveDraft = () => {
@@ -317,7 +334,7 @@ export const ArticleEditor = ({
         dispatch(
           setShowModal({
             type: ModalType.INFO,
-            message: `You have not saved your post. Would you like to save a draft before leaving?`,
+            message: `Would you like to save a draft before leaving?`,
             onConfirm: confirmFunc,
             onCancel: cancelFunc,
           })
@@ -331,6 +348,11 @@ export const ArticleEditor = ({
       }
     };
   }, [body]);
+
+  const onSaveDraft = () => {
+    handleSaveDraft;
+    navigate('/settings/drafts');
+  };
 
   return (
     <div className="article-editor">
@@ -473,9 +495,9 @@ export const ArticleEditor = ({
         />
         <div className="article-editor-form-action">
           <div className="article-editor-post-status">
-            {type === PostAction.UPDATE && (
+            {type === PostAction.UPDATE && !isDraft ? (
               <ToggleButton isPublic={isPublic} setIsPublic={setIsPublic} />
-            )}
+            ) : null}
           </div>
           <div className="article-editor-form-save-button-wrapper">
             {type === PostAction.CREATE && (
@@ -483,19 +505,30 @@ export const ArticleEditor = ({
                 className={`btn btn-default ${
                   isSaveDraftLoading ? 'loading' : ''
                 }`}
-                onClick={handleSaveDraft}
+                onClick={onSaveDraft}
               >
                 Save As Draft
+              </button>
+            )}
+            {isDraft && (
+              <button
+                className={`btn btn-default ${isLoading ? 'loading' : ''}`}
+                disabled={isLoading}
+                onClick={handleUpdateData}
+              >
+                Update Draft
               </button>
             )}
             <button
               className={`btn btn-primary ${isLoading ? 'loading' : ''}`}
               disabled={isLoading}
               onClick={
-                type === PostAction.CREATE ? handleSubmitData : handleUpdateData
+                type === PostAction.CREATE || isDraft
+                  ? handleSubmitData
+                  : handleUpdateData
               }
             >
-              {type == PostAction.CREATE ? 'Publish' : 'Update'}
+              {type == PostAction.CREATE || isDraft ? 'Publish' : 'Update'}
             </button>
           </div>
         </div>
