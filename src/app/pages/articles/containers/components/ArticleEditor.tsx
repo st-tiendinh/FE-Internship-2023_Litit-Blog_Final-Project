@@ -99,6 +99,7 @@ export const ArticleEditor = ({
   const currentUserId = useSelector(
     (state: RootState) => state.authReducer.userInfo?.id
   );
+  const [isPublish, setIsPublish] = useState<boolean>(false);
 
   useEffect(() => {
     if (type === PostAction.UPDATE) {
@@ -213,6 +214,7 @@ export const ArticleEditor = ({
   const handleSubmitData = () => {
     (async () => {
       try {
+        setIsPublish(true);
         setUnsavedChanges(false);
         setIsLoading(true);
         const url = await handleUploadImage(TypeUpload.COVER_POST);
@@ -319,7 +321,7 @@ export const ArticleEditor = ({
 
   useEffect(() => {
     let unblock: any;
-    if (unsavedChanges && type === PostAction.CREATE) {
+    if (unsavedChanges && type === PostAction.CREATE && !isPublish) {
       unblock = history.block((tx: any) => {
         const confirmFunc = () => {
           handleSaveDraft();
