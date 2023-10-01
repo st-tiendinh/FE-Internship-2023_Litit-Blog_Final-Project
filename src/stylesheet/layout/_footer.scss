@@ -44,17 +44,7 @@
 
   .sub-footer {
     padding: 20px;
-    .container {
-      display: flex;
-      align-items: center;
-    }
-
-    border-top: 1px solid map-get($colors, "dark-yellow");
-
-    .container {
-      display: flex;
-      justify-content: space-between;
-    }
+    border-top: 1px solid #896c17;
 
     .copy-right {
       color: map-get($colors, "secondary-400");
@@ -94,10 +84,6 @@
     }
 
     &-info-group {
-      text-align: center;
-    }
-
-    .copy-right {
       text-align: center;
     }
   }

@@ -7,7 +7,7 @@ export const Footer = () => {
       <div className="main-footer">
         <div className="container">
           <div className="row">
-            <div className="col col-6 col-sm-12">
+            <div className="col col-8 col-sm-12">
               <div className="footer-logo-group">
                 <Link to={'/'} className="logo-link">
                   <h1 className="logo">
@@ -42,7 +42,7 @@ export const Footer = () => {
                 </ul>
               </div>
             </div>
-            <div className="col col-6 col-sm-12">
+            <div className="col col-4 col-sm-12">
               <div className="row">
                 <div className="col col-6">
                   <div className="footer-info-group">
@@ -105,7 +105,7 @@ export const Footer = () => {
       </div>
       <div className="sub-footer">
         <div className="container">
-          <p className="copy-right">
+          <p className="copy-right text-center">
             Copyright © 2023 All Rights Reserved by Litit
           </p>
         </div>
