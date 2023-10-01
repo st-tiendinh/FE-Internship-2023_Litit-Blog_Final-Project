@@ -46,6 +46,7 @@ export const ArticleEditor = ({
   const [error, setError] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isSaveDraftLoading, setIsSaveDraftLoading] = useState<boolean>(false);
+  const [isUpdateLoading, setIsUpdateLoading] = useState<boolean>(false);
 
   const [titleInput, setTitleInput] = useState<string>(
     type === PostAction.UPDATE ? data.title : ''
@@ -66,6 +67,7 @@ export const ArticleEditor = ({
   const [contentValue, setContentValue] = useState<string>(
     type === PostAction.UPDATE ? data.content : ''
   );
+  const [contentInput, setContentInput] = useState<string>('');
   const [isPublic, setIsPublic] = useState<boolean>(
     type === PostAction.UPDATE
       ? data.status === PostStatus.PUBLIC
@@ -244,7 +246,7 @@ export const ArticleEditor = ({
   const handleUpdateData = () => {
     (async () => {
       try {
-        setIsLoading(true);
+        setIsUpdateLoading(true);
         const url = await handleUploadImage(TypeUpload.COVER_POST);
         const postUpdated = {
           title: titleValue,
@@ -263,10 +265,10 @@ export const ArticleEditor = ({
           [ENDPOINT.posts.index, `${location.pathname.split('/').pop()}`],
           postUpdated
         );
-        setIsLoading(false);
+        setIsUpdateLoading(false);
         navigate(-1);
       } catch (error) {
-        setIsLoading(false);
+        setIsUpdateLoading(false);
         console.log(error);
       }
     })();
@@ -338,7 +340,7 @@ export const ArticleEditor = ({
         dispatch(
           setShowModal({
             type: ModalType.INFO,
-            message: `Would you like to save a draft before leaving?`,
+            message: `Would you like to save a draft?`,
             onConfirm: confirmFunc,
             onCancel: cancelFunc,
           })
@@ -352,6 +354,26 @@ export const ArticleEditor = ({
       }
     };
   }, [body]);
+
+  useEffect(() => {
+    if (
+      !titleInput &&
+      !descInput &&
+      !imageFile &&
+      !contentInput &&
+      !tagItems.length &&
+      !tagItemValue
+    ) {
+      setUnsavedChanges(false);
+    }
+  }, [
+    contentInput,
+    descInput,
+    imageFile,
+    tagItemValue,
+    tagItems.length,
+    titleInput,
+  ]);
 
   const onSaveDraft = () => {
     handleSaveDraft;
@@ -494,7 +516,11 @@ export const ArticleEditor = ({
           data={contentValue}
           onBlur={(_, editor) => {
             setUnsavedChanges(true);
-            setContentValue(editor.getData());
+            setContentValue(editor.getData().trim());
+          }}
+          onChange={(_, editor) => {
+            setUnsavedChanges(true);
+            setContentInput(editor.getData().trim());
           }}
         />
         <div className="article-editor-form-action">
@@ -504,7 +530,7 @@ export const ArticleEditor = ({
             ) : null}
           </div>
           <div className="article-editor-form-save-button-wrapper">
-            {type === PostAction.CREATE && (
+            {type === PostAction.CREATE && unsavedChanges && (
               <button
                 className={`btn btn-default ${
                   isSaveDraftLoading ? 'loading' : ''
@@ -516,24 +542,35 @@ export const ArticleEditor = ({
             )}
             {isDraft && (
               <button
-                className={`btn btn-default ${isLoading ? 'loading' : ''}`}
+                className={`btn btn-default ${
+                  isUpdateLoading ? 'loading' : ''
+                }`}
                 disabled={isLoading}
                 onClick={handleUpdateData}
               >
                 Update Draft
               </button>
             )}
-            <button
-              className={`btn btn-primary ${isLoading ? 'loading' : ''}`}
-              disabled={isLoading}
-              onClick={
-                type === PostAction.CREATE || isDraft
-                  ? handleSubmitData
-                  : handleUpdateData
-              }
-            >
-              {type == PostAction.CREATE || isDraft ? 'Publish' : 'Update'}
-            </button>
+            {type === PostAction.CREATE && (
+              <button
+                className={`btn btn-primary ${isLoading ? 'loading' : ''}`}
+                disabled={isLoading}
+                onClick={handleSubmitData}
+              >
+                Publish
+              </button>
+            )}
+            {type === PostAction.UPDATE && (
+              <button
+                className={`btn btn-primary ${
+                  isUpdateLoading ? 'loading' : ''
+                }`}
+                disabled={isUpdateLoading}
+                onClick={handleUpdateData}
+              >
+                Update
+              </button>
+            )}
           </div>
         </div>
       </div>
