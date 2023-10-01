@@ -280,9 +280,9 @@ export const ArticleEditor = ({
       content: contentValue || '',
       status: isPublic
         ? PostStatus.PUBLIC
-        : data.status === PostStatus.PRIVATE
-        ? PostStatus.PRIVATE
-        : PostStatus.DRAFT,
+        : isDraft
+        ? PostStatus.DRAFT
+        : PostStatus.PRIVATE,
       description: descValue || '',
       tags: tagItems || '',
     };
@@ -294,6 +294,7 @@ export const ArticleEditor = ({
     descValue,
     descInput,
     isPublic,
+    isDraft,
     imageUrl,
     imageFile,
     tagItems,
@@ -306,6 +307,7 @@ export const ArticleEditor = ({
   const handleSaveDraft = () => {
     (async () => {
       try {
+        setIsDraft(true);
         setIsSaveDraftLoading(true);
         apiService.setHeaders(jwt.getAuthHeader());
         await apiService.post([ENDPOINT.posts.draft], body);
