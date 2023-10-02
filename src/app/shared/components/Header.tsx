@@ -24,7 +24,6 @@ export const Header = () => {
   const dispatch = useDispatch();
 
   const [isValidUserImg, setIsValidUserImg] = useState(false);
-  const menuRef = useRef<HTMLElement | null>(null);
   const userActionRef = useRef<HTMLDivElement | null>(null);
   const [isOpenDropdown, setIsOpenDropdown] = useState(false);
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
@@ -150,22 +149,8 @@ export const Header = () => {
   }, [setIsOpenDropdown]);
 
   useEffect(() => {
-    const handleOutsideClick = (event: MouseEvent) => {
-      if (
-        menuRef.current &&
-        event.target instanceof Node &&
-        !menuRef.current.contains(event.target)
-      ) {
-        setIsOpenMenu(false);
-      }
-    };
-
-    window.addEventListener('click', handleOutsideClick);
-
-    return () => {
-      window.removeEventListener('click', handleOutsideClick);
-    };
-  }, [setIsOpenMenu]);
+    setIsOpenDropdown(false);
+  }, [location.pathname]);
 
   useEffect(() => {
     if (isOpenMenu) {
@@ -191,7 +176,6 @@ export const Header = () => {
             <div className="col col-4">
               <div className="header-logo">
                 <i
-                  ref={menuRef}
                   onClick={() => setIsOpenMenu(!isOpenMenu)}
                   className={`icon ${isOpenMenu ? 'icon-close' : 'icon-menu'}`}
                 ></i>
