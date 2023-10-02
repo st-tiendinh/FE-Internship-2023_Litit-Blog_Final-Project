@@ -1,5 +1,6 @@
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import { ArticleTagList } from './ArticleTagList';
 
@@ -32,9 +33,14 @@ export const ArticleContent = ({
   cleanContent,
   cleanDescription,
 }: ArticleContentProps) => {
+  const location = useLocation();
   const isLogged = useSelector(
     (state: RootState) => state.authReducer.isLogged
   );
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
 
   return (
     <article className="article article-detail">

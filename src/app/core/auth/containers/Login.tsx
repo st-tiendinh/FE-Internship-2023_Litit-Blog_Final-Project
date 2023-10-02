@@ -63,6 +63,10 @@ const Login = () => {
     }
   }, [isLogged, http, jwtHelper, navigate]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const onSubmit = (data: FormData) => {
     dispatch(signIn(data));
   };
