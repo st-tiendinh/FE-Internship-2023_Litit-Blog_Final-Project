@@ -42,6 +42,7 @@
   }
 
   &-timestamp {
+    min-width: 90px;
     font-size: map-get($font-sizes, sm);
     font-weight: map-get($font-weights, normal);
     line-height: 16px;
