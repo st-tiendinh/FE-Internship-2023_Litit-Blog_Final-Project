@@ -15,6 +15,7 @@ export const Sidebar = () => {
     { name: 'VueJS' },
     { name: 'Angular' },
     { name: 'NodeJS' },
+    { name: 'Travel' },
   ];
 
   const [allPost, setAllPost] = useState<any[]>([]);

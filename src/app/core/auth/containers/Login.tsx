@@ -41,7 +41,7 @@ const Login = () => {
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm<FormData>();
+  } = useForm<FormData>({ mode: 'onChange' });
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);

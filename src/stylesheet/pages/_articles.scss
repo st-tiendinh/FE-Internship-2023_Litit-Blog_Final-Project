@@ -45,6 +45,12 @@
         top: 102px;
         cursor: pointer;
 
+        .icon.icon-like-normal {
+          &:hover {
+            background-image: url("../assets/icons/ic-like-fulfill.svg");
+          }
+        }
+
         .article-action-item {
           position: relative;
           display: flex;
