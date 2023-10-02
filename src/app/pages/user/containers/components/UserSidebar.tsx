@@ -18,7 +18,6 @@ export const UserSideBar = () => {
   const [userStatistic, setUserStatistic] = useState<UserStatistic>({
     postPublicQuantity: 0,
     commentQuantity: 0,
-    tagQuantity: 0,
     likeQuantity: 0,
   });
   const isModalLoading = useSelector(
@@ -47,14 +46,9 @@ export const UserSideBar = () => {
           (acc: any, curr: any) => acc + curr?.likes,
           0
         );
-        const tagQuantity = await response.Posts.reduce(
-          (acc: any, curr: any) => acc + curr.tags.length,
-          0
-        );
         setUserStatistic({
           postPublicQuantity: postPublicQuantity,
           commentQuantity: commentQuantity,
-          tagQuantity: tagQuantity,
           likeQuantity: likeQuantity,
         });
         setIsFetchDataLoading(false);
@@ -72,7 +66,7 @@ export const UserSideBar = () => {
       ) : (
         <ul className="statistic-list">
           <div className="row">
-            <div className="col col-12 col-md-3 col-sm-6">
+            <div className="col col-12 col-md-4 col-sm-12">
               <li className="statistic-item">
                 <i className="icon icon-post-number"></i>
                 <p className="statistic-text">
@@ -80,7 +74,7 @@ export const UserSideBar = () => {
                 </p>
               </li>
             </div>
-            <div className="col col-12 col-md-3 col-sm-6">
+            <div className="col col-12 col-md-4 col-sm-12">
               <li className="statistic-item">
                 <i className="icon icon-comments-number"></i>
                 <p className="statistic-text">
@@ -88,15 +82,7 @@ export const UserSideBar = () => {
                 </p>
               </li>
             </div>
-            <div className="col col-12 col-md-3 col-sm-6">
-              <li className="statistic-item">
-                <i className="icon icon-followed-tag"></i>
-                <p className="statistic-text">
-                  {userStatistic.tagQuantity} tags
-                </p>
-              </li>
-            </div>
-            <div className="col col-12 col-md-3 col-sm-6">
+            <div className="col col-12 col-md-4 col-sm-12">
               <li className="statistic-item">
                 <i className="icon icon-like-normal"></i>
                 <p className="statistic-text">

@@ -48,12 +48,10 @@ export interface UserDetailProps {
 }
 
 export interface UserStatistic {
-  postPublicQuantity: number,
-  commentQuantity: number,
-  tagQuantity: number,
-  likeQuantity: number,
+  postPublicQuantity: number;
+  commentQuantity: number;
+  likeQuantity: number;
 }
-
 
 export interface UserFollow {
   id: number;
