@@ -106,16 +106,18 @@ export const UserProfile = ({ isLoggedUser, user }: any) => {
                 </li>
                 <li className="d-flex user-about-item">
                   <i className="icon icon-mail"></i>
-                  <a href={`mailto:${user.email}`}> <p className="user-email">{user.email}</p></a>
+                  <a href={`mailto:${user.email}`}>
+                    <p className="user-email">{user.email}</p>
+                  </a>
                 </li>
-                {user.dob?.split('/')?.pop() !== 'NaN' && (
-                  <li className="d-flex user-about-item">
-                    <i className="icon icon-dob"></i>
-                    <p className="user-dob">
-                      {formatDate(user?.dob?.split('/').reverse().join('-'))}
-                    </p>
-                  </li>
-                )}
+                <li className="d-flex user-about-item">
+                  <i className="icon icon-dob"></i>
+                  <p className="user-dob">
+                    {user.dob?.split('/')?.pop() !== 'NaN'
+                      ? formatDate(user?.dob?.split('/').reverse().join('-'))
+                      : '--------'}
+                  </p>
+                </li>
               </ul>
             </div>
           </div>
