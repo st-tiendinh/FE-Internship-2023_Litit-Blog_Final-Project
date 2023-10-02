@@ -27,8 +27,12 @@ export const UserProfile = ({ isLoggedUser, user }: UserProfileProps) => {
     apiService.setHeaders(jwtHelper.getAuthHeader());
     (async () => {
       try {
-        const response: any = await apiService.get([ENDPOINT.friends.followings]);
-        setIsFollowed(response.filter((item: any) => item.id === user.id).length);
+        const response: any = await apiService.get([
+          ENDPOINT.friends.followings,
+        ]);
+        setIsFollowed(
+          response.filter((item: any) => item.id === user.id).length
+        );
       } catch (error) {
         console.log(error);
       }
@@ -95,7 +99,9 @@ export const UserProfile = ({ isLoggedUser, user }: UserProfileProps) => {
                 <li className="user-follow-item">
                   <div className="user-follow">
                     <span className="user-follow-title">Followings </span>
-                    <span className="user-follow-amount">{user.followings}</span>
+                    <span className="user-follow-amount">
+                      {user.followings}
+                    </span>
                   </div>
                 </li>
               </ul>
@@ -114,7 +120,7 @@ export const UserProfile = ({ isLoggedUser, user }: UserProfileProps) => {
                   <i className="icon icon-dob"></i>
                   <p className="user-dob">
                     {user.dob?.split('/')?.pop() !== 'NaN'
-                      ? formatDate(user?.dob?.split('/').reverse().join('-'))
+                      ? formatDate(user?.dob)
                       : '--------'}
                   </p>
                 </li>
@@ -125,10 +131,16 @@ export const UserProfile = ({ isLoggedUser, user }: UserProfileProps) => {
         <div className="profile-button">
           {isLoggedUser ? (
             <>
-              <Link to="/settings/my-profile" className="btn btn-primary edit-profile-button">
+              <Link
+                to="/settings/my-profile"
+                className="btn btn-primary edit-profile-button"
+              >
                 Update Profile
               </Link>
-              <Link to="/settings/my-profile" className="edit-profile-button-sm">
+              <Link
+                to="/settings/my-profile"
+                className="edit-profile-button-sm"
+              >
                 <i className="icon icon-screw"></i>
               </Link>
             </>
@@ -138,7 +150,9 @@ export const UserProfile = ({ isLoggedUser, user }: UserProfileProps) => {
               disabled={isLoading}
               className={`btn btn-primary ${isLoading ? 'loading' : null}`}
             >
-              <span className="btn-text">{isFollowed ? 'Unfollow' : 'Follow'}</span>
+              <span className="btn-text">
+                {isFollowed ? 'Unfollow' : 'Follow'}
+              </span>
             </button>
           )}
         </div>
