@@ -106,7 +106,7 @@ export const UserProfile = ({ isLoggedUser, user }: any) => {
                 </li>
                 <li className="d-flex user-about-item">
                   <i className="icon icon-mail"></i>
-                  <p className="user-email">{user.email}</p>
+                  <a href={`mailto:${user.email}`}> <p className="user-email">{user.email}</p></a>
                 </li>
                 {user.dob?.split('/')?.pop() !== 'NaN' && (
                   <li className="d-flex user-about-item">
