@@ -4,13 +4,14 @@ import { FollowUser } from './FollowUser';
 import { ApiService } from '../../../../core/services/api.service';
 import JwtHelper from '../../../../core/helpers/jwtHelper';
 import { ENDPOINT } from '../../../../../config/endpoint';
+import { UserFollow } from '../../../../core/models/user';
 
 const apiService = new ApiService();
 const jwtHelper = new JwtHelper();
 
 const ListFollowings = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [listFollowings, setListFollowings] = useState<any>([]);
+  const [listFollowings, setListFollowings] = useState<UserFollow[]>([]);
 
   useEffect(() => {
     apiService.setHeaders(jwtHelper.getAuthHeader());

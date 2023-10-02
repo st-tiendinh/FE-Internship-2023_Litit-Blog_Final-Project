@@ -551,7 +551,7 @@ export const ArticleEditor = ({
                 Update Draft
               </button>
             )}
-            {type === PostAction.CREATE && (
+            {(type === PostAction.CREATE || isDraft) && (
               <button
                 className={`btn btn-primary ${isLoading ? 'loading' : ''}`}
                 disabled={isLoading}
@@ -560,7 +560,7 @@ export const ArticleEditor = ({
                 Publish
               </button>
             )}
-            {type === PostAction.UPDATE && (
+            {type === PostAction.UPDATE && !isDraft && (
               <button
                 className={`btn btn-primary ${
                   isUpdateLoading ? 'loading' : ''

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { ApiService } from '../../../../core/services/api.service';
 import JwtHelper from '../../../../core/helpers/jwtHelper';
 import { ENDPOINT } from '../../../../../config/endpoint';
-import PostList from '../../../../shared/components/PostList';
+import PostList, { IPost } from '../../../../shared/components/PostList';
 import { PostListType } from '../../../home/containers/components/PublicPost';
 
 const apiService = new ApiService();
@@ -11,9 +11,9 @@ const jwtHelper = new JwtHelper();
 
 const Bookmarks = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [articlesBookmark, setArticlesBookmark] = useState<any>([]);
+  const [articlesBookmark, setArticlesBookmark] = useState<IPost[]>([]);
 
-  const [visiblePosts, setVisiblePosts] = useState<any[]>([]);
+  const [visiblePosts, setVisiblePosts] = useState<IPost[]>([]);
   const [page, setPage] = useState(1);
 
   useEffect(() => {

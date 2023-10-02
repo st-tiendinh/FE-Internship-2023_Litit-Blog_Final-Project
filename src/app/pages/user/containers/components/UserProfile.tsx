@@ -8,11 +8,17 @@ import { ApiService } from '../../../../core/services/api.service';
 import JwtHelper from '../../../../core/helpers/jwtHelper';
 import { ENDPOINT } from '../../../../../config/endpoint';
 import { formatDate } from '../../../../shared/utils/formatDate';
+import { UserDetailProps } from '../../../../core/models/user';
 
 const apiService = new ApiService();
 const jwtHelper = new JwtHelper();
 
-export const UserProfile = ({ isLoggedUser, user }: any) => {
+interface UserProfileProps {
+  isLoggedUser: boolean;
+  user: UserDetailProps;
+}
+
+export const UserProfile = ({ isLoggedUser, user }: UserProfileProps) => {
   const [isValidUserImg, setIsValidUserImg] = useState(false);
   const [isFollowed, setIsFollowed] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -21,12 +27,8 @@ export const UserProfile = ({ isLoggedUser, user }: any) => {
     apiService.setHeaders(jwtHelper.getAuthHeader());
     (async () => {
       try {
-        const response: any = await apiService.get([
-          ENDPOINT.friends.followings,
-        ]);
-        setIsFollowed(
-          response.filter((item: any) => item.id === user.id).length
-        );
+        const response: any = await apiService.get([ENDPOINT.friends.followings]);
+        setIsFollowed(response.filter((item: any) => item.id === user.id).length);
       } catch (error) {
         console.log(error);
       }
@@ -93,9 +95,7 @@ export const UserProfile = ({ isLoggedUser, user }: any) => {
                 <li className="user-follow-item">
                   <div className="user-follow">
                     <span className="user-follow-title">Followings </span>
-                    <span className="user-follow-amount">
-                      {user.followings}
-                    </span>
+                    <span className="user-follow-amount">{user.followings}</span>
                   </div>
                 </li>
               </ul>
@@ -125,16 +125,10 @@ export const UserProfile = ({ isLoggedUser, user }: any) => {
         <div className="profile-button">
           {isLoggedUser ? (
             <>
-              <Link
-                to="/settings/my-profile"
-                className="btn btn-primary edit-profile-button"
-              >
+              <Link to="/settings/my-profile" className="btn btn-primary edit-profile-button">
                 Update Profile
               </Link>
-              <Link
-                to="/settings/my-profile"
-                className="edit-profile-button-sm"
-              >
+              <Link to="/settings/my-profile" className="edit-profile-button-sm">
                 <i className="icon icon-screw"></i>
               </Link>
             </>
@@ -144,9 +138,7 @@ export const UserProfile = ({ isLoggedUser, user }: any) => {
               disabled={isLoading}
               className={`btn btn-primary ${isLoading ? 'loading' : null}`}
             >
-              <span className="btn-text">
-                {isFollowed ? 'Unfollow' : 'Follow'}
-              </span>
+              <span className="btn-text">{isFollowed ? 'Unfollow' : 'Follow'}</span>
             </button>
           )}
         </div>
