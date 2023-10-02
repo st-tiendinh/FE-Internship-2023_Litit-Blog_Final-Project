@@ -1,10 +1,21 @@
 export function formatDate(dateString: string): string {
   const date = new Date(dateString);
-  return date.toLocaleDateString('en-US', {
+  const formatedDate = date.toLocaleDateString('en-US', {
     month: 'short',
     day: 'numeric',
     year: 'numeric',
   });
+
+  if (formatedDate === 'Invalid Date' && dateString) {
+    const newDate = new Date(dateString.split('/').reverse().join('/'));
+    return newDate.toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+    });
+  }
+
+  return formatedDate;
 }
 
 export function formatDateComment(dateString: string): string {

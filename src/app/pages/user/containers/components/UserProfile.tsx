@@ -119,9 +119,7 @@ export const UserProfile = ({ isLoggedUser, user }: UserProfileProps) => {
                 <li className="d-flex user-about-item">
                   <i className="icon icon-dob"></i>
                   <p className="user-dob">
-                    {user.dob?.split('/')?.pop() !== 'NaN'
-                      ? formatDate(user?.dob)
-                      : '--------'}
+                    {formatDate(user?.dob)}
                   </p>
                 </li>
               </ul>
