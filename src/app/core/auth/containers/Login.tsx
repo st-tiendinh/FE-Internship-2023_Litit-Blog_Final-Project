@@ -12,6 +12,7 @@ import JwtHelper from '../../helpers/jwtHelper';
 import { ApiService } from '../../services/api.service';
 import { ENDPOINT } from '../../../../config/endpoint';
 import { KEYS } from '../../helpers/storageHelper';
+import { environment } from '../../../../config/environment';
 
 interface FormData {
   email: string;
@@ -113,7 +114,7 @@ const Login = () => {
               </button>
 
               <Link
-                to={`http://ec2-18-143-176-131.ap-southeast-1.compute.amazonaws.com:3000/api/v1/auth/google?redirect_to=${loginWithGoogleDomain}`}
+                to={`${environment.apiGoogleLogin}?redirect_to=${loginWithGoogleDomain}`}
                 className="btn btn-sign-in-with-google"
               >
                 <i className="icon icon-google"></i>
