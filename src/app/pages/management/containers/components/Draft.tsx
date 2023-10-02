@@ -8,6 +8,7 @@ import { ApiService } from '../../../../core/services/api.service';
 import JwtHelper from '../../../../core/helpers/jwtHelper';
 import { ENDPOINT } from '../../../../../config/endpoint';
 import { RootState } from '../../../../app.reducers';
+import { useLocation } from 'react-router-dom';
 
 const apiService = new ApiService();
 const jwtHelper = new JwtHelper();
@@ -17,6 +18,7 @@ const Draft = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [page, setPage] = useState(1);
   const [visiblePosts, setVisiblePosts] = useState<IPost[]>([]);
+  const location = useLocation()
 
   const id = useSelector((state: RootState) => state.modalReducer.id);
   const userInfo = useSelector(
@@ -41,7 +43,7 @@ const Draft = () => {
     if (draftList.length >= 0) {
       setVisiblePosts(draftList.slice(0, 5));
     }
-  }, [draftList]);
+  }, [draftList, location.pathname]);
 
   useEffect(() => {
     (async () => {
