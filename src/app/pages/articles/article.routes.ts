@@ -8,7 +8,9 @@ const ArticleList = React.lazy(() => import('./containers/ArticleList'));
 const ArticleNew = React.lazy(() => import('./containers/ArticleNew'));
 const ArticleUpdate = React.lazy(() => import('./containers/ArticleUpdate'));
 const ArticleByTag = React.lazy(() => import('./containers/ArticleByTag'));
-const ArticleBookmark = React.lazy(() => import('./containers/ArticleBookmark'));
+const ArticleBookmark = React.lazy(
+  () => import('./containers/ArticleBookmark')
+);
 
 const articleRoutes: PageRoute[] = [
   {

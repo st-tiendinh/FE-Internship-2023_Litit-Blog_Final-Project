@@ -12,6 +12,10 @@ const userRoutes: PageRoute[] = [
     isProtected: true,
     children: [
       {
+        path: '',
+        redirect: '/404',
+      },
+      {
         path: ':id',
         isProtected: true,
         element: UserDetail,

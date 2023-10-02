@@ -29,6 +29,10 @@ const settingsRoutes: PageRoute[] = [
 
     children: [
       {
+        path: '',
+        redirect: 'my-profile',
+      },
+      {
         path: 'my-profile',
         element: UserProfile,
       },

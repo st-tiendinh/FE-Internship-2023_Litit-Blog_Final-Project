@@ -22,6 +22,7 @@ export const UserProfile = ({ isLoggedUser, user }: UserProfileProps) => {
   const [isValidUserImg, setIsValidUserImg] = useState(false);
   const [isFollowed, setIsFollowed] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [followerNum, setFollowerNum] = useState<number>(user?.followers);
 
   useEffect(() => {
     apiService.setHeaders(jwtHelper.getAuthHeader());
@@ -53,6 +54,11 @@ export const UserProfile = ({ isLoggedUser, user }: UserProfileProps) => {
         await apiService.post([ENDPOINT.friends.follow], {
           followingId: user.id,
         });
+        if (isFollowed) {
+          setFollowerNum((prev) => prev - 1);
+        } else {
+          setFollowerNum((prev) => prev + 1);
+        }
         setIsLoading(false);
         setIsFollowed(!isFollowed);
       } catch (error) {
@@ -93,7 +99,7 @@ export const UserProfile = ({ isLoggedUser, user }: UserProfileProps) => {
                 <li className="user-follow-item">
                   <div className="user-follow">
                     <span className="user-follow-title">Followers </span>
-                    <span className="user-follow-amount">{user.followers}</span>
+                    <span className="user-follow-amount">{followerNum}</span>
                   </div>
                 </li>
                 <li className="user-follow-item">
@@ -118,9 +124,7 @@ export const UserProfile = ({ isLoggedUser, user }: UserProfileProps) => {
                 </li>
                 <li className="d-flex user-about-item">
                   <i className="icon icon-dob"></i>
-                  <p className="user-dob">
-                    {formatDate(user?.dob)}
-                  </p>
+                  <p className="user-dob">{formatDate(user?.dob)}</p>
                 </li>
               </ul>
             </div>

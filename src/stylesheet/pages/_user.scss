@@ -71,6 +71,8 @@
             font-size: map-get($font-sizes, "xl");
             color: map-get($colors, "dark-yellow");
             margin-left: 4px;
+            display: inline-block;
+            width: 28px;
           }
 
           &-about-list {
