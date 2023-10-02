@@ -115,7 +115,17 @@ export const Header = () => {
       removeLS(KEYS.ACCESS_TOKEN);
       removeLS(KEYS.USER_INFO);
       closeDropdown();
-      navigate('/');
+      if (
+        (location.pathname.split('/')[1] === 'articles' &&
+          location.pathname.split('/')[2] !== 'new') ||
+        (location.pathname.split('/')[1] === 'articles' &&
+          location.pathname.split('/')[2] !== 'update') ||
+        location.pathname.split('/')[1] === ''
+      ) {
+        return;
+      } else {
+        navigate('/');
+      }
     } catch (error) {
       console.log(error);
     }
@@ -225,7 +235,11 @@ export const Header = () => {
                   </li>
                   <li className="nav-item">
                     <Link
-                      to={isLogged ? 'articles/new' : 'auth/login?callback=/articles/new'}
+                      to={
+                        isLogged
+                          ? 'articles/new'
+                          : 'auth/login?callback=/articles/new'
+                      }
                       className={`nav-link ${
                         filter === 'new' ? 'active' : null
                       }`}
