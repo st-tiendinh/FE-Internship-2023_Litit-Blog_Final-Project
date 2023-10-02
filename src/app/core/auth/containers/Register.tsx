@@ -52,7 +52,7 @@ const Register = () => {
     const { confirmPassword, ...other } = data;
     const userData = {
       ...other,
-      dob: other.dob.split('-').reverse().join('/'),
+      dob: other.dob.split('-').join('/'),
       gender: gender,
       picture: 'null',
     };

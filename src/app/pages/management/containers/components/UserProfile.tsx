@@ -46,7 +46,7 @@ const UserProfile = () => {
     lastName: userInfo.lastName,
     displayName: userInfo.displayName,
     phone: userInfo.phone,
-    dob: userInfo?.dob?.split('/').reverse().join('-'),
+    dob: userInfo?.dob?.split('/').join('-'),
   };
 
   const {
@@ -84,7 +84,13 @@ const UserProfile = () => {
   const onSubmit = async (data: FormData) => {
     try {
       const url = await handleUploadImage(TypeUpload.AVATAR);
-      const newData = { ...data, gender: gender, picture: url };
+      const newData = {
+        ...data,
+        dob: data.dob.split('-').join('/'),
+        gender: gender,
+        picture: url,
+      };
+
       dispatch(updateUser(newData));
 
       dispatch(
