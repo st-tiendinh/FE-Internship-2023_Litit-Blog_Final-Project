@@ -20,15 +20,21 @@
   }
 
   &-error {
-    width: 35px;
+    min-width: 35px;
     height: 35px;
     background-image: url("../assets/icons/ic-error.svg");
   }
 
   &-warning {
-    width: 35px;
+    min-width: 35px;
     height: 35px;
     background-image: url("../assets/icons/ic-waring.svg");
+  }
+
+  &-info {
+    min-width: 35px;
+    height: 35px;
+    background-image: url("../assets/icons/ic-info.svg");
   }
 
   &-comment {
@@ -67,10 +73,6 @@
     width: 24px;
     height: 24px;
     background-image: url("../assets/icons/ic-like-normal.svg");
-
-    &:hover {
-      background-image: url("../assets/icons/ic-like-fulfill.svg");
-    }
   }
 
   &-like-fulfill {
@@ -96,8 +98,8 @@
   }
 
   &-dob {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     background-image: url("../assets/icons/ic-dob.svg");
   }
 
@@ -141,6 +143,18 @@
     background-image: url("../assets/icons/ic-lock.svg");
   }
 
+  &-lock-white {
+    width: 14px;
+    height: 14px;
+    background-image: url("../assets/icons/ic-lock-white.svg");
+  }
+
+  &-draft-small {
+    width: 14px;
+    height: 14px;
+    background-image: url("../assets/icons/ic-draft.svg");
+  }
+
   &-pen {
     width: 16px;
     height: 16px;
@@ -166,33 +180,39 @@
   }
 
   &-facebook {
-    width: 35px;
-    height: 35px;
+    width: 28px;
+    height: 28px;
     background-image: url("../assets/icons/ic-facebook.svg");
   }
 
   &-twitter {
-    width: 35px;
-    height: 35px;
+    width: 28px;
+    height: 28px;
     background-image: url("../assets/icons/ic-twitter.svg");
   }
 
   &-linkedin {
-    width: 35px;
-    height: 35px;
+    width: 28px;
+    height: 28px;
     background-image: url("../assets/icons/ic-linkedin.svg");
   }
 
   &-instagram {
-    width: 35px;
-    height: 35px;
+    width: 28px;
+    height: 28px;
     background-image: url("../assets/icons/ic-instagram.svg");
+  }
 
-    &-restore {
-      width: 24px;
-      height: 24px;
-      background-image: url("../assets/icons/ic-restore.svg");
-    }
+  &-google {
+    width: 20px;
+    height: 20px;
+    background-image: url("../assets/icons/ic-google.svg");
+  }
+
+  &-restore {
+    width: 24px;
+    height: 24px;
+    background-image: url("../assets/icons/ic-restore.svg");
   }
 
   &-avatar-uploader {
@@ -203,41 +223,101 @@
     width: 30px;
     height: 30px;
     background-image: url("../assets/icons/ic-profile.svg");
+
+    &.active {
+      background-image: url("../assets/icons/ic-profile-highlight.svg");
+    }
   }
 
   &-change-pw {
     width: 30px;
     height: 30px;
     background-image: url("../assets/icons/ic-change-pw.svg");
+
+    &.active {
+      background-image: url("../assets/icons/ic-change-pw-highlight.svg");
+    }
   }
 
   &-bookmarks {
     width: 30px;
     height: 30px;
     background-image: url("../assets/icons/ic-bookmarks.svg");
+
+    &.active {
+      background-image: url("../assets/icons/ic-bookmarks-highlight.svg");
+    }
   }
 
   &-draft {
     width: 30px;
     height: 30px;
     background-image: url("../assets/icons/ic-draft.svg");
+
+    &.active {
+      background-image: url("../assets/icons/ic-draft-highlight.svg");
+    }
   }
 
   &-recycle-bin {
     width: 30px;
     height: 30px;
     background-image: url("../assets/icons/ic-recycle-bin.svg");
+
+    &.active {
+      background-image: url("../assets/icons/ic-recycle-bin-highlight.svg");
+    }
   }
 
   &-follower {
     width: 30px;
     height: 30px;
     background-image: url("../assets/icons/ic-follower.svg");
+
+    &.active {
+      background-image: url("../assets/icons/ic-follower-highlight.svg");
+    }
   }
 
   &-following {
     width: 30px;
     height: 30px;
     background-image: url("../assets/icons/ic-following.svg");
+
+    &.active {
+      background-image: url("../assets/icons/ic-following-highlight.svg");
+    }
+  }
+
+  &-cover-uploader {
+    width: 30px;
+    height: 30px;
+    background-image: url("../assets/icons/ic-upload.svg");
+  }
+
+  &-menu {
+    width: 28px;
+    height: 28px;
+    background-image: url("../assets/icons/ic-menu.svg");
+  }
+
+  &-close {
+    width: 28px;
+    height: 28px;
+    background-image: url("../assets/icons/ic-close.svg");
+  }
+
+  &-close-black {
+    background-image: url("../assets/icons/ic-close-black.svg");
+  }
+
+  &-arrow-down {
+    background-image: url("../assets/icons/ic-arrow-down-1.svg");
+  }
+
+  &-screw {
+    width: 24px;
+    height: 24px;
+    background-image: url("../assets/icons/ic-screw.svg");
   }
 }

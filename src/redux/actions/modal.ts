@@ -1,14 +1,32 @@
+import { ModalType } from '../../app/shared/components/Modal';
 import {
   HIDE_MODAL,
+  SET_CANCEL,
   SET_CONFIRM,
-  SET_CONFIRM_DELETE_ID,
-  SET_CONFIRM_TYPE,
+  SET_IS_LOADING,
   SHOW_MODAL,
 } from '../types/confirmModal';
 
-export const setShowModal = () => {
+export interface ModalPayload {
+  id?: number;
+  type?: ModalType;
+  message?: string;
+  onConfirm?: () => void;
+  onCancel?: () => void;
+  content?: any;
+}
+
+export const setShowModal = ({
+  id,
+  type,
+  message,
+  onConfirm,
+  onCancel,
+  content,
+}: ModalPayload) => {
   return {
     type: SHOW_MODAL,
+    payload: { id, type, message, onConfirm, onCancel, content },
   };
 };
 
@@ -25,16 +43,16 @@ export const setConfirmModal = (confirmCallback: any) => {
   };
 };
 
-export const setConfirmModalType = (type: any) => {
+export const setCancelModal = (cancelCallback: any) => {
   return {
-    type: SET_CONFIRM_TYPE,
-    payload: { type },
+    type: SET_CANCEL,
+    payload: { cancelCallback },
   };
 };
 
-export const setConfirmModalId = (id: any) => {
+export const setIsLoading = (isLoading: boolean) => {
   return {
-    type: SET_CONFIRM_DELETE_ID,
-    payload: { id },
+    type: SET_IS_LOADING,
+    payload: { isLoading },
   };
 };

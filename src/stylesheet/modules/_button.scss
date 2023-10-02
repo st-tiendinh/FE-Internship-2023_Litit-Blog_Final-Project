@@ -88,6 +88,10 @@
     font-size: map-get($font-sizes, sm);
     padding: 6px;
 
+    .icon.icon-restore {
+      background-image: url("../assets/icons/ic-restore.svg");
+    }
+
     &:hover {
       color: map-get($colors, "dark-yellow");
 
@@ -103,7 +107,6 @@
     justify-content: center;
 
     &:hover {
-
       .icon.icon-three-dots {
         background-image: url("../assets/icons/ic-dots-highlight.svg");
       }
@@ -120,6 +123,49 @@
     padding: 8px 26px;
     color: map-get($colors, "white");
     background: #cb2027;
+
+    &:hover {
+      box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+        rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+    }
+  }
+
+  &-warning-outline {
+    padding: 8px 26px;
+    color: map-get($colors, primary);
+    border: 1px solid map-get($colors, primary);
+  }
+
+  &-default {
+    background: map-get($colors, "secondary-100");
+    color: map-get($colors, primary);
+
+    &:hover {
+      background: map-get($colors, "secondary-200");
+    }
+  }
+
+  &-warning {
+    padding: 8px 26px;
+    color: map-get($colors, "white");
+    background: #e0a800;
+
+    &:hover {
+      box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+        rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+    }
+  }
+
+  &-info-outline {
+    padding: 8px 26px;
+    color: map-get($colors, primary);
+    border: 1px solid map-get($colors, primary);
+  }
+
+  &-info {
+    padding: 8px 26px;
+    color: map-get($colors, "white");
+    background: #2196F3;
 
     &:hover {
       box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,

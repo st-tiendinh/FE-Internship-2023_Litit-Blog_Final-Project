@@ -14,10 +14,10 @@ const Home = () => {
       <div className="container">
         <RecommendPosts />
         <div className="row">
-          <div className="col col-8">
+          <div className="col col-8 col-md-12 col-sm-12">
             <PublicPost type={PostListType.LIST} sectionTitle="LATEST POSTS" />
           </div>
-          <div className="col col-4">
+          <div className="col col-4 col-md-12 col-sm-12">
             <Sidebar />
           </div>
         </div>

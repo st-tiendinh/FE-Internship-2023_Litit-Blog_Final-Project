@@ -3,90 +3,37 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { UserProfile } from './components/UserProfile';
-import { UserSideBar } from './components/UserSidebar';
-import PostList from '../../../shared/components/PostList';
-import { Modal } from '../../../shared/components';
-import { UserChangePassword } from './components/UserChangePassword';
-import { UserUpdateProfile } from './components/UserUpdateProfile';
+import { UserPersonalPost } from './components/UserPersonalPost';
+import NotFound from '../../../shared/components/NotFound';
 
 import JwtHelper from '../../../core/helpers/jwtHelper';
 import { ApiService } from '../../../core/services/api.service';
 import { ENDPOINT } from '../../../../config/endpoint';
 import { RootState } from '../../../app.reducers';
-import { PostListType } from '../../home/containers/components/PublicPost';
+import { UserSideBar } from './components/UserSidebar';
+
+export enum FilterType {
+  LATEST = 'Latest',
+  OLDEST = 'Oldest',
+  MORE_POPULAR = 'More popular',
+  PUBLIC = 'Public',
+  PRIVATE = 'Private',
+}
 
 const apiService = new ApiService();
 const jwtHelper = new JwtHelper();
 
-export enum PostStatus {
-  PUBLIC = 'public',
-  PRIVATE = 'private',
-}
-
-export enum PersonalPostAction {
-  RECYCLE = 'recycle',
-  DELETE = 'delete',
-}
-
-type FilterType =
-  | 'public-post'
-  | 'deleted-post'
-  | 'change-password'
-  | 'update-profile';
-
 const UserDetail = () => {
-  const [user, setUser] = useState<any>({});
-  const [userRecycleBin, setUserRecycleBin] = useState<any>([]);
-  const [isUserLoading, setIsUserLoading] = useState<boolean>(false);
-  const [userStatistic, setUserStatistic] = useState<any>({});
-  const [userPosts, setUserPost] = useState<any>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [toggleDeletedPost, setToggleDeletedPost] = useState<boolean>(false);
-  const [toggleRecyle, setToggleRecyle] = useState<boolean>(false);
+  const location = useLocation();
+  const userId = location.pathname.slice(7);
   const isLogged = useSelector(
     (state: RootState) => state.authReducer.isLogged
   );
-  const location = useLocation();
-  const userId = location.pathname.slice(7);
   const isLoggedUser = isLogged ? jwtHelper.isCurrentUser(+userId) : false;
-  const id = useSelector((state: RootState) => state.modalReducer.id);
-  const [filter, setFilter] = useState<FilterType>('public-post');
 
-  const handleSoftDelete = () => {
-    (async () => {
-      apiService.setHeaders(jwtHelper.getAuthHeader());
-      await apiService.delete([ENDPOINT.posts.index, `${id}`]);
-      setToggleDeletedPost(!toggleDeletedPost);
-    })();
-  };
-
-  const handleRestore = () => {
-    (async () => {
-      try {
-        apiService.setHeaders(jwtHelper.getAuthHeader());
-        await apiService.put([ENDPOINT.posts.index, `${id}/restore`]);
-        setToggleRecyle(!toggleRecyle);
-      } catch (error) {
-        console.log(error);
-      }
-    })();
-  };
-
-  useEffect(() => {
-    setIsUserLoading(true);
-    (async () => {
-      try {
-        apiService.setHeaders(jwtHelper.getAuthHeader());
-        const response: any = await apiService.get([ENDPOINT.posts.recyclebin]);
-
-        setUserRecycleBin(response.data);
-        setIsUserLoading(false);
-      } catch (error) {
-        console.log(error);
-        setIsUserLoading(false);
-      }
-    })();
-  }, [location, toggleDeletedPost, toggleRecyle]);
+  const [user, setUser] = useState<any>({});
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isError, setIsError] = useState<boolean>(false);
 
   useEffect(() => {
     setIsLoading(true);
@@ -100,148 +47,48 @@ const UserDetail = () => {
           ? await apiService.get([ENDPOINT.users.index, 'me/posts'])
           : await apiService.get([ENDPOINT.users.index, `${userId}/posts`]);
         setUser(response);
-        const postPublicQuantity = await response.Posts.filter(
-          (post: any) => post.status === PostStatus.PUBLIC
-        ).length;
-
-        const commentQuantity = await response.Posts.reduce(
-          (acc: any, curr: any) => acc + curr.comments,
-          0
-        );
-
-        const likeQuantity = await response.Posts.reduce(
-          (acc: any, curr: any) => acc + curr.likes,
-          0
-        );
-
-        const tagQuantity = await response.Posts.reduce(
-          (acc: any, curr: any) => acc + curr.tags.length,
-          0
-        );
-
-        setUserStatistic({
-          postPublicQuantity: postPublicQuantity,
-          commentQuantity: commentQuantity,
-          tagQuantity: tagQuantity,
-          likeQuantity: likeQuantity,
-        });
-
-        const { Posts, ...other } = response;
-
-        const newPostsArr = response.Posts.map((item: any) => {
-          const newPost = { ...item, user: other };
-          return newPost;
-        });
-
-        setUserPost(isLoggedUser ? newPostsArr.reverse() : newPostsArr);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
         setIsLoading(false);
+        setIsError(true);
       }
     })();
-  }, [location, toggleDeletedPost, toggleRecyle]);
+  }, [location.pathname]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const type = useSelector((state: RootState) => state.modalReducer.type);
-
   return (
-    <div className="page-user">
-      <div className="container">
-        <Modal
-          action={
-            (type === 'delete' && handleSoftDelete) ||
-            (type === 'restore' && handleRestore)
-          }
+    <>
+      {!user || isError ? (
+        <NotFound
+          typeError="User"
+          message="The user you are looking for does not exist."
         />
-
-        {isUserLoading ? (
-          <div className="skeleton skeleton-user-profile"></div>
-        ) : (
-          <UserProfile
-            isLoggedUser={isLoggedUser}
-            user={user}
-            setFilter={setFilter}
-          />
-        )}
-        <section className="section section-wrapper">
-          {jwtHelper.getUserInfo().userId.toString() === userId && (
-            <ul className="filter">
-              <li
-                onClick={() => setFilter('public-post')}
-                className={`filter-item ${
-                  filter === 'public-post' ? 'active' : ''
-                }`}
-              >
-                My posts
-              </li>
-              <li
-                onClick={() => setFilter('deleted-post')}
-                className={`filter-item ${
-                  filter === 'deleted-post' ? 'active' : ''
-                }`}
-              >
-                Deleted posts
-              </li>
-              <li
-                onClick={() => setFilter('update-profile')}
-                className={`filter-item ${
-                  filter === 'update-profile' ? 'active' : ''
-                }`}
-              >
-                My Profile
-              </li>
-              <li
-                onClick={() => setFilter('change-password')}
-                className={`filter-item ${
-                  filter === 'change-password' ? 'active' : ''
-                }`}
-              >
-                Change password
-              </li>
-            </ul>
-          )}
-          <div className="row">
-            <div className="col col-4">
-              {isLoading ? (
-                <div className="skeleton skeleton-user-sidebar"></div>
-              ) : (
-                <UserSideBar userStatistic={userStatistic} />
-              )}
-            </div>
-            <div className="col col-8">
-              {filter === 'change-password' && (
-                <UserChangePassword setFilter={setFilter} />
-              )}
-              {filter === 'deleted-post' &&
-                (isLoading ? (
-                  <div className="skeleton skeleton-personal-list"></div>
-                ) : (
-                  <PostList
-                    posts={userRecycleBin}
-                    type={PostListType.LIST}
-                    isCanRestore={true}
-                  />
-                ))}
-              {filter === 'public-post' &&
-                (isLoading ? (
-                  <div className="skeleton skeleton-personal-list"></div>
-                ) : (
-                  <PostList
-                    posts={userPosts}
-                    type={PostListType.LIST}
-                    isHasAction={true}
-                  />
-                ))}
-              {filter === 'update-profile' && <UserUpdateProfile {...user} />}
-            </div>
+      ) : (
+        <div className="page-user">
+          <div className="container">
+            {isLoading ? (
+              <div className="skeleton skeleton-user-profile"></div>
+            ) : (
+              <UserProfile isLoggedUser={isLoggedUser} user={user} />
+            )}
+            <section className="section section-wrapper">
+              <div className="row">
+                <div className="col col-4 col-md-12">
+                  <UserSideBar />
+                </div>
+                <div className="col col-8 col-md-12">
+                  <UserPersonalPost />
+                </div>
+              </div>
+            </section>
           </div>
-        </section>
-      </div>
-    </div>
+        </div>
+      )}
+    </>
   );
 };
 

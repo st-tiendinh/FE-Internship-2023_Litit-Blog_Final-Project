@@ -1,27 +1,28 @@
 .page-write-article {
   min-height: 100vh;
-  background: #eee;
-  margin-top: -32px;
+  padding: 20px 0;
 
-  .write-article {
-    &-suggestion {
-      position: sticky;
-      top: 90px;
-      margin-top: 138px;
+  .article {
+    &.article-detail {
+      background-color: unset;
     }
+  }
 
-    &-help {
-      color: map-get($colors, secondary-800);
-      font-size: map-get($font-sizes, "2xl");
-      font-weight: map-get($font-weights, bold);
-      line-height: 1.5;
-      margin-bottom: 20px;
-    }
+  .editor-header {
+    margin-bottom: 20px;
+  }
 
-    &-help-text {
-      font-size: map-get($font-sizes, md);
-      font-weight: map-get($font-weights, normal);
-      line-height: 1.5;
+  .row {
+    justify-content: center;
+  }
+}
+
+@include tablet {
+  .page-write-article {
+    min-height: auto;
+
+    .article-detail {
+      padding: 10px;
     }
   }
 }

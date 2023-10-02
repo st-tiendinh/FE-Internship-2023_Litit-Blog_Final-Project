@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 
-import { ScrollToTopButton } from './ScrollToTopButton';
+import { ScrollToTopButton } from '../../../../shared/components';
 
 import { ApiService } from '../../../../core/services/api.service';
 import { ENDPOINT } from '../../../../../config/endpoint';
-import PostList from '../../../../shared/components/PostList';
+import PostList, { IPost } from '../../../../shared/components/PostList';
 import { PostSkeleton } from '../../../../shared/components';
 import { PostListSkeleton } from '../../../../shared/components/PostListSkeleton';
 import { Link } from 'react-router-dom';
@@ -21,7 +21,7 @@ interface PublicPostProps {
 
 const PublicPost = ({ type, sectionTitle }: PublicPostProps) => {
   const apiService = new ApiService();
-  const [latestPosts, setLatestPosts] = useState<any[]>([]);
+  const [latestPosts, setLatestPosts] = useState<IPost[]>([]);
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
@@ -47,9 +47,6 @@ const PublicPost = ({ type, sectionTitle }: PublicPostProps) => {
       {type === PostListType.LIST && sectionTitle ? (
         <div className="section-header">
           <h3 className="section-title">{sectionTitle}</h3>
-          <Link to={'/articles'} className="btn btn-outline">
-            Show more
-          </Link>
         </div>
       ) : sectionTitle ? (
         <h3 className="section-title">{sectionTitle}</h3>
@@ -83,6 +80,13 @@ const PublicPost = ({ type, sectionTitle }: PublicPostProps) => {
           </button>
         </div>
       )}
+      <div className="section-footer">
+        {location.pathname === '/' && (
+          <Link to={'/articles'} className="btn btn-outline">
+            Show more
+          </Link>
+        )}
+      </div>
       <ScrollToTopButton />
     </section>
   );

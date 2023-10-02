@@ -1,6 +1,6 @@
 .toast {
-  min-width: 250px;
-  padding: 20px;
+  min-width: 240px;
+  padding: 12px 20px;
 
   position: fixed;
   z-index: 999;
@@ -9,16 +9,16 @@
   right: 30px;
 
   border-radius: 12px;
-  border-left: 10px solid #4070f4;
+  border-left: 10px solid transparent;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
 
   overflow: hidden;
-  transform: translateX(calc(100% + 30px));
+  transform: translateX(calc(100% + 40px));
   transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.35);
   background-color: #ffffff;
 
   &.active {
-    transform: translateX(0%);
+    transform: translateX(calc(0% - 60px));
   }
 
   &-success {
@@ -36,42 +36,72 @@
     border-left: 6px solid #e0a800;
   }
 
-  &-btn {
-    padding: 5px;
+  &-info {
+    border: 1px solid #2196f3;
+    border-left: 6px solid #2196f3;
+  }
 
+  &-content {
+    display: flex;
+    align-items: center;
+    word-wrap: break-word;
+  }
+
+  &-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 4px 5px;
+    width: 24px;
+    height: 24px;
     position: absolute;
-    top: 0;
+    top: 4px;
     right: 8px;
 
     border: none;
-    font-size: 24px;
+    font-size: 20px;
     background-color: transparent;
+    border-radius: 50%;
     opacity: 0.7;
     cursor: pointer;
+
+    &:hover {
+      opacity: 1;
+      background-color: map-get($colors, secondary-200);
+      border-radius: 50%;
+    }
   }
 
   &-message {
-    margin: 0 20px;
-
+    margin: 0 16px;
+    max-width: 200px;
     display: flex;
     flex-direction: column;
+    gap: 4px;
     align-items: start;
   }
 
   &-title {
-    font-size: map-get($font-sizes, "xl");
-    font-weight: map-get($font-weights, "medium");
+    font-size: map-get($font-sizes, md);
+    font-weight: map-get($font-weights, medium);
   }
 
   &-desc {
-    font-size: map-get($font-sizes, "sm");
-    font-weight: map-get($font-weights, "regular");
-    color: map-get($colors, "secondary-500");
+    font-size: map-get($font-sizes, xs);
+    font-weight: map-get($font-weights, regular);
+    color: map-get($colors, secondary-500);
   }
 
   .icon-wrap {
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+}
+
+@include mobile {
+  .toast {
+    right: -30px;
   }
 }

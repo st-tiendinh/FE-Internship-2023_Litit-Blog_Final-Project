@@ -1,15 +1,35 @@
 .management-page {
-  padding: 16px 0;
+  position: relative;
+  padding: 20px 0;
   background-color: rgb(245, 245, 245);
 
   .sidebar {
-    background-color: white !important;
-    box-shadow: 0 0 0 1px rgba(23, 23, 23, 0.05);
-    border-radius: 4px;
+    height: 100%;
+    min-height: calc(100vh - 380px);
 
     .menu {
+      &-active {
+        background-color: white;
+        box-shadow: 0 0 0 1px rgba(23, 23, 23, 0.05);
+        padding: 10px;
+        justify-content: space-between;
+        align-items: center;
+        display: none;
+
+        &-label {
+          font-size: map-get($font-sizes, "xl");
+          font-weight: map-get($font-weights, "medium");
+        }
+      }
+
       &-list {
         padding: 10px;
+        background-color: white;
+        box-shadow: 0 0 0 1px rgba(23, 23, 23, 0.05);
+        border-radius: 4px;
+        height: fit-content;
+        position: sticky;
+        top: 84px;
       }
 
       &-item {
@@ -24,17 +44,51 @@
         &:hover {
           cursor: pointer;
           background-color: #fffae6;
+
           .menu-label {
-            color: map-get($colors, "dark-yellow");
+            color: #f44336;
+          }
+
+          .icon-profile {
+            background-image: url("../assets/icons/ic-profile-highlight.svg");
+          }
+
+          .icon-change-pw {
+            background-image: url("../assets/icons/ic-change-pw-highlight.svg");
+          }
+
+          .icon-bookmarks {
+            background-image: url("../assets/icons/ic-bookmarks-highlight.svg");
+          }
+
+          .icon-draft {
+            background-image: url("../assets/icons/ic-draft-highlight.svg");
+          }
+
+          .icon-recycle-bin {
+            background-image: url("../assets/icons/ic-recycle-bin-highlight.svg");
+          }
+
+          .icon-follower {
+            background-image: url("../assets/icons/ic-follower-highlight.svg");
+          }
+
+          .icon-following {
+            background-image: url("../assets/icons/ic-following-highlight.svg");
           }
         }
 
         &.active {
           background-color: #fffae6;
+
           .menu-label {
-            color: map-get($colors, "dark-yellow");
+            color: #f44336;
           }
         }
+      }
+
+      &-label {
+        color: #1c274c;
       }
 
       align-items: center;
@@ -58,6 +112,19 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+
+        .dropdown {
+          margin-bottom: 28px;
+        }
+
+        .button-wrapper {
+          width: 100%;
+          justify-content: flex-end;
+
+          >.btn {
+            padding: 10px 24px;
+          }
+        }
       }
     }
 
@@ -97,6 +164,251 @@
 
     &-error {
       margin-top: 16px;
+    }
+  }
+
+  .change-password {
+    &-title {
+      text-align: center;
+      font-size: 22px;
+      font-weight: map-get($font-weights, medium);
+      color: map-get($colors, primary);
+      padding-bottom: 24px;
+      line-height: 1.5;
+    }
+
+    &-wrapper {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      background-color: #ffffff;
+      padding: 30px;
+      border-radius: 6px;
+      box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.12);
+
+      .form-group {
+        width: 400px;
+
+        .button-wrapper {
+          width: 100%;
+          justify-content: flex-end;
+        }
+
+        .input-group {
+          width: 100%;
+        }
+      }
+    }
+  }
+
+  .section-recycle-bin {
+    .personal-post {
+      &-title {
+        cursor: default;
+
+        &:hover {
+          text-decoration: none;
+        }
+      }
+
+      &-image-link {
+        &:hover {
+          cursor: default;
+        }
+      }
+    }
+  }
+
+  .section-recycle-bin,
+  .section-bookmarks {
+    .post-list-item {
+      margin-bottom: 20px;
+    }
+  }
+
+  .followers-section,
+  .followings-section {
+    padding: 30px 20px;
+    padding-bottom: 10px;
+    background-color: white;
+    box-shadow: 0 0 0 1px rgba(23, 23, 23, 0.05);
+    border-radius: 4px;
+
+    &-title {
+      margin-bottom: 28px;
+      text-align: center;
+      font-size: 22px;
+      font-weight: map-get($font-weights, medium);
+      color: map-get($colors, primary);
+    }
+  }
+
+  .follow-user {
+    background-color: map-get($colors, "secondary-100");
+    padding: 10px;
+    margin-bottom: 20px;
+
+    justify-content: space-between;
+    align-items: center;
+
+    &-link:hover {
+      .follow-user-name {
+        transition: 0.2s;
+        color: map-get($colors, "dark-yellow");
+      }
+    }
+
+    &-avatar-wrapper {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+    }
+
+    &-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+    }
+
+    &-about {
+      align-items: center;
+      gap: 8px;
+    }
+
+    &-name {
+      font-weight: map-get($font-weights, medium);
+      color: map-get($colors, "primary");
+      -webkit-line-clamp: 1;
+      max-width: 162px;
+    }
+
+    &-display-name {
+      font-size: map-get($font-sizes, "sm");
+      color: map-get($colors, "secondary-500");
+      -webkit-line-clamp: 1;
+      max-width: 142px;
+    }
+
+    &-skeleton {
+      width: 100%;
+      height: 70px;
+    }
+
+    &-message {
+      text-align: center;
+      width: 100%;
+    }
+  }
+
+  .section-draft {
+    .post-list-item {
+      &:not(:last-child) {
+        margin-bottom: 20px;
+      }
+
+      &:last-child {
+        margin-bottom: 10px;
+      }
+    }
+  }
+
+  .skeleton {
+    &-personal-list {
+      margin-top: 10px;
+      width: 100%;
+      height: 176px;
+      border-radius: 8px;
+    }
+  }
+}
+
+@include tablet {
+  .management-page {
+
+    .update-profile,
+    .change-password {
+      &-wrapper {
+        .form-group {
+          width: 100%;
+        }
+      }
+    }
+
+    .follow-user-name {
+      max-width: 250px;
+    }
+
+    .personal-post-image-wrapper {
+      min-width: 240px;
+    }
+
+    .follow-user-skeleton {
+      margin-bottom: 20px;
+    }
+
+    .followers-section,
+    .followings-section {
+      padding: 30px;
+    }
+  }
+}
+
+@include mobile {
+  .management-page {
+    padding: 12px 0px;
+
+    .sidebar {
+      min-height: unset;
+      margin-bottom: 16px;
+
+      .menu-active {
+        display: flex;
+      }
+
+      .menu-list {
+        display: none;
+
+        &.active {
+          display: block;
+          position: absolute;
+          top: 78px;
+          width: calc(100% - 24px);
+          height: calc(100vh - 150px);
+          background-color: white;
+          z-index: 11;
+        }
+      }
+    }
+
+    .follow-user-skeleton {
+      margin-bottom: 20px;
+    }
+
+    .follow-user-display-name {
+      max-width: 130px;
+    }
+
+    .update-profile,
+    .change-password {
+      &-wrapper {
+        padding: 30px;
+
+        .form-group {
+          width: 100%;
+        }
+      }
+    }
+
+    .skeleton-personal-list {
+      height: 398px !important;
+      margin-bottom: 20px;
+    }
+
+    .update-profile-title,
+    .followers-section-title,
+    .followings-section-title,
+    .change-password-title {
+      display: none;
     }
   }
 }

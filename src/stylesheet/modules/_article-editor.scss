@@ -1,5 +1,4 @@
 .article-editor {
-  margin: 32px 0;
   background-color: map-get($colors, "white");
   border-radius: 8px;
 
@@ -21,24 +20,38 @@
     flex-direction: column;
     background: map-get($colors, "white");
     border-radius: 8px;
-    padding: 32px;
+    padding: 14px;
   }
 
-  &-upload-label {
-    display: inline-block;
+  &-drop-zone {
     text-align: center;
-    padding: 10px;
-    border: 2px solid #eee;
-    border-radius: 6px;
-    width: 180px;
-    font-size: map-get($font-sizes, md);
-    font-weight: map-get($font-weights, "medium");
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    border-radius: 8px;
     cursor: pointer;
 
-    &:hover {
-      box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    &-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      padding: 20px;
+      border: 2px dashed #ccc;
+      border-radius: 4px;
+      background: #f2fbfe;
     }
+
+    &-title {
+      color: #18b0c7;
+      font-size: map-get($font-sizes, "md");
+    }
+
+    &-text {
+      color: #81c3d2;
+
+    }
+  }
+
+  &-upload-input {
+    display: none;
   }
 
   &-cover-upload {
@@ -46,8 +59,8 @@
   }
 
   &-image {
-    height: 100%;
-    object-fit: contain;
+    height: 400px;
+    object-fit: cover;
   }
 
   &-title-input {
@@ -68,18 +81,17 @@
   &-desc-input {
     font-family: "Montserrat", sans-serif;
     font-size: map-get($font-sizes, "xl");
-    font-weight: map-get($font-weights, normal);
+    font-weight: map-get($font-weights, "medium");
     resize: none;
     margin: 16px 0px;
   }
 
   &-tags-search-group {
-    display: flex;
-    align-items: center;
-    width: 20%;
+    margin-bottom: 16px;
   }
 
   &-tags-search {
+    width: 100%;
     font-size: map-get($font-sizes, md);
     font-weight: map-get($font-weights, normal);
     padding: 10px 0;
@@ -92,15 +104,25 @@
 
   &-tag-list {
     display: flex;
-    gap: 4px;
-    margin-left: 20px;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-right: 20px;
   }
 
   &-tag-item {
+    display: inline-block;
+    max-width: 100%;
     cursor: pointer;
+
+    .badge.text-truncate {
+      max-width: 100%;
+    }
   }
 
-  &-preview-cover {
+  &-cover-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     padding: 20px 0;
     height: 400px;
     overflow: hidden;
@@ -133,9 +155,13 @@
   &-form-action {
     margin-top: 20px;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
-    gap: 30px;
+  }
+
+  &-form-save-button-wrapper {
+    display: flex;
+    gap: 4px;
   }
 
   &-upload-error {
@@ -144,9 +170,25 @@
   }
 
   .ck {
+
     * {
+      font-family: 'Montserrat', sans-serif;
       margin-bottom: 0 !important;
-      line-height: 1.4 !important;
+      line-height: 1.5 !important;
+    }
+
+    p:not(:has(br[data-cke-filler="true"])),
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+      line-height: 1.5 !important;
+      margin-bottom: 14px !important;
+    }
+
+    p>br[data-cke-filler="true"] {
+      margin-bottom: 0;
     }
 
     &.ck-toolbar__items {

@@ -1,18 +1,29 @@
 .user-sidebar {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: 198px;
-  padding: 16px;
-  background: map-get($colors, "white");
-  border-radius: 8px;
-  box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.12);
+  height: 100%;
 
   .statistic {
+    &-list {
+      height: fit-content;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 16px 16px 2px;
+      background: map-get($colors, "white");
+      border-radius: 8px;
+      box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.12);
+      position: sticky;
+      top: 92px;
+
+      .statistic-item {
+        margin-bottom: 14px;
+      }
+    }
+
     &-item {
       display: flex;
       align-items: center;
       gap: 12px;
+      margin-bottom: 12px;
 
       &:not(:last-child) {
         margin-bottom: 16px;
@@ -22,6 +33,36 @@
     &-text {
       font-size: map-get($font-sizes, md);
       font-weight: map-get($font-weights, normal);
+    }
+  }
+}
+
+@include tablet {
+  .user-sidebar {
+    .statistic {
+      &-list {
+        position: unset;
+        margin-bottom: 10px;
+      }
+
+      &-item {
+        justify-content: center;
+      }
+    }
+  }
+}
+
+@include mobile {
+  .user-sidebar {
+    .statistic {
+      &-list {
+        padding-bottom: 6px;
+      }
+
+      &-item {
+        justify-content: unset;
+        margin-bottom: 10px;
+      }
     }
   }
 }

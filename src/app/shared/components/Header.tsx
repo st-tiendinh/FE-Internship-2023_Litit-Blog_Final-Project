@@ -1,29 +1,33 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import Cookies from 'js-cookie';
 
 import LogoImage from '../../../assets/images/logo.png';
 import BlankUserImg from '../../../assets/images/blank-user.webp';
 
-import { signOut } from '../../core/auth/auth.actions';
+import { signInGoogleSuccess, signOut } from '../../core/auth/auth.actions';
 import { RootState } from '../../app.reducers';
 import JwtHelper from '../../core/helpers/jwtHelper';
 import { useEffect, useRef, useState } from 'react';
 import { isImageUrlValid } from '../utils/checkValidImage';
-
-const jwtHelper = new JwtHelper();
+import JwtDecode from 'jwt-decode';
+import { KEYS, removeLS, setLS } from '../../core/helpers/storageHelper';
+import { ApiService } from '../../core/services/api.service';
+import { ENDPOINT } from '../../../config/endpoint';
+import { setShowToast } from '../../../redux/actions/toast';
+import { ToastTypes } from './Toast';
 
 export const Header = () => {
+  const jwtHelper = new JwtHelper();
+  const apiService = new ApiService();
   const location = useLocation();
   const dispatch = useDispatch();
 
   const [isValidUserImg, setIsValidUserImg] = useState(false);
   const userActionRef = useRef<HTMLDivElement | null>(null);
   const [isOpenDropdown, setIsOpenDropdown] = useState(false);
+  const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
   const [filter, setFilter] = useState<string | undefined>('');
-
-  useEffect(() => {
-    setFilter(location.pathname.split('/').pop());
-  }, [location]);
 
   const isLogged = useSelector(
     (state: RootState) => state.authReducer.isLogged
@@ -33,17 +37,97 @@ export const Header = () => {
   );
 
   useEffect(() => {
+    function getAccessTokenFromUrl(): string | null {
+      const urlParams = new URLSearchParams(window.location.search);
+      const accessToken = urlParams.get('accessToken');
+      return accessToken;
+    }
+
+    function decodeAccessToken(accessToken: string): any {
+      const decodedToken = JwtDecode(accessToken);
+      return decodedToken;
+    }
+
+    async function fetchUserData(userId: number) {
+      try {
+        apiService.setHeaders(jwtHelper.getAuthHeader());
+        const response: any = await apiService.get([
+          ENDPOINT.users.index,
+          `${userId}`,
+        ]);
+        setLS(KEYS.USER_INFO, { ...response, id: userId, isSocial: true });
+
+        dispatch(
+          signInGoogleSuccess({
+            accessToken: `${accessToken}`,
+            userInfo: { ...response, id: userId, isSocial: true },
+          })
+        );
+
+        navigate('/');
+
+        dispatch(
+          setShowToast({
+            type: ToastTypes.SUCCESS,
+            title: 'Login successfully!',
+            message: 'Welcome to Lit.it Blog!',
+          })
+        );
+      } catch (error) {
+        console.log(error);
+        navigate('/auth/login');
+      }
+    }
+
+    const accessToken = getAccessTokenFromUrl();
+
+    if (accessToken) {
+      const decodedToken = decodeAccessToken(accessToken);
+      const userId = decodedToken.userId;
+
+      Cookies.set(KEYS.ACCESS_TOKEN, accessToken, {
+        expires: (decodedToken.exp - decodedToken.iat) / 86400,
+      });
+
+      setLS(KEYS.ACCESS_TOKEN, accessToken);
+
+      fetchUserData(userId);
+    }
+  }, []);
+
+  useEffect(() => {
+    setFilter(location.pathname.split('/').pop());
+  }, [location]);
+
+  useEffect(() => {
     isImageUrlValid(userInfo?.picture).then((isValid) => {
       isValid ? setIsValidUserImg(true) : setIsValidUserImg(false);
     });
-  }, [isImageUrlValid, userInfo?.picture]);
+  }, [isImageUrlValid, userInfo?.picture, userInfo]);
 
   const navigate = useNavigate();
 
   const handleSignOut = () => {
-    dispatch(signOut());
-
-    navigate('/');
+    try {
+      dispatch(signOut());
+      Cookies.remove(KEYS.ACCESS_TOKEN);
+      removeLS(KEYS.ACCESS_TOKEN);
+      removeLS(KEYS.USER_INFO);
+      closeDropdown();
+      if (
+        (location.pathname.split('/')[1] === 'articles' &&
+          location.pathname.split('/')[2] !== 'new') ||
+        (location.pathname.split('/')[1] === 'articles' &&
+          location.pathname.split('/')[2] !== 'update') ||
+        location.pathname.split('/')[1] === ''
+      ) {
+        return;
+      } else {
+        navigate('/');
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -64,6 +148,26 @@ export const Header = () => {
     };
   }, [setIsOpenDropdown]);
 
+  useEffect(() => {
+    setIsOpenDropdown(false);
+  }, [location.pathname]);
+
+  useEffect(() => {
+    if (isOpenMenu) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [isOpenMenu]);
+
+  const closeDropdown = () => {
+    setIsOpenDropdown(false);
+  };
+
   return (
     <header className="header position-sticky">
       <div className="container">
@@ -71,7 +175,15 @@ export const Header = () => {
           <div className="row">
             <div className="col col-4">
               <div className="header-logo">
-                <Link to={'/'} className="logo-link">
+                <i
+                  onClick={() => setIsOpenMenu(!isOpenMenu)}
+                  className={`icon ${isOpenMenu ? 'icon-close' : 'icon-menu'}`}
+                ></i>
+                <Link
+                  to={'/'}
+                  className="logo-link"
+                  onClick={() => setIsOpenMenu(false)}
+                >
                   <h1 className="logo">
                     <img
                       className="logo-image"
@@ -83,12 +195,13 @@ export const Header = () => {
               </div>
             </div>
             <div className="col col-4">
-              <nav className="nav">
+              <nav className={`nav ${isOpenMenu ? 'active' : null}`}>
                 <ul className="d-flex nav-list">
                   <li className="nav-item">
                     <Link
                       to={'/'}
                       className={`nav-link ${filter === '' ? 'active' : null}`}
+                      onClick={() => setIsOpenMenu(false)}
                     >
                       Home
                     </Link>
@@ -99,16 +212,22 @@ export const Header = () => {
                       className={`nav-link ${
                         filter === 'articles' ? 'active' : null
                       }`}
+                      onClick={() => setIsOpenMenu(false)}
                     >
                       Articles
                     </Link>
                   </li>
                   <li className="nav-item">
                     <Link
-                      to={'/articles/new'}
+                      to={
+                        isLogged
+                          ? 'articles/new'
+                          : 'auth/login?callback=/articles/new'
+                      }
                       className={`nav-link ${
                         filter === 'new' ? 'active' : null
                       }`}
+                      onClick={() => setIsOpenMenu(false)}
                     >
                       Write
                     </Link>
@@ -124,9 +243,15 @@ export const Header = () => {
                       <div
                         onClick={() => setIsOpenDropdown(!isOpenDropdown)}
                         ref={userActionRef}
-                        className="user-action"
+                        className={`user-action ${
+                          isOpenDropdown ? 'active' : null
+                        }`}
                       >
-                        <p className="user-name">{userInfo.displayName}</p>
+                        <p className="user-name">
+                          {userInfo?.displayName === null
+                            ? `${userInfo?.firstName} ${userInfo?.lastName}`
+                            : userInfo?.displayName}
+                        </p>
                       </div>
                       {isOpenDropdown && (
                         <div className="dropdown-menu">
@@ -148,15 +273,23 @@ export const Header = () => {
                                   />
                                 </div>
                                 <div className="user-info">
-                                  <p className="user-name">
-                                    {userInfo.displayName}
+                                  <p className="user-name text-truncate">
+                                    {userInfo?.displayName === null
+                                      ? `${userInfo?.firstName} ${userInfo?.lastName}`
+                                      : userInfo?.displayName}
                                   </p>
-                                  <p className="user-email">{userInfo.email}</p>
+                                  <p className="user-email text-truncate">
+                                    {userInfo.email}
+                                  </p>
                                 </div>
                               </Link>
                             </li>
-                            <Link to={'/management'} className="menu-item">
-                              <div className="menu-action">Management</div>
+                            <Link
+                              to={'/settings/my-profile'}
+                              className="menu-item"
+                              onClick={closeDropdown}
+                            >
+                              <div className="menu-action">Settings</div>
                             </Link>
                             <li className="menu-item">
                               <div

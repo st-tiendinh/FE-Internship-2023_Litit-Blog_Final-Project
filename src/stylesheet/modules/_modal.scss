@@ -7,7 +7,7 @@
   left: 0;
   background-color: rgba(0, 0, 0, 0.6);
 
-  .modal {
+  .modal-confirm {
     position: relative;
     top: 50%;
     left: 50%;
@@ -18,16 +18,33 @@
     background-color: #eee;
     border-radius: 10px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  }
+
+  .modal {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    max-width: 700px;
+    max-height: 600px;
+    padding: 20px;
+    background-color: #eee;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 
     &-header {
       display: flex;
       gap: 20px;
       align-items: center;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
     }
 
-    &-body {
-      padding: 10px 0;
+    &-message {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      line-height: 1.5;
     }
 
     &-footer {
@@ -43,8 +60,17 @@
     }
 
     &-title {
-      font-size: 18px;
+      font-size: 16px;
       color: map-get($colors, secondary-800);
+      font-weight: map-get($font-weights, medium);
+    }
+  }
+}
+
+@include mobile {
+  .modal-wrapper {
+    .modal-confirm {
+      max-width: 320px;
     }
   }
 }

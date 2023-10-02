@@ -22,6 +22,7 @@
       background-color: map-get($colors, "white");
       position: sticky;
       top: 92px;
+
       .section-title {
         margin-bottom: 24px;
       }
@@ -127,6 +128,26 @@
       font-weight: map-get($font-weights, medium);
       color: #3b3c4a;
       line-height: 1.5;
+    }
+  }
+}
+
+@include tablet {
+  .sidebar {
+    .section {
+      padding: 14px;
+    }
+  }
+}
+
+@include mobile {
+  .sidebar {
+    .section-popular-post {
+      .popular-post {
+        &-item:not(:last-child) {
+          margin-bottom: 12px;
+        }
+      }
     }
   }
 }

@@ -12,6 +12,12 @@
   &-author {
     display: flex;
     align-items: center;
+
+    .short-info-author-name {
+      &:hover {
+        color: map-get($colors, "dark-yellow");
+      }
+    }
   }
 
   &-author-avatar {
@@ -31,20 +37,17 @@
     color: map-get($colors, secondary-500);
   }
 
-  &:hover {
-    .short-info-author-name {
-      color: map-get($colors, "dark-yellow");
-    }
-  }
-
   &-dot-symbol {
     font-size: 10px;
   }
 
   &-timestamp {
+    min-width: 90px;
     font-size: map-get($font-sizes, sm);
     font-weight: map-get($font-weights, normal);
+    line-height: 16px;
     color: map-get($colors, secondary-500);
+    display: flex;
+    align-items: center;
   }
-
 }

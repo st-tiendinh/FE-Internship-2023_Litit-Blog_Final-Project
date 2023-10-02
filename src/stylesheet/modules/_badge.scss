@@ -1,7 +1,6 @@
 .badge {
   display: inline-block;
   padding: 4px 10px;
-  min-width: 60px;
 
   border-radius: 40px;
   text-align: center;
@@ -10,8 +9,6 @@
   font-size: map-get($font-sizes, "xs");
   font-weight: map-get($font-weights, "medium");
   line-height: 16px;
-
-  border: 0.5px solid #7f8080;
 
   &.badge-primary {
     color: #7f8080;
@@ -39,17 +36,9 @@
     border: 1px solid map-get($colors, "primary");
     user-select: none;
 
-    &:hover {
-      background: map-get($colors, "primary");
+    &-primary {
       color: map-get($colors, "white");
-
-      .icon.icon-lock {
-        background-image: url("../assets/icons/ic-lock-white.svg");
-      }
-
-      .icon.icon-earth {
-        background-image: url("../assets/icons/ic-earth-white.svg");
-      }
+      background-color: map-get($colors, "primary");
     }
   }
 }

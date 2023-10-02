@@ -8,18 +8,19 @@
   &-card-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
   }
 
-  .btn.btn-three-dots {
-    position: relative;
-    padding: 6px 0 6px 14px;
-
+  &-options {
     &:hover {
       .personal-post-action-popper {
         display: flex;
       }
     }
+  }
+
+  .btn.btn-three-dots {
+    position: relative;
+    padding: 6px 0 6px 14px;
   }
 
   &-action-popper {
@@ -43,9 +44,13 @@
     right: 20px;
     transform: translateY(-4px);
 
-    > .btn {
+    >.btn {
       padding: 4px 8px;
     }
+  }
+
+  .short-info-author-name {
+    max-width: 300px;
   }
 
   &-image-link {
@@ -57,7 +62,7 @@
   &-image-wrapper {
     width: 100%;
     min-width: 345px;
-    height: 198px;
+    height: 200px;
     border-right: 1px solid map-get($colors, secondary-100);
   }
 
@@ -78,6 +83,10 @@
     display: flex;
     gap: 8px;
     margin-bottom: 10px;
+
+    .badge {
+      max-width: 150px;
+    }
   }
 
   &-title {
@@ -107,6 +116,12 @@
     align-items: center;
     gap: 12px;
     margin-bottom: 13px;
+  }
+
+  &-action-popper {
+    .icon-restore {
+      color: map-get($colors, "yellow");
+    }
   }
 
   &-action-group {
@@ -156,6 +171,31 @@
     &-desc {
       height: 16px;
       border-radius: 4px;
+    }
+  }
+}
+
+@include mobile {
+  .personal-post {
+    flex-direction: column;
+
+    &-image-wrapper {
+      width: 100%;
+      min-width: unset;
+    }
+
+    &-image {
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+      border-bottom-left-radius: unset;
+    }
+
+    &-tag-list {
+      height: 24px;
+    }
+
+    .short-info-author-name {
+      max-width: 120px;
     }
   }
 }

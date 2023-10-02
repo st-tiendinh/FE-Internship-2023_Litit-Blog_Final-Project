@@ -1,24 +1,34 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { InputGroup, SelectGroup } from '../../../../shared/components';
+import { InputGroup } from '../../../../shared/components';
+import { Dropdown } from '../../../../shared/components/Dropdown';
 import BlankUserImage from '../../../../../assets/images/blank-user.webp';
 
 import { isImageUrlValid } from '../../../../shared/utils/checkValidImage';
 import { formatDateToString } from '../../../../shared/utils/formatDate';
 import { ApiService } from '../../../../core/services/api.service';
 import JwtHelper from '../../../../core/helpers/jwtHelper';
-import { ENDPOINT } from '../../../../../config/endpoint';
 import { RootState } from '../../../../app.reducers';
 import { updateUser } from '../../../../core/auth/auth.actions';
+import {
+  TypeUpload,
+  UploadImageService,
+} from '../../../../core/services/uploadImage.service';
+import { ToastTypes } from '../../../../shared/components/Toast';
+import { setShowToast } from '../../../../../redux/actions/toast';
+
+export enum GenderType {
+  MALE = 'male',
+  FEMALE = 'female',
+  OTHER = 'other',
+}
 
 interface FormData {
   firstName: string;
   lastName: string;
   displayName: string;
-  gender: 'male' | 'female' | 'other';
   dob: string;
   phone: string;
 }
@@ -26,14 +36,17 @@ interface FormData {
 const apiService = new ApiService();
 const jwt = new JwtHelper();
 
-export const UserManagement = ({ userInfo }: any) => {
+const UserProfile = () => {
+  const userInfo = useSelector(
+    (state: RootState) => state.authReducer.userInfo
+  );
+
   const user = {
     firstName: userInfo.firstName,
     lastName: userInfo.lastName,
     displayName: userInfo.displayName,
-    gender: userInfo.gender,
     phone: userInfo.phone,
-    dob: userInfo?.dob.split('/').reverse().join('-'),
+    dob: userInfo?.dob?.split('/').join('-'),
   };
 
   const {
@@ -43,13 +56,12 @@ export const UserManagement = ({ userInfo }: any) => {
     formState: { errors },
   } = useForm<FormData>({ mode: 'onChange', defaultValues: user });
 
+  const [gender, setGender] = useState(userInfo.gender);
+
   const [isValidUserImg, setIsValidUserImg] = useState(false);
   const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [nameImage, setNameImage] = useState<string | undefined>(undefined);
-  const [fileExtension, setFileExtension] = useState<string | 0 | undefined>(
-    undefined
-  );
+  const [imageFile, setImageFile] = useState<any>(null);
+
   const isLoading = useSelector(
     (state: RootState) => state.authReducer.isLoading
   );
@@ -69,9 +81,34 @@ export const UserManagement = ({ userInfo }: any) => {
     setValue(fieldName, value.trim());
   };
 
-  const onSubmit = (data: FormData) => {
-    const newData = { ...data, picture: imageUrl };
-    dispatch(updateUser(newData));
+  const onSubmit = async (data: FormData) => {
+    try {
+      const url = await handleUploadImage(TypeUpload.AVATAR);
+      const newData = {
+        ...data,
+        dob: data.dob.split('-').join('/'),
+        gender: gender,
+        picture: url,
+      };
+
+      dispatch(updateUser(newData));
+
+      dispatch(
+        setShowToast({
+          type: ToastTypes.SUCCESS,
+          title: 'Change successfully!',
+          message: 'Your profile have been changed!',
+        })
+      );
+    } catch (error) {
+      dispatch(
+        setShowToast({
+          type: ToastTypes.ERROR,
+          title: 'Something went wrong!',
+          message: "Can't change your profile now!",
+        })
+      );
+    }
   };
 
   useEffect(() => {
@@ -80,7 +117,19 @@ export const UserManagement = ({ userInfo }: any) => {
     });
   }, [isValidUserImg, userInfo?.picture]);
 
-  const handleClick = () => {
+  const handleImage = (file: File | null) => {
+    if (file) {
+      setImageFile(file);
+    }
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const file = e.dataTransfer.files[0];
+    handleImage(file);
+  };
+
+  const handleImageClick = () => {
     const inputElement = document.querySelector(
       '.avatar-uploader-input'
     ) as HTMLInputElement;
@@ -90,50 +139,36 @@ export const UserManagement = ({ userInfo }: any) => {
     }
   };
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file: File | null = event.target.files?.[0] || null;
-    setImageFile(file);
-    if (file) {
-      const filenameParts = file?.name.split('.');
-      const getExtension = filenameParts?.length && filenameParts.pop();
-      setFileExtension(getExtension);
-      const firstElement = filenameParts?.shift();
-      setNameImage(firstElement);
-    }
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files && e.target.files[0];
+    handleImage(file);
   };
 
-  useEffect(() => {
-    const getImage = async () => {
-      if (nameImage && fileExtension) {
-        try {
-          apiService.setHeaders(jwt.getAuthHeader());
-          const uploadType = 'avatar';
-          const params = `?type_upload=${uploadType}&file_name=${nameImage}&file_type=image/png}`;
-          const res: any = await apiService.get([
-            ENDPOINT.signatures.index,
-            `${params}`,
-          ]);
-          if (res && res.url && res.signedRequest) {
-            await axios
-              .put(res.signedRequest, imageFile)
-              .then((err) => console.log(err));
-            setImageUrl(res.url);
-          } else {
-            console.error('Invalid response from API:', res);
-          }
-        } catch (error) {
-          console.error('Error in API call:', error);
-        }
-      }
-    };
-    getImage();
-  }, [imageFile, fileExtension, nameImage]);
+  const handleUploadImage = async (typeUpload: TypeUpload) => {
+    const uploadImgService = new UploadImageService(apiService, jwt);
+    if (imageFile) {
+      const fileName = imageFile.name.split('.').shift();
+      const url: string = await uploadImgService.uploadImage(
+        typeUpload,
+        fileName,
+        'image/jpg',
+        imageFile
+      );
+      setImageUrl(url);
+      return url;
+    }
+    return imageUrl;
+  };
 
   return (
     <div className="update-profile-wrapper">
       <h4 className="update-profile-title">My Profile</h4>
       <div className="avatar-uploader">
-        <form className="avatar-uploader-form">
+        <form
+          className="avatar-uploader-form"
+          onDrop={handleDrop}
+          onDragOver={(e) => e.preventDefault()}
+        >
           <input
             className="avatar-uploader-input"
             type="file"
@@ -144,15 +179,15 @@ export const UserManagement = ({ userInfo }: any) => {
           <img
             className="avatar-uploader-image"
             src={
-              imageUrl
-                ? imageUrl
+              imageFile
+                ? URL.createObjectURL(imageFile)
                 : isValidUserImg
                 ? userInfo?.picture
                 : BlankUserImage
             }
             alt="User Avatar"
           />
-          <div className="avatar-uploader-icon" onClick={handleClick}>
+          <div className="avatar-uploader-icon" onClick={handleImageClick}>
             <i className="icon icon-avatar-uploader"></i>
           </div>
         </form>
@@ -206,19 +241,11 @@ export const UserManagement = ({ userInfo }: any) => {
             />
           </div>
           <div className="col col-12">
-            <SelectGroup
-              label="Gender*"
-              id="gender"
-              options={[
-                { value: 'male', label: 'Male' },
-                { value: 'female', label: 'Female' },
-                { value: 'other', label: 'Other' },
-              ]}
-              {...register('gender', {
-                required: 'Gender is required!',
-              })}
-              error={errors.gender?.message}
-              onBlur={(e: any) => handleTrimInput('gender', e.target.value)}
+            <Dropdown
+              label="Gender"
+              options={Object.values(GenderType)}
+              option={gender}
+              setOption={setGender}
             />
           </div>
           <div className="col col-12">
@@ -253,13 +280,15 @@ export const UserManagement = ({ userInfo }: any) => {
             />
           </div>
         </div>
-        <button
-          className={`btn btn-primary ${isLoading ? 'loading' : null}`}
-          disabled={isLoading}
-          type="submit"
-        >
-          <span className="btn-text">Save Profile Information</span>
-        </button>
+        <div className="d-flex button-wrapper">
+          <button
+            className={`btn btn-primary ${isLoading ? 'loading' : null}`}
+            disabled={isLoading}
+            type="submit"
+          >
+            <span className="btn-text">Save</span>
+          </button>
+        </div>
       </form>
       <p className={`update-profile-error text-danger text-center`}>
         {hasError && !isLoading && error?.response?.data?.errors}
@@ -267,3 +296,5 @@ export const UserManagement = ({ userInfo }: any) => {
     </div>
   );
 };
+
+export default UserProfile;

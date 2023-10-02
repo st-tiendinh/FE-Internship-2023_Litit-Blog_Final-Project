@@ -12,6 +12,7 @@ import JwtHelper from '../../helpers/jwtHelper';
 import { ApiService } from '../../services/api.service';
 import { ENDPOINT } from '../../../../config/endpoint';
 import { KEYS } from '../../helpers/storageHelper';
+import { environment } from '../../../../config/environment';
 
 interface FormData {
   email: string;
@@ -31,26 +32,40 @@ const Login = () => {
   const isLogged = useSelector(
     (state: RootState) => state.authReducer.isLogged
   );
+  const loginWithGoogleDomain = import.meta.env.VITE_WEBSITE_DOMAIN;
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm<FormData>();
+  } = useForm<FormData>({ mode: 'onChange' });
 
   useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const callbackUrl = urlParams.get('callback');
+
     if (isLogged) {
       http
         .get([ENDPOINT.users.index, jwtHelper.getUserInfo().userId.toString()])
         .then((res: any) => {
-          const userData = { ...res, userId: jwtHelper.getUserInfo().userId };
+          const userData = {
+            ...res,
+            id: jwtHelper.getUserInfo().userId,
+            isSocial: false,
+          };
           setLS(KEYS.USER_INFO, userData);
         });
-      navigate('/');
+      navigate(callbackUrl ? callbackUrl : '/');
     }
   }, [isLogged, http, jwtHelper, navigate]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const onSubmit = (data: FormData) => {
     dispatch(signIn(data));
@@ -101,6 +116,16 @@ const Login = () => {
               >
                 <span className="btn-text">Sign in</span>
               </button>
+
+              <Link
+                to={`${environment.apiGoogleLogin}?redirect_to=${loginWithGoogleDomain}`}
+                className="btn btn-sign-in-with-google"
+              >
+                <i className="icon icon-google"></i>
+                <span className="sign-in-with-google-title">
+                  Sign in with google
+                </span>
+              </Link>
             </form>
             <p className="signin-error text-center text-danger">
               {hasError && !isLoading && error?.response?.data?.errors}

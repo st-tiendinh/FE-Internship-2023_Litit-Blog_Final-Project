@@ -1,27 +1,55 @@
+import DOMPurify from 'dompurify';
+import { useEffect, useState } from 'react';
+
+import { ArticleContent } from './components/ArticleContent';
 import { ArticleEditor, PostAction } from './components/ArticleEditor';
+import { isImageUrlValid } from '../../../shared/utils/checkValidImage';
+import { ScrollToTopButton, TogglePreview } from '../../../shared/components';
 
 const ArticleNew = () => {
+  const [articleData, setArticleData] = useState<any>();
+  const [isShowPreview, setIsShowPreview] = useState<boolean>(false);
+  const [isValidCover, setIsValidCover] = useState(false);
+  const clean = DOMPurify.sanitize(articleData?.content);
+  const postDesc = DOMPurify.sanitize(articleData?.description);
+
+  useEffect(() => {
+    isImageUrlValid(articleData?.cover).then((isValid) => {
+      isValid ? setIsValidCover(true) : setIsValidCover(false);
+    });
+  }, [isValidCover, articleData?.cover]);
+
   return (
     <div className="page-write-article">
       <div className="container">
         <div className="row">
-          <div className="col col-9">
-            <ArticleEditor type={PostAction.CREATE} />
+          <div className="col col-9 col-md-12">
+            <div className="editor-header">
+              <TogglePreview
+                isShowPreview={isShowPreview}
+                setIsShowPreview={setIsShowPreview}
+              />
+            </div>
+            <div className={`${!isShowPreview ? '' : 'd-none'}`}>
+              <ArticleEditor
+                type={PostAction.CREATE}
+                setArticleData={setArticleData}
+              />
+            </div>
           </div>
-
-          <div className="col col-3">
-            <div className="write-article-suggestion">
-              <h3 className="write-article-help">Writing a Great Post Title</h3>
-              <p className="write-article-help-text">
-                Think of your post title as a super short (but compelling!)
-                description — like an overview of the actual post in one short
-                sentence. Use keywords where appropriate to help ensure people
-                can find your post by search.
-              </p>
+          <div className="col col-7 col-md-12">
+            <div className={`${isShowPreview ? '' : 'd-none'}`}>
+              <ArticleContent
+                postItem={articleData}
+                isValidCover={isValidCover}
+                cleanContent={clean}
+                cleanDescription={postDesc}
+              />
             </div>
           </div>
         </div>
       </div>
+      <ScrollToTopButton />
     </div>
   );
 };

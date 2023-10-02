@@ -4,8 +4,6 @@ import { PageRoute } from '../../core/modules/custom-router-dom/router.interface
 
 const Users = React.lazy(() => import('./containers/Users'));
 const UserDetail = React.lazy(() => import('./containers/UserDetail'));
-const UserList = React.lazy(() => import('./containers/UserList'));
-
 
 const userRoutes: PageRoute[] = [
   {
@@ -14,11 +12,8 @@ const userRoutes: PageRoute[] = [
     isProtected: true,
     children: [
       {
-        path: '',
-        element: UserList,
-      },
-      {
         path: ':id',
+        isProtected: true,
         element: UserDetail,
       },
     ],

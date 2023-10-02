@@ -2,16 +2,20 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  background-color: #214252;
+  background-color: map-get($colors, "primary");
   box-shadow: 0px 8px 24px rgba(149, 157, 165, 0.1);
 
   &-inner {
-    padding: 16px 0;
+    padding: 8px;
     justify-content: space-between;
     align-items: center;
 
+    .icon-menu {
+      display: none;
+    }
+
     .logo {
-      width: 110px;
+      width: 82px;
       object-fit: cover;
     }
   }
@@ -28,6 +32,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
     &-list {
       height: 100%;
       gap: 64px;
@@ -45,6 +50,7 @@
 
       &.active {
         color: map-get($colors, "yellow");
+
         &::after {
           content: "";
           position: absolute;
@@ -70,6 +76,7 @@
 
       &:hover {
         color: map-get($colors, "yellow");
+
         &::after {
           width: 100%;
         }
@@ -91,25 +98,21 @@
       padding: 8px 16px;
     }
 
-    .user-avatar {
-      &-wrapper {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        border: 1px solid #cfcfcf;
-        background-color: white;
-      }
-      border-radius: 50%;
-      height: 100%;
-    }
-
     .user-action {
       .user-name {
         font-weight: map-get($font-weights, "medium");
         color: map-get($colors, "white");
         padding: 8px;
+
         &:hover {
           cursor: pointer;
+        }
+      }
+
+      &:hover,
+      &.active {
+        >.user-name {
+          color: map-get($colors, "yellow");
         }
       }
     }
@@ -133,11 +136,15 @@
         .user-name {
           font-size: 17px;
           font-weight: map-get($font-weights, "medium");
+          -webkit-line-clamp: 1;
+          max-width: 152px;
         }
 
         .user-email {
           font-size: map-get($font-sizes, "sm");
           color: #808080;
+          -webkit-line-clamp: 1;
+          max-width: 152px;
         }
 
         &:first-child {
@@ -167,6 +174,62 @@
         .action-logout {
           color: #ef4444;
         }
+
+        .user-avatar-wrapper {
+          .user-avatar {
+            border-radius: 50%;
+            height: 100%;
+          }
+
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          border: 1px solid #cfcfcf;
+          background-color: white;
+        }
+      }
+    }
+  }
+}
+
+@include mobile {
+  .header {
+    &-inner {
+      .icon {
+        min-width: 28px;
+        display: block;
+        margin-right: 8px;
+      }
+    }
+
+    .nav {
+      position: absolute;
+      border-top: 0.5px solid lightgray;
+      top: 68.44px;
+      left: 0;
+      background-color: map-get($colors, "primary");
+      z-index: 11;
+      display: none;
+
+      &.active {
+        display: flex;
+        height: calc(100vh - 68.44px);
+        align-items: center;
+        justify-content: center;
+      }
+
+      &-list {
+        width: 100%;
+        height: fit-content;
+        transform: translateY(-20px);
+        flex-direction: column;
+        gap: 0;
+      }
+
+      &-item {
+        width: 100%;
+        padding: 16px;
+        text-align: center;
       }
     }
   }

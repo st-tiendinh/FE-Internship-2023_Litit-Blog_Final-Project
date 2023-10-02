@@ -1,8 +1,13 @@
 import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import DOMPurify from 'dompurify';
 
 import { ArticleEditor, PostAction } from './components/ArticleEditor';
+import { ArticleContent } from './components/ArticleContent';
+import { isImageUrlValid } from '../../../shared/utils/checkValidImage';
+import { ScrollToTopButton, TogglePreview } from '../../../shared/components';
+
 import { ApiService } from '../../../core/services/api.service';
-import { useLocation } from 'react-router-dom';
 import { ENDPOINT } from '../../../../config/endpoint';
 import JwtHelper from '../../../core/helpers/jwtHelper';
 
@@ -28,44 +33,108 @@ const ArticleUpdate = () => {
     status: '',
     content: '',
   });
+  const [isShowPreview, setIsShowPreview] = useState<boolean>(false);
+  const [isValidCover, setIsValidCover] = useState(false);
+  const clean = DOMPurify.sanitize(postData.content);
+  const postDesc = DOMPurify.sanitize(postData.description);
   const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    isImageUrlValid(postData?.cover).then((isValid) => {
+      isValid ? setIsValidCover(true) : setIsValidCover(false);
+    });
+  }, [isValidCover, postData?.cover]);
 
   useEffect(() => {
     (async () => {
-      apiService.setHeaders(jwt.getAuthHeader());
-      const response: any = await apiService.get([
-        ENDPOINT.users.index,
-        '/me/posts',
-      ]);
-      const currentPostId = location.pathname.split('/').pop();
+      try {
+        apiService.setHeaders(jwt.getAuthHeader());
+        const response: any = await apiService.get([
+          ENDPOINT.users.index,
+          '/me/posts',
+        ]);
+        const currentPostId = location.pathname.split('/').pop();
 
-      const filterPost = response.Posts.filter(
-        (post: any) => post.id.toString() === currentPostId
-      )[0];
+        const filterPost = response.Posts.filter(
+          (post: any) => post.id.toString() === currentPostId
+        )[0];
 
-      setPostData({
-        cover: filterPost.cover,
-        title: filterPost.title,
-        description: filterPost.description,
-        tags: filterPost.tags,
-        status: filterPost.status,
-        content: filterPost.content,
-      });
-      setIsLoading(false);
+        setPostData({
+          cover: filterPost.cover,
+          title: filterPost.title,
+          description: filterPost.description,
+          tags: filterPost.tags,
+          status: filterPost.status,
+          content: filterPost.content,
+        });
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+        try {
+          const currentPostId = location.pathname.split('/').pop();
+          apiService.setHeaders(jwt.getAuthHeader());
+          const response: any = await apiService.get([
+            ENDPOINT.posts.index,
+            `${currentPostId}`,
+          ]);
+          if (response?.user?.id !== jwt.getUserInfo().userId) {
+            navigate('/404');
+          }
+          setPostData({
+            cover: response.cover,
+            title: response.title,
+            description: response.description,
+            tags: response.tags,
+            status: response.status,
+            content: response.content,
+          });
+          setIsLoading(false);
+        } catch (error) {
+          console.log(error);
+          setIsLoading(false);
+          navigate('/404');
+        }
+      }
     })();
-  }, []);
+  }, [postData?.cover, location.pathname]);
 
   return (
     <div className="page-write-article">
       <div className="container">
         <div className="row">
-          <div className="col col-9">
-            {!isLoading && (
-              <ArticleEditor type={PostAction.UPDATE} data={postData} />
-            )}
-          </div>
+          {!isLoading && (
+            <>
+              <div className="col col-9 col-md-12">
+                <div className="editor-header">
+                  <TogglePreview
+                    isShowPreview={isShowPreview}
+                    setIsShowPreview={setIsShowPreview}
+                  />
+                </div>
+                <div className={`${!isShowPreview ? '' : 'd-none'}`}>
+                  <ArticleEditor
+                    type={PostAction.UPDATE}
+                    data={postData}
+                    setArticleData={setPostData}
+                  />
+                </div>
+              </div>
+              <div className="col col-7 col-md-12">
+                <div className={`${isShowPreview ? '' : 'd-none'}`}>
+                  <ArticleContent
+                    postItem={postData}
+                    isValidCover={isValidCover}
+                    cleanContent={clean}
+                    cleanDescription={postDesc}
+                  />
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
+      <ScrollToTopButton />
     </div>
   );
 };

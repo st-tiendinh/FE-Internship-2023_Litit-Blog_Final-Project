@@ -1,55 +1,56 @@
-import { ReactElement } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { ConfirmModal } from './ConfirmModal';
 
 import { RootState } from '../../app.reducers';
-import {
-  setConfirmModalId,
-  setConfirmModalType,
-  setHideModal,
-} from '../../../redux/actions/modal';
+import { setHideModal } from '../../../redux/actions/modal';
 
 export enum ModalType {
-  CONFIRM_DELETE,
+  DANGER = 'danger',
+  WARNING = 'warning',
+  INFO = 'info',
 }
 
-interface ModalPropTypes {
-  type?: ModalType;
-  action?: any;
-  button?: ReactElement;
-}
-
-export const Modal = ({ button, action }: ModalPropTypes) => {
+export const Modal = () => {
   const isShow = useSelector((state: RootState) => state.modalReducer.isShow);
   const dispatch = useDispatch();
   const type = useSelector((state: RootState) => state.modalReducer.type);
+  const message = useSelector((state: RootState) => state.modalReducer.message);
+  const onConfirm = useSelector(
+    (state: RootState) => state.modalReducer.onConfirm
+  );
+  const onCancel = useSelector(
+    (state: RootState) => state.modalReducer.onCancel
+  );
+  const content = useSelector((state: RootState) => state.modalReducer.content);
 
   const handleClose = () => {
     dispatch(setHideModal());
-    dispatch(setConfirmModalId(null));
-    dispatch(setConfirmModalType(''));
   };
-
   return (
     <div className={`modal-wrapper ${isShow ? 'd-block' : 'd-none'}`}>
-      <div className="modal">
-        <div className="modal-header">
-          {type === 'delete' && <i className="icon icon-danger"></i>}
-          <h4 className="modal-title">
-            {(type === 'delete' && 'Do you want to delete?') ||
-              (type === 'restore' && 'Do you want to restore?')}
-          </h4>
-          {type !== 'delete' && (
+      <div className={content ? 'modal' : 'modal-confirm'}>
+        {content !== undefined && (
+          <>
             <span className="modal-close" onClick={handleClose}>
               &times;
             </span>
-          )}
-        </div>
-        <div className="modal-body">
-          <ConfirmModal action={action} />
-        </div>
-        <div className="modal-footer">{button}</div>
+            {content}
+          </>
+        )}
+        {onConfirm !== undefined || onCancel !== undefined ? (
+          <>
+            <div className="modal-header">
+              <div className="modal-message">
+                {<i className={`icon icon-${type}`}></i>}
+                <h4 className="modal-title">{message}</h4>
+              </div>
+            </div>
+            <div className="modal-body">
+              <ConfirmModal />
+            </div>
+          </>
+        ) : undefined}
       </div>
     </div>
   );

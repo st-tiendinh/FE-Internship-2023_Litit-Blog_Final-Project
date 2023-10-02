@@ -5,12 +5,12 @@ import { ApiService } from '../../../core/services/api.service';
 import { ENDPOINT } from '../../../../config/endpoint';
 import PostList, { IPost } from '../../../shared/components/PostList';
 import { PostListType } from '../../home/containers/components/PublicPost';
-import { Sidebar } from '../../../shared/components';
+import { PostSkeleton, Sidebar } from '../../../shared/components';
 
 const ArticleByTag = () => {
   const apiService = new ApiService();
   const [allPost, setAllPost] = useState<IPost[]>([]);
-  const [filteredPosts, setFilteredPosts] = useState<IPost[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const location = useLocation();
 
   const lastPart = location.pathname.split('/').pop();
@@ -24,22 +24,9 @@ const ArticleByTag = () => {
         tags: articleTag,
       });
       setAllPost(response.data);
-      if (response.data.length === 0) {
-        const postIncludesTag = allPost.filter((post) =>
-          post.tags
-            .map((tag) => tag.toString().toLowerCase())
-            .includes(articleTag.toLowerCase())
-        );
-        setFilteredPosts(postIncludesTag);
-      } else {
-        const postIncludesTag = response.data.filter((post: IPost) =>
-          post.tags
-            .map((tag) => tag.toString().toLowerCase())
-            .includes(articleTag.toLowerCase())
-        );
-        setFilteredPosts(postIncludesTag);
-      }
+      setIsLoading(false);
     };
+
     if (lastPart !== undefined) {
       getPostByTag(encodedTag);
     }
@@ -48,16 +35,19 @@ const ArticleByTag = () => {
   return (
     <section className="section section-article-list">
       <div className="container">
-        <div className="article-list-header">
-          <i className="icon icon-tag"></i>
-          <h3 className="section-tags-title">Tag: {encodedTag}</h3>
-        </div>
         <div className="article-list-content">
           <div className="row">
-            <div className="col col-8">
-              <PostList posts={filteredPosts} type={PostListType.LIST} />
+            <div className="col col-8 col-md-12">
+              <div className="article-list-header">
+                <h3 className="section-tags-title">Tag: {encodedTag}</h3>
+              </div>
+              {isLoading ? (
+                <PostSkeleton />
+              ) : (
+                <PostList posts={allPost} type={PostListType.LIST} />
+              )}
             </div>
-            <div className="col col-4">
+            <div className="col col-4 col-md-12">
               <Sidebar />
             </div>
           </div>
