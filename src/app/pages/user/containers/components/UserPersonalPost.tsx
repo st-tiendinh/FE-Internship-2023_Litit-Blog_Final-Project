@@ -11,6 +11,7 @@ import { ApiService } from '../../../../core/services/api.service';
 import { useDebounce } from '../../../../shared/hooks/useDebounce';
 import { RootState } from '../../../../app.reducers';
 import { ENDPOINT } from '../../../../../config/endpoint';
+import { PostItemWithIdProps } from '../../../../core/models/post';
 
 export enum FilterType {
   LATEST = 'Latest',
@@ -27,12 +28,12 @@ export const UserPersonalPost = () => {
   const location = useLocation();
   const userId = location.pathname.slice(7);
 
-  const [userPosts, setUserPost] = useState<any>([]);
+  const [userPosts, setUserPost] = useState<PostItemWithIdProps[]>([]);
   const [isFetchDataLoading, setIsFetchDataLoading] = useState<boolean>(false);
-  const [filter, setFilter] = useState<any>(FilterType.LATEST);
-  const [filterOptions, setFilterOptions] = useState<any>([]);
+  const [filter, setFilter] = useState<FilterType>(FilterType.LATEST);
+  const [filterOptions, setFilterOptions] = useState<FilterType[]>([]);
   const [search, setSearch] = useState<string>('');
-  const [searchArr, setSearchArr] = useState<any>([]);
+  const [searchArr, setSearchArr] = useState<PostItemWithIdProps[]>([]);
   const debounceSearch = useDebounce(search);
   const isConfirm = useSelector(
     (state: RootState) => state.modalReducer.isConfirm
@@ -45,7 +46,7 @@ export const UserPersonalPost = () => {
   const [visiblePosts, setVisiblePosts] = useState<any[]>([]);
   const [page, setPage] = useState(1);
 
-  const filterData = (data: any, filterType: FilterType) => {
+  const filterData = (data: PostItemWithIdProps[], filterType: FilterType) => {
     switch (filterType) {
       case FilterType.LATEST:
         data.sort((a: any, b: any) => {

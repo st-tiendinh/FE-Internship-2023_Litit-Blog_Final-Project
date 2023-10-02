@@ -46,3 +46,23 @@ export interface UserDetailProps {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface UserStatistic {
+  postPublicQuantity: number,
+  commentQuantity: number,
+  tagQuantity: number,
+  likeQuantity: number,
+}
+
+
+export interface UserFollow {
+  id: number;
+  email: string;
+  firstName: string;
+  lastName: string;
+  phone: string | null;
+  gender: string | null;
+  dob: string | null;
+  displayName: string | null;
+  picture: string | null;
+}

@@ -8,11 +8,12 @@ import { formatDate } from '../../../../shared/utils/formatDate';
 import { isImageUrlValid } from '../../../../shared/utils/checkValidImage';
 import BlankPostImg from '../../../../../assets/images/blank-post.png';
 import BlankUserImg from '../../../../../assets/images/blank-user.webp';
+import { IPost } from '../../../../shared/components/PostList';
 
 export const RecommendPosts = () => {
   const apiService = new ApiService();
 
-  const [recommendPosts, setRecommendPosts] = useState<any[]>([]);
+  const [recommendPosts, setRecommendPosts] = useState<IPost[]>([]);
   const [isValidCovers, setIsValidCovers] = useState<boolean[]>([]);
   const [isValidAvatars, setIsValidAvatars] = useState<boolean[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);

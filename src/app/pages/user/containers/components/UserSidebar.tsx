@@ -6,6 +6,7 @@ import { PostStatus } from '../../../../shared/components/PostList';
 import { useLocation } from 'react-router-dom';
 import { RootState } from '../../../../app.reducers';
 import { useSelector } from 'react-redux';
+import { UserStatistic } from '../../../../core/models/user';
 
 const apiService = new ApiService();
 const jwtHelper = new JwtHelper();
@@ -14,7 +15,12 @@ export const UserSideBar = () => {
   const location = useLocation();
   const userId = location.pathname.slice(7);
   const [isFetchDataLoading, setIsFetchDataLoading] = useState<boolean>(false);
-  const [userStatistic, setUserStatistic] = useState<any>({});
+  const [userStatistic, setUserStatistic] = useState<UserStatistic>({
+    postPublicQuantity: 0,
+    commentQuantity: 0,
+    tagQuantity: 0,
+    likeQuantity: 0,
+  });
   const isModalLoading = useSelector(
     (state: RootState) => state.modalReducer.isLoading
   );

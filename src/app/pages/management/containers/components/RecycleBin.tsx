@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import PostList from '../../../../shared/components/PostList';
+import PostList, { IPost } from '../../../../shared/components/PostList';
 
 import { RootState } from '../../../../app.reducers';
 import { ApiService } from '../../../../core/services/api.service';
@@ -13,14 +13,16 @@ const apiService = new ApiService();
 const jwtHelper = new JwtHelper();
 
 const RecycleBin = () => {
-  const [deletedPosts, setDeletedPosts] = useState<any>([]);
+  const [deletedPosts, setDeletedPosts] = useState<IPost[]>([
+
+  ]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const isConfirm = useSelector(
     (state: RootState) => state.modalReducer.isConfirm
   );
   const modalId = useSelector((state: RootState) => state.modalReducer.id);
 
-  const [visiblePosts, setVisiblePosts] = useState<any[]>([]);
+  const [visiblePosts, setVisiblePosts] = useState<IPost[]>([]);
   const [page, setPage] = useState(1);
 
   useEffect(() => {

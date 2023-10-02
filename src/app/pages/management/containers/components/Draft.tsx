@@ -13,10 +13,10 @@ const apiService = new ApiService();
 const jwtHelper = new JwtHelper();
 
 const Draft = () => {
-  const [draftList, setDraftList] = useState<any[]>([]);
+  const [draftList, setDraftList] = useState<IPost[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [page, setPage] = useState(1);
-  const [visiblePosts, setVisiblePosts] = useState<any[]>([]);
+  const [visiblePosts, setVisiblePosts] = useState<IPost[]>([]);
 
   const id = useSelector((state: RootState) => state.modalReducer.id);
   const userInfo = useSelector(
