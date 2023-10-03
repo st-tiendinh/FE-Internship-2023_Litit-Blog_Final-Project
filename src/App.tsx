@@ -12,7 +12,7 @@ import AppSuspense from './AppSuspense';
 import appReducer from './app/app.reducers';
 import appMiddleware from './app/app.middleware';
 
-import { Header, Footer, Modal } from './app/shared/components';
+import { Header, Footer, Modal, Spinner } from './app/shared/components';
 import { Toast } from './app/shared/components/Toast';
 
 const middleware = createSagaMiddleware();
@@ -28,7 +28,13 @@ function App() {
           <AppSuspense fallback={<></>}>
             <Header />
           </AppSuspense>
-          <AppSuspense fallback={<></>}>
+          <AppSuspense
+            fallback={
+              <div className="loading-page">
+                <Spinner />
+              </div>
+            }
+          >
             <Modal />
             <Toast />
             <RouterOutlet routes={appRoutes} />
