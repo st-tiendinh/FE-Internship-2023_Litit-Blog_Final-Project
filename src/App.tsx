@@ -26,10 +26,14 @@ function App() {
       <Router history={history}>
         <div className="app">
           <AppSuspense fallback={<></>}>
+            <Header />
+          </AppSuspense>
+          <AppSuspense fallback={<></>}>
             <Modal />
             <Toast />
-            <Header />
             <RouterOutlet routes={appRoutes} />
+          </AppSuspense>
+          <AppSuspense fallback={<></>}>
             <Footer />
           </AppSuspense>
         </div>
