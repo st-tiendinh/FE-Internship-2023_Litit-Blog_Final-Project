@@ -1,18 +1,11 @@
-import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import DOMPurify from 'dompurify';
+import { useLocation } from 'react-router-dom';
+import { useEffect, useMemo, useState } from 'react';
 
-import { ArticleEditor, PostAction } from './components/ArticleEditor';
-import { ArticleContent } from './components/ArticleContent';
-import { isImageUrlValid } from '../../../shared/utils/checkValidImage';
-import { ScrollToTopButton, TogglePreview } from '../../../shared/components';
-
-import { ApiService } from '../../../core/services/api.service';
+import EditorForm from './components/EditorForm';
+import { PostAction } from './components/EditorForm';
+import { ScrollToTopButton } from '../../../shared/components';
+import { useApi } from '../../../shared/hooks/useApi';
 import { ENDPOINT } from '../../../../config/endpoint';
-import JwtHelper from '../../../core/helpers/jwtHelper';
-
-const apiService = new ApiService();
-const jwt = new JwtHelper();
 
 export interface PostEdittDataProps {
   cover: string;
@@ -24,114 +17,50 @@ export interface PostEdittDataProps {
 }
 
 const ArticleUpdate = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [postData, setPostData] = useState<PostEdittDataProps>({
-    cover: '',
-    title: '',
-    description: '',
-    tags: [],
-    status: '',
-    content: '',
-  });
-  const [isShowPreview, setIsShowPreview] = useState<boolean>(false);
-  const [isValidCover, setIsValidCover] = useState(false);
-  const clean = DOMPurify.sanitize(postData.content);
-  const postDesc = DOMPurify.sanitize(postData.description);
   const location = useLocation();
-  const navigate = useNavigate();
+  const currentPostId = location.pathname.split('/').pop();
+  const [postData, setPostData] = useState<any>({});
+  const { response, getApi } = useApi();
 
   useEffect(() => {
-    isImageUrlValid(postData?.cover).then((isValid) => {
-      isValid ? setIsValidCover(true) : setIsValidCover(false);
+    getApi({
+      url: `${ENDPOINT.users.index}/me/posts`,
     });
-  }, [isValidCover, postData?.cover]);
+  }, [location.pathname]);
 
   useEffect(() => {
-    (async () => {
-      try {
-        apiService.setHeaders(jwt.getAuthHeader());
-        const response: any = await apiService.get([
-          ENDPOINT.users.index,
-          '/me/posts',
-        ]);
-        const currentPostId = location.pathname.split('/').pop();
+    if (response && !response.status) {
+      getApi({
+        url: `${ENDPOINT.posts.index}/${currentPostId}`,
+      });
+    }
+  }, [response]);
 
-        const filterPost = response.Posts.filter(
-          (post: any) => post.id.toString() === currentPostId
-        )[0];
-
-        setPostData({
-          cover: filterPost.cover,
-          title: filterPost.title,
-          description: filterPost.description,
-          tags: filterPost.tags,
-          status: filterPost.status,
-          content: filterPost.content,
-        });
-        setIsLoading(false);
-      } catch (error) {
-        console.log(error);
-        try {
-          const currentPostId = location.pathname.split('/').pop();
-          apiService.setHeaders(jwt.getAuthHeader());
-          const response: any = await apiService.get([
-            ENDPOINT.posts.index,
-            `${currentPostId}`,
-          ]);
-          if (response?.user?.id !== jwt.getUserInfo().userId) {
-            navigate('/404');
-          }
-          setPostData({
-            cover: response.cover,
-            title: response.title,
-            description: response.description,
-            tags: response.tags,
-            status: response.status,
-            content: response.content,
-          });
-          setIsLoading(false);
-        } catch (error) {
-          console.log(error);
-          setIsLoading(false);
-          navigate('/404');
-        }
-      }
-    })();
-  }, [postData?.cover, location.pathname]);
+  const selectedPost = useMemo(() => {
+    if (response && !response.status) {
+      const filteredPost = response.Posts.find(
+        (post: any) => post.id.toString() === currentPostId
+      );
+      return { ...filteredPost, ...postData };
+    } else if (response && response.status) {
+      return { ...response, ...postData };
+    }
+    return null;
+  }, [response?.status, postData, location.pathname]);
 
   return (
     <div className="page-write-article">
       <div className="container">
         <div className="row">
-          {!isLoading && (
-            <>
-              <div className="col col-9 col-md-12">
-                <div className="editor-header">
-                  <TogglePreview
-                    isShowPreview={isShowPreview}
-                    setIsShowPreview={setIsShowPreview}
-                  />
-                </div>
-                <div className={`${!isShowPreview ? '' : 'd-none'}`}>
-                  <ArticleEditor
-                    type={PostAction.UPDATE}
-                    data={postData}
-                    setArticleData={setPostData}
-                  />
-                </div>
-              </div>
-              <div className="col col-7 col-md-12">
-                <div className={`${isShowPreview ? '' : 'd-none'}`}>
-                  <ArticleContent
-                    postItem={postData}
-                    isValidCover={isValidCover}
-                    cleanContent={clean}
-                    cleanDescription={postDesc}
-                  />
-                </div>
-              </div>
-            </>
-          )}
+          <div className="col col-9 col-md-12">
+            {selectedPost && (
+              <EditorForm
+                type={PostAction.UPDATE}
+                postData={selectedPost}
+                setPostData={setPostData}
+              />
+            )}
+          </div>
         </div>
       </div>
       <ScrollToTopButton />

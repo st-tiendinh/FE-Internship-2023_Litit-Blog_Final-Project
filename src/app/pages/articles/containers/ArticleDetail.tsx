@@ -9,7 +9,7 @@ import { Sidebar } from '../../../shared/components';
 import { ListComments } from '../../../shared/components/ListComments';
 import { isImageUrlValid } from '../../../shared/utils/checkValidImage';
 import { ScrollToTopButton } from '../../../shared/components';
-import { ArticleContent } from './components/ArticleContent';
+import ArticleContent from './components/ArticleContent';
 
 import JwtHelper from '../../../core/helpers/jwtHelper';
 import { ApiService } from '../../../core/services/api.service';
@@ -35,7 +35,6 @@ const ArticleDetail = () => {
   const location = useLocation();
   const commentRef = useRef<HTMLDivElement>(null);
   const clean = DOMPurify.sanitize(post?.content);
-  const postDesc = DOMPurify.sanitize(post?.description);
 
   const [isEnoughSpaceForToolTip, setIsEnoughSpaceForToolTip] = useState(
     window.innerWidth <= 1250
@@ -155,14 +154,14 @@ const ArticleDetail = () => {
 
               <div className="col col-7 col-md-12 col-sm-12">
                 <ArticleContent
-                  postItem={post}
+                  postData={post}
                   user={userShortInfo}
                   isShowButtonEdit={isShowButtonEdit}
                   isValidUserImg={isValidUserImg}
                   isLoading={isLoading}
-                  isValidCover={isValidCover}
+                  // isValidCover={isValidCover}
                   cleanContent={clean}
-                  cleanDescription={postDesc}
+                  // cleanDescription={postDesc}
                 />
                 <div ref={commentRef}>
                   {post?.id && (

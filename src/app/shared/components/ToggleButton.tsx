@@ -1,14 +1,21 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { PostStatus } from './PostList';
 
 interface ToggleButtonProps {
-  isPublic: boolean;
-  setIsPublic: React.Dispatch<React.SetStateAction<boolean>>;
+  setStatus: (status: PostStatus) => void;
 }
 
-export const ToggleButton = ({ isPublic, setIsPublic }: ToggleButtonProps) => {
+const ToggleButton = ({ setStatus }: ToggleButtonProps) => {
+  const [isPublic, setIsPublic] = useState<boolean>(true);
+
   const handleToggle = () => {
     setIsPublic(!isPublic);
   };
+
+  useEffect(() => {
+    isPublic && setStatus(PostStatus.PUBLIC);
+    !isPublic && setStatus(PostStatus.PRIVATE);
+  }, [isPublic]);
 
   return (
     <span className="toggle-button-wrapper" onClick={handleToggle}>
@@ -23,3 +30,5 @@ export const ToggleButton = ({ isPublic, setIsPublic }: ToggleButtonProps) => {
     </span>
   );
 };
+
+export default React.memo(ToggleButton);

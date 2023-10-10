@@ -7,6 +7,7 @@
     border-top-left-radius: 8px;
     background: rgba(220, 38, 38, 0.1);
     padding: 20px;
+    margin-bottom: 14px;
   }
 
   &-error-title {
@@ -16,11 +17,13 @@
   }
 
   &-form {
-    display: flex;
-    flex-direction: column;
     background: map-get($colors, "white");
     border-radius: 8px;
-    padding: 14px;
+  }
+
+  &-input {
+    display: flex;
+    flex-direction: column;
   }
 
   &-drop-zone {
@@ -78,7 +81,7 @@
     }
   }
 
-  &-desc-input {
+  &-description-input {
     font-family: "Montserrat", sans-serif;
     font-size: map-get($font-sizes, "xl");
     font-weight: map-get($font-weights, "medium");
@@ -161,7 +164,7 @@
 
   &-form-save-button-wrapper {
     display: flex;
-    gap: 4px;
+    gap: 6px;
   }
 
   &-upload-error {

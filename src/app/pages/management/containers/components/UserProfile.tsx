@@ -8,8 +8,6 @@ import BlankUserImage from '../../../../../assets/images/blank-user.webp';
 
 import { isImageUrlValid } from '../../../../shared/utils/checkValidImage';
 import { formatDateToString } from '../../../../shared/utils/formatDate';
-import { ApiService } from '../../../../core/services/api.service';
-import JwtHelper from '../../../../core/helpers/jwtHelper';
 import { RootState } from '../../../../app.reducers';
 import { updateUser } from '../../../../core/auth/auth.actions';
 import {
@@ -32,9 +30,6 @@ interface FormData {
   dob: string;
   phone: string;
 }
-
-const apiService = new ApiService();
-const jwt = new JwtHelper();
 
 const UserProfile = () => {
   const userInfo = useSelector(
@@ -145,7 +140,7 @@ const UserProfile = () => {
   };
 
   const handleUploadImage = async (typeUpload: TypeUpload) => {
-    const uploadImgService = new UploadImageService(apiService, jwt);
+    const uploadImgService = new UploadImageService();
     if (imageFile) {
       const fileName = imageFile.name.split('.').shift();
       const url: string = await uploadImgService.uploadImage(

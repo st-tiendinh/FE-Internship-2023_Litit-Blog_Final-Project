@@ -10,8 +10,6 @@ export enum TypeUpload {
 }
 
 export interface UploadImageProps {
-  apiService: ApiService;
-  jwt: JwtHelper;
   uploadImage: (
     typeUpload: string,
     fileName: string,
@@ -21,14 +19,6 @@ export interface UploadImageProps {
 }
 
 export class UploadImageService implements UploadImageProps {
-  apiService: ApiService;
-  jwt: JwtHelper;
-
-  constructor(apiService: ApiService, jwt: JwtHelper) {
-    this.apiService = apiService;
-    this.jwt = jwt;
-  }
-
   async uploadImage(
     typeUpload: string,
     fileName: string,
@@ -36,9 +26,11 @@ export class UploadImageService implements UploadImageProps {
     imageFile: File
   ): Promise<any> {
     try {
-      this.apiService.setHeaders(this.jwt.getAuthHeader());
+      const jwt = new JwtHelper();
+      const apiService = new ApiService();
+      apiService.setHeaders(jwt.getAuthHeader());
       const params = `?type_upload=${typeUpload}&file_name=${fileName}&file_type=${fileType}}`;
-      const res: any = await this.apiService.get([
+      const res: any = await apiService.get([
         ENDPOINT.signatures.index,
         `${params}`,
       ]);

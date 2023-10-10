@@ -1,20 +1,24 @@
 import React from 'react';
+import { useEffect } from 'react';
 
 interface TogglePreviewProps {
   isShowPreview: boolean;
-  setIsShowPreview: React.Dispatch<React.SetStateAction<boolean>>;
-  handlePreview?: () => void;
+  setIsShowPreview: (isShowPreview: boolean) => void;
+  handlePreview: () => void;
 }
 
-export const TogglePreview = ({
+const TogglePreview = ({
   isShowPreview,
   setIsShowPreview,
   handlePreview,
 }: TogglePreviewProps) => {
   const handleToggle = () => {
     setIsShowPreview(!isShowPreview);
-    handlePreview && handlePreview();
   };
+
+  useEffect(() => {
+    isShowPreview && handlePreview();
+  }, [isShowPreview]);
 
   return (
     <span className="toggle-button-wrapper" onClick={handleToggle}>
@@ -29,3 +33,5 @@ export const TogglePreview = ({
     </span>
   );
 };
+
+export default React.memo(TogglePreview);
