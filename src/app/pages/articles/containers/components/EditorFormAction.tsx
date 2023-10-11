@@ -45,6 +45,9 @@ const EditorFormAction = ({
   const currentUserId = useSelector(
     (state: RootState) => state.authReducer.userInfo?.id
   );
+  const isLogged = useSelector(
+    (state: RootState) => state.authReducer.isLogged
+  );
 
   const { isLoading, postApi, putApi } = useApi();
 
@@ -115,7 +118,8 @@ const EditorFormAction = ({
     let unblock: any;
     if (
       type === PostAction.CREATE &&
-      Boolean(isDirty || tagList.length || imageFile)
+      Boolean(isDirty || tagList.length || imageFile) &&
+      isLogged
     ) {
       unblock = history.block((tx: any) => {
         const confirmFunc = () => {
@@ -136,6 +140,8 @@ const EditorFormAction = ({
           })
         );
       });
+    } else if (!isLogged) {
+      navigate('/');
     }
 
     return () => {
@@ -143,7 +149,7 @@ const EditorFormAction = ({
         unblock();
       }
     };
-  }, [isDirty, tagList.length, imageFile]);
+  }, [isDirty, tagList.length, imageFile, isLogged]);
 
   return (
     <div className="article-editor-form-action">

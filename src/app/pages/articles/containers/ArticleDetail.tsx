@@ -159,9 +159,7 @@ const ArticleDetail = () => {
                   isShowButtonEdit={isShowButtonEdit}
                   isValidUserImg={isValidUserImg}
                   isLoading={isLoading}
-                  // isValidCover={isValidCover}
                   cleanContent={clean}
-                  // cleanDescription={postDesc}
                 />
                 <div ref={commentRef}>
                   {post?.id && (

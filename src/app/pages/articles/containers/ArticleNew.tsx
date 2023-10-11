@@ -10,15 +10,11 @@ const ArticleNew = () => {
   return (
     <div className="page-write-article">
       <div className="container">
-        <div className="row">
-          <div className="col col-9 col-md-12">
-            <EditorForm
-              type={PostAction.CREATE}
-              postData={postData}
-              setPostData={setPostData}
-            />
-          </div>
-        </div>
+        <EditorForm
+          type={PostAction.CREATE}
+          postData={postData}
+          setPostData={setPostData}
+        />
       </div>
       <ScrollToTopButton />
     </div>

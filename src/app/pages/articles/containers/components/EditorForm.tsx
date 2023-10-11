@@ -1,7 +1,9 @@
-import DOMPurify from 'dompurify';
-import { useForm, SubmitHandler } from 'react-hook-form';
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { useApi } from '../../../../shared/hooks/useApi';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import DOMPurify from 'dompurify';
 
 import TogglePreview from '../../../../shared/components/TogglePreview';
 import EditorFormAction from './EditorFormAction';
@@ -16,8 +18,6 @@ import { uploadImage } from '../../../../shared/utils/UploadImage';
 import { TypeUpload } from '../../../../core/services/uploadImage.service';
 import { ENDPOINT } from '../../../../../config/endpoint';
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { RootState } from '../../../../app.reducers';
 
 export enum PostAction {
@@ -118,93 +118,114 @@ function EditorForm({ type, postData, setPostData }: EditorFormProps) {
 
   return (
     <div className="article-editor">
-      <div className="editor-header">
-        <TogglePreview
-          isShowPreview={isShowPreview}
-          setIsShowPreview={setIsShowPreview}
-          handlePreview={handlePreview}
-        />
-      </div>
-      {!!error && (
-        <div className="article-editor-error-wrapper">
-          <h3 className="article-editor-error-title">
-            Whoops, something went wrong:
-          </h3>
-          <p className="article-editor-error-message">
-            {error.response.data.errors[0]}
-          </p>
+      <div className="row">
+        <div className="col col-9 col-md-12">
+          <div className="editor-header">
+            <TogglePreview
+              isShowPreview={isShowPreview}
+              setIsShowPreview={setIsShowPreview}
+              handlePreview={handlePreview}
+            />
+          </div>
+          {!!error && (
+            <div className="article-editor-error-wrapper">
+              <h3 className="article-editor-error-title">
+                Whoops, something went wrong:
+              </h3>
+              <p className="article-editor-error-message">
+                {error.response.data.errors[0]}
+              </p>
+            </div>
+          )}
+
+          <div
+            className={`article-editor-input${isShowPreview ? ' d-none' : ''}`}
+          >
+            <TagInput tagList={tagList} setTagList={setTagList} />
+
+            <DropZone
+              type={type}
+              setImageFile={setImageFile}
+              imageSrc={type === PostAction.UPDATE ? postData.cover : ''}
+            />
+          </div>
         </div>
-      )}
-
-      <div className={`article-editor-input${isShowPreview ? ' d-none' : ''}`}>
-        <TagInput tagList={tagList} setTagList={setTagList} />
-
-        <DropZone
-          type={type}
-          setImageFile={setImageFile}
-          imageSrc={type === PostAction.UPDATE ? postData.cover : ''}
-        />
       </div>
+
       <form
         ref={formRef}
         className="article-editor-form"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div
-          className={`article-editor-input${isShowPreview ? ' d-none' : ''}`}
-        >
-          <EditorTextArea
-            postData={postData}
-            setPostData={setPostData}
-            errors={errors}
-            type={type}
-            placeholder={'Enter post title...'}
-            {...register('title', {
-              required: 'title is required',
-              minLength: {
-                value: 20,
-                message: 'title length must be at least 20 characters long',
-              },
-            })}
-          />
-          <EditorTextArea
-            postData={postData}
-            setPostData={setPostData}
-            errors={errors}
-            type={type}
-            placeholder={'Enter post description...'}
-            {...register('description', {
-              required: 'description is required',
-              minLength: {
-                value: 20,
-                message:
-                  'description length must be at least 20 characters long',
-              },
-            })}
-          />
-          <CkEditor
-            type={type}
-            errors={errors}
-            postData={postData}
-            setPostData={setPostData}
-            setValue={setValue}
-          />
+        <div className="row">
+          <div className="col col-9 col-md-12">
+            <div
+              className={`article-editor-input${
+                isShowPreview ? ' d-none' : ''
+              }`}
+            >
+              <EditorTextArea
+                postData={postData}
+                setPostData={setPostData}
+                errors={errors}
+                type={type}
+                placeholder={'Enter post title...'}
+                {...register('title', {
+                  required: 'title is required',
+                  minLength: {
+                    value: 20,
+                    message: 'title length must be at least 20 characters long',
+                  },
+                })}
+              />
+              <EditorTextArea
+                postData={postData}
+                setPostData={setPostData}
+                errors={errors}
+                type={type}
+                placeholder={'Enter post description...'}
+                {...register('description', {
+                  required: 'description is required',
+                  minLength: {
+                    value: 20,
+                    message:
+                      'description length must be at least 20 characters long',
+                  },
+                })}
+              />
+              <CkEditor
+                type={type}
+                errors={errors}
+                postData={postData}
+                setPostData={setPostData}
+                setValue={setValue}
+              />
+            </div>
+          </div>
         </div>
-        <div className={`article-content${isShowPreview ? '' : ' d-none'}`}>
-          <ArticleContent postData={postData} cleanContent={clean} />
+        <div className="row">
+          <div className="col col-7 col-md-12">
+            <div className={`article-content${isShowPreview ? '' : ' d-none'}`}>
+              <ArticleContent postData={postData} cleanContent={clean} />
+            </div>
+          </div>
         </div>
 
-        <EditorFormAction
-          type={type}
-          postData={postData}
-          isPostLoading={isLoading}
-          status={status}
-          isDirty={isDirty}
-          tagList={tagList}
-          imageFile={imageFile}
-          setStatus={setStatus}
-          getValues={getValues}
-        />
+        <div className="row">
+          <div className="col col-9 col-md-12">
+            <EditorFormAction
+              type={type}
+              postData={postData}
+              isPostLoading={isLoading}
+              status={status}
+              isDirty={isDirty}
+              tagList={tagList}
+              imageFile={imageFile}
+              setStatus={setStatus}
+              getValues={getValues}
+            />
+          </div>
+        </div>
       </form>
     </div>
   );

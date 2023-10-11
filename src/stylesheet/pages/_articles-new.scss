@@ -6,6 +6,10 @@
     &.article-detail {
       background-color: unset;
     }
+
+    &-content {
+      min-height: 645px;
+    }
   }
 
   .editor-header {
@@ -21,8 +25,14 @@
   .page-write-article {
     min-height: auto;
 
-    .article-detail {
-      padding: 10px;
+    .article {
+      &-detail {
+        padding: 10px;
+      }
+
+      &-content {
+        min-height: 661px;
+      }
     }
   }
 }

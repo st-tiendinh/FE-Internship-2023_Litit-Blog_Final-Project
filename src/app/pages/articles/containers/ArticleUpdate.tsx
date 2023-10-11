@@ -1,11 +1,15 @@
+import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { useEffect, useMemo, useState } from 'react';
 
 import EditorForm from './components/EditorForm';
-import { PostAction } from './components/EditorForm';
+import NotFound from '../../../shared/components/NotFound';
 import { ScrollToTopButton } from '../../../shared/components';
+import { PostAction } from './components/EditorForm';
+
 import { useApi } from '../../../shared/hooks/useApi';
 import { ENDPOINT } from '../../../../config/endpoint';
+import { RootState } from '../../../app.reducers';
 
 export interface PostEdittDataProps {
   cover: string;
@@ -20,7 +24,10 @@ const ArticleUpdate = () => {
   const location = useLocation();
   const currentPostId = location.pathname.split('/').pop();
   const [postData, setPostData] = useState<any>({});
-  const { response, getApi } = useApi();
+  const { response, error, getApi } = useApi();
+  const currentUserId = useSelector(
+    (state: RootState) => state.authReducer.userInfo?.id
+  );
 
   useEffect(() => {
     getApi({
@@ -51,17 +58,20 @@ const ArticleUpdate = () => {
   return (
     <div className="page-write-article">
       <div className="container">
-        <div className="row">
-          <div className="col col-9 col-md-12">
-            {selectedPost && (
-              <EditorForm
-                type={PostAction.UPDATE}
-                postData={selectedPost}
-                setPostData={setPostData}
-              />
-            )}
-          </div>
-        </div>
+        {selectedPost && selectedPost.userId === currentUserId && (
+          <EditorForm
+            type={PostAction.UPDATE}
+            postData={selectedPost}
+            setPostData={setPostData}
+          />
+        )}
+        {(selectedPost && selectedPost?.userId !== currentUserId) ||
+          (error && (
+            <NotFound
+              typeError="Post"
+              message="The post you are looking for does not exist."
+            />
+          ))}
       </div>
       <ScrollToTopButton />
     </div>
