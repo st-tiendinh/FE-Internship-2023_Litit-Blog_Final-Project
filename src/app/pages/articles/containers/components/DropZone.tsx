@@ -74,35 +74,6 @@ const DropZone = ({ type, imageSrc, setImageFile }: DropZoneProps) => {
           </p>
         </div>
       )}
-      {/* {type === PostAction.UPDATE
-        ? (!!preview && (
-            <img
-              src={preview}
-              alt="Uploaded"
-              className="article-editor-image"
-              onClick={handleClickImage}
-            />
-          )) ||
-          (!!cover && (
-            <img
-              src={cover ? cover : BlankPostImg}
-              alt="Uploaded"
-              className="article-editor-image"
-              onClick={handleClickImage}
-            />
-          )) || (
-            <div
-              className="article-editor-drop-zone-wrapper"
-              onClick={handleClickImage}
-            >
-              <i className="icon icon-cover-uploader"></i>
-              <h4 className="article-editor-drop-zone-title">DROP FILE HERE</h4>
-              <p className="article-editor-drop-zone-text">
-                Drag and drop photo here or click to select photo
-              </p>
-            </div>
-          )
-        : null} */}
     </div>
   );
 };

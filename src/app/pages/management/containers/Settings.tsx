@@ -2,6 +2,8 @@ import { useEffect } from 'react';
 
 import { Sidebar } from './components/Sidebar';
 import { Outlet } from 'react-router-dom';
+import AppSuspense from '../../../../AppSuspense';
+import { Spinner } from '../../../shared/components';
 
 export enum SettingsType {
   MY_PROFILE = 'my-profile',
@@ -23,10 +25,20 @@ const Settings = () => {
       <div className="container">
         <div className="row">
           <div className="col col-4 col-sm-12">
-            <Sidebar />
+            <AppSuspense>
+              <Sidebar />
+            </AppSuspense>
           </div>
           <div className="col col-8 col-sm-12">
-            <Outlet />
+            <AppSuspense
+              fallback={
+                <div className="loading-section">
+                  <Spinner />
+                </div>
+              }
+            >
+              <Outlet />
+            </AppSuspense>
           </div>
         </div>
       </div>
