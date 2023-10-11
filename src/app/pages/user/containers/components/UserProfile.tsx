@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
 
 import BlankUserImage from '../../../../../assets/images/blank-user.webp';
 
@@ -9,6 +10,9 @@ import JwtHelper from '../../../../core/helpers/jwtHelper';
 import { ENDPOINT } from '../../../../../config/endpoint';
 import { formatDate } from '../../../../shared/utils/formatDate';
 import { UserDetailProps } from '../../../../core/models/user';
+import { setShowModal } from '../../../../../redux/actions/modal';
+import ListFollowers from '../../../management/containers/components/ListFollowers';
+import ListFollowings from '../../../management/containers/components/ListFollowings';
 
 const apiService = new ApiService();
 const jwtHelper = new JwtHelper();
@@ -23,6 +27,7 @@ export const UserProfile = ({ isLoggedUser, user }: UserProfileProps) => {
   const [isFollowed, setIsFollowed] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [followerNum, setFollowerNum] = useState<number>(user?.followers);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     apiService.setHeaders(jwtHelper.getAuthHeader());
@@ -68,6 +73,18 @@ export const UserProfile = ({ isLoggedUser, user }: UserProfileProps) => {
     })();
   };
 
+  const handleShowListFollowers = () => {
+    dispatch(
+      setShowModal({ content: <ListFollowers />, message: 'followers' })
+    );
+  };
+
+  const handleShowListFollowings = () => {
+    dispatch(
+      setShowModal({ content: <ListFollowings />, message: 'following' })
+    );
+  };
+
   return (
     <section className="section profile-section">
       <div className="profile">
@@ -96,13 +113,19 @@ export const UserProfile = ({ isLoggedUser, user }: UserProfileProps) => {
                   : user.displayName}
               </p>
               <ul className="d-flex user-follow-list">
-                <li className="user-follow-item">
+                <li
+                  className="user-follow-item"
+                  onClick={handleShowListFollowers}
+                >
                   <div className="user-follow">
                     <span className="user-follow-title">Followers </span>
                     <span className="user-follow-amount">{followerNum}</span>
                   </div>
                 </li>
-                <li className="user-follow-item">
+                <li
+                  className="user-follow-item"
+                  onClick={handleShowListFollowings}
+                >
                   <div className="user-follow">
                     <span className="user-follow-title">Followings </span>
                     <span className="user-follow-amount">

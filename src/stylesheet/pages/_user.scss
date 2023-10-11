@@ -67,6 +67,10 @@
             gap: 36px;
           }
 
+          &-follow-item {
+            cursor: pointer;
+          }
+
           &-follow-amount {
             font-size: map-get($font-sizes, "xl");
             color: map-get($colors, "dark-yellow");

@@ -38,6 +38,7 @@ export const ENDPOINT = {
     index: `${RESOURCES.bookmarks}`,
   },
   friends: {
+    index: `${RESOURCES.friends}`,
     followers: `${RESOURCES.friends}/me/followers`,
     followings: `${RESOURCES.friends}/me/followings`,
     follow: `${RESOURCES.friends}/follow`,

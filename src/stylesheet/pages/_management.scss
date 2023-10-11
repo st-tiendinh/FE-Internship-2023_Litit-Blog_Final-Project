@@ -226,80 +226,6 @@
     }
   }
 
-  .followers-section,
-  .followings-section {
-    padding: 30px 20px;
-    padding-bottom: 10px;
-    background-color: white;
-    box-shadow: 0 0 0 1px rgba(23, 23, 23, 0.05);
-    border-radius: 4px;
-
-    &-title {
-      margin-bottom: 28px;
-      text-align: center;
-      font-size: 22px;
-      font-weight: map-get($font-weights, medium);
-      color: map-get($colors, primary);
-    }
-  }
-
-  .follow-user {
-    background-color: map-get($colors, "secondary-100");
-    padding: 10px;
-    margin-bottom: 20px;
-
-    justify-content: space-between;
-    align-items: center;
-
-    &-link:hover {
-      .follow-user-name {
-        transition: 0.2s;
-        color: map-get($colors, "dark-yellow");
-      }
-    }
-
-    &-avatar-wrapper {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-    }
-
-    &-avatar {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-    }
-
-    &-about {
-      align-items: center;
-      gap: 8px;
-    }
-
-    &-name {
-      font-weight: map-get($font-weights, medium);
-      color: map-get($colors, "primary");
-      -webkit-line-clamp: 1;
-      max-width: 162px;
-    }
-
-    &-display-name {
-      font-size: map-get($font-sizes, "sm");
-      color: map-get($colors, "secondary-500");
-      -webkit-line-clamp: 1;
-      max-width: 142px;
-    }
-
-    &-skeleton {
-      width: 100%;
-      height: 70px;
-    }
-
-    &-message {
-      text-align: center;
-      width: 100%;
-    }
-  }
-
   .section-draft {
     .post-list-item {
       &:not(:last-child) {
@@ -334,21 +260,8 @@
       }
     }
 
-    .follow-user-name {
-      max-width: 250px;
-    }
-
     .personal-post-image-wrapper {
       min-width: 240px;
-    }
-
-    .follow-user-skeleton {
-      margin-bottom: 20px;
-    }
-
-    .followers-section,
-    .followings-section {
-      padding: 30px;
     }
   }
 }
@@ -380,14 +293,6 @@
       }
     }
 
-    .follow-user-skeleton {
-      margin-bottom: 20px;
-    }
-
-    .follow-user-display-name {
-      max-width: 130px;
-    }
-
     .update-profile,
     .change-password {
       &-wrapper {
@@ -405,8 +310,6 @@
     }
 
     .update-profile-title,
-    .followers-section-title,
-    .followings-section-title,
     .change-password-title {
       display: none;
     }

@@ -1,3 +1,7 @@
 .text-danger {
   color: map-get($colors, "red");
 }
+
+.bg-gray {
+  background-color: map-get($colors, "secondary-100");
+}

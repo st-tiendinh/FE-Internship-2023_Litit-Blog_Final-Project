@@ -1,9 +1,11 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import { ApiService } from '../../../../core/services/api.service';
 import JwtHelper from '../../../../core/helpers/jwtHelper';
 import { ENDPOINT } from '../../../../../config/endpoint';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../../app.reducers';
 
 const apiService = new ApiService();
 const jwtHelper = new JwtHelper();
@@ -11,6 +13,11 @@ const jwtHelper = new JwtHelper();
 export const FollowUser = (user: any) => {
   const [isFollowed, setIsFollowed] = useState(user.isFollowed);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const currentUserId = useSelector(
+    (state: RootState) => state.authReducer.userInfo?.id
+  );
+  const location = useLocation();
+  console.log(location.pathname.split('/')[1]);
 
   const handleFollow = () => {
     (async () => {
@@ -30,7 +37,11 @@ export const FollowUser = (user: any) => {
   };
 
   return (
-    <div className="d-flex follow-user">
+    <div
+      className={`d-flex follow-user ${
+        location.pathname.split('/')[1] === 'settings' ? 'bg-gray' : ''
+      }`}
+    >
       <Link className="follow-user-link" to={`/users/${user.id}`}>
         <div className="d-flex follow-user-about">
           <div className="follow-user-avatar-wrapper">
@@ -51,12 +62,16 @@ export const FollowUser = (user: any) => {
         </div>
       </Link>
       <div className="follow-user-action">
-        <button
-          className={`btn btn-primary ${isLoading ? 'loading' : null}`}
-          onClick={handleFollow}
-        >
-          <span className="btn-text">{isFollowed ? 'Unfollow' : 'Follow'}</span>
-        </button>
+        {user.id !== +currentUserId && (
+          <button
+            className={`btn btn-primary ${isLoading ? 'loading' : null}`}
+            onClick={handleFollow}
+          >
+            <span className="btn-text">
+              {isFollowed ? 'Unfollow' : 'Follow'}
+            </span>
+          </button>
+        )}
       </div>
     </div>
   );

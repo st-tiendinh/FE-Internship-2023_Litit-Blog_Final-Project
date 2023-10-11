@@ -1,4 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 
 import { ConfirmModal } from './ConfirmModal';
 
@@ -14,6 +16,7 @@ export enum ModalType {
 export const Modal = () => {
   const isShow = useSelector((state: RootState) => state.modalReducer.isShow);
   const dispatch = useDispatch();
+  const location = useLocation();
   const type = useSelector((state: RootState) => state.modalReducer.type);
   const message = useSelector((state: RootState) => state.modalReducer.message);
   const onConfirm = useSelector(
@@ -27,15 +30,23 @@ export const Modal = () => {
   const handleClose = () => {
     dispatch(setHideModal());
   };
+
+  useEffect(() => {
+    dispatch(setHideModal());
+  }, [location.pathname]);
+
   return (
     <div className={`modal-wrapper ${isShow ? 'd-block' : 'd-none'}`}>
       <div className={content ? 'modal' : 'modal-confirm'}>
         {content !== undefined && (
           <>
-            <span className="modal-close" onClick={handleClose}>
-              &times;
-            </span>
-            {content}
+            <div className="modal-header-action">
+              <h4 className="modal-title">{message}</h4>
+              <span className="modal-close" onClick={handleClose}>
+                &times;
+              </span>
+            </div>
+            <div className="modal-content">{content}</div>
           </>
         )}
         {onConfirm !== undefined || onCancel !== undefined ? (
