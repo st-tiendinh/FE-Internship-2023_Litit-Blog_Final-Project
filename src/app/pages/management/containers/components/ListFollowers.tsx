@@ -21,35 +21,39 @@ const ListFollowers = () => {
 
   useEffect(() => {
     apiService.setHeaders(jwtHelper.getAuthHeader());
-    (async () => {
-      try {
-        setIsLoading(true);
-        if (location.pathname.split('/').pop() === 'list-followers') {
-          const response: any = await apiService.get([
-            ENDPOINT.friends.followers,
-          ]);
-          setListFollowers(response);
-          const data: any = await apiService.get([ENDPOINT.friends.followings]);
-          setListFollowings(data);
-          setIsLoading(false);
-        } else {
-          const response: any = await apiService.get([
-            ENDPOINT.friends.index,
-            `/${userId}/followers`,
-          ]);
-          setListFollowers(response);
-          const data: any = await apiService.get([
-            ENDPOINT.friends.index,
-            `/${userId}/followings`,
-          ]);
-          setListFollowings(data);
+    setTimeout(() => {
+      (async () => {
+        try {
+          setIsLoading(true);
+          if (location.pathname.split('/').pop() === 'list-followers') {
+            const response: any = await apiService.get([
+              ENDPOINT.friends.followers,
+            ]);
+            setListFollowers(response);
+            const data: any = await apiService.get([
+              ENDPOINT.friends.followings,
+            ]);
+            setListFollowings(data);
+            setIsLoading(false);
+          } else {
+            const response: any = await apiService.get([
+              ENDPOINT.friends.index,
+              `/${userId}/followers`,
+            ]);
+            setListFollowers(response);
+            const data: any = await apiService.get([
+              ENDPOINT.friends.index,
+              `/${userId}/followings`,
+            ]);
+            setListFollowings(data);
+            setIsLoading(false);
+          }
+        } catch (error) {
+          console.log(error);
           setIsLoading(false);
         }
-      } catch (error) {
-        console.log(error);
-        setIsLoading(false);
-      }
-    })();
+      })();
+    }, 500);
   }, []);
 
   return (

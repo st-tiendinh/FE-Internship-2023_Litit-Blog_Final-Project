@@ -29,9 +29,11 @@ const UserDetail = () => {
   const isLogged = useSelector(
     (state: RootState) => state.authReducer.isLogged
   );
+  const isShow = useSelector((state: RootState) => state.modalReducer.isShow);
   const isLoggedUser = isLogged ? jwtHelper.isCurrentUser(+userId) : false;
 
   const [user, setUser] = useState<any>({});
+  const [followingNum, setFollowingNum] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
 
@@ -57,6 +59,23 @@ const UserDetail = () => {
   }, [location.pathname]);
 
   useEffect(() => {
+    (async () => {
+      try {
+        const isCurrentUser = jwtHelper.isCurrentUser(
+          +`${location.pathname.split('/').pop()}`
+        );
+        apiService.setHeaders(jwtHelper.getAuthHeader());
+        const response: any = isCurrentUser
+          ? await apiService.get([ENDPOINT.users.index, 'me/posts'])
+          : await apiService.get([ENDPOINT.users.index, `${userId}/posts`]);
+        setFollowingNum(response.followings);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, [isShow]);
+
+  useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
@@ -73,7 +92,11 @@ const UserDetail = () => {
             {isLoading ? (
               <div className="skeleton skeleton-user-profile"></div>
             ) : (
-              <UserProfile isLoggedUser={isLoggedUser} user={user} />
+              <UserProfile
+                isLoggedUser={isLoggedUser}
+                user={user}
+                followingNum={followingNum}
+              />
             )}
             <section className="section section-wrapper">
               <div className="row">

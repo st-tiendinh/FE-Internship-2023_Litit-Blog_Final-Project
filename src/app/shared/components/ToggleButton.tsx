@@ -2,11 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { PostStatus } from './PostList';
 
 interface ToggleButtonProps {
+  status: PostStatus;
   setStatus: (status: PostStatus) => void;
 }
 
-const ToggleButton = ({ setStatus }: ToggleButtonProps) => {
-  const [isPublic, setIsPublic] = useState<boolean>(true);
+const ToggleButton = ({ status, setStatus }: ToggleButtonProps) => {
+  const [isPublic, setIsPublic] = useState<boolean>(
+    status === PostStatus.PUBLIC ? true : false
+  );
 
   const handleToggle = () => {
     setIsPublic(!isPublic);

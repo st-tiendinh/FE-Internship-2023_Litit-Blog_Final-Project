@@ -17,7 +17,6 @@ export const FollowUser = (user: any) => {
     (state: RootState) => state.authReducer.userInfo?.id
   );
   const location = useLocation();
-  console.log(location.pathname.split('/')[1]);
 
   const handleFollow = () => {
     (async () => {

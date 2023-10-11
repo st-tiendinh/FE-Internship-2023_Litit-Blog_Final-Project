@@ -20,28 +20,30 @@ const ListFollowings = () => {
 
   useEffect(() => {
     apiService.setHeaders(jwtHelper.getAuthHeader());
-    (async () => {
-      try {
-        setIsLoading(true);
-        if (location.pathname.split('/').pop() === 'list-followings') {
-          const response: any = await apiService.get([
-            ENDPOINT.friends.followings,
-          ]);
-          setListFollowings(response);
-          setIsLoading(false);
-        } else {
-          const response: any = await apiService.get([
-            ENDPOINT.friends.index,
-            `/${userId}/followings`,
-          ]);
-          setListFollowings(response);
+    setTimeout(() => {
+      (async () => {
+        try {
+          setIsLoading(true);
+          if (location.pathname.split('/').pop() === 'list-followings') {
+            const response: any = await apiService.get([
+              ENDPOINT.friends.followings,
+            ]);
+            setListFollowings(response);
+            setIsLoading(false);
+          } else {
+            const response: any = await apiService.get([
+              ENDPOINT.friends.index,
+              `/${userId}/followings`,
+            ]);
+            setListFollowings(response);
+            setIsLoading(false);
+          }
+        } catch (error) {
+          console.log(error);
           setIsLoading(false);
         }
-      } catch (error) {
-        console.log(error);
-        setIsLoading(false);
-      }
-    })();
+      })();
+    }, 500);
   }, []);
 
   return (

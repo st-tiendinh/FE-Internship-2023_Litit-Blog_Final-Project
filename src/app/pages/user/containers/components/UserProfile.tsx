@@ -20,9 +20,14 @@ const jwtHelper = new JwtHelper();
 interface UserProfileProps {
   isLoggedUser: boolean;
   user: UserDetailProps;
+  followingNum: number;
 }
 
-export const UserProfile = ({ isLoggedUser, user }: UserProfileProps) => {
+export const UserProfile = ({
+  isLoggedUser,
+  user,
+  followingNum,
+}: UserProfileProps) => {
   const [isValidUserImg, setIsValidUserImg] = useState(false);
   const [isFollowed, setIsFollowed] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -128,9 +133,7 @@ export const UserProfile = ({ isLoggedUser, user }: UserProfileProps) => {
                 >
                   <div className="user-follow">
                     <span className="user-follow-title">Followings </span>
-                    <span className="user-follow-amount">
-                      {user.followings}
-                    </span>
+                    <span className="user-follow-amount">{followingNum}</span>
                   </div>
                 </li>
               </ul>

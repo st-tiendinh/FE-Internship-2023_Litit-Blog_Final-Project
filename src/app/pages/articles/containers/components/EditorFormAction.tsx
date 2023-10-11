@@ -155,7 +155,7 @@ const EditorFormAction = ({
     <div className="article-editor-form-action">
       <div className="article-editor-post-status">
         {type === PostAction.UPDATE && status !== PostStatus.DRAFT && (
-          <ToggleButton setStatus={setStatus} />
+          <ToggleButton status={status} setStatus={setStatus} />
         )}
       </div>
       <div className="article-editor-form-save-button-wrapper">
