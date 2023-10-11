@@ -73,7 +73,7 @@ const UserDetail = () => {
         console.log(error);
       }
     })();
-  }, [isShow]);
+  }, [isShow, location.pathname]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
